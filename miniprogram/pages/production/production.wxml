@@ -1,0 +1,40 @@
+<import src="../../libs/wedetail.wxml"/>
+<import src="../../libs/weimport.wxml" />
+<import src="../../libs/wepage.wxml" />
+<view class="page">
+  <template is="p_navBar__switchTab" data="{{statusBar,navBarTitle:' 创业服务平台--生产管理'}}"/>
+  <view class="page__hd">
+    <view class="page__title">产量库存总览</view>
+    <view class="page__desc">可供应总量{{pandect[0]}}件，总库存{{pandect[1]}}件。</view>
+  </view>
+  <view class="page__bd">
+    <template is="showgrids" data="{{grids}}"/>
+  </view>
+  <view class="weui-panel weui-panel_access">
+    <block wx:for="{{mPage}}" wx:key="{{index}}" wx:for-item="ac">
+      <view class="weui-panel__hd">
+      <view class="weui-media-box weui-media-box_small-appmsg">
+        <view class="weui-cells weui-cells_in-small-appmsg">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac}}" bindtap="indexClick">
+            <view class="weui-cell__hd">{{pageData[ac].uName}}</view>
+            <view class="weui-cell__bd weui-cell_primary">可供应量{{mSum[ac][0]}}份,库存{{mSum[ac][1]}}份</view>
+            <view hidden="{{iClicked==ac}}" class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
+        </view>
+      </view>
+      </view>
+      <view hidden="{{iClicked!=ac}}" wx:for="{{pageData[ac].cargo}}" wx:key="{{index}}" class="weui-panel__bd">
+        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <image class="weui-media-box__thumb" src="{{cargo[item].thumbnail}}" background-size="cover"></image>
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{cargo[item].uName}}</view>
+            <view class="weui-media-box__desc">{{cargo[item].title}}</view>
+            <view class="weui-media-box__desc">可供应量{{cargo[item].canSupply}},库存{{cargo[item].cargoStock}}</view>
+          </view>
+        </navigator>
+      </view>
+    </block>
+  </view>
+</view>

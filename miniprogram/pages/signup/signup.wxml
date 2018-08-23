@@ -1,0 +1,62 @@
+<import src="../../libs/weimport.wxml" />
+<import src="../../libs/wepage.wxml" />
+<wxs src="signmsg.wxs" module="tk" />
+<view class="page">
+  <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
+  <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+    <view class="weui-media-box__hd_in-appmsg">
+      <image class="weui-media-box__thumb" src="{{user.avatarUrl}}" background-size="cover"></image>
+    </view>
+    <view class="weui-media-box__bd_in-appmsg">
+      <view class="weui-media-box__title">请检查或输入您的姓名、绑定手机号</view>
+      <view class="weui-media-box__desc">查询单位名称,新建单位或加入已有单位，提交审核。</view>
+    </view>
+  </view>
+
+  <view class="weui-cells weui-cells_after-title">
+    <form bindsubmit="i_Name">
+    <view class="weui-cell weui-cell_input" style="font-size: 32rpx;">
+      <view class="weui-cell__hd">
+        <view class="weui-label">真实姓名:</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input name="userName" value="{{iName}}" class="weui-input" placeholder="请点击此处输入" />
+      </view>
+      <view class="weui-cell__ft">
+        <button class="weui-vcode-btn" formType="submit">保   存</button>
+      </view>
+    </view>
+    </form>
+  </view>
+
+  <view wx:if="{{user.mobilePhoneVerified}}">
+    <view class="weui-cells">
+      <icon class="weui-icon" type="info"/>{{cUnitInfo}}
+    </view>
+    <form bindsubmit="makeunit">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">单位名称:</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="unitName" value="{{uName}}" class="weui-input" placeholder="请输入单位名称" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <button class="weui-btn" type="warn" formType="submit">查询单位(存在可申请加入、不存在可创建)</button>
+      </view>
+    </form>
+  </view>
+  <view wx:else>
+    <view class="weui-cells">
+      <scroll-view scroll-y="true" style="height:{{sysheight}}rpx;text-indent:2em" hover="true" hover-class="weui-hover" hover-stay-time="500">
+        <text>{{tk.tk}}</text>
+      </scroll-view>
+      <view class="weui-cell_switch"> <switch type="checkbox" checked="{{swcheck}}" bindchange="fswcheck"/>阅读并同意《电子商务服务平台使用条款》</view>
+      <view hidden="{{!swcheck}}">
+        <button open-type="getPhoneNumber" bindgetphonenumber="gUserPhoneNumber">使用微信手机号注册成为本平台用户</button>
+      </view>
+    </view>
+  </view>
+
+</view>

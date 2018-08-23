@@ -1,0 +1,37 @@
+<import src="../../libs/wedetail.wxml"/>
+<import src="../../libs/weimport.wxml" />
+<import src="../../libs/wepage.wxml" />
+<view class="page">
+  <template is="p_navBar__switchTab" data="{{statusBar,navBarTitle:' 创业服务平台--营销管理'}}"/>
+  <view class="page__hd">
+    <view class="page__title">销售情况总览</view>
+    <view class="page__desc">销量{{pandect[0]}}，预定未付款{{pandect[1]}}件，付款未发货{{pandect[2]}}件，发货未收到{{pandect[3]}}件，交货且签收{{pandect[4]}}件。</view>
+  </view>
+  <view class="page__bd">
+    <template is="showgrids" data="{{grids}}"/>
+  </view>
+  <view class="weui-tab">
+    <block wx:for="{{mPage}}" wx:key="{{index}}" wx:for-item="ac">
+      <view class="weui-cells">
+        <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac}}" bindtap="indexClick">
+          <template is="{{ iClicked==ac ? 'selecticon1' : 'selecticon2'}}" />
+          <view class="weui-cell">{{pageData[ac].uName}}</view>
+          <view class="weui-cell">销量{{mSum[ac][0]}}份,付款未发货{{mSum[ac][2]}}份,交货且签收{{mSum[ac][4]}}份</view>
+        </view>
+      </view>
+      <view hidden="{{iClicked!=ac}}" wx:for="{{pageData[ac].cargo}}" wx:key="{{index}}">
+        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
+          <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{cargo[item].thumbnail}}" background-size="cover"></image>
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{cargo[item].uName}}:销量{{cargo[item].sold}}</view>
+              <view class="weui-media-box__desc">付款未发货{{cargo[item].payment}},交货且签收{{cargo[item].delivered}}</view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </block>
+  </view>
+</view>

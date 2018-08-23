@@ -1,0 +1,17 @@
+<import src="../../libs/weimport.wxml" />
+<import src="../../libs/wepage.wxml" />
+<view class="page">
+  <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
+  <view wx:if="{{sPages.length==1}}" class="page__sub" id="model-{{pNo}}">
+    <block wx:for="{{vFormat}}" wx:key="index">
+      <template is="s_{{item.t}}" data="{{...item, c:vData[item.gname]}}"></template>
+    </block>
+    <view wx:if="{{uEV}}" class="page__ft weui-footer_fixed-bottom">
+      <button wx:if="{{enUpdate}}" class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fModify" bindtap="fEditProcedure">修改并重新审批</button>
+      <button class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fTemplate" bindtap="fEditProcedure">以此为模板新建</button>
+    </view>
+  </view>
+  <view wx:else>
+    <template is="p_{{sPages[sPages.length-1].pageName}}" data="{{...sPages[sPages.length-1],showModalBox,animationData,vData,pageData,iFormat}}"/>
+  </view>
+</view>

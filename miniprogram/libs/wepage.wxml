@@ -1,0 +1,365 @@
+<import src="wedetail.wxml" />
+<import src="weimport.wxml" />
+
+<template name="p_navBar__switchTab">
+<view class="navigationBar" style="padding-top:{{statusBar+10}}px;">
+  <view class="navigationBar__column" style="height:32px;">
+    <template is="navBarLogo"/>
+    <view class="weui-cell__bd">{{navBarTitle ? navBarTitle : '扶贫济困，共享良品'}}</view>
+  </view>
+</view>
+<view style="padding-top:{{statusBar+42}}px;"></view>
+</template>
+
+<template name="p_navBar__seach">
+<view class="navigationBar" style="padding-top:{{statusBar+10}}px;">
+  <view class="navigationBar__column" style="height:32px;">
+    <form bindsubmit="fSearch">
+      <view class="navigationBar__column">
+        <template is="navBarLogo"/>
+        <view class="navSearchBar__form">
+          <input class="navSearchBar__input" name="searchGoods" placeholder="搜索" />
+          <button class="navigationBar__btn_icon" formType="submit">
+            <icon style="margin-top:12rpx;margin-bottom:-8rpx" type="search" size="15"/>
+          </button>
+        </view>
+      </view>
+    </form>
+  </view>
+</view>
+<view style="padding-top:{{statusBar+42}}px;"></view>
+</template>
+
+<template name="p_navBar__headTab">
+<view class="navigationBar" style="padding-top:{{statusBar+10}}px;">
+  <view class="navigationBar__column" style="height:32px;">
+    <template is="navBackIcon"/>
+    <block wx:for="{{navTabs}}" wx:key="{{index}}">
+      <view id="{{index}}" class="navigationBar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="hTabClick">
+        <view class="navigationBar__title">{{item}}</view>
+      </view>
+    </block>
+    <view class="weui-navbar__slider" style="top:32px;left:{{230/fLength}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*460/fLength}}rpx)"></view>
+  </view>
+</view>
+<view style="padding-top:{{statusBar+42}}px;"></view>
+</template>
+
+<template name="p_navBar__back">
+<view class="navigationBar" style="padding-top:{{statusBar+10}}px;">
+  <view class="navigationBar__column" style="height:32px;">
+    <template is="navBackIcon" data="{{rtUrl}}"/>
+    <view class="weui-cell__bd">{{navBarTitle ? navBarTitle : '扶贫济困，共享良品'}}</view>
+  </view>
+</view>
+<view style="padding-top:{{statusBar+42}}px;"></view>
+</template>
+
+<template name="p_tabPanelChange">
+<view class="page__sub" id="model-{{pNo}}">
+  <view class="weui-tab__panel">
+    <block wx:for="{{tPage}}" wx:key="{{index}}">
+      <view class="weui-media-box weui-media-box_appmsg" id="{{item}}" data-pname="modalSwitchBox" hover="true" hover-class="weui-cell_active" bindtap="f_modalSwitchBox">
+        <view class="weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
+        </view>
+        <view class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{pageData[item].uName}}</view>
+          <view class="weui-media-box__info">{{pInfo+pageData[item][infoName]}}</view>
+          <view class="weui-media-box__desc">{{pageData[item].title}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view style="padding-bottom:100rpx;"></view>
+  <view class="page__ft weui-footer_fixed-bottom">
+    <button class="weui-btn" type="warn" bindtap="f_tabPanelChange" id="fSave">提交</button>
+    <button class="weui-btn" type="primary" bindtap="f_tabPanelChange" id="fBack">暂存</button>
+  </view>
+</view>
+</template>
+
+<template name="p_tabPanelIndex">
+<view class="page__sub" id="model-{{pNo}}">
+  <view class="weui-tab__panel">
+    <block wx:for="{{tPage}}" wx:key="{{index}}" wx:for-item="ac">
+      <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac.indexId}}" bindtap="indexClick">
+        <template is="{{ iClicked==ac.indexId ? 'selecticon1' : 'selecticon2'}}" />
+        <view class="weui-cell__hd">{{ac.uName}}</view>
+        <view class="weui-cell__bd">{{ac.iCount}} 笔</view>
+        <view wx:if="{{iClicked==ac.indexId}}">
+          <block wx:for="{{ac.indexFieldId}}" wx:key="{{index}}">
+            <view class="weui-media-box weui-media-box_appmsg" id="{{item}}" hover="true" hover-class="weui-cell_active" bindtap="f_modalRecordView">
+              <view class="weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
+              </view>
+              <view class="weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{pageData[item].uName}}</view>
+                <view class="weui-media-box__desc">{{pageData[item].title}}</view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view style="padding-bottom:100rpx;"></view>
+  <view class="page__ft weui-footer_fixed-bottom">
+    <navigator open-type="navigateBack" delta="1">退出</navigator>
+  </view>
+</view>
+</template>
+
+<template name="p_modalSwitchBox">
+  <view class="modal_box" id="fBack" bindtap="f_modalSwitchBox"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__hd">
+      <view class="page__title">{{pageData[targetId].uName}}</view>
+      <view class="close_icon" id="fBack" bindtap="f_modalSwitchBox">×</view>
+    </view>
+    <view class="page__ac_spacing">
+      <view class="drawer_attr_content">
+        <block wx:for="{{iFormat}}" wx:key="index">
+          <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+        </block>
+      </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+  </view>
+  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
+    <button class="weui-btn" size="mini" bindtap="f_modalSwitchBox" id="fSwitch">{{smtName}}</button>
+    <button class="weui-btn" type="primary" size="mini" bindtap="f_modalSwitchBox" id="fBack">返回</button>
+  </view>
+</template>
+
+<template name="p_modalRecordView">
+  <view class="modal_box" id="fBack" bindtap="f_modalSwitchBox"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__hd">
+      <view class="page__title">{{pageData[targetId].uName}}</view>
+      <view class="close_icon" id="fBack" bindtap="f_modalRecordView">×</view>
+    </view>
+    <view class="page__ac_spacing">
+      <view class="drawer_attr_content">
+        <block wx:for="{{vFormat}}" wx:key="index">
+          <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+        </block>
+      </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+  </view>
+  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
+    <button bindtap="f_modalRecordView" id="fBack">我知道了</button>
+  </view>
+</template>
+
+<template name="p_modalFieldView">
+  <view class="modal_box" id="fBack" bindtap="f_modalSwitchBox"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__hd">
+      <view class="page__title">{{pageData[targetId].uName}}</view>
+      <view class="close_icon" id="fBack" bindtap="f_modalFieldView">×</view>
+    </view>
+    <view class="page__ac_spacing">
+      <view class="drawer_attr_content">
+        <block wx:for="{{vFormat}}" wx:key="index">
+          <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+        </block>
+      </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+  </view>
+  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
+    <button bindtap="f_modalFieldView" id="fBack">我知道了</button>
+  </view>
+</template>
+
+<template name="p_modalEditAddress">
+  <view class="modal_box" id="fBack" bindtap="i_modalEditAddress"></view>
+  <form bindsubmit="i_modalEditAddress">
+    <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+      <view class="page__title">{{iFormat[n].p}}</view>
+      <view class="close_icon" id="fBack" bindtap="i_modalEditAddress">×</view>
+      <view class="page__hd">
+        <view class="page__title">选择区(县)</view>
+          <picker-view indicator-style="height: 40rpx;" style="width: 100%; height: 300rpx;" value="{{adcvalue}}" id="faddclass" bindchange="i_modalEditAddress">
+            <picker-view-column>
+                <view wx:for="{{adclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+            </picker-view-column>
+            <picker-view-column>
+                <view wx:for="{{adclist[adcvalue[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+            </picker-view-column>
+            <picker-view-column>
+                <view wx:for="{{adclist[adcvalue[0]].st[adcvalue[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+            </picker-view-column>
+          </picker-view>
+        <view hidden="{{asaddv}}">
+          <view class="page__title" id="raddgroup" bindtap="i_modalEditAddress">点此处选择村(社区)</view>
+          <picker-view indicator-style="height: 40rpx;" style="width: 100%; height: 300rpx;" value="{{adgvalue}}" id="saddgroup" bindchange="i_modalEditAddress">
+              <picker-view-column>
+                  <view wx:for="{{adglist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+              </picker-view-column>
+              <picker-view-column>
+                  <view wx:for="{{adglist[adgvalue[0]].cm}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+              </picker-view-column>
+          </picker-view>
+        </view>
+      </view>
+      <view class="weui-cells__title">详细地址:</view>
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <textarea class="weui-textarea" auto-height name="address1" value="{{address1 ? address1 : vData[iFormat[n].gname].sName}}" />
+          </view>
+        </view>
+      </view>
+      <view style="padding-bottom:100rpx;"></view>
+    </view>
+    <view class="page__ft weui-footer_fixed-bottom">
+      <button class="weui-btn" formType="submit" size="mini" id="fSave">确定</button>
+      <button class="weui-btn" type="primary" size="mini" bindtap="i_modalEditAddress" id="fBack">返回</button>
+    </view>
+  </form>
+</template>
+
+<template name="p_modalSelectPanel">
+  <view class="modal_box" id="fBack" bindtap="i_modalSelectPanel"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__title">选择--{{p}}</view>
+    <view class="close_icon" id="fBack" bindtap="i_modalSelectPanel">×</view>
+    <view class="page__hd">
+    <view class="weui-tab__panel">
+      <block wx:for="{{tPage}}" wx:key="{{index}}">
+        <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{item}}" bindtap="i_modalSelectPanel">
+          <view class="weui-media-box__hd_in-appmsg">
+            <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
+          </view>
+          <view class="weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{pageData[item].uName}}</view>
+            <view class="weui-media-box__desc">{{pageData[item].title}}</view>
+          </view>
+        </view>
+        <view wx:if="{{idClicked==item}}" class="weui-cell__ft" id="{{item}}" data-pNo="{{pNo}}" bingtap="f_modalRecordView">详情</view>
+      </block>
+    </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+  </view>
+  <view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
+    <button class="weui-btn" type="primary" bindtap="i_modalSelectPanel" id="fSelect">选定{{pageData[idClicked].uName}}</button>
+  </view>
+</template>
+
+<template name="p_modalSelectFile">
+  <view class="modal_box" id="fBack" bindtap="i_modalSelectFile"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__title">选择{{p}}</view>
+    <view class="close_icon" id="fBack" bindtap="i_modalSelectFile">×</view>
+    <view class="page__hd">
+    <view class="weui-tab__panel">
+      <block wx:for="{{tPage}}" wx:key="{{index}}">
+        <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{item}}" bindtap="i_modalSelectFile">
+          <view class="weui-media-box__hd_in-appmsg">
+            <image class="weui-media-box__thumb" src="../../images/{{pageData[item].fType}}.png" background-size="cover"></image>
+          </view>
+          <view class="weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{item}}</view>
+            <view class="weui-media-box__desc">保存时间：{{pageData[item].cTime}}   大小：{{pageData[item].fLen}}Kb</view>
+          </view>
+        </view>
+        <view wx:if="{{idClicked==item}}" id="{{item}}" id="fOpen" bingtap="i_modalSelectFile">>打开</view>
+      </block>
+    </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+  </view>
+  <view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
+    <button class="weui-btn" type="primary" id="fSelect" bindtap="i_modalSelectFile">选定{{idClicked}}</button>
+  </view>
+</template>
+
+<template name="p_cutImageThumbnail">
+  <view class="modal_box" id="fBack" bindtap="i_cutImageThumbnail"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__title" id="fSave" bindtap="i_cutImageThumbnail">确定缩放比例{{cScale}}</view>
+    <view class="close_icon" id="fBack" bindtap="i_cutImageThumbnail">×</view>
+    <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
+      <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{iscr}}"></image>
+      <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="i_cutImageThumbnail" bindscale="i_cutImageThumbnail" scale-value="{{cScale}}" id="fHandle">
+      </movable-view>
+    </movable-area>
+    <view class="weui-footer__center">
+      <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
+    </view>
+  </view>
+</template>
+
+<template name="p_mapSelectUnit">
+  <view class="modal_box" id="fBack" bindtap="i_mapSelectUnit"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+    <view class="page__title" id="fSave" bindtap="i_mapSelectUnit">选择{{unitArray[sId].uName}}</view>
+    <view class="close_icon" id="fBack" bindtap="i_mapSelectUnit">×</view>
+    <view class="weui-map-box">
+      <map
+        id="mapSelect"
+        style="width: 100%; height: 300px;"
+        longitude="{{longitude}}"
+        latitude="{{latitude}}"
+        markers="{{markers}}"
+        bindmarkertap="i_mapSelectUnit"
+        bindregionchange="i_mapSelectUnit"
+        show-location="{{true}}"
+      ></map>
+    </view>
+    <view class="page__bd">
+      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+        <view class="weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{unitArray[sId].thumbnail}}" background-size="cover"></image>
+        </view>
+        <view class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{unitArray[sId].uName}}</view>
+          <view class="weui-media-box__desc">{{unitArray[sId].title}}</view>
+        </view>
+      </view>
+      <template is="s_industrytype" data="{{p:'主营业务',c:unitArray[sId].indType}}" />
+      <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
+    </view>
+  </view>
+</template>
+
+<template name="p_shareOrder">
+  <view class="modal_box" id="fBack" bindtap="i_shareOrder"></view>
+  <form bindsubmit="i_modalEditAddress">
+    <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+      <view class="page__title">服务预约(每次一元,保留半小时)</view>
+      <view class="close_icon" id="fBack" bindtap="i_shareOrder">×</view>
+      <view class="page__ac_spacing">
+        <view class="drawer_attr_content">
+          <block wx:for="{{vFormat}}" wx:key="index">
+            <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+          </block>
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">预约时间:</view>
+        <input class="weui-cell__bd" name="ordertime" value="{{c}}"/>
+        <view class="weui-cell__ft">
+          <picker mode="date" value="{{c}}" start="2015-09-01" id="pa-{{n}}" bindchange="p_shareOrder">
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="weui-label">预计数量:</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="orderquantity" value="{{c}}" class="weui-input" placeholder="请输入{{p}}" />
+        </view>
+      </view>
+      <view class="page__ft weui-footer_fixed-bottom">
+        <button class="weui-btn" formType="submit" size="mini" id="fSave">确认预约</button>
+        <button class="weui-btn" type="primary" size="mini" bindtap="i_shareOrder" id="fBack">返回</button>
+      </view>
+    </view>
+  </form>
+</template>

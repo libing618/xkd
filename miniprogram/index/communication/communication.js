@@ -1,0 +1,6 @@
+// communication.js
+Page({
+  data:{},
+
+
+})

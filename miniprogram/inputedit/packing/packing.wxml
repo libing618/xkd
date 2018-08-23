@@ -1,0 +1,7 @@
+<import src="../../libs/wepage.wxml" />
+<view class="page">
+  <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
+    <view class="list">
+        <button type="primary" class="button" bindtap="simpleUpload">简单上传</button>
+    </view>
+</view>

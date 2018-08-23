@@ -1,0 +1,15 @@
+<import src="../../libs/weimport.wxml" />
+<import src="../../libs/wepage.wxml" />
+<view class="page">
+  <template is="p_navBar__switchTab" data="{{statusBar,navBarTitle:' 创业服务平台--生产计划'}}"/>
+  <view class="page__hd">
+    <view class="page__title">产品服务总览</view>
+    <view class="page__desc">上架商品{{pandect[0]}}种，规格共{{pandect[1]}}类。</view>
+  </view>
+  <view class="page__bd">
+    <template is="showgrids" data="{{grids}}"/>
+  </view>
+  <view class="weui-tab">
+    <template is="tabPanel" data="{{ tPage: mPage , pageData , pNo }}"/>
+  </view>
+</view>

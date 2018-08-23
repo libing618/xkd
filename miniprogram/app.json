@@ -1,18 +1,93 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib"
+    "pages/manage/manage",
+    "pages/plan/plan",
+    "pages/production/production",
+    "pages/customer/customer",
+    "pages/signup/signup",
+    "pages/vprocedure/vprocedure",
+    "pages/lprocedures/lprocedures",
+    "pages/wxchat/wxchat",
+    "pages/approve/approve"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
-    "navigationBarTextStyle": "black"
-  }
+    "navigationStyle":"custom",
+    "backgroundColor": "#f8f8f8",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "selectedColor": "#FF0033",
+    "list": [
+      {
+        "pagePath": "pages/manage/manage",
+        "text": "管理",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index-1.png"
+      },
+      {
+        "pagePath": "pages/plan/plan",
+        "text": "计划",
+        "iconPath": "images/shops.png",
+        "selectedIconPath": "images/shops-1.png"
+      },
+      {
+        "pagePath": "pages/production/production",
+        "text": "生产",
+        "iconPath": "images/marketing.png",
+        "selectedIconPath": "images/marketing-1.png"
+      },
+      {
+        "pagePath": "pages/customer/customer",
+        "text": "销售",
+        "iconPath": "images/customer.png",
+        "selectedIconPath": "images/customer-1.png"
+      }
+    ]
+  },
+  "subPackages": [
+    {
+      "root": "index",
+      "pages": [
+        "structure/structure",
+        "procedures/procedures",
+        "rcustomer/rcustomer",
+        "addresslist/addresslist",
+        "workconnection/workconnection",
+        "process/process",
+        "storage/storage",
+        "stocks/stocks",
+        "capital/capital",
+        "returns/returns",
+        "logistics/logistics",
+        "evaluate/evaluate",
+        "communication/communication",
+        "statement/statement"
+      ]
+    },
+    {
+      "root": "inputedit",
+      "pages": [
+        "import/statistics",
+        "f_Role/f_Role",
+        "adjustment/adjustment",
+        "accounting/accounting",
+        "myshare/myshare",
+        "material/material",
+        "distributor/distributor",
+        "distribution/distribution",
+        "packing/packing",
+        "sOrder/sOrder",
+        "fprocedure/fprocedure",
+        "supply/supply"
+      ]
+    }
+  ],
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false
 }
