@@ -1,4 +1,4 @@
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { shareMessage } = require('../../model/initForm');
 var app = getApp()
 Page({

@@ -1,5 +1,5 @@
 //单位信息编辑
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { initData,fSubmit } = require('../import/unitEdit');
 const wImpEdit = require('../import/impedit');
 var app = getApp()

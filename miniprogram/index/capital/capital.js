@@ -1,5 +1,5 @@
 //资金状况及提现
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 var wxCharts = require('../../libs/wxcharts-min.js');
 var app = getApp()
 Page({

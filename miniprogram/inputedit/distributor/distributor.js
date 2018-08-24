@@ -1,5 +1,5 @@
 //分销招募
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { checkRols } =  require('../../model/initForm');;
 const {hTabClick} = require('../../libs/util.js');
 const {f_modalRecordView} = require('../../model/controlModal');

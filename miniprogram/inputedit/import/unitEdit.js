@@ -1,4 +1,4 @@
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { unitData } = require('../../model/initForm.js');
 const { updateData,integration } = require('../../model/initupdate');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图

@@ -1,5 +1,5 @@
 //共享信息管理
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
 const { initupdate } = require('../../model/initupdate');
 const {f_modalRecordView} = require('../../model/controlModal');

@@ -1,5 +1,5 @@
 //订单统计
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const orders = require('../../model/supplies');
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');

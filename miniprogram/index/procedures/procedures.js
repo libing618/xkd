@@ -1,5 +1,5 @@
 //审批流程列表
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { hTabClick } = require('../../libs/util.js');
 var app = getApp();
 function ats(){

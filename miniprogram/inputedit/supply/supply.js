@@ -1,5 +1,5 @@
 // 供货操作
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
 const { integration } = require('../../model/initupdate');

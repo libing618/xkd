@@ -1,5 +1,5 @@
 //流程审批模块
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { readShowFormat } = require('../../libs/util');
 var app=getApp()
 Page({

@@ -1,5 +1,5 @@
 //货架管理
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { checkRols,unitData } =  require('../../model/initForm');
 const { updateData } = require('../../model/initupdate');
 var app = getApp();

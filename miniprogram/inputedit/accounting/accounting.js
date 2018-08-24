@@ -1,5 +1,5 @@
 //帐务中心
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
 const { updateData } = require('../../model/initupdate');

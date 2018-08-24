@@ -1,5 +1,5 @@
 //调整当日成品生产计划
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { checkRols,shareMessage } =  require('../../model/initForm');
 const {hTabClick} = require('../../libs/util.js');
 const {f_modalRecordView} = require('../../model/controlModal');

@@ -1,4 +1,4 @@
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const {i_cutImageThumbnail,i_modalEditAddress,i_mapSelectUnit} = require('../../model/controlModal.js');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）

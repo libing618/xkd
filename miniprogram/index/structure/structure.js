@@ -1,5 +1,5 @@
 //单位（机构类）组织架构管理
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 var app = getApp()          //设置组织架构
 Page({
 	data:{
@@ -28,7 +28,7 @@ Page({
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
       } else {
         if (app.roleData.uUnit.name == app.roleData.user.objectId) {                //创建人读取单位员工信息
-          new AV.Query('reqUnit').equalTo('rUnit', app.roleData.user.unit).find().then((applyUser) => {
+          db.collection('reqUnit').equalTo('rUnit', app.roleData.user.unit).find().then((applyUser) => {
             that.setData({ applyUser: applyUser });
           }).catch(console.error);
           let crole = {};
@@ -38,7 +38,7 @@ Page({
             uUnitUsers: app.roleData.uUnit.unitUsers
           })
         } else {
-          new AV.Query('reqUnit').equalTo('userId', app.roleData.user.objectId).find().then((resus) => {
+          new db.collection('reqUnit').equalTo('userId', app.roleData.user.objectId).find().then((resus) => {
             if (resus.length == 0) {
               let reso = AV.Object.extend('reqUnit');
               that.aUser = new reso();

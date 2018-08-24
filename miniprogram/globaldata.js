@@ -48,5 +48,6 @@ module.exports={
     proceduresCk: '0',
     pAt:{"articles":[0, 0],"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"specs":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}}
   },
-  aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"specs":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}}
+  aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"specs":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}},
+  aCount: { "articles": {}, "asset": {}, "product": {}, "service": {}, "cargo": {}, "goods": {}, "specs": {}, "promotion": {}, "material": {}, "sOrder": {}, "prodesign": {}, "wholesale": {}, "rawStock": {}, "packing": {}, "order": {} }
 }

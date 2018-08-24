@@ -1,4 +1,4 @@
-const AV = require('../../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { loginAndMenu, shareMessage } = require('../../model/initForm');
 const { openWxLogin } = require('../../libs/util');
 import { updateData } from '../../model/initupdate'

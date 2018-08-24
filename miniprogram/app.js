@@ -1,5 +1,8 @@
 App({
-  {roleData,mData,aData,aCount}: require('globaldata.js'),//.roleData,
+  roleData: require('globaldata.js').roleData,
+  mData: require('globaldata.js').mData,
+  aData: require('globaldata.js').aData,
+  aCount: require('globaldata.js').aCount,
   fData: require('./model/procedureclass'),
   logData: [],
   procedures: {},              //读流程的缓存
@@ -79,13 +82,11 @@ App({
           if (res.networkType == 'none')                      //如果没有网络
           {
             wx.setStorageSync('loguser', logData)           //缓存操作日志
-          } else {
-            let loguser = AV.Object.extend('loguser');       //有网络则上传操作日志
-            let userlog = new loguser();
-            userlog.set('userObjectId', that.roleData.user.uId);
-            userlog.set('wxappNumber', 2);
-            userlog.set('workRecord', logData);
-            userlog.save().then(resok => {
+          } else {       //有网络则上传操作日志
+            db.collection('loguser').add({
+              userObjectId: that.roleData.user.uId,
+              workRecord: logData,
+            }).then(resok => {
               wx.removeStorageSync('loguser');              //上传成功清空日志缓存
             }).catch(error => {                            //上传失败保存日志缓存
               wx.setStorage({ key: 'loguser', data: logData })
