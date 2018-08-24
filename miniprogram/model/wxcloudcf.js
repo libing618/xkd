@@ -9,7 +9,7 @@ module.exports = {
               success: function (wxuserinfo) {
                 if (wxuserinfo) {
                   wx.cloud.callFunction({                  // 调用云函数
-                    name: 'login1',
+                    name: 'login',
                     data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv }
                   }).then(res => {
                     if (res.errMsg == "request:ok"){

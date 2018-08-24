@@ -3,7 +3,7 @@ const { readShowFormat } = require('../../libs/util');
 var app=getApp()
 Page({
   data:{
-    uEV: app.roleData.user.emailVerified,
+    uEV: app.roleData.user.unitVerified,
     enUpdate: false,
     pNo: 'articles',
     statusBar: app.sysinfo.statusBarHeight,
@@ -15,7 +15,7 @@ Page({
 
   onLoad: function(options) {
     var that = this ;
-    that.data.navBarTitle = app.roleData.user.emailVerified ? app.roleData.uUnit.nick : '体验用户';     //用户已通过单位和职位审核
+    that.data.navBarTitle = app.roleData.user.unitVerified ? app.roleData.uUnit.nick : '体验用户';     //用户已通过单位和职位审核
     that.data.pNo = options.pNo;
     let artid = Number(options.artId);
     that.inFamily = (typeof app.fData[that.data.pNo].afamily != 'undefined');

@@ -22,7 +22,7 @@ Page({
   onLoad: function (options) {        //传入参数为tgId或pNo/artId,不得为空
     var that = this;
     let aaData;
-    that.data.uEV = app.roleData.user.emailVerified;            //用户已通过单位和职位审核
+    that.data.uEV = app.roleData.user.unitVerified;            //用户已通过单位和职位审核
     return new Promise((resolve, reject) => {
       if (typeof options.tgId == 'string') {                   //传入参数含审批流程ID，则为编辑审批中的数据
         if (app.procedures[options.tgId].length>0) {

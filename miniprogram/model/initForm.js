@@ -1,7 +1,7 @@
-const AV = require('../libs/leancloud-storage.js');
+const db = wx.cloud.database();
 const { updateData } = require('initupdate');
 const menuKeys=['manage', 'plan', 'production', 'customer'];
-const { openWxLogin } = require('../libs/util');
+import { openWxLogin } from '../model/wxcloudcf';
 const COS = require('../libs/cos-wx-sdk-v5')
 var cos = new COS({
   getAuthorization: function (params, callback) {//获取签名 必填参数
@@ -88,38 +88,50 @@ function exitPage(){
 
 module.exports = {
 
-loginAndMenu: function (lcUser,roleData) {
+loginAndMenu: function (roleData) {
   return new Promise((resolve, reject) => {
-    if (lcUser) {roleData.user=lcUser.toJSON()};
-    if (roleData.user.objectId != '0') {             //用户如已注册并在本机登录过,则有数据缓存，否则进行注册登录
-      if (roleData.user.mobilePhoneVerified) {
-        fetchMenu(roleData).then((rfmData) => { resolve(rfmData) });
-      } else {
+    wx.getStorage({
+      key: 'roleData',
+      success: function (res) {
+        if (res.data) { roleData.user = res.data };
         resolve(roleData)
-      };
-    } else {
-      wx.getSetting({
-        success:(res)=> {
-          if (res.authSetting['scope.userInfo']) {                   //用户已经同意小程序使用用户信息
-            openWxLogin(roleData).then(rlgData => {
-              if (rlgData.user.mobilePhoneVerified) {
-                fetchMenu(rlgData).then(rfmData => { resolve(rfmData) });
-              } else { resolve(rlgData) }
-            }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
-          } else { resolve(roleData) }
-        },
-        fail: (resFail) => { resolve(roleData) }
-      })
-    }
+      },
+      fail: function(){
+        resolve(roleData)
+      }
+    })
+  }).then(rData=>{
+    return new Promise((resolve, reject) => {
+      if (rData.user._id != '0') {             //用户如已注册并在本机登录过,则有数据缓存，否则进行注册登录
+        if (rData.user.mobilePhoneNumber != '0') {
+          fetchMenu(rData).then((rfmData) => { resolve(rfmData) });
+        } else {
+          resolve(rData);
+        };
+      } else {
+        wx.getSetting({
+          success:(res)=> {
+            if (res.authSetting['scope.userInfo']) {                   //用户已经同意小程序使用用户信息
+              openWxLogin(rData).then(rlgData => {
+                if (rlgData.user.mobilePhoneNumber != '0') {
+                  fetchMenu(rlgData).then(rfmData => { resolve(rfmData) });
+                } else { resolve(rlgData) }
+              }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
+            } else { resolve(roleData) }
+          },
+          fail: (resFail) => { resolve(roleData) }
+        })
+      }
+    });
   }).catch(console.error);
 },
 
 checkRols: function(ouRole,user){
   let uRoleName = user.userRolName.split('.')
-  if (uRoleName[1]=='admin' && user.emailVerified){
+  if (uRoleName[1]=='admin' && user.unitVerified){
     return true;
   } else {
-    if (parseInt(uRoleName[1])==ouRole && user.emailVerified) {
+    if (parseInt(uRoleName[1])==ouRole && user.unitVerified) {
       return true;
     } else {
       exitPage();

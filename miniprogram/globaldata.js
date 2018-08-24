@@ -1,22 +1,21 @@
 module.exports={
   roleData:{
     user: {                                     //用户的原始定义
-      "userRolName": "0",
+      "line": 9,                   //条线
+      "position": 9,               //岗位
       "unit": "0",
       "city": "Taiyuan",
       "uName": "0",
-      "emailVerified": false,
+      "unitVerified": false,
       "nickName": "游客",
-      "username": "游客",
       "language": "zh_CN",
       "gender": 1,
       "province": "Shanxi",
       "avatarUrl": "../../images/index.png",
       "country": "CN",
       "userAuthorize": -1,
-      "authData": {},
-      "mobilePhoneVerified": false,
-      "objectId": "0"
+      "mobilePhoneNumber": "0",
+      "_id": "0"
     },
     wmenu: {
       manage:[100,114],                         //用户未注册时的基础菜单

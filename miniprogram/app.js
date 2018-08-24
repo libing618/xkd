@@ -1,13 +1,11 @@
 App({
   roleData: require('globaldata.js').roleData,
-  mData: require('globaldata.js').mData,
-  aData: require('globaldata.js').aData,
+  mData: require('globaldata.js').mData,                 //以objectId为key的数据记录
+  aData: require('globaldata.js').aData,              //读数据记录的缓存
   aCount: require('globaldata.js').aCount,
   fData: require('./model/procedureclass'),
   logData: [],
   procedures: {},              //读流程的缓存
-//  mData: require('globaldata.js').mData,                          //以objectId为key的数据记录
-//  aData: require('globaldata.js').aData,              //读数据记录的缓存
 
   onLaunch: function () {
     var that = this;
@@ -30,7 +28,7 @@ App({
         };
       }
     });
-    ['roleData', 'mData', 'aData','aCount', 'procedures'].forEach(dataName => {
+    ['mData', 'aData','aCount', 'procedures'].forEach(dataName => {
       wx.getStorage({
         key: dataName,
         success: function (res) {

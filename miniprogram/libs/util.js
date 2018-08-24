@@ -1,4 +1,4 @@
-const AV = require('leancloud-storage.js');
+const db = wx.cloud.database();
 const { updateData,integration } = require('../model/initupdate');
 const wxappNumber = 0;    //本小程序在开放平台中自定义的序号
 function formatNumber(n) {
@@ -7,51 +7,6 @@ function formatNumber(n) {
 };
 
 module.exports = {
-openWxLogin: function(roleData) {            //注册登录（本机登录状态）
-  return new Promise((resolve, reject) => {
-    wx.getSetting({
-      success: ({authSetting})=> {
-        if (authSetting['scope.userInfo']) {
-          wx.login({
-            success: function (wxlogined) {
-              if (wxlogined.code) {
-                wx.getUserInfo({
-                  withCredentials: true,
-                  success: function (wxuserinfo) {
-                    if (wxuserinfo) {
-                      AV.Cloud.run('wxLogin' + wxappNumber, { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv }).then(function (wxuid) {
-                        AV.User.loginWithAuthDataAndUnionId(
-                          { openid: wxuid.oId,access_token: wxuid.session, expires_in: wxappNumber},
-                          'weixin', wxuid.uId,
-                          { unionIdPlatform: 'weixin',asMainAccount: true}
-                        ).then((statuswx) => {    //用户在云端注册登录
-                          if (statuswx.nickName && statuswx['wxapp'+wxappNumber]) {
-                            roleData.user = statuswx.toJSON();
-                            resolve(roleData);                        //客户已注册在本机初次登录成功
-                          } else {                         //客户在本机授权登录则保存信息
-                            let newUser = wxuserinfo.userInfo;
-                            newUser['wxapp' + wxappNumber] = wxuid.oId;         //客户第一次登录时将openid保存到数据库且客户端不可见
-                            statuswx.set(newUser).save().then((wxuser) => {
-                              roleData.user = wxuser.toJSON();
-                              resolve(roleData);                //客户在本机刚注册，无菜单权限
-                            }).catch(err => { reject({ ec: 0, ee: err }) });
-                          }
-                        }).catch((cerror) => { reject({ ec: 2, ee: cerror }) });    //客户端登录失败
-                      }).catch((error) => { reject({ ec: 1, ee: error }) });       //云端登录失败
-                    }
-                  }
-                })
-              } else { reject({ ec: 3, ee: '微信用户登录返回code失败！' }) };
-            },
-            fail: function (err) { reject({ ec: 4, ee: err.errMsg }); }     //微信用户登录失败
-          })
-        } else { reject({ ec: 4, ee: '微信用户未授权！' }) };
-      },
-      fail: function (err) {
-        reject({ ec: 5, ee: err.errMsg }); }     //获取微信用户权限失败
-    })
-  });
-},
 
 readShowFormat: function(req, vData) {
   var unitId = vData.unitId;

@@ -65,10 +65,10 @@ Page({
 	giveRole: function(operation,sRole) {
 		let sUser = AV.Object.createWithoutData('_User',operation);
 		if (sRole=='sessionuser'){
-		  sUser.set('emailVerified', false );
+		  sUser.set('unitVerified', false );
 		  sUser.set('unit', '0' );
 		} else {
-		  sUser.set('emailVerified', true );
+		  sUser.set('unitVerified', true );
 		}
 		sUser.set('userRolName',sRole);
 		return sUser.save();

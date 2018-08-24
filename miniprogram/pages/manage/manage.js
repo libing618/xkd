@@ -1,6 +1,6 @@
 const db = wx.cloud.database();
-const { loginAndMenu, shareMessage } = require('../../model/initForm');
-const { openWxLogin } = require('../../libs/util');
+import { loginAndMenu, shareMessage } from '../../model/initForm';
+import { openWxLogin } from '../../libs/util';
 import { updateData } from '../../model/initupdate'
 var app = getApp();
 
@@ -29,7 +29,7 @@ Page({
         mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
         pageData: app.aData.articles
       });
-      if (!app.roleData.user.emailVerified){ wx.hideTabBar() };
+      if (!app.roleData.user.unitVerified){ wx.hideTabBar() };
     });
   },
 

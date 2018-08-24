@@ -31,9 +31,9 @@ Page({
         that.data.uName = app.roleData.uUnit.uName;
         if (app.roleData.user.mobilePhoneVerified==false) { that.getLoginCode();}
         if (app.roleData.uUnit.name == app.roleData.user.objectId) {
-          that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.emailVerified ? '' : '正在审批中')
+          that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
         } else {
-          that.data.cUnitInfo = '您申请的' + (app.roleData.user.emailVerified ? '' : '岗位正在审批中')
+          that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
         }
       }
       that.setData({		    		// 获得当前用户
