@@ -65,9 +65,9 @@ App({
           wx.removeStorage({key:"mData"});
           wx.removeStorage({key:"procedures"});
         } else {
+          wx.setStorage({ key: 'roleData', data: that.roleData });
           wx.setStorage({ key: "aData", data: that.aData });
           wx.setStorage({key:"mData", data:that.mData});
-          wx.setStorage({ key: 'roleData', data: that.roleData });
           wx.setStorage({ key: 'aCount', data: that.aCount });
           wx.setStorage({key:"procedures", data:that.procedures});
         }

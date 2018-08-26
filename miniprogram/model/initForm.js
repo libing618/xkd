@@ -1,6 +1,6 @@
 const db = wx.cloud.database();
 const { updateData } = require('initupdate');
-const menuKeys=['manage', 'plan', 'production', 'customer'];
+
 import { openWxLogin } from '../model/wxcloudcf';
 const COS = require('../libs/cos-wx-sdk-v5')
 var cos = new COS({
@@ -22,65 +22,7 @@ function requestCallback(err, data) {
     wx.showModal({title: '上传文件', content: '请求出错：' + err + '；状态码：' + err.statusCode, showCancel: false});
   } else { return data}
 };
-function fetchMenu(roleData) {
-  return new Promise((resolve, reject) => {
-    new AV.Query('userInit')
-    .equalTo('initName', roleData.user.userRolName)
-    .notEqualTo('updatedAt', new Date(roleData.wmenu.updatedAt))
-    .select(menuKeys)
-    .find().then(fetchMenu => {
-      if (fetchMenu.length > 0) {                          //菜单在云端有变化
-        roleData.wmenu = fetchMenu[0].toJSON();
-        menuKeys.forEach(mname => {
-          roleData.wmenu[mname] = roleData.wmenu[mname].filter(rn => { return rn != 0 });
-        });
-      };
-      wx.getUserInfo({        //检查客户信息
-        withCredentials: false,
-        success: function ({ userInfo }) {
-          if (userInfo) {
-            let updateInfo = false;
-            for (var iKey in userInfo) {
-              if (userInfo[iKey] != roleData.user[iKey]) {             //客户信息有变化
-                updateInfo = true;
-                roleData.user[iKey] = userInfo[iKey];
-              }
-            };
-            if (updateInfo) {
-              AV.User.become(AV.User.current().getSessionToken()).then((rLoginUser) => {
-                rLoginUser.set(userInfo).save().then(() => { resolve(true) });
-              })
-            } else {
-              resolve(false);
-            };
-          }
-        }
-      });
-    });
-  }).then(uMenu => {
-    return new Promise((resolve, reject) => {
-      if (roleData.user.unit != '0') {
-        return new AV.Query('_Role')
-          .notEqualTo('updatedAt', new Date(roleData.uUnit.updatedAt))
-          .equalTo('objectId', roleData.user.unit).first().then(uRole => {
-            if (uRole) {                          //本单位信息在云端有变化
-              roleData.uUnit = uRole.toJSON();
-            };
-            if (roleData.uUnit.sUnit != '0') {
-              return new AV.Query('_Role')
-                .notEqualTo('updatedAt', new Date(roleData.sUnit.updatedAt))
-                .equalTo('objectId', roleData.uUnit.sUnit).first().then(sRole => {
-                  if (sRole) {
-                    roleData.sUnit = sRole.toJSON();
-                  };
-                  resolve(roleData);
-                }).catch(console.error)
-            } else { resolve(roleData) }
-          }).catch(console.error)
-      } else { resolve(roleData) };
-    });
-  }).catch(console.error);
-};
+
 function exitPage(){
   wx.showToast({ title: '权限不足请检查', duration: 2500 });
   setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
@@ -90,40 +32,67 @@ module.exports = {
 
 loginAndMenu: function (roleData) {
   return new Promise((resolve, reject) => {
-    wx.getStorage({
-      key: 'roleData',
-      success: function (res) {
-        if (res.data) { roleData.user = res.data };
-        resolve(roleData)
+    wx.getSetting({
+      success:(res)=> {
+        if (res.authSetting['scope.userInfo']) {            //用户已经同意小程序使用用户信息
+          wx.getStorage({
+            key: 'roleData',
+            success: function (res) {
+              resolve(res.data)
+            },
+            fail: function(){
+              resolve(roleData)
+            }
+          })
+        } else { resolve(roleData) }
       },
-      fail: function(){
-        resolve(roleData)
-      }
+      fail: (resFail) => { reject('用户没有授权登录') }
     })
   }).then(rData=>{
     return new Promise((resolve, reject) => {
       if (rData.user._id != '0') {             //用户如已注册并在本机登录过,则有数据缓存，否则进行注册登录
-        if (rData.user.mobilePhoneNumber != '0') {
-          fetchMenu(rData).then((rfmData) => { resolve(rfmData) });
-        } else {
-          resolve(rData);
-        };
-      } else {
-        wx.getSetting({
-          success:(res)=> {
-            if (res.authSetting['scope.userInfo']) {                   //用户已经同意小程序使用用户信息
-              openWxLogin(rData).then(rlgData => {
-                if (rlgData.user.mobilePhoneNumber != '0') {
-                  fetchMenu(rlgData).then(rfmData => { resolve(rfmData) });
-                } else { resolve(rlgData) }
-              }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
-            } else { resolve(roleData) }
+        wx.checkSession({
+          success: function(){            //session_key 未过期，并且在本生命周期一直有效
+            wx.cloud.callFunction({ name: 'login',data:{sessionState:3} }).then((rfmData) => {
+              resolve(rfmData.result)
+            });
           },
-          fail: (resFail) => { resolve(roleData) }
+          fail: function(){
+            openWxLogin(2).then(rlgData => { resolve(rlgData) });
+          }
         })
+      } else {
+        openWxLogin(1).then(rlgData => { resolve(rlgData) });
       }
     });
-  }).catch(console.error);
+  }).then(reData=>{
+    return new Promise((resolve, reject) => {
+      wx.getUserInfo({        //检查客户信息
+        withCredentials: false,
+        success: function ({ userInfo }) {
+          if (userInfo) {
+            let updateInfo = false,updateData={};
+            for (var iKey in userInfo) {
+              if (userInfo[iKey] != orData.user[iKey]) {             //客户信息有变化
+                updateInfo = true;
+                reData.user[iKey] = userInfo[iKey];
+                updateData[iKey] = userInfo[iKey];
+              }
+            };
+            if (updateInfo) {
+              db.collection('_User').doc(reData.user._id).update({
+                data: updateData
+              }).then(() => {
+                resolve(reData);
+              })
+            } else {
+              resolve(reData);
+            };
+          }
+        }
+      });
+    });
+  }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
 },
 
 checkRols: function(ouRole,user){

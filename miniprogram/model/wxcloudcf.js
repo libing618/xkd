@@ -1,5 +1,29 @@
+const db = wx.cloud.database();
+function wxUserSignup(user){
+  return new Promise((resolve, reject) => {
+    db.collection('_User').add({
+      data: {                                     //用户的原始定义
+        _id: user.openid,
+        line: 9,                   //条线
+        position: 9,               //岗位
+        nickName: user.nickName,
+        gender: user.gender,
+        language: user.language,
+        city: user.city,
+        province: user.province,
+        country: user.country,
+        avatarUrl: user.avatarUrl
+        uName: user.nickName,
+        unionid: user.unionid,
+        unit: '0',
+        unitVerified: false,
+        mobilePhoneNumber: "0"
+      }
+    }).then(_id=>{ resolve(_id) });
+  }).catch(err=> { reject(err) })
+};
 module.exports = {
-  openWxLogin: function () {              //取无登录状态数据
+  openWxLogin: function (sState) {              //登录sState为0、第一次授权，1、已授权未登录，2、session过期
     return new Promise((resolve, reject) => {
       wx.login({
         success: function (wxlogined) {
@@ -10,12 +34,27 @@ module.exports = {
                 if (wxuserinfo) {
                   wx.cloud.callFunction({                  // 调用云函数
                     name: 'login',
-                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv }
+                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv, sessionState: sState }
                   }).then(res => {
-                    if (res.errMsg == "request:ok"){
-                      app.globalData.openid = res.result.oId
-                      wx.setStorage({ key: 'loginInfo', data: res.result })
+                    if (res.result.user){
                       resolve(res.result)
+                    } else {
+                      wxuserinfo.openid = res.result.openid;
+                      wxuserinfo.unionid = res.result.unionid || null;
+                      wxUserSignup(wxuserinfo).then(()=>{
+                        let roleData = {
+                          user: wxuserinfo,
+                          wmenu: {
+                            manage:[100,114],                         //用户刚注册时的基础菜单
+                            plan:[],
+                            production:[],
+                            customer:[]
+                          },
+                          uUnit:{},                           //用户单位信息（若有）
+                          sUnit:{}
+                        };
+                        resolve(roleData);
+                      })
                     }
                   }).catch(err => {
                     reject({ ec: 1, ee: err })     //云端登录失败

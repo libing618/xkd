@@ -21,11 +21,10 @@ module.exports={
       manage:[100,114],                         //用户未注册时的基础菜单
       plan:[],
       production:[],
-      customer:[],
-      updatedAt: 0
+      customer:[]
     },
-    uUnit:{updatedAt: 0},                           //用户单位信息（若有）
-    sUnit:{updatedAt: 0}                           //上级单位信息（若有）
+    uUnit:{},                           //用户单位信息（若有）
+    sUnit:{}                           //上级单位信息（若有）
   },
   mData: {
     proceduresAt:[                                //缓存中流程更新时间
