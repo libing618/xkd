@@ -12,7 +12,7 @@ function wxUserSignup(user){
         city: user.city,
         province: user.province,
         country: user.country,
-        avatarUrl: user.avatarUrl
+        avatarUrl: user.avatarUrl,
         uName: user.nickName,
         unionid: user.unionid,
         unit: '0',
@@ -30,7 +30,9 @@ module.exports = {
           if (wxlogined.code) {
             wx.getUserInfo({
               withCredentials: true,
+              lang: 'zh_CN',
               success: function (wxuserinfo) {
+                console.log(wxuserinfo)
                 if (wxuserinfo) {
                   wx.cloud.callFunction({                  // 调用云函数
                     name: 'login',

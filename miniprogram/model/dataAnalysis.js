@@ -1,4 +1,5 @@
-const AV = require('../libs/leancloud-storage.js');
+const db = wx.cloud.database();
+const _ = db.command;
 const { updateRoleData } = require('initupdate');
 var app = getApp();
 function sumArr(arrData,arrIndex){

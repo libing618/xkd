@@ -22,13 +22,14 @@ Page({
 
   onLoad: function () {
     var that = this;
-    if (app.roleData.user.mobilePhoneNumber && app.roleData.uUnit.length>0) {			// 当前用户已注册且已有单位
+    if (app.roleData.user.mobilePhoneNumber && app.roleData.user.unit!='0') {			// 当前用户已注册且已有单位
       if (app.roleData.uUnit.afamily<3) {
         wx.showToast({ title: '非机构类单位,没有下级员工设置。', duration: 7500 })
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
       } else {
+				db.collection('_Role').doc(app.roleData.user.unit).get().then(unitInfo => {
         if (app.roleData.uUnit.name == app.roleData.user.objectId) {                //创建人读取单位员工信息
-          db.collection('reqUnit').equalTo('rUnit', app.roleData.user.unit).find().then((applyUser) => {
+
             that.setData({ applyUser: applyUser });
           }).catch(console.error);
           let crole = {};

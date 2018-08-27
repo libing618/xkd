@@ -20,10 +20,8 @@
     <view wx:else>
       <template is="showgrids" data="{{grids}}"/>
     </view>
-    <view class="weui-tab">
-      <template is="tabsCk" data="{{ fLength , pageCk , tabs ,wWidth }}"/>
-      <template is="tabPanel" data="{{ tPage: fLength ? mPage[pageCk] : mPage , pageData , pNo }}"/>
-    </view>
+    <template is="tabsCk" data="{{ fLength , pageCk , tabs ,wWidth }}"/>
+    <template is="tabPanel" data="{{ tPage: fLength ? mPage[pageCk] : mPage , pageData , pNo }}"/>
   </view>
 
 </view>

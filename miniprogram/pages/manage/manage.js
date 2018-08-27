@@ -19,6 +19,8 @@ Page({
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       that.data.grids = require('../../libs/allmenu.js').iMenu(app.roleData.wmenu.manage, 'manage');
+      app.mData.articles = require('../../test/articles').articles;
+      app.aData.articles = require('../../test/articles').artdata
       that.data.grids[0].mIcon = app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
       that.setData({
         statusBar: app.sysinfo.statusBarHeight,
@@ -43,9 +45,9 @@ Page({
     }
   },
 
-  onReady: function(){
-    updateData(true,'articles').then(isupdated=>{ this.setPage(isupdated) });        //更新缓存以后有变化的数据
-  },
+  // onReady: function(){
+  //   updateData(true,'articles').then(isupdated=>{ this.setPage(isupdated) });        //更新缓存以后有变化的数据
+  // },
 
   userInfoHandler: function (e) {
     var that = this;

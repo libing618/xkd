@@ -1,7 +1,6 @@
 const db = wx.cloud.database();
 const { updateData } = require('initupdate');
-
-import { openWxLogin } from '../model/wxcloudcf';
+const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5')
 var cos = new COS({
   getAuthorization: function (params, callback) {//获取签名 必填参数
@@ -69,11 +68,12 @@ loginAndMenu: function (roleData) {
     return new Promise((resolve, reject) => {
       wx.getUserInfo({        //检查客户信息
         withCredentials: false,
+        lang: 'zh_CN',
         success: function ({ userInfo }) {
           if (userInfo) {
             let updateInfo = false,updateData={};
             for (var iKey in userInfo) {
-              if (userInfo[iKey] != orData.user[iKey]) {             //客户信息有变化
+              if (userInfo[iKey] != reData.user[iKey]) {             //客户信息有变化
                 updateInfo = true;
                 reData.user[iKey] = userInfo[iKey];
                 updateData[iKey] = userInfo[iKey];

@@ -1,5 +1,5 @@
-const AV = require('../libs/leancloud-storage.js');
-
+const db = wx.cloud.database();
+const _ = db.command;
 class supplies extends AV.Object {
   get tradeId() { return this.get('tradeId'); }
 //  set tradeId(value) { this.set('tradeId', value); }

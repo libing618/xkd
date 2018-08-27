@@ -34,7 +34,7 @@ function fetchMenu(openid){
   }).catch(console.error);
 };
 //sessionState为0、第一次授权，1、已授权未登录，2、session过期，3、session未过期
-exports.main = ({ userInfo, code, encryptedData, iv,sessionState }, context) => {
+exports.main = async ({ userInfo, code, encryptedData, iv,sessionState }, context) => {
   const appid = userInfo.appId;     //微信小程序appid
   const secret = process.env.secret;     //微信小程序secret
   return new Promise((resolve, reject) => {
@@ -71,19 +71,21 @@ exports.main = ({ userInfo, code, encryptedData, iv,sessionState }, context) => 
       });
     }
   }).then(user => {
-    switch (sessionState) {
-      case 0:
-        return user
-        break;
-      case 1:
-        fetchMenu(user.openid).then(roleData=>{
-          return roleData
-        }).catch(return user)
-        break;
-      default:
-        fetchMenu(user.openid).then(roleData=>{
-          return roleData
-        }).catch(error=>{return error})
-    }
-  })
+    return new Promise((resolve, reject) => {
+      switch (sessionState) {
+        case 0:
+          resolve(user)
+          break;
+        case 1:
+          fetchMenu(user.openid).then(roleData=>{
+            resolve(roleData)
+          }).catch(resolve(user))
+          break;
+        default:
+          fetchMenu(user.openid).then(roleData=>{
+            resolve(roleData)
+          }).catch(error=>{ reject(error) })
+      }
+    });
+  }).catch(error=>{ reject(error) })
 }

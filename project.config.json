@@ -1,6 +1,6 @@
 {
-	"miniprogramRoot": "./miniprogram",
-	"cloudfunctionRoot": "./cloudfunctions",
+	"miniprogramRoot": "miniprogram/",
+	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
@@ -10,6 +10,7 @@
 	},
 	"appid": "wxfbbbc7b7f73ae7fb",
 	"projectname": "xkd",
+	"libVersion": "2.2.4",
 	"condition": {
 		"search": {
 			"current": -1,
