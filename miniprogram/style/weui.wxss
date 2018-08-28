@@ -828,12 +828,11 @@
   display: flex;
   top:10rpx;
   width: 100%;
-  height: 100rpx;
+  height: 80rpx;
   background-color: #F5F5F5;
-  border-bottom: 1rpx solid #CCCCCC;
+  border-top: 1rpx solid #CCCCCC;
 }
 .weui-navbar__item {
-  position: relative;
   display: block;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -846,11 +845,9 @@
   color: #1AAD19;
 }
 .weui-navbar__slider {
-  position: absolute;
   text-align: center;
   content: " ";
-  top: 78rpx;
-  left: 0;
+  top: 28rpx;
   bottom: 0;
   width: 5em;
   height: 8rpx;

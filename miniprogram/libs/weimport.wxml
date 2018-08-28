@@ -273,8 +273,9 @@
         <view class="weui-navbar__title">{{item}}</view>
       </view>
     </block>
-    <view class="weui-navbar__slider" style="left:{{375/fLength-68}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*750/fLength}}rpx)"></view>
   </view>
+  <view class="weui-navbar__slider" style="left:{{375/fLength-30}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*750/fLength}}rpx)"></view>
+  
 </template>
 
 <template name="tabPanel">
