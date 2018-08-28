@@ -25,27 +25,32 @@ Page({
 
   onLoad: function () {
     var that = this;
-    AV.User.become(AV.User.current().getSessionToken()).then((rLoginUser) => {    //再次登录同步用户信息
-      app.roleData.user = rLoginUser.toJSON();
-      if (app.roleData.user.unit!='0') {
-        that.data.uName = app.roleData.uUnit.uName;
-        if (app.roleData.user.mobilePhoneVerified==false) { that.getLoginCode();}
-        if (app.roleData.uUnit.name == app.roleData.user.objectId) {
-          that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
-        } else {
-          that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
+    wx.checkSession({
+      success: function () {            //session_key 未过期，并且在本生命周期一直有效
+        if (app.roleData.user.unit!='0') {
+          that.data.uName = app.roleData.uUnit.uName;
+          if (app.roleData.user.mobilePhoneNumber=='0') { that.getLoginCode();}
+          if (app.roleData.uUnit._id == app.roleData.user._id) {
+            that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
+          } else {
+            that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
+          }
         }
+        that.setData({		    		// 获得当前用户
+          user: app.roleData.user,
+          iName: app.roleData.user.uName,
+          navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
+          cUnitInfo: that.data.cUnitInfo,
+          uName: that.data.uName
+        })
+      },
+      fail: function () {
+        wx.login({
+          fail: () => {
+            wx.showToast({ title: '用户登录出错', duration: 2500 });
+            setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000); }
+        })
       }
-      that.setData({		    		// 获得当前用户
-        user: app.roleData.user,
-        iName: app.roleData.user.uName,
-        navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
-        cUnitInfo: that.data.cUnitInfo,
-        uName: that.data.uName
-      })
-    }).catch(error=>{
-      wx.showToast({title:'同步数据出错', duration: 2500 });
-      setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
     })
   },
 
@@ -57,18 +62,15 @@ Page({
     var that = this;
     if (that.data.wxlogincode) {
       if (e.detail.errMsg == 'getPhoneNumber:ok'){
-        AV.Cloud.run('gPN', { code: that.data.wxlogincode, encryptedData: e.detail.encryptedData, iv: e.detail.iv }).then(function(phone) {
-          AV.User.current()
-            .setMobilePhoneNumber(phone)  // 设置并保存手机号
-            .set('mobilePhoneVerified',true)
-            .save()
-            .then(user=> {
-            app.roleData.user = user.toJSON();
-            wx.showToast({
-              title: '微信绑定的手机号注册成功', icon: 'none',duration: 2000
-            })
-            that.setData({ user :app.roleData.user})
-          });
+        wx.cloud.callFunction({                  // 调用云函数
+          name: 'login',
+          data: { code: that.data.wxlogincode, encryptedData: e.detail.encryptedData, iv: e.detail.iv, loginState: 2}
+        }).then(phone=> {
+          app.roleData.user.mobilePhoneNumber = phone;
+          wx.showToast({
+            title: '微信绑定的手机号注册成功', icon: 'none',duration: 2000
+          })
+          that.setData({ user:app.roleData.user })
         }).catch(console.error());
       } else {
         wx.showToast({

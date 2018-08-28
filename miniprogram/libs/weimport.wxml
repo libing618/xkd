@@ -267,21 +267,17 @@
 </template>
 
 <template name="tabsCk">
-<view class="weui-tab">
-<view class="weui-navbar">
-  <block wx:for="{{tabs}}" wx:key="{{index}}">
-    <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-      <view class="weui-navbar__title">{{item}}</view>
-    </view>
-  </block>
-  <view class="weui-navbar__slider" style="left:{{375/fLength-68}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*750/fLength}}rpx)"></view>
-</view>
-</view>
+  <view class="weui-navbar">
+    <block wx:for="{{tabs}}" wx:key="{{index}}">
+      <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+        <view class="weui-navbar__title">{{item}}</view>
+      </view>
+    </block>
+    <view class="weui-navbar__slider" style="left:{{375/fLength-68}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*750/fLength}}rpx)"></view>
+  </view>
 </template>
 
 <template name="tabPanel">
-<view class="page__bd">
-<view class="weui-tab__panel">
   <block wx:for="{{tPage}}" wx:key="{{index}}">
     <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
       <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
@@ -295,8 +291,6 @@
       </view>
     </navigator>
   </block>
-</view>
-</view>
 </template>
 
 <template name="personConversation">

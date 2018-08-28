@@ -5,10 +5,12 @@
   <view class="page__hd">
     <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
       <block wx:for="{{mSwiper}}" wx:key="{{index}}">
+      <swiper-item>
           <navigator url="/pages/vprocedure/vprocedure?pNo='articles'&artId={{item.objectId}}">
             <image src="{{pageData[item].thumbnail}}" class="swimage"></image>
             <view class="swtext">{{pageData[item].title}}</view>
           </navigator>
+          </swiper-item>
       </block>
     </swiper>
   </view>
@@ -20,6 +22,7 @@
     <view wx:else>
       <template is="showgrids" data="{{grids}}"/>
     </view>
+  
     <template is="tabsCk" data="{{ fLength , pageCk , tabs ,wWidth }}"/>
     <template is="tabPanel" data="{{ tPage: fLength ? mPage[pageCk] : mPage , pageData , pNo }}"/>
   </view>

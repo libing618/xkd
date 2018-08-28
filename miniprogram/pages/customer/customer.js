@@ -33,7 +33,7 @@ Page({
     integration("product", "cargo",app.roleData.uUnit.objectId).then(isupdated=>{ this.setPage(isupdated) });
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
-      grids: require('../../libs/allmenu.js').iMenu(app.roleData.wmenu.customer, 'customer')
+      grids: require('../../libs/allmenu.js').iMenu(3,app.roleData.wmenu[3])
     })
   },
 

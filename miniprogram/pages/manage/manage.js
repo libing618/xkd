@@ -18,7 +18,7 @@ Page({
     var that = this;
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
-      that.data.grids = require('../../libs/allmenu.js').iMenu(app.roleData.wmenu.manage, 'manage');
+      that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
       app.mData.articles = require('../../test/articles').articles;
       app.aData.articles = require('../../test/articles').artdata
       that.data.grids[0].mIcon = app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
@@ -26,7 +26,7 @@ Page({
         statusBar: app.sysinfo.statusBarHeight,
         wWidth: app.sysinfo.windowWidth,
         grids: that.data.grids,
-        unAuthorize: app.roleData.user.objectId == '0',
+        unAuthorize: app.roleData.user._id == '0',
         mSwiper: app.mData.articles[0],
         mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
         pageData: app.aData.articles

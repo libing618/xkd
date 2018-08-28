@@ -1,29 +1,7 @@
 const db = wx.cloud.database();
-function wxUserSignup(user){
-  return new Promise((resolve, reject) => {
-    db.collection('_User').add({
-      data: {                                     //用户的原始定义
-        _id: user.openid,
-        line: 9,                   //条线
-        position: 9,               //岗位
-        nickName: user.nickName,
-        gender: user.gender,
-        language: user.language,
-        city: user.city,
-        province: user.province,
-        country: user.country,
-        avatarUrl: user.avatarUrl,
-        uName: user.nickName,
-        unionid: user.unionid,
-        unit: '0',
-        unitVerified: false,
-        mobilePhoneNumber: "0"
-      }
-    }).then(_id=>{ resolve(_id) });
-  }).catch(err=> { reject(err) })
-};
+const _ = db.command
 module.exports = {
-  openWxLogin: function (sState) {              //登录sState为0、第一次授权，1、已授权未登录，2、session过期
+  openWxLogin: function () {              //解密unionid并进行注册
     return new Promise((resolve, reject) => {
       wx.login({
         success: function (wxlogined) {
@@ -32,34 +10,46 @@ module.exports = {
               withCredentials: true,
               lang: 'zh_CN',
               success: function (wxuserinfo) {
-                console.log(wxuserinfo)
-                if (wxuserinfo) {
+                if (wxuserinfo.errMsg=='getUserInfo:ok') {
                   wx.cloud.callFunction({                  // 调用云函数
                     name: 'login',
-                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv, sessionState: sState }
+                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv, loginState:0 }
                   }).then(res => {
-                    if (res.result.user){
-                      resolve(res.result)
-                    } else {
-                      wxuserinfo.openid = res.result.openid;
-                      wxuserinfo.unionid = res.result.unionid || null;
-                      wxUserSignup(wxuserinfo).then(()=>{
-                        let roleData = {
-                          user: wxuserinfo,
-                          wmenu: {
-                            manage:[100,114],                         //用户刚注册时的基础菜单
-                            plan:[],
-                            production:[],
-                            customer:[]
-                          },
-                          uUnit:{},                           //用户单位信息（若有）
-                          sUnit:{}
-                        };
-                        resolve(roleData);
-                      })
-                    }
+                    let roleData = {
+                      user: {                          //用户的原始定义
+                        updatedAt: db.serverDate(),
+                        line: 9,                   //条线
+                        position: 9,               //岗位
+                        nickName: res.result.nickName,
+                        gender: res.result.gender,
+                        language: res.result.language,
+                        city: res.result.city,
+                        province: res.result.province,
+                        country: res.result.country,
+                        avatarUrl: res.result.avatarUrl,
+                        uName: res.result.nickName,
+                        unionid: res.result.unionId || null,
+                        unit: '0',
+                        unitVerified: false,
+                        mobilePhoneNumber: "0"
+                      }
+                    };
+                    db.collection('_User').add({
+                      data: roleData.user
+                    }).then(_id => {
+                      roleData.user._id = _id;
+                      roleData.wmenu = [            //用户刚注册时的基础菜单
+                        [100, 102, 107, 108, 109, 110, 111, 114],
+                        [200, 201, 202, 203, 204],
+                        [308],
+                        [401]
+                      ];
+                      roleData.uUnit = { };            //用户单位信息（若有）
+                      roleData.sUnit = { };
+                      resolve(roleData);
+                      }).catch(err => { reject({ ec: 2, ee: err }) })     //云端注册失败
                   }).catch(err => {
-                    reject({ ec: 1, ee: err })     //云端登录失败
+                    reject({ ec: 1, ee: err })     //云端解密失败
                   })
                 }
               }

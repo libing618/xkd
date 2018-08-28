@@ -49,20 +49,13 @@ loginAndMenu: function (roleData) {
     })
   }).then(rData=>{
     return new Promise((resolve, reject) => {
-      if (rData.user._id != '0') {             //用户如已注册并在本机登录过,则有数据缓存，否则进行注册登录
-        wx.checkSession({
-          success: function(){            //session_key 未过期，并且在本生命周期一直有效
-            wx.cloud.callFunction({ name: 'login',data:{sessionState:3} }).then((rfmData) => {
-              resolve(rfmData.result)
-            });
-          },
-          fail: function(){
-            openWxLogin(2).then(rlgData => { resolve(rlgData) });
-          }
-        })
-      } else {
-        openWxLogin(1).then(rlgData => { resolve(rlgData) });
-      }
+      wx.cloud.callFunction({ name: 'login',data:{loginState:1} }).then((rfmData) => {
+        resolve(rfmData.result)           //用户如已注册则返回菜单和单位数据，否则进行注册登录
+      }).catch(err=>{
+        openWxLogin().then(rlgData => {
+          resolve(rlgData)
+        }).catch(err=> { reject(err) });
+      });
     });
   }).then(reData=>{
     return new Promise((resolve, reject) => {

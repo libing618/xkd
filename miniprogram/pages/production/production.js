@@ -34,7 +34,7 @@ Page({
   onReady:function(){
     var that = this;
     integration("product", "cargo",app.roleData.uUnit.objectId).then(isupdated=>{this.setPage(isupdated)});
-    this.grids = require('../../libs/allmenu.js').iMenu(app.roleData.wmenu.production, 'production');
+    this.grids = require('../../libs/allmenu.js').iMenu(2,app.roleData.wmenu.production[2]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
       grids: this.grids

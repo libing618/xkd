@@ -91,38 +91,6 @@
 	margin-left: 10rpx;
   font-size: 34rpx;
 }
-
-.page__hd {
-  padding-top: 10rpx;
-}
-.page__bd {
-  padding-bottom: 10rpx;
-}
-.page__bd_spacing {
-  padding-left: 16rpx;
-  padding-right: 16rpx;
-}
-.page__ac_spacing {
-  padding-left: 40rpx;
-  padding-right: 40rpx;
-}
-.page__ft{
-  padding-bottom: 10rpx;
-  text-align: center;
-}
-
-.page__title {
-  text-align: center;
-  font-size: 36rpx;
-  font-weight: 400;
-}
-
-.page__desc {
-  margin-top: 6rpx;
-  color: #888888;
-  text-align: left;
-  font-size: 28rpx;
-}
 .chat-box__left {
   padding-top: 20rpx;
   display: -webkit-box;

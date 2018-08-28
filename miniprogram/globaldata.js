@@ -17,12 +17,12 @@ module.exports={
       "mobilePhoneNumber": "0",
       "_id": "0"
     },
-    wmenu: {
-      manage:[100,114],                         //用户未注册时的基础菜单
-      plan:[],
-      production:[],
-      customer:[]
-    },
+    wmenu: [
+      [100,114],                         //用户未注册时的基础菜单
+      [],
+      [],
+      []
+    ],
     uUnit:{},                           //用户单位信息（若有）
     sUnit:{}                           //上级单位信息（若有）
   },
