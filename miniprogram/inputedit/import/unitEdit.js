@@ -1,6 +1,7 @@
 const db = wx.cloud.database();
+const { getData } = require('../../model/wx_data');
 const { unitData } = require('../../model/initForm.js');
-const { updateData,integration } = require('../../model/initupdate');
+const { integration } = require('../../model/dataAnalysis');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
@@ -214,7 +215,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
       };
       return reqField;
     })
-    setPromise.forEach(nPromise=> {promArr.push(updateData(true, nPromise, unitId))})
+    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, unitId))})
     return Promise.all(promArr).then(() => {
       for (let i = 0; i < iFormat.length; i++) {
         switch (iFormat[i].t) {

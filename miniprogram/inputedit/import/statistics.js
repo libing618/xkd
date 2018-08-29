@@ -3,7 +3,7 @@ const db = wx.cloud.database();
 const orders = require('../../model/supplies');
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
-const { updateData } = require('../../model/initupdate');
+const { getData } = require('../../model/wx_data');
 const { i_sedate } = require('../import/impedit');
 var app = getApp();
 
@@ -16,11 +16,11 @@ Page({
   onLoad:function(options){
     var that = this;
     if ( checkRols(9,app.roleData.user) ) {
-      updateData(true,'order').then(proData=>{
+      getData(true,'order').then(proData=>{
         if (proData){
           that.data.mPage = app.mData.order;
           that.data.pageData = app.aData.order;
-          updateData(true,'specs').then(specData=>{
+          getData(true,'specs').then(specData=>{
             if(specData){
               that.data.specData = app.aData.specs;
               let shelves={};

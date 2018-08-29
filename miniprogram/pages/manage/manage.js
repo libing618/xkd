@@ -1,7 +1,7 @@
 const db = wx.cloud.database();
 import { loginAndMenu, shareMessage } from '../../model/initForm';
-import { openWxLogin } from '../../libs/util';
-import { updateData } from '../../model/initupdate'
+import { openWxLogin,tabClick } from '../../libs/util';
+import { getData } from '../../model/wx_data'
 var app = getApp();
 
 Page({
@@ -16,23 +16,30 @@ Page({
 
   onLoad: function () {
     var that = this;
+    app.mData.articles = require('../../test/articles').articles;
+    app.aData.articles = require('../../test/articles').artdata;
+    that.setData({
+      statusBar: app.sysinfo.statusBarHeight,
+      wWidth: app.sysinfo.windowWidth,
+      mSwiper: app.mData.articles[0],
+      mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
+      pageData: app.aData.articles
+    });
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
-      app.mData.articles = require('../../test/articles').articles;
-      app.aData.articles = require('../../test/articles').artdata
       that.data.grids[0].mIcon = app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
       that.setData({
-        statusBar: app.sysinfo.statusBarHeight,
-        wWidth: app.sysinfo.windowWidth,
-        grids: that.data.grids,
-        unAuthorize: app.roleData.user._id == '0',
-        mSwiper: app.mData.articles[0],
-        mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
-        pageData: app.aData.articles
+        unAuthorize: false,
+        grids: that.data.grids
       });
       if (!app.roleData.user.unitVerified){ wx.hideTabBar() };
-    }).catch(loginerr=>{app.logData.push(loginerr)});
+    }).catch(loginerr=>{
+      app.logData.push(loginerr);
+      that.setData({
+        unAuthorize: true
+      });
+    });
   },
 
   setPage: function(iu){
@@ -45,29 +52,29 @@ Page({
     }
   },
 
-  // onReady: function(){
-  //   updateData(true,'articles').then(isupdated=>{ this.setPage(isupdated) });        //更新缓存以后有变化的数据
-  // },
+  onReady: function(){
+    getData(true,'articles',true,{}).then(isupdated=>{ this.setPage(isupdated) });        //更新缓存以后有变化的数据
+  },
 
   userInfoHandler: function (e) {
     var that = this;
-    openWxLogin(0).then( mstate=> {
+    openWxLogin().then( mstate=> {
       app.roleData = mstate;
       app.logData.push([Date.now(), '用户授权' + app.sysinfo.toString()]);                      //用户授权时间记入日志
-      that.grids = require('../libs/allmenu.js').iMenu(app.roleData.wmenu.manage,'manage');
-      that.grids[0].mIcon=app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
-      that.setData({ unAuthorize: false, grids: that.grids })
+      let grids = require('../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
+      grids[0].mIcon=app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
+      that.setData({ unAuthorize: false, grids: grids })
     }).catch( console.error );
   },
 
-  tabClick: require('../../model/initupdate').tabClick,
+  tabClick: tabClick,
 
   onPullDownRefresh:function(){
-   updateData(true,'articles').then(isupdated=>{ this.setPage(isupdated) });
+   getData(true,'articles',false,{}).then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onReachBottom:function(){
-    updateData(false,'articles').then(isupdated=>{ this.setPage(isupdated) });
+    getData(false,'articles',false,{}).then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onShareAppMessage: shareMessage    // 用户点击右上角分享

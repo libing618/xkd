@@ -1,6 +1,7 @@
 const db = wx.cloud.database();
-const { updateData,integration } = require('../model/initupdate');
-const wxappNumber = 0;    //本小程序在开放平台中自定义的序号
+const { getData } = require('../model/wx_data');
+const { integration } = require('../model/dataAnalysis');
+var app=getApp()
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -34,7 +35,7 @@ readShowFormat: function(req, vData) {
       };
       return reqField;
     })
-    setPromise.forEach(nPromise=> {promArr.push(updateData(true, nPromise, unitId))})
+    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, unitId))})
     return Promise.all(promArr).then(()=>{
       for (let i = 0; i < vFormat.length; i++) {
         switch (vFormat[i].t) {
@@ -64,6 +65,13 @@ readShowFormat: function(req, vData) {
 hTabClick: function (e) {                                //点击头部tab
   this.setData({
     "ht.pageCk": Number(e.currentTarget.id)
+  });
+},
+
+tabClick: function (e) {                                //点击tab
+  app.mData['pCk'+this.data.pNo] = Number(e.currentTarget.id)
+  this.setData({
+    pageCk: app.mData['pCk'+this.data.pNo]               //点击序号切换
   });
 },
 
@@ -149,6 +157,16 @@ mClick: function (e) {                      //点击mClick
   let pSet = {};
   pSet['mChecked['+e.currentTarget.id+']'] = !this.data.mClicked[e.currentTarget.id];
   this.setData(pSet)
+},
+
+familySel: function(pNo){              //数据表有分类控制的返回分类长度和选择记录
+  let psData = {};
+  if (typeof app.fData[pNo].afamily != 'undefined') {
+    psData.fLength = app.fData[pNo].afamily.length;
+    psData.pageCk = app.mData['pCk'+pNo];
+    psData.tabs = app.fData[pNo].afamily;
+  };
+  return psData;
 },
 
 i_msgEditSend:function(e){            //消息编辑发送框

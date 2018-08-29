@@ -1,5 +1,5 @@
-const { updateData,integration } = require('../../model/initupdate.js');
-const { cargoSum } = require('../../model/dataAnalysis.js');
+const { getData } = require('../../model/wx_data');
+const { cargoSum,integration } = require('../../model/dataAnalysis.js');
 const { unitData, shareMessage } = require('../../model/initForm.js');
 const {indexClick} = require('../../libs/util.js');
 
@@ -40,10 +40,10 @@ Page({
   indexClick:indexClick,
 
   onPullDownRefresh: function() {
-    updateData(true,'cargo').then(isupdated=>{ this.setPage(isupdated) });
+    getData(true,'cargo').then(isupdated=>{ this.setPage(isupdated) });
   },
   onReachBottom: function() {
-    updateData(false,'cargo').then(isupdated=>{ this.setPage(isupdated) });
+    getData(false,'cargo').then(isupdated=>{ this.setPage(isupdated) });
   },
   onShareAppMessage: shareMessage
 })

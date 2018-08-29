@@ -1,6 +1,7 @@
 const db = wx.cloud.database();
 const _ = db.command;
-const { updateRoleData } = require('initupdate');
+const { getData } = require('wx_data');
+
 var app = getApp();
 function sumArr(arrData,arrIndex){
   let dSum = 0;
@@ -57,6 +58,26 @@ function readSumData(className,sumField,updAt,atName){
 module.exports = {
   getMonInterval:getMonInterval,
 
+  integration: function(masterClass, slaveClass, unitId) {    //整合选择数组(主表，从表，单位Id)
+    return new Promise((resolve, reject) => {
+      return Promise.all([getData(true, masterClass, unitId), getData(true, slaveClass, unitId)]).then(([uMaster, uSlave]) => {
+        let allslave = Promise.resolve(getData(false, slaveClass, unitId)).then(notEnd => {
+          if (notEnd) {
+            return allslave();
+          } else {
+            let masterArr = [];
+            app.mData[masterClass][unitId].forEach(masterId => {
+              if (typeof app.aData[masterClass][masterId] != 'undefined') {
+                app.aData[masterClass][masterId][slaveClass] = app.mData[slaveClass][unitId].filter(slaveId => { return app.aData[slaveClass][slaveId][masterClass] == masterId });
+              }
+            })
+          }
+          resolve(uMaster || uSlave)
+        });
+      })
+    }).catch(console.error);
+  },
+
   cargoSum: function (fields) {
     return new Promise((resolve, reject) => {
       let sLength = fields.length;
@@ -82,8 +103,8 @@ module.exports = {
   },
 
   readRoleData: function(className){
-    updateRoleData(true,className).then(()=>{
-      let readDown = Promise.resolve(updateRoleData(false, className)).then(notEnd => {
+    getData(true,className).then(()=>{
+      let readDown = Promise.resolve(getData(false, className)).then(notEnd => {
         if (notEnd) {
           return readDown();
         } else {
@@ -94,8 +115,8 @@ module.exports = {
   },
 
   allUpdateData: function(className){
-    updateData(true,className).then(()=>{
-      let readDown = Promise.resolve(updateData(false, className)).then(notEnd => {
+    getData(true,className).then(()=>{
+      let readDown = Promise.resolve(getData(false, className)).then(notEnd => {
         if (notEnd) {
           return readDown();
         } else {

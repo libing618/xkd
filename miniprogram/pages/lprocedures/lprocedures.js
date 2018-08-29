@@ -1,4 +1,4 @@
-const { updateData,isAllData } = require('../../model/initupdate');
+const { getData } = require('../../model/wx_data');
 var app = getApp()
 Page ({
   data: {
@@ -47,13 +47,13 @@ Page ({
   },
 
   onReady: function(){
-    updateData(true,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});                       //更新缓存以后有变化的数据
+    getData(true,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});                       //更新缓存以后有变化的数据
   },
   onPullDownRefresh: function () {
-    updateData(true,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});
+    getData(true,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});
   },
   onReachBottom: function () {
-    updateData(false,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});
+    getData(false,this.data.pNo).then(isupdated=>{ this.setPage(isupdated)});
   },
   onShareAppMessage: require('../../model/initForm').shareMessage
 })

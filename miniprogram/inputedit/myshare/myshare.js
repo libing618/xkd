@@ -1,7 +1,7 @@
 //共享信息管理
 const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
-const { initupdate } = require('../../model/initupdate');
+const { getData } = require('../../model/wx_data');
 const {f_modalRecordView} = require('../../model/controlModal');
 var app = getApp()
 Page({
@@ -28,7 +28,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     if (checkRols(1,app.roleData.user)) {       //单位名等于用户ID则为创始人
-      updateData(true,'share').then(()=>{
+      getData(true,'share').then(()=>{
         let pageData = {};
         app.fData.share.afamily.forEach((afamily,i)=>{
           app.mData.share[app.roleData.uUnit.objectId][i].forEach(ufod=>{
@@ -81,12 +81,12 @@ Page({
     var that = this;
     switch (id) {
       case 'fSave':
-        updateData(true,'asset').then(()=>{
+        getData(true,'asset').then(()=>{
           let services = new Set();
           app.mData.asset[app.roleData.uUnit.objectId].forEach(asId=>{
             services.add(app.aData.asset[asId].manageParty)
           });
-          return new Promise.all(services.map(suId=>{ return updateData(true,'service'),suId})).then(()=>{
+          return new Promise.all(services.map(suId=>{ return getData(true,'service'),suId})).then(()=>{
             that.data.iFormat = that.data.iFormat.map(req=>{
               if (req.t=='sId') {
                 req.maData = app.mData[req.gname][app.roleData.uUnit.objectId].map(mId=>{

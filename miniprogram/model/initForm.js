@@ -1,5 +1,5 @@
 const db = wx.cloud.database();
-const { updateData } = require('initupdate');
+const { getData } = require('wx_data');
 const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5')
 var cos = new COS({
@@ -64,17 +64,17 @@ loginAndMenu: function (roleData) {
         lang: 'zh_CN',
         success: function ({ userInfo }) {
           if (userInfo) {
-            let updateInfo = false,updateData={};
+            let updateInfo = false,getData={};
             for (var iKey in userInfo) {
               if (userInfo[iKey] != reData.user[iKey]) {             //客户信息有变化
                 updateInfo = true;
                 reData.user[iKey] = userInfo[iKey];
-                updateData[iKey] = userInfo[iKey];
+                getData[iKey] = userInfo[iKey];
               }
             };
             if (updateInfo) {
               db.collection('_User').doc(reData.user._id).update({
-                data: updateData
+                data: getData
               }).then(() => {
                 resolve(reData);
               })
@@ -118,8 +118,8 @@ unitData: function(cName,uId){
 },
 
 allUnitData: function(dataClass, unitId) {
-  updateData(true, dataClass, unitId).then(() => {
-    let readDown = Promise.resolve(updateData(false, dataClass, unitId)).then(notEnd => {
+  getData(true, dataClass, unitId).then(() => {
+    let readDown = Promise.resolve(getData(false, dataClass, unitId)).then(notEnd => {
       if (notEnd) {
         return readDown();
       } else {

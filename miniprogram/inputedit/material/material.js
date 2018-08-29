@@ -2,7 +2,7 @@
 const db = wx.cloud.database();
 const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
-const { integration } = require('../../model/initupdate');
+const { integration } = require('../../model/dataAnalysis');
 const { checkRols,unitData } = require('../../model/initForm.js');
 var app = getApp()
 Page({

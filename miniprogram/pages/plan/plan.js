@@ -1,4 +1,5 @@
-const { updateData,integration } = require('../../model/initupdate');
+const { getData } = require('../../model/wx_data');
+const { integration } = require('../../model/dataAnalysis');
 const { unitData } = require('../../model/initForm.js');
 var app = getApp();
 Page({
@@ -37,11 +38,11 @@ Page({
   },
 
   onPullDownRefresh:function(){
-    updateData(true,'goods').then(isupdated=>{ this.setPage(isupdated) });
+    getData(true,'goods').then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onReachBottom:function(){
-    updateData(false,'goods').then(isupdated=>{ this.setPage(isupdated) });
+    getData(false,'goods').then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onShareAppMessage: require('../../model/initForm').shareMessage

@@ -1,7 +1,7 @@
 //货架管理
 const db = wx.cloud.database();
 const { checkRols,unitData } =  require('../../model/initForm');
-const { updateData } = require('../../model/initupdate');
+const { getData } = require('../../model/wx_data');
 var app = getApp();
 
 Page({
@@ -26,7 +26,7 @@ Page({
   },
 
   onReady: function(){
-    updateData(true,'goods').then((isupdated)=>{ this.setPage(isupdated) });              //更新缓存以后有变化的数据
+    getData(true,'goods').then((isupdated)=>{ this.setPage(isupdated) });              //更新缓存以后有变化的数据
   },
 
   clickSave:function({currentTarget:{id}}){
