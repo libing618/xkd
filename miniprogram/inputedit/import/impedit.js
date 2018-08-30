@@ -29,7 +29,7 @@ module.exports = {
 
   f_idsel: function (e) {                         //选择ID
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    let sIdValue = this.data.iFormat[n].maData[Number(e.detail.value)].objectId;
+    let sIdValue = this.data.iFormat[n].maData[Number(e.detail.value)]._id;
     let rvdSet = vdSet(this.data.iFormat[n].gname, sIdValue);
     rvdSet['iFormat[' + n + '].mn'] = Number(e.detail.value);
     let sIdNumber = -1, sIdName = this.data.iFormat[n].gname;

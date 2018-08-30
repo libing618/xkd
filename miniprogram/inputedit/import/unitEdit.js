@@ -7,16 +7,16 @@ var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //
 var app = getApp();
 function setRole(puRoles,suRoles){      //流程审批权限列表
   let cUserName = {};
-  let cManagers = [[app.roleData.user.objectId]];
-  cUserName[app.roleData.user.objectId] = app.roleData.user.uName;
+  let cManagers = [[app.roleData.user._id]];
+  cUserName[app.roleData.user._id] = app.roleData.user.uName;
   if (app.roleData.uUnit.afamily > 2 && puRoles) {          //单位类型为企业且有本单位审批设置
     let pRolesNum = 0, pRoleUser;
     for (let i = 0; i < puRoles.length; i++) {
       pRoleUser = [];
       app.roleData.uUnit.unitUsers.forEach((pUser) => {
         if (pUser.userRolName.substring(3) == puRoles[i]) {
-          pRoleUser.push(pUser.objectId);
-          cUserName[pUser.objectId] = pUser.uName;
+          pRoleUser.push(pUser._id);
+          cUserName[pUser._id] = pUser.uName;
         }
       })
       if (pRoleUser.length != 0) {
@@ -27,8 +27,8 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
     if (pRolesNum == 0 && app.roleData.user.userRolName.substring(3) != 'admin') {
       app.roleData.uUnit.unitUsers.forEach((pUser) => {
         if (pUser.userRolName.substring(3) == 'admin') {
-          cManagers.push([pUser.objectId]);
-          cUserName[pUser.objectId] = pUser.uName;
+          cManagers.push([pUser._id]);
+          cUserName[pUser._id] = pUser.uName;
         }
       })
     }
@@ -40,8 +40,8 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
         sRoleUser = [];
         app.roleData.sUnit.unitUsers.forEach((sUser) => {
           if (sUser.userRolName.substring(3) == suRoles[i]) {
-            sRoleUser.push(sUser.objectId);
-            cUserName[sUser.objectId] = sUser.uName;
+            sRoleUser.push(sUser._id);
+            cUserName[sUser._id] = sUser.uName;
           }
         });
         if (sRoleUser.length != 0) {
@@ -53,8 +53,8 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
     if (sRolesNum == 0) {
       app.roleData.sUnit.unitUsers.forEach((sUser) => {
         if (sUser.userRolName.substring(3) == 'admin') {
-          cManagers.push([sUser.objectId]);;
-          cUserName[sUser.objectId] = sUser.uName;
+          cManagers.push([sUser._id]);;
+          cUserName[sUser._id] = sUser.uName;
         }
       })
     }
@@ -65,12 +65,12 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
 };
 function roleAuthorization(){      //权限表和用户表授权
   let roleAcl = new AV.ACL();
-  roleAcl.setWriteAccess(app.roleData.user.objectId, true)     // 当前用户是该角色的创建者，因此具备对该角色的写权限
+  roleAcl.setWriteAccess(app.roleData.user._id, true)     // 当前用户是该角色的创建者，因此具备对该角色的写权限
   roleAcl.setPublicReadAccess(true);
   roleAcl.setPublicWriteAccess(false);
-  roleAcl.setRoleReadAccess(app.roleData.sUnit.objectId, true);
+  roleAcl.setRoleReadAccess(app.roleData.sUnit._id, true);
   let unitRole = AV.Query(AV.Role);
-  unitRole.get(app.roleData.uUnit.objectId).then(uRole=>{           //得到单位的权限对象
+  unitRole.get(app.roleData.uUnit._id).then(uRole=>{           //得到单位的权限对象
     uRole.setACL(roleAcl).save().then(()=>{
       AV.User.current()
       .setACL(roleAcl)
@@ -84,7 +84,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
   let vDataKeys = Object.keys(vData);            //数据对象是否为空
   let vifData = (vDataKeys.length == 0);
   var funcArr = [],getAddress;
-  let unitId = vData.unitId ? vData.unitId : app.roleData.uUnit.objectId;  //数据中没有单位代码则用使用人的单位代码
+  let unitId = vData.unitId ? vData.unitId : app.roleData.uUnit._id;  //数据中没有单位代码则用使用人的单位代码
   return new Promise((resolve, reject) => {
     let promArr = [];               //定义一个Promise数组
     let setPromise = new Set();
@@ -243,7 +243,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
           case 'sId':
             iFormat[i].maData = app.mData[iFormat[i].gname][unitId].map(mId=>{
               return {
-                objectId: mId, sName: app.aData[iFormat[i].gname][mId].uName + ':  ' + app.aData[iFormat[i].gname][mId].title }
+                _id: mId, sName: app.aData[iFormat[i].gname][mId].uName + ':  ' + app.aData[iFormat[i].gname][mId].title }
             });
             iFormat[i].mn = vifData ? 0 : app.mData[iFormat[i].gname][unitId].indexOf(vData[iFormat[i].gname]);
             break;
@@ -427,7 +427,7 @@ fSubmit: function (e) {
             if (approvalRole.cManagers.length==1){                  //流程无后续审批人
               let dObject = AV.Object.extend(that.data.pNo);
               let sObject = new dObject();
-              that.data.vData.unitId = app.roleData.uUnit.objectId;
+              that.data.vData.unitId = app.roleData.uUnit._id;
               that.data.vData.unitName = app.roleData.uUnit.uName;
               acl.setReadAccess(approvalRole.managers[0], true);
               acl.setWriteAccess(approvalRole.managers[0], true);
@@ -444,15 +444,15 @@ fSubmit: function (e) {
               fcApproval.set('dResult', 0);                //流程处理结果0为提交
               fcApproval.set("unitName", app.roleData.uUnit.uName);                 //申请单位
               fcApproval.set("sponsorName", app.roleData.user.uName);         //申请人
-              fcApproval.set("unitId", app.roleData.uUnit.objectId);        //申请单位的ID
+              fcApproval.set("unitId", app.roleData.uUnit._id);        //申请单位的ID
               fcApproval.set('dIdear', [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }]);       //流程处理意见
               fcApproval.set('cManagers', approvalRole.cManagers);             //处理人数组
               fcApproval.set('cUserName', approvalRole.cUserName);             //处理人姓名JSON
               fcApproval.set('cInstance', 1);             //下一处理节点
               fcApproval.set('cFlowStep', approvalRole.cManagers[1]);              //下一流程审批人
               fcApproval.set('dObject', that.data.vData);            //流程审批内容
-              acl.setRoleReadAccess(app.roleData.uUnit.objectId, true);
-              acl.setRoleReadAccess(app.roleData.sUnit.objectId, true);
+              acl.setRoleReadAccess(app.roleData.uUnit._id, true);
+              acl.setRoleReadAccess(app.roleData.sUnit._id, true);
               approvalRole.managers.forEach(mUser => {
                 acl.setWriteAccess(mUser, true);
                 acl.setReadAccess(mUser, true);

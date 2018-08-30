@@ -20,7 +20,7 @@ Page({
     if (reNew) {                     //商品数据有更新
       this.setData({
         pageData: unitData('goods'),
-        mPage:app.mData.goods[app.roleData.uUnit.objectId]
+        mPage:app.mData.goods[app.roleData.uUnit._id]
       });
     };
   },

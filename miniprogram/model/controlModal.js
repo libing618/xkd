@@ -295,11 +295,11 @@ module.exports = {
     switch (e.currentTarget.id.substring(0,3)) {
       case 'fSa':                  //确认返回数据
         hidePage['iFormat[' + nowPage.n + '].e'] = nowPage.unitArray[nowPage.sId].uName;
-        hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = nowPage.unitArray[nowPage.sId].objectId;
+        hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = nowPage.unitArray[nowPage.sId]._id;
         if (nowPage.reqProIsSuperior) {
-          app.roleData.uUnit.sUnit = nowPage.unitArray[nowPage.sId].objectId;
+          app.roleData.uUnit.sUnit = nowPage.unitArray[nowPage.sId]._id;
           app.roleData.sUnit = nowPage.unitArray[nowPage.sId];
-          hidePage['dObjectId'] = app.roleData.uUnit.objectId;
+          hidePage['dObjectId'] = app.roleData.uUnit._id;
         };
         downModal(that,hidePage)
         break;

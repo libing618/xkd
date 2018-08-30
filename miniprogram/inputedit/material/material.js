@@ -35,7 +35,7 @@ Page({
         supplieQuery.greaterThan('serFamily',1);
         break;
     }
-    supplieQuery.equalTo('unitId',app.roleData.uUnit.objectId);                //只能查本单位数据
+    supplieQuery.equalTo('unitId',app.roleData.uUnit._id);                //只能查本单位数据
     supplieQuery.limit(1000);                      //取最大数量
     const setReqData = this.setReqData.bind(this);
     return Promise.all([supplieQuery.find().then(setReqData), supplieQuery.subscribe()]).then( ([iFormat,subscription])=> {
@@ -70,8 +70,8 @@ Page({
     if (checkRols(app.fData.rawOperate.ouRoles[ops.oState],app.roleData.user)){  //检查用户操作权限
       that.indexField = app.fData.rawOperate.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.rawOperate.oSuccess[ops.oState].sumField;
-      integration('rawStock','cargo',app.roleData.uUnit.objectId).then(isupdated=>{
-        that.setData({cargo:unitData('cargo',app.roleData.uUnit.objectId)});
+      integration('rawStock','cargo',app.roleData.uUnit._id).then(isupdated=>{
+        that.setData({cargo:unitData('cargo',app.roleData.uUnit._id)});
         that.fetchData.bind(that) ;
         wx.setNavigationBarTitle({
           title: app.roleData.uUnit.nick + '的' + app.fData.rawOperate.oprocess[ops.oState]

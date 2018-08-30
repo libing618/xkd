@@ -28,8 +28,8 @@ Page({
         pBewrite: procedureClass.pBewrite,     //流程说明
         pModel: app.procedures[options.approveId].dProcedure,         //流程写入的数据表名
         aValue: app.procedures[options.approveId],        //流程缓存
-        enEdit: app.roleData.uUnit.objectId==app.procedures[options.approveId].unitId,          //本单位的流程允许编辑
-        enApprove: app.procedures[options.approveId].cFlowStep.indexOf(app.roleData.user.objectId) >= 0,     //当前用户为流程处理人
+        enEdit: app.roleData.uUnit._id==app.procedures[options.approveId].unitId,          //本单位的流程允许编辑
+        enApprove: app.procedures[options.approveId].cFlowStep.indexOf(app.roleData.user._id) >= 0,     //当前用户为流程处理人
         afamilys: procedureClass.afamily ? procedureClass.afamily : false,                              //流程内容分组
         cmLength: app.procedures[options.approveId].cManagers.length    //流程审批节点长度
       });
@@ -94,7 +94,7 @@ Page({
           sObject.set(sData).save().then((sd)=>{
             setRole().then(()=>{
               wx.showToast({ title: '审批内容已发布', duration:2000 });
-              resolve(sd.objectId);
+              resolve(sd._id);
             })
           }).catch((error)=>{
             wx.showToast({ title: '审批内容发布出现错误'+error.error, duration: 2000 });
@@ -102,7 +102,7 @@ Page({
           })
         } else { resolve(0) };
       }).then((sObjectId)=>{
-        let cApproval = AV.Object.createWithoutData('sengpi', that.data.aValue.objectId);
+        let cApproval = AV.Object.createWithoutData('sengpi', that.data.aValue._id);
         if (sObjectId) {cApproval.set('dObjectId',sObjectId);}
         cApproval.set('dResult', rResultId);                //流程处理结果
         let uIdear = that.data.aValue.dIdear;

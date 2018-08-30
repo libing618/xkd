@@ -32,7 +32,7 @@ Page({
   onLoad:function(options){
     var that = this;
     if (checkRols(9,app.roleData.user)) {
-      new AV.Query('distributor').equalTo('unitId',app.roleData.uUnit.objectId).ascending('updatedAt').find().then(channel=>{
+      new AV.Query('distributor').equalTo('unitId',app.roleData.uUnit._id).ascending('updatedAt').find().then(channel=>{
         if (channel) {
           let fc;
           channel.forEach(csi=>{

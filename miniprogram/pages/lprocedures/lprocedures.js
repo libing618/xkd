@@ -34,9 +34,9 @@ Page ({
         }
       } else {
         if (this.inFamily){
-          this.data.mPage = app.mData[this.data.pNo][app.roleData.uUnit.objectId][this.artid] || []
+          this.data.mPage = app.mData[this.data.pNo][app.roleData.uUnit._id][this.artid] || []
         } else {
-          this.data.mPage = app.mData[this.data.pNo][app.roleData.uUnit.objectId] || []
+          this.data.mPage = app.mData[this.data.pNo][app.roleData.uUnit._id] || []
         }
       }
       this.setData({

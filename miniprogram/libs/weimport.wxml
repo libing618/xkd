@@ -4,19 +4,19 @@
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
  </wxs>
 
-<template name="s_industrytype">
-<view class="weui-cell">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd weui-flex">
-    <view wx:for="{{c.sName}}" wx:key="{{index}}">{{item}}{{mDot(index,c.sName)}}</view>
-  </view>
-</view>
-</template>
-
-<template name="s_listsel">
+<template name="s_arrList">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{aList[c]}}</view>
+    <view class="weui-cell__bd">
+      <view wx:for="{{c}}" wx:key="{{index}}">{{ item }}{{mDot(index,c)}}</view>
+    </view>
+  </view>
+</template>
+
+<template name="s_arrplus">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c.sName}}</view>
   </view>
 </template>
 
@@ -27,18 +27,9 @@
   </view>
 </template>
 
-<template name="s_producttype">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c.sName}}</view>
-  </view>
-</template>
-
-<template name="s_arrplus">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c.sName}}</view>
-  </view>
+<template name="s_chooseAd">
+  <view class="weui-label">{{p}}:</view>
+  <map longitude="{{c.longitude}}" latitude="{{c.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
 </template>
 
 <template name="s_content">
@@ -52,6 +43,121 @@
     <view class="weui-cell__hd">{{item.material}}</view>
     <view class="weui-cell__bd">{{item.dOutput}}</view>
     <view class="weui-cell__ft">{{item.dUnit}}</view>
+  </view>
+</template>
+
+<template name="s_cutImageThumbnail">
+  <view class="weui-article__-2" id="ac-{{n}}">
+    <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
+  </view>
+</template>
+
+<template name="s_dg">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_eDetail">
+  <view class="weui-article">
+    <block wx:for="{{c}}" wx:key="{{index}}">
+      <view class="weui-article__{{item.t}}" id="ad-{{index}}">
+        <view wx:if="{{item.t<0}}">
+          <template is="{{item.t}}" data="{{...item}}"></template>
+        </view>
+        <view wx:if="{{item.e}}">{{item.e}}</view>
+      </view>
+    </block>
+  </view>
+</template>
+
+<template name="s_fg">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_h1">
+  <view class="weui-article__h1">{{c}}</view>
+</template>
+
+<template name="s_h2">
+  <view class="weui-article__h2">{{c}}</view>
+</template>
+
+<template name="s_h3">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_h4">
+  <view class="weui-cell" style="font-size: 24rpx;">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_industrytype">
+<view class="weui-cell">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd weui-flex">
+    <view wx:for="{{c.sName}}" wx:key="{{index}}">{{item}}{{mDot(index,c.sName)}}</view>
+  </view>
+</view>
+</template>
+
+<template name="s_inScan">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_listsel">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{aList[c]}}</view>
+  </view>
+</template>
+
+<template name="s_mapSelectUnit">
+  <view hidden="true">{{c}}</view>
+</template>
+
+<template name="s_modalEditAddress">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd">{{c.sName}}</view>
+</template>
+
+<template name="s_p">
+<view class="weui-cell">
+    <text>{{c}}</text>
+</view>
+</template>
+
+<template name="s_pics">
+  <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
+    <block wx:for="{{c}}" wx:key="{{index}}">
+      <swiper-item>
+        <image src="{{item}}" class="swimage"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+</template>
+
+<template name="s_pic">
+  <view class="weui-article__-2">{{p}}:</view>
+  <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
+</template>
+
+<template name="s_producttype">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c.sName}}</view>
   </view>
 </template>
 
@@ -115,113 +221,6 @@
   </view>
 </template>
 
-<template name="s_dg">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-  </view>
-</template>
-
-<template name="s_fg">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-  </view>
-</template>
-
-<template name="s_p">
-<view class="weui-cell">
-    <text>{{c}}</text>
-</view>
-</template>
-
-<template name="s_pics">
-  <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-    <block wx:for="{{c}}" wx:key="{{index}}">
-      <swiper-item>
-        <image src="{{item}}" class="swimage"></image>
-      </swiper-item>
-    </block>
-  </swiper>
-</template>
-
-<template name="s_inScan">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-  </view>
-</template>
-
-<template name="s_h1">
-  <view class="weui-article__h1">{{c}}</view>
-</template>
-
-<template name="s_h2">
-  <view class="weui-article__h2">{{c}}</view>
-</template>
-
-<template name="s_h3">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-  </view>
-</template>
-
-<template name="s_h4">
-  <view class="weui-cell" style="font-size: 24rpx;">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-  </view>
-</template>
-
-<template name="s_chooseAd">
-  <view class="weui-label">{{p}}:</view>
-  <map longitude="{{c.longitude}}" latitude="{{c.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
-</template>
-
-<template name="s_modalEditAddress">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd">{{c.sName}}</view>
-</template>
-
-<template name="s_eDetail">
-  <view class="weui-article">
-    <block wx:for="{{c}}" wx:key="{{index}}">
-      <view class="weui-article__{{item.t}}" id="ad-{{index}}">
-        <view wx:if="{{item.t<0}}">
-          <template is="{{item.t}}" data="{{...item}}"></template>
-        </view>
-        <view wx:if="{{item.e}}">{{item.e}}</view>
-      </view>
-    </block>
-  </view>
-</template>
-
-<template name="s_pic">
-  <view class="weui-article__-2">{{p}}:</view>
-  <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
-</template>
-
-<template name="s_thumb">
-  <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
-</template>
-
-<template name="s_vidio">
-  <view class="weui-article__-4">{{p}}:</view>
-  <view class="weui-picker">
-    <video controls="{{true}}" src="{{c}}"></video>
-  </view>
-</template>
-
-<template name="s_arrList">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">
-      <view wx:for="{{c}}" wx:key="{{index}}">{{ item }}{{mDot(index,c)}}</view>
-    </view>
-  </view>
-</template>
-
 <template name="s_sedate">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
@@ -234,10 +233,6 @@
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{ ad[c].uName }}</view>
   </view>
-</template>
-
-<template name="s_mapSelectUnit">
-  <view hidden="true">{{c}}</view>
 </template>
 
 <template name="s_table">
@@ -255,75 +250,11 @@
   </view>
 </template>
 
-<template name="showgrids">
-<view class="weui-grids">
-  <block wx:for="{{grids}}" wx:key="{{index}}">
-    <navigator url="{{item.tourl}}" class="weui-grid" hover-class="weui-grid_active">
-      <image class="weui-grid__icon" src="{{item.mIcon}}" />
-      <view class="weui-grid__label">{{item.mName}}</view>
-    </navigator>
-  </block>
-</view>
-</template>
-
-<template name="tabsCk">
-  <view class="weui-navbar">
-    <block wx:for="{{tabs}}" wx:key="{{index}}">
-      <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-        <view class="weui-navbar__title">{{item}}</view>
-      </view>
-    </block>
+<template name="s_vidio">
+  <view class="weui-article__-4">{{p}}:</view>
+  <view class="weui-picker">
+    <video controls="{{true}}" src="{{c}}"></video>
   </view>
-  <view class="weui-navbar__slider" style="left:{{375/fLength-30}}rpx; transform: translateX(0px); -webkit-transform: translateX({{pageCk*750/fLength}}rpx)"></view>
-  
-</template>
-
-<template name="tabPanel">
-  <block wx:for="{{tPage}}" wx:key="{{index}}">
-    <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-        <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
-        </view>
-        <view class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{pageData[item].uName}}</view>
-          <view class="weui-media-box__desc">{{pageData[item].title}}</view>
-        </view>
-      </view>
-    </navigator>
-  </block>
-</template>
-
-<template name="personConversation">
-<view class="chat-box__left" hover="true" hover-class="weui-cell_active">
-  <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
-    <view class="chat-box__hd">
-      <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
-      <view>uName</view>
-    </view>
-  </navigator>
-  <view class="chat-box__bd">
-    <view class="weui-media-box__title">{{wtext}}</view>
-    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
-      <template is="{{mtype}}" data="{{c: wcontent}}" />
-    </view>
-  </view>
-</view>
-</template>
-
-<template name="ownConversation">
-<view class="chat-box__right" hover="true" hover-class="weui-cell_active">
-  <view class="chat-box__bd">
-    <view class="weui-media-box__title">{{wtext}}</view>
-    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
-      <template is="{{mtype}}" data="{{c: wcontent}}" />
-    </view>
-  </view>
-  <view class="chat-box__hd">
-    <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
-    <view>uName</view>
-  </view>
-</view>
 </template>
 
 <template name="msgEditSend">
@@ -352,4 +283,74 @@
     </view>
   </block>
 </view>
+</template>
+
+<template name="ownConversation">
+<view class="chat-box__right" hover="true" hover-class="weui-cell_active">
+  <view class="chat-box__bd">
+    <view class="weui-media-box__title">{{wtext}}</view>
+    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
+      <template is="{{mtype}}" data="{{c: wcontent}}" />
+    </view>
+  </view>
+  <view class="chat-box__hd">
+    <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
+    <view>uName</view>
+  </view>
+</view>
+</template>
+
+<template name="personConversation">
+<view class="chat-box__left" hover="true" hover-class="weui-cell_active">
+  <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
+    <view class="chat-box__hd">
+      <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
+      <view>uName</view>
+    </view>
+  </navigator>
+  <view class="chat-box__bd">
+    <view class="weui-media-box__title">{{wtext}}</view>
+    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
+      <template is="{{mtype}}" data="{{c: wcontent}}" />
+    </view>
+  </view>
+</view>
+</template>
+
+<template name="showgrids">
+<view class="weui-grids">
+  <block wx:for="{{grids}}" wx:key="{{index}}">
+    <navigator url="{{item.tourl}}" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="{{item.mIcon}}" />
+      <view class="weui-grid__label">{{item.mName}}</view>
+    </navigator>
+  </block>
+</view>
+</template>
+
+<template name="tabsCk">
+  <view class="weui-navbar">
+    <block wx:for="{{tabs}}" wx:key="{{index}}">
+      <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+        <view class="weui-navbar__title">{{item}}</view>
+      </view>
+    </block>
+  </view>
+  <view class="weui-navbar__slider" style="transform: translateX({{(pageCk+0.5)*wWidth/fLength-39}}px); -webkit-transform: translateX({{(pageCk+0.5)*wWidth/fLength-39}}px)"></view>
+</template>
+
+<template name="tabPanel">
+  <block wx:for="{{tPage}}" wx:key="{{index}}">
+    <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
+      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+        <view class="weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
+        </view>
+        <view class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{pageData[item].uName}}</view>
+          <view class="weui-media-box__desc">{{pageData[item].title}}</view>
+        </view>
+      </view>
+    </navigator>
+  </block>
 </template>

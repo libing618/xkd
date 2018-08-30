@@ -14,21 +14,21 @@ Page({
     this.setData({
 
     })
-    this.setPage(app.mData.goods[app.roleData.uUnit.objectId]);
+    this.setPage(app.mData.goods[app.roleData.uUnit._id]);
   },
 
   setPage: function(iu){
     if (iu){
       this.setData({
-        mPage:app.mData.goods[app.roleData.uUnit.objectId],
+        mPage:app.mData.goods[app.roleData.uUnit._id],
         pageData:unitData('goods'),
-        pandect:[app.mData.goods[app.roleData.uUnit.objectId].length,app.mData.specs[app.roleData.uUnit.objectId].length]
+        pandect:[app.mData.goods[app.roleData.uUnit._id].length,app.mData.specs[app.roleData.uUnit._id].length]
       })
     }
   },
 
   onReady: function(){
-    integration('goods','specs',app.roleData.uUnit.objectId).then((isupdated)=>{ this.setPage(isupdated) });              //更新缓存以后有变化的数据
+    integration('goods','specs',app.roleData.uUnit._id).then((isupdated)=>{ this.setPage(isupdated) });              //更新缓存以后有变化的数据
     this.grids = require('../../libs/allmenu.js').iMenu(1,app.roleData.wmenu[1]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,

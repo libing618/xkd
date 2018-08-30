@@ -23,9 +23,9 @@ Page({
 
   onLoad: function (options) {
     var that = this;
-    if (app.roleData.uUnit.name == app.roleData.user.objectId) {       //单位名等于用户ID则为创始人
+    if (app.roleData.uUnit.name == app.roleData.user._id) {       //单位名等于用户ID则为创始人
       new AV.Query('sengpi')
-        .equalTo('unitId', app.roleData.uUnit.objectId)
+        .equalTo('unitId', app.roleData.uUnit._id)
         .equalTo('dProcedure', 0)
         .select(['dObject', 'cInstance', 'dObjectId', 'cManagers'])
         .descending('createdAt')

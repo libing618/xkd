@@ -31,13 +31,13 @@ Page({
       getData(true,'share').then(()=>{
         let pageData = {};
         app.fData.share.afamily.forEach((afamily,i)=>{
-          app.mData.share[app.roleData.uUnit.objectId][i].forEach(ufod=>{
+          app.mData.share[app.roleData.uUnit._id][i].forEach(ufod=>{
             pageData[ufod] = {uName:app.aData.share[ufod].uName,thumbnail:app.aData.share[ufod].thumbnail};
             pageData[ufod].title = pageSuccess[1].p+app.aData.unfinishedorder[ufod].amount +'/'+ pageSuccess[2].p+app.aData.unfinishedorder[ufod].amount;
           })
         })
         that.setData({
-          cPage: app.mData.share[app.roleData.uUnit.objectId],
+          cPage: app.mData.share[app.roleData.uUnit._id],
           pageData: pageData
         });
       }).catch( console.error );
@@ -83,15 +83,15 @@ Page({
       case 'fSave':
         getData(true,'asset').then(()=>{
           let services = new Set();
-          app.mData.asset[app.roleData.uUnit.objectId].forEach(asId=>{
+          app.mData.asset[app.roleData.uUnit._id].forEach(asId=>{
             services.add(app.aData.asset[asId].manageParty)
           });
           return new Promise.all(services.map(suId=>{ return getData(true,'service'),suId})).then(()=>{
             that.data.iFormat = that.data.iFormat.map(req=>{
               if (req.t=='sId') {
-                req.maData = app.mData[req.gname][app.roleData.uUnit.objectId].map(mId=>{
+                req.maData = app.mData[req.gname][app.roleData.uUnit._id].map(mId=>{
                   return {
-                      objectId: mId, sName: app.aData[req.gname][mId].uName + ':  ' + app.aData[req.gname][mId].title }
+                      _id: mId, sName: app.aData[req.gname][mId].uName + ':  ' + app.aData[req.gname][mId].title }
                   });
                 req.mn = 0;
               };

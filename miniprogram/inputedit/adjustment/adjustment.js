@@ -37,7 +37,7 @@ Page({
       var umdata = new Array(app.fData.prodesign.afamily.length);
       umdata.fill([]);
       var readProcedure = new AV.Query(pNo);                                      //进行数据库初始化操作
-      var unitId = uId ? uId : app.roleData.uUnit.objectId;
+      var unitId = uId ? uId : app.roleData.uUnit._id;
       readProcedure.equalTo('unitId', unitId);                //除权限和文章类数据外只能查指定单位的数据
       readProcedure.greaterThan('startTime', new Date());
       readProcedure.lessThan('endTime', new Date());          //查询本地最新时间后修改的记录
@@ -49,8 +49,8 @@ Page({
           let aProcedure,aData = {};
           for (let i = 0; i < lena; i++) {
             aProcedure = results[i].toJSON();
-            umdata[aProcedure.afamily].unshift(aProcedure.objectId);
-            aData[aProcedure.objectId] = aProcedure;                        //将数据对象记录到本机
+            umdata[aProcedure.afamily].unshift(aProcedure._id);
+            aData[aProcedure._id] = aProcedure;                        //将数据对象记录到本机
           };
           that.setData({
             cPage: umdata,

@@ -10,7 +10,7 @@ function formatNumber(n) {
 module.exports = {
 
 readShowFormat: function(req, vData) {
-  var unitId = vData.unitId;
+  var unitId = vData.unitId || '';
   return new Promise((resolve, reject) => {
     let promArr = [];                   //定义一个Promise数组
     let setPromise = new Set();
@@ -35,7 +35,7 @@ readShowFormat: function(req, vData) {
       };
       return reqField;
     })
-    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, unitId))})
+    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, true,{},unitId))})
     return Promise.all(promArr).then(()=>{
       for (let i = 0; i < vFormat.length; i++) {
         switch (vFormat[i].t) {

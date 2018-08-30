@@ -24,8 +24,8 @@
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view class="weui-media-box__title">{{item.uName}}(呢称：{{item.nickName}})</view>
             <button id="mr_0" data-id="{{index}}" style="display:inline-block" size="mini" bindtap="fManageRole">解职</button>
-            <button id="mr_c" data-id="{{item.objectId}}" style="display:inline-block" size="mini" bindtap="fChangeRole">调岗</button>
-            <picker disabled="{{crole[item.objectId]}}" mode="multiSelector" bindchange="rChange" bindcolumnchange="mColumnChange" value="{{mIndex}}" range="{{mRols}}">
+            <button id="mr_c" data-id="{{item._id}}" style="display:inline-block" size="mini" bindtap="fChangeRole">调岗</button>
+            <picker disabled="{{crole[item._id]}}" mode="multiSelector" bindchange="rChange" bindcolumnchange="mColumnChange" value="{{mIndex}}" range="{{mRols}}">
               <button id="mr_1" data-id="{{index}}" bindtap="fManageRole">
                 选择调整为：{{mRols[0][mrrole[0]]}}，{{mRols[1][mrrole[1]]}}
               </button>

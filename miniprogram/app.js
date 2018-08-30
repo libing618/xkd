@@ -1,7 +1,7 @@
 App({
-  roleData: require('globaldata.js').roleData,
-  mData: require('globaldata.js').mData,                 //以objectId为key的数据记录
-  aData: require('globaldata.js').aData,              //读数据记录的缓存
+  roleData: require('globaldata.js').roleData,                 //读数据记录的缓存
+  mData: require('globaldata.js').mData,
+  aData: require('globaldata.js').aData,              //以_id为key的数据记录
   aCount: require('globaldata.js').aCount,
   fData: require('./model/procedureclass'),
   logData: [],

@@ -112,7 +112,7 @@ shareMessage: function () {
 
 unitData: function(cName,uId){
   let uData = {};
-  let unitId = uId ? uId : app.roleData.uUnit.objectId;
+  let unitId = uId ? uId : app.roleData.uUnit._id;
   if (app.mData[cName][unitId]) { app.mData[cName][unitId].forEach(cuId => { uData[cuId]=app.aData[cName][cuId]})};
   return uData;
 },

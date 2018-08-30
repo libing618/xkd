@@ -28,22 +28,22 @@ Page({
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
       } else {
 				db.collection('_Role').doc(app.roleData.user.unit).get().then(unitInfo => {
-        if (app.roleData.uUnit.name == app.roleData.user.objectId) {                //创建人读取单位员工信息
+        if (app.roleData.uUnit.name == app.roleData.user._id) {                //创建人读取单位员工信息
 
             that.setData({ applyUser: applyUser });
           }).catch(console.error);
           let crole = {};
-          app.roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser.objectId] = true });
+          app.roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
           that.setData({
             crole: crole,
             uUnitUsers: app.roleData.uUnit.unitUsers
           })
         } else {
-          new db.collection('reqUnit').equalTo('userId', app.roleData.user.objectId).find().then((resus) => {
+          new db.collection('reqUnit').equalTo('userId', app.roleData.user._id).find().then((resus) => {
             if (resus.length == 0) {
               let reso = AV.Object.extend('reqUnit');
               that.aUser = new reso();
-              that.aUser.set('userId', app.roleData.user.objectId);
+              that.aUser.set('userId', app.roleData.user._id);
               that.aUser.set('uName', app.roleData.user.uName);
               that.aUser.set('avatarUrl', app.roleData.user.avatarUrl);
               that.aUser.set('nickName', app.roleData.user.nickName);
@@ -86,7 +86,7 @@ Page({
 		let unitRole = new AV.Role(app.roleData.uUnit.name);
 		let rN = Number(e.currentTarget.dataset.id), muRole = 'sessionuser';
 		return new Promise((resolve, reject) => {
-			var uId = app.roleData.uUnit.unitUsers[rn].objectId;
+			var uId = app.roleData.uUnit.unitUsers[rn]._id;
       if (e.currentTarget.id=='mr_0') {               //解职
         unitRole.getUsers().remove(uId);
 				app.roleData.uUnit.unitUsers.splice(rN,1);
@@ -113,7 +113,7 @@ Page({
 			var uId = that.data.applyUser[rN].userId;
       if (e.currentTarget.id=='mr_2') {                          //同意
 					let auRole = (app.roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.') + that.data.applyUser[rN].rRolArray[0]+'.'+that.data.applyUser[rn].rRolArray[1]
-					app.roleData.uUnit.unitUsers.push({"objectId":uId, "userRolName":auRole, 'uName':that.data.applyUser[rn].uName, 'avatarUrl':that.data.applyUser[rn].avatarUrl,'nickName':that.data.applyUser[rn].nickName})
+					app.roleData.uUnit.unitUsers.push({"_id":uId, "userRolName":auRole, 'uName':that.data.applyUser[rn].uName, 'avatarUrl':that.data.applyUser[rn].avatarUrl,'nickName':that.data.applyUser[rn].nickName})
 					that.setData({ uUnitUsers: app.roleData.uUnit.unitUsers });
 					unitRole.getUsers().add(uId);
 					unitRole.set('unitUsers',app.roleData.uUnit.unitUsers);
@@ -123,7 +123,7 @@ Page({
 			};
 		}).then((uSetRole)=>{
 			that.giveRole(uId , uSetRole).then( ()=>{
-				AV.Object.createWithoutData('reqUnit',that.data.applyUser[rN].objectId).destroy().then(()=>{
+				AV.Object.createWithoutData('reqUnit',that.data.applyUser[rN]._id).destroy().then(()=>{
 					that.data.applyUser[rn].splice(rN,1);
 					that.setData({applyUser:that.data.applyUser});
 				})
@@ -155,7 +155,7 @@ Page({
 			mReqACL.setPublicWriteAccess(false);
 			mReqACL.setRoleWriteAccess(mReqUnit,true);
 			mReqACL.setRoleReadAccess(mReqUnit,true);
-			mReqACL.setReadAccess(app.roleData.user.objectId,true)
+			mReqACL.setReadAccess(app.roleData.user._id,true)
 			this.aUser.setACL(mReqACL);
 	    this.aUser.save().then((suser)=>{
 				wx.showToast({title: '岗位申请已提交,请等待审批。',duration: 3500});

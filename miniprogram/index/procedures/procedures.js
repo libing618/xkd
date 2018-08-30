@@ -88,21 +88,21 @@ Page({
         results.forEach( (region) =>{
           aprove=region.toJSON();                      //dProcedure为审批流程的序号
           if (isDown) {                               //ats为各类审批流程的ID数组
-            aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove.objectId)
+            aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove._id)
             if (aPlace >= 0) { app.mData.procedures[aprove.dProcedure].splice(aPlace, 1) }           //删除本地的重复记录列表
-            app.mData.procedures[aprove.dProcedure].unshift(aprove.objectId);                   //按流程类别加到管理数组中
+            app.mData.procedures[aprove.dProcedure].unshift(aprove._id);                   //按流程类别加到管理数组中
           } else {
-            app.mData.procedures[aprove.dProcedure].push(aprove.objectId);                   //按流程类别加到管理数组中
+            app.mData.procedures[aprove.dProcedure].push(aprove._id);                   //按流程类别加到管理数组中
           };
           if (aprove.cInstance==aprove.cManagers.length ){   //最后一个节点
             aprove.apState = 2;                 //将流程状态标注为‘已结束’
           } else {
-            if (aprove.cFlowStep.indexOf(app.roleData.user.objectId)>=0) {
+            if (aprove.cFlowStep.indexOf(app.roleData.user._id)>=0) {
               aprove.apState = 0;                 //将流程状态标注为‘待我审’
             } else {aprove.apState =1}                 //将流程状态标注为‘已处理’
           }
-          app.procedures[aprove.objectId] = aprove;            //pageData是ID为KEY的JSON格式的审批流程数据
-          uSetData['pageData.'+aprove.objectId] = aprove;                  //增加页面中的新收到数据
+          app.procedures[aprove._id] = aprove;            //pageData是ID为KEY的JSON格式的审批流程数据
+          uSetData['pageData.'+aprove._id] = aprove;                  //增加页面中的新收到数据
         });
         uSetData.indexPage = ats();
         that.setData( uSetData );

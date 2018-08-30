@@ -14,14 +14,14 @@ Page({
     grids: []
   },
   onLoad:function(options){
-    this.setPage(app.mData.product[app.roleData.uUnit.objectId]);
+    this.setPage(app.mData.product[app.roleData.uUnit._id]);
   },
 
   setPage: function(iu){
     if (iu){
       cargoSum(['canSupply', 'cargoStock']).then(cSum=>{
         this.setData({
-          mPage:app.mData.product[app.roleData.uUnit.objectId],
+          mPage:app.mData.product[app.roleData.uUnit._id],
           pageData:unitData('product'),
           cargo:unitData('cargo'),
           pandect:cSum.rSum,
@@ -33,7 +33,7 @@ Page({
 
   onReady:function(){
     var that = this;
-    integration("product", "cargo",app.roleData.uUnit.objectId).then(isupdated=>{this.setPage(isupdated)});
+    integration("product", "cargo",app.roleData.uUnit._id).then(isupdated=>{this.setPage(isupdated)});
     this.grids = require('../../libs/allmenu.js').iMenu(2,app.roleData.wmenu.production[2]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,

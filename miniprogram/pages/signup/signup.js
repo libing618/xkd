@@ -116,17 +116,17 @@ Page({
         crUnit.setPublicReadAccess(true);
         crUnit.setPublicWriteAccess(false);
         if (results.length==0){                      //申请单位名称无重复
-          let unitRole = new AV.Role(app.roleData.user.objectId,crUnit);   //用创建人的ID作ROLE的名称
+          let unitRole = new AV.Role(app.roleData.user._id,crUnit);   //用创建人的ID作ROLE的名称
           unitRole.getUsers().add(AV.User.current());
           unitRole.set('uName',reqUnitName)
-          unitRole.set('unitUsers',[{"objectId":app.roleData.user.objectId, "userRolName":'csradmin', 'uName':app.roleData.user.uName, 'avatarUrl':app.roleData.user.avatarUrl,'nickName':app.roleData.user.nickName}] );
+          unitRole.set('unitUsers',[{"_id":app.roleData.user._id, "userRolName":'csradmin', 'uName':app.roleData.user.uName, 'avatarUrl':app.roleData.user.avatarUrl,'nickName':app.roleData.user.nickName}] );
           unitRole.save().then((res)=>{
             app.roleData.uUnit = res.toJSON();
             AV.User.current()
-              .set({ "unit": res.objectId, "userRolName": 'applyAdmin' })  // 设置并保存单位ID,设定菜单为applyAdmin
+              .set({ "unit": res._id, "userRolName": 'applyAdmin' })  // 设置并保存单位ID,设定菜单为applyAdmin
               .save()
               .then(function(user) {
-                app.getRols(res.objectId);
+                app.getRols(res._id);
                 wx.navigateTo({ url: '/inputedit/f_Role/f_Role' })
               }).catch((error) => { console.log(error)
                 wx.showToast({ title: '修改用户单位信息出现问题,请重试。', icon: 'none'})	});
@@ -139,16 +139,16 @@ Page({
             success: function(res) {
               if (res.confirm) {              //用户点击确定则申请加入该单位
                 let resUnit = results[0].toJSON();
-                crUnit.setRoleWriteAccess(resUnit.objectId,true);
-                crUnit.setRoleReadAccess(resUnit.objectId,true);
+                crUnit.setRoleWriteAccess(resUnit._id,true);
+                crUnit.setRoleReadAccess(resUnit._id,true);
                 let rQuery = AV.Object.createWithoutData('userInit', '59af7119ac502e006abee06a')  //设定菜单为sessionuser
                 AV.User.current()
-                  .set({ "unit": resUnit.objectId, "userRolName": 'sessionuser', "userRol": rQuery } )  // 设置并保存单位ID
+                  .set({ "unit": resUnit._id, "userRolName": 'sessionuser', "userRol": rQuery } )  // 设置并保存单位ID
                   .setACL(crUnit)
                   .save()
                   .then(function(user) {
                     app.roleData.uUnit = resUnit;
-                    app.roleData.user.unit = resUnit.objectId;
+                    app.roleData.user.unit = resUnit._id;
                     that.setData({user : app.roleData.user});
                     wx.navigateTo({ url: '/index/structure/structure' });
                   })

@@ -11,7 +11,7 @@ Page({
     grids: []
   },
   onLoad:function(options){
-    this.setPage(app.mData.product[app.roleData.uUnit.objectId]);
+    this.setPage(app.mData.product[app.roleData.uUnit._id]);
 
   },
 
@@ -19,7 +19,7 @@ Page({
     if (iu){
       cargoSum(['sold', 'reserve', 'payment', 'delivering', 'delivered']).then(cSum=>{
         this.setData({
-          mPage:app.mData.product[app.roleData.uUnit.objectId],
+          mPage:app.mData.product[app.roleData.uUnit._id],
           pageData:unitData('product'),
           cargo:unitData('cargo'),
           pandect:cSum.rSum,
@@ -30,7 +30,7 @@ Page({
   },
 
   onReady:function(){
-    integration("product", "cargo",app.roleData.uUnit.objectId).then(isupdated=>{ this.setPage(isupdated) });
+    integration("product", "cargo",app.roleData.uUnit._id).then(isupdated=>{ this.setPage(isupdated) });
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
       grids: require('../../libs/allmenu.js').iMenu(3,app.roleData.wmenu[3])

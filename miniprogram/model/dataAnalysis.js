@@ -84,8 +84,8 @@ module.exports = {
       let fieldSum = new Array(sLength);
       let mSum = {};
       fieldSum.fill(0);         //定义汇总数组长度且填充为0
-      if (app.mData.product[app.roleData.uUnit.objectId]) {
-        app.mData.product[app.roleData.uUnit.objectId].forEach(mId => {
+      if (app.mData.product[app.roleData.uUnit._id]) {
+        app.mData.product[app.roleData.uUnit._id].forEach(mId => {
           mSum[mId] = [];
           for (let i = 0; i < sLength; i++) { mSum[mId].push(0) };
           if (app.aData.product[mId].cargo){
@@ -135,7 +135,7 @@ module.exports = {
       yearMons.forEach(ym=>{
         monSum[ym] = fieldSum
       });
-      idArr = idArr ? idArr : app.mData[className][app.roleData.user.objectId];
+      idArr = idArr ? idArr : app.mData[className][app.roleData.user._id];
       if (idArr) {
         let dYearMon;
         idArr.forEach(mId => {
@@ -162,7 +162,7 @@ module.exports = {
     }
     return new Promise((resolve,reject)=>{
       new AV.Query(className+'Family')
-      .equalTo('userId',app.roleData.user.objectId)
+      .equalTo('userId',app.roleData.user._id)
       .first().then(sFamily=>{
         if(sFamily){
           let sfield = sFamily.toJSON();
@@ -210,7 +210,7 @@ module.exports = {
     return new Promise((resolve,reject)=>{
       new AV.Query(className+'Sum')
       .descending('updatedAt')
-      .equalTo('userId',app.roleData.user.objectId)
+      .equalTo('userId',app.roleData.user._id)
       .find().then(sumRec=>{
         if(sumRec){
           let sfield;
@@ -234,7 +234,7 @@ module.exports = {
             mSum[nym] = fieldSum;
             let aSumRecord = new addSum;
             aSumRecord.set('yearMon',nym);
-            aSumRecord.set('userId',app.roleData.user.objectId);
+            aSumRecord.set('userId',app.roleData.user._id);
             aSumRecord.setACL(app.configData.reqRole);
             newSum.push(aSumRecord);
           };
@@ -272,7 +272,7 @@ module.exports = {
     let cSumUp;
     return new Promise((resolve, reject) => {
       new AV.Query(classObj)
-        .equalTo('userId', app.roleData.user.objectId)
+        .equalTo('userId', app.roleData.user._id)
         .select(cField)
         .first().then(sCount => {
           if (sCount) {
@@ -323,7 +323,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       new AV.Query(classObj)
       .equalTo(cObjName, cObjValue)
-      .equalTo('userId', app.roleData.user.objectId)
+      .equalTo('userId', app.roleData.user._id)
       .find().then(sCount => {
         let initCount = {};
         if (sCount) { sCount.forEach(sField => { sCount[sField.get('yearMon')] = sField.get('count') }) };
