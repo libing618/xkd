@@ -1,12 +1,13 @@
 const db = wx.cloud.database();
 const { getData } = require('wx_data');
 const { openWxLogin } = require('wxcloudcf');
-const COS = require('../libs/cos-wx-sdk-v5')
+const COS = require('../libs/cos-wx-sdk-v5');
+const config = require('../config');
 var cos = new COS({
   getAuthorization: function (params, callback) {//获取签名 必填参数
     var authorization = COS.getAuthorization({
-      SecretId: 'AKIDkJdhV4nUM2ThhTxukKflcDZfV5RXt5Ui',
-      SecretKey: 'A5lCRSFpEQN6aqsfDVYMuEI6f081g8LK',
+      SecretId: config.SecretId,
+      SecretKey: config.SecretKey,
       Method: params.Method,
       Key: params.Key
     });

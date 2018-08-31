@@ -1,7 +1,5 @@
-const cmqClient = require('qcloudapi-sdk')
-class CMQ {
-  constructor (secretId, secretKey, endpoint = 'http://cmq-queue-gz.api.qcloud.com', debug = false) {
-    this.cmq_client = new cmqClient({
+const cmqClient = require('./libs/qcloudapi-wxapp')
+const cmq_client = new cmqClient({
       SecretId: secretId,
       SecretKey: secretKey,
       serviceType: 'cmq-queue-' + endpoint.substr(endpoint.indexOf('.') - 2, 2),
