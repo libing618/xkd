@@ -1,26 +1,10 @@
-var request = require('request')
-var assign = require('object-assign')
-
-var qs = require('querystring')
-var dotQs = require('dot-qs')
-
-
-
-
-
 var crypto = require('crypto')
 
-
-
-
-
-const Config = require('../../config');
 function sortKeys(obj) {
   let newobj = {};
   Object.keys(obj).sort().forEach(value => newobj[value] = obj[value]);
   return newobj
 }
-
 
 function codeObj(obj) {
   let arr = [];
@@ -30,32 +14,28 @@ function codeObj(obj) {
   return arr.join('&')
 }
 
-
-var baseHost = 'api.qcloud.com'
-
 /**
  * API 构造函数
  * @param {Object} [defaults] 默认参数及配置
  * @param {String} defaults.serviceType 服务类型. 如: cvm, vpc, dfw, lb 等. 根据 `serviceType` 和 `baseHost` 将拼装成请求域名, 如: `vpc.api.qcloud.com`
  * @param {String} defaults.path='/v2/index.php' Api 请求路径
  * @param {String} defaults.method='POST' 请求方法
- * @param {String} defaults.baseHost='api.qcloud.com' Api 的基础域名. 与 `serviceType` 拼装成请求域名.
+ * @param {String} defaults.baseHost='api.qcloud.com' Api 的基础域名
  * @param {String} defaults.SecretId secretId
  * @param {String} defaults.SecretKey secretKey
  * @param {String} defaults.signatureMethod 签名方法，默认sha1
  * @constructor
  */
-var QcloudApi = function(defaults) {
-  this.defaults = assign(
-    {
-      path: '/v2/index.php',
-      method: 'POST',
-      protocol: 'https',
-      baseHost: baseHost,
-      signatureMethod: 'sha1'
-    },
-    defaults
-  )
+var QcloudApi = function(configs) {
+  this.defaults = {
+    path: '/v2/index.php',
+    method: 'GET',
+    protocol: 'https',
+    baseHost: 'api.qcloud.com',
+    RequestClient: 'qcloud-api-miniprogram',
+    signatureMethod: 'sha1'
+  }
+  Object.assign( this.defaults,configs)
 }
 
 /**
@@ -67,7 +47,6 @@ QcloudApi.prototype.generateUrl = function(opts) {
   opts = opts || {}
   var host = this._getHost(opts)
   var path = opts.path === undefined ? this.defaults.path : opts.path
-
   return (opts.protocol || this.defaults.protocol) + '://' + host + path
 }
 
@@ -77,69 +56,31 @@ QcloudApi.prototype.generateUrl = function(opts) {
  * @param {Object} [opts] 请求配置. 同 `request` 方法的 `opts` 参数
  * @returns {string} 包括签名的参数字符串
  */
-QcloudApi.prototype.generateQueryString = function(data, opts) {
+QcloudApi.prototype.generateParams = function(data, opts) {
   opts = opts || this.defaults
-
   var defaults = this.defaults
 
   //附上公共参数
-  var param = assign(
-    {
-      Region: this.defaults.Region,
-      SecretId: opts.SecretId || this.defaults.SecretId,
-      Timestamp: Math.round(Date.now() / 1000),
-      Nonce: Math.round(Math.random() * 65535),
-      RequestClient: 'SDK_NODEJS_' + packageJSON.version //非必须, sdk 标记
-    },
-    data
+  var param = (
+    Action: data.Action,
+    Region: opts.Region || defaults.Region,
+    SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
+    SecretId: opts.SecretId || defaults.SecretId,
+    Timestamp: Math.round(Date.now() / 1000),
+    Nonce: Math.round(Math.random() * 65535)
   )
 
   // 初始化配置和传入的参数冲突时，以传入的参数为准
-  var isSha256 =
-    defaults.signatureMethod === 'sha256' || opts.signatureMethod === 'sha256'
-  if (isSha256 && !data.SignatureMethod) param.SignatureMethod = 'HmacSHA256'
-
-  param = dotQs.flatten(param)
-
-  var keys = Object.keys(param)
-  var qstr = '',
-    signStr
-
+  Object.assign(param,data);
+  var isSha256 = defaults.signatureMethod === 'sha256' || opts.signatureMethod === 'sha256'
+  if (isSha256 && !data.SignatureMethod) { param.SignatureMethod = 'HmacSHA256' };
   var host = this._getHost(opts)
   var method = (opts.method || defaults.method).toUpperCase()
   var path = opts.path === undefined ? defaults.path : opts.path
-
-  keys.sort()
-
-  //拼接 querystring, 注意这里拼接的参数要和下面 `qs.stringify` 里的参数一致
-  //暂不支持纯数字键值及空字符串键值
-  keys.forEach(function(key) {
-    var val = param[key]
-    // 排除上传文件的参数
-    if (method === 'POST' && val && val[0] === '@') {
-      return
-    }
-    if (key === '') {
-      return
-    }
-    if (
-      val === undefined ||
-      val === null ||
-      (typeof val === 'number' && isNaN(val))
-    ) {
-      val = ''
-    }
-    //把参数中的 "_" (除开开头)替换成 "."
-    qstr += '&' + (key.indexOf('_') ? key.replace(/_/g, '.') : key) + '=' + val
-  })
-
-  qstr = qstr.slice(1)
+  let qstr = codeObj(sortKeys(param))
 
   let hashResult // 16进制负载hash值
-  if (
-    opts.signatureMethod === 'sha256' &&
-    data.SignatureMethod === 'TC2-HmacSHA256'
-  ) {
+  if ( param.SignatureMethod === 'HmacSHA256' ) {
     hashResult = crypto
       .createHash(opts.signatureMethod)
       .update(qstr)
@@ -147,15 +88,12 @@ QcloudApi.prototype.generateQueryString = function(data, opts) {
     qstr = '\n' + hashResult
   }
 
-  signStr = this.sign(
+  param.Signature = this.sign(
     method + host + path + '?' + qstr,
     opts.SecretKey || defaults.SecretKey,
     opts.signatureMethod || defaults.signatureMethod
   )
-
-  param.Signature = signStr
-
-  return qs.stringify(param)
+  return param
 }
 
 /**
@@ -174,32 +112,31 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
   }
   opts = opts || this.defaults
   callback = callback || Function.prototype
-
-  var url = this.generateUrl(opts)
-  var method = (opts.method || this.defaults.method).toUpperCase()
-  var dataStr = this.generateQueryString(data, opts)
-  var option = { url: url, method: method, json: true, strictSSL: false }
-  var maxKeys =
-    opts.maxKeys === undefined ? this.defaults.maxKeys : opts.maxKeys
-
-  if (method === 'POST') {
-    option.form = qs.parse(dataStr, null, null, {
-      maxKeys: maxKeys
-    })
-  } else {
-    option.url += '?' + dataStr
-  }
-
-  assign(option, extra)
-
-  wx.request(option, function(error, response, body) {
-    /**
-     * `.request` 的请求回调
-     * @callback requestCallback
-     * @param {Error} error 请求错误
-     * @param {Object} body API 请求结果
-     */
-    callback(error, body)
+  Object.assign(data, extra)
+  var params = this.generateParams(data, opts)
+  wx.request({       //请求回调callback,error 请求错误,data API的请求结果
+    method: (opts.method || this.defaults.method).toUpperCase(),
+    url: this.generateUrl(opts),
+    dataType: opts.dataType || 'json',
+    header: opts.header || {'content-type': 'application/json'},
+    data: params,
+    success: function success(res) {
+     return callback(
+       error:{},
+       data:{
+       statusCode: res.statusCode,
+       responseText: res.data,
+       headers: res.header,
+       statusMessage: res.errMsg
+     });
+    },
+    fail: function fail(res) {
+     return callback(
+       error:{
+       statusCode: res.statusCode || 0,
+       statusMessage: res.errMsg
+     });
+    }
   })
 }
 

@@ -1,10 +1,12 @@
 const cmqClient = require('./libs/qcloudapi-wxapp')
-const cmq_client = new cmqClient({
-      SecretId: secretId,
-      SecretKey: secretKey,
-      serviceType: 'cmq-queue-' + endpoint.substr(endpoint.indexOf('.') - 2, 2),
-      Region: endpoint.substr(endpoint.indexOf('.') - 2, 2),
-      RequestClient: 'kook-api-svr'
+const config = require('../../config');
+class CMQ {
+  constructor (debug = false) {
+    this.cmq_client = new cmqClient({
+      serviceType: 'cmq-queue-',
+      Region: config.Region,
+      SecretId: config.SecretId,
+      SecretKey: config.SecretKey
     })
 
     this.CreateQueueAsync         = Promise.promisify(this.CreateQueue)
