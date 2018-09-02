@@ -1,7 +1,8 @@
 const db = wx.cloud.database();
 import { loginAndMenu, shareMessage } from '../../model/initForm';
 import { openWxLogin,tabClick } from '../../libs/util';
-import { getData } from '../../model/wx_data'
+import { getData } from '../../model/wx_data';
+const CMQ = require('../../model/cmq')
 var app = getApp();
 
 Page({
@@ -25,6 +26,7 @@ Page({
       mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
       pageData: app.aData.articles
     });
+    CMQ.SendMessageAsync('test1','msg')
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);

@@ -32,8 +32,7 @@ var QcloudApi = function(configs) {
     method: 'GET',
     protocol: 'https',
     baseHost: 'api.qcloud.com',
-    RequestClient: 'qcloud-api-miniprogram',
-    signatureMethod: 'sha1'
+    signatureMethod: 'HmacSHA1'
   }
   Object.assign( this.defaults,configs)
 }
@@ -62,12 +61,17 @@ QcloudApi.prototype.generateParams = function(data, opts) {
 
   //附上公共参数
   var param = (
-    Action: data.Action,
-    Region: opts.Region || defaults.Region,
-    SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
-    SecretId: opts.SecretId || defaults.SecretId,
-    Timestamp: Math.round(Date.now() / 1000),
-    Nonce: Math.round(Math.random() * 65535)
+    // Action: data.Action,
+    // Region: opts.Region || defaults.Region,
+    // SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
+    // SecretId: opts.SecretId || defaults.SecretId,
+    // Timestamp: Math.round(Date.now() / 1000),
+    // Nonce: Math.round(Math.random() * 65535)
+    Action: 'SendMessage',
+    SignatureMethod: 'HmacSHA1',
+    SecretId: AKIDPcYDclDJCn8D0Xypa4f3pKYUCVYLn3zT,
+    Timestamp: 1534154812,
+    Nonce: 2889712707386595659
   )
 
   // 初始化配置和传入的参数冲突时，以传入的参数为准
@@ -114,30 +118,31 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
   callback = callback || Function.prototype
   Object.assign(data, extra)
   var params = this.generateParams(data, opts)
-  wx.request({       //请求回调callback,error 请求错误,data API的请求结果
-    method: (opts.method || this.defaults.method).toUpperCase(),
-    url: this.generateUrl(opts),
-    dataType: opts.dataType || 'json',
-    header: opts.header || {'content-type': 'application/json'},
-    data: params,
-    success: function success(res) {
-     return callback(
-       error:{},
-       data:{
-       statusCode: res.statusCode,
-       responseText: res.data,
-       headers: res.header,
-       statusMessage: res.errMsg
-     });
-    },
-    fail: function fail(res) {
-     return callback(
-       error:{
-       statusCode: res.statusCode || 0,
-       statusMessage: res.errMsg
-     });
-    }
-  })
+  console.log(params.Signature)
+  // wx.request({       //请求回调callback,error 请求错误,data API的请求结果
+  //   method: (opts.method || this.defaults.method).toUpperCase(),
+  //   url: this.generateUrl(opts),
+  //   dataType: opts.dataType || 'json',
+  //   header: opts.header || {'content-type': 'application/json'},
+  //   data: params,
+  //   success: function success(res) {
+  //    return callback(
+  //      error:{},
+  //      data:{
+  //      statusCode: res.statusCode,
+  //      responseText: res.data,
+  //      headers: res.header,
+  //      statusMessage: res.errMsg
+  //    });
+  //   },
+  //   fail: function fail(res) {
+  //    return callback(
+  //      error:{
+  //      statusCode: res.statusCode || 0,
+  //      statusMessage: res.errMsg
+  //    });
+  //   }
+  // })
 }
 
 /**
