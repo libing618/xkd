@@ -1,15 +1,15 @@
-const cmqClient = require('./libs/qcloudapi-wxapp')
-const config = require('../../config');
+const cmqClient = require('../libs/qcloudapi-wxapp')
+const config = require('../config');
 class CMQ {
   constructor (debug = false) {
     this.cmq_client = new cmqClient({
       serviceType: 'cmq-queue-',
     //  Region: config.Region,
         RequestClient: 'SDK_Python_1.3',//'qcloud-api-miniprogram',
-        clientRequestId=1231231231,
-        delaySeconds=0,
-      SecretId: config.SecretId,
-      SecretKey: pPgfLipfEXZ7VcRzhAMIyPaU7UbQyFFx//config.SecretKey
+        clientRequestId:1231231231,
+        delaySeconds:0,
+      SecretId: 'AKIDPcYDclDJCn8D0Xypa4f3pKYUCVYLn3zT',//config.SecretId,
+      SecretKey: 'pPgfLipfEXZ7VcRzhAMIyPaU7UbQyFFx'//config.SecretKey
     })
 
     this.CreateQueueAsync         = Promise.promisify(this.CreateQueue)

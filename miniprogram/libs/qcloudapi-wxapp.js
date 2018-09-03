@@ -60,19 +60,17 @@ QcloudApi.prototype.generateParams = function(data, opts) {
   var defaults = this.defaults
 
   //附上公共参数
-  var param = (
-    // Action: data.Action,
+  var param = {
+    Action: data.Action,
     // Region: opts.Region || defaults.Region,
     // SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
-    // SecretId: opts.SecretId || defaults.SecretId,
+    SecretId: opts.SecretId || defaults.SecretId,
     // Timestamp: Math.round(Date.now() / 1000),
     // Nonce: Math.round(Math.random() * 65535)
-    Action: 'SendMessage',
     SignatureMethod: 'HmacSHA1',
-    SecretId: AKIDPcYDclDJCn8D0Xypa4f3pKYUCVYLn3zT,
     Timestamp: 1534154812,
     Nonce: 2889712707386595659
-  )
+  }
 
   // 初始化配置和传入的参数冲突时，以传入的参数为准
   Object.assign(param,data);
