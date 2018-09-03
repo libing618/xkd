@@ -2,7 +2,7 @@ const cmqClient = require('../libs/qcloudapi-wxapp')
 const config = require('../config');
 class CMQ {
   constructor (debug = false) {
-    this.cmq_client = new cmqClient({
+    this.cmq_client = cmqClient({
       serviceType: 'cmq-queue-',
     //  Region: config.Region,
         RequestClient: 'SDK_Python_1.3',//'qcloud-api-miniprogram',
