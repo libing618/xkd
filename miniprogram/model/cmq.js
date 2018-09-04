@@ -36,6 +36,13 @@ class CMQ {
     reqParmart.limit = limit
     return this.cmq_client.request(reqParmart)
   }
+  ReceiveMessage(queueName, pollingWaitSeconds = 0) {
+    return this.cmq_client.request({
+      Action: 'ReceiveMessage',
+      queueName: queueName,
+      pollingWaitSeconds: pollingWaitSeconds
+    })
+  }
   /**
    * 创建队列
    * @param {string} queueName 队列名称
@@ -178,15 +185,15 @@ class CMQ {
     })
   }
 
-  ReceiveMessage (queueName, pollingWaitSeconds = 0, next = function () {}) {
-    this.cmq_client.request({
-        Action: 'ReceiveMessage',
-        queueName: queueName,
-        pollingWaitSeconds: pollingWaitSeconds
-    }, function(error, data) {
-        next(error, data)
-    })
-  }
+  // ReceiveMessage (queueName, pollingWaitSeconds = 0, next = function () {}) {
+  //   this.cmq_client.request({
+  //       Action: 'ReceiveMessage',
+  //       queueName: queueName,
+  //       pollingWaitSeconds: pollingWaitSeconds
+  //   }, function(error, data) {
+  //       next(error, data)
+  //   })
+  // }
 
   BatchReceiveMessage (queueName, numOfMsg, pollingWaitSeconds, next = function () {}) {
     this.cmq_client.request({

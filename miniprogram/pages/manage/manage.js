@@ -27,7 +27,7 @@ Page({
       pageData: app.aData.articles
     });
     var cmq = new CMQ();
-    cmq.ListQueue().then(res=>{console.log(res)})
+    cmq.ListQueue().then(res=>{console.log(res)}).catch(err=>{console.log('error:',err)})
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
