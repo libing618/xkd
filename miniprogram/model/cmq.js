@@ -1,31 +1,41 @@
 const cmqClient = require('../libs/qcloudapi-wxapp')
 const config = require('../config');
 class CMQ {
-  constructor (debug = false) {
-    this.cmq_client = cmqClient({
-      serviceType: 'cmq-queue-',
-    //  Region: config.Region,
-        RequestClient: 'SDK_Python_1.3',//'qcloud-api-miniprogram',
-        clientRequestId:1231231231,
-        delaySeconds:0,
-      SecretId: 'AKIDPcYDclDJCn8D0Xypa4f3pKYUCVYLn3zT',//config.SecretId,
-      SecretKey: 'pPgfLipfEXZ7VcRzhAMIyPaU7UbQyFFx'//config.SecretKey
+  constructor () {
+    this.cmq_client = new cmqClient({
+      serviceType: 'cmq-queue',
+      Region: config.Region,
+      RequestClient: 'qcloud-api-miniprogram',
+      SecretId: config.SecretId,
+      SecretKey: config.SecretKey
     })
-
-    this.CreateQueueAsync         = Promise.promisify(this.CreateQueue)
-    this.AssertQueueAsync         = Promise.promisify(this.AssertQueue)
-    this.ListQueueAsync           = Promise.promisify(this.ListQueue)
-    this.GetQueueAttributesAsync  = Promise.promisify(this.GetQueueAttributes)
-    this.SetQueueAttributesAsync  = Promise.promisify(this.SetQueueAttributes)
-    this.DeleteQueueAsync         = Promise.promisify(this.DeleteQueue)
-    this.SendMessageAsync         = Promise.promisify(this.SendMessage)
-    this.BatchSendMessageAsync    = Promise.promisify(this.BatchSendMessage)
-    this.ReceiveMessageAsync      = Promise.promisify(this.ReceiveMessage)
-    this.BatchReceiveMessageAsync = Promise.promisify(this.BatchReceiveMessage)
-    this.DeleteMessageAsync       = Promise.promisify(this.DeleteMessage)
-    this.BatchDeleteMessageAsync  = Promise.promisify(this.BatchDeleteMessage)
+        // this.CreateQueueAsync         = Promise.promisify(this.CreateQueue)
+    // this.AssertQueueAsync         = Promise.promisify(this.AssertQueue)
+    // this.ListQueueAsync           = Promise.promisify(this.ListQueue)
+    // this.GetQueueAttributesAsync  = Promise.promisify(this.GetQueueAttributes)
+    // this.SetQueueAttributesAsync  = Promise.promisify(this.SetQueueAttributes)
+    // this.DeleteQueueAsync         = Promise.promisify(this.DeleteQueue)
+    // this.SendMessageAsync         = Promise.promisify(this.SendMessage)
+    // this.BatchSendMessageAsync    = Promise.promisify(this.BatchSendMessage)
+    // this.ReceiveMessageAsync      = Promise.promisify(this.ReceiveMessage)
+    // this.BatchReceiveMessageAsync = Promise.promisify(this.BatchReceiveMessage)
+    // this.DeleteMessageAsync       = Promise.promisify(this.DeleteMessage)
+    // this.BatchDeleteMessageAsync  = Promise.promisify(this.BatchDeleteMessage)
   }
-
+  SendMessage(queueName, msgBody) {
+    return this.cmq_client.request({
+      Action: 'SendMessage',
+      queueName: queueName,
+      msgBody: msgBody
+    })
+  }
+  ListQueue(searchWord, offset = 0, limit = 20) {
+    let reqParmart = { Action: 'ListQueue'}
+    if (searchWord) { reqParmart.searchWord = searchWord }
+    reqParmart.offset = offset;
+    reqParmart.limit = limit
+    return this.cmq_client.request(reqParmart)
+  }
   /**
    * 创建队列
    * @param {string} queueName 队列名称
@@ -104,20 +114,20 @@ class CMQ {
     })
   }
 
-  ListQueue (searchWord, offset = 0, limit = 20, next = function () {}) {
-    if (typeof offset === 'function') {
-      next = offset
-      offset = 0
-    }
-    this.cmq_client.request({
-        Action: 'ListQueue',
-        searchWord: searchWord,
-        offset: offset,
-        limit: limit
-    }, function(error, data) {
-        next(error, data)
-    })
-  }
+  // ListQueue (searchWord, offset = 0, limit = 20, next = function () {}) {
+  //   if (typeof offset === 'function') {
+  //     next = offset
+  //     offset = 0
+  //   }
+  //   this.cmq_client.request({
+  //       Action: 'ListQueue',
+  //       searchWord: searchWord,
+  //       offset: offset,
+  //       limit: limit
+  //   }, function(error, data) {
+  //       next(error, data)
+  //   })
+  // }
 
   GetQueueAttributes (queueName, next = function () {}) {
     this.cmq_client.request({
@@ -150,16 +160,6 @@ class CMQ {
     this.cmq_client.request({
         Action: 'DeleteQueue',
         queueName: queueName
-    }, function(error, data) {
-        next(error, data)
-    })
-  }
-
-  SendMessage (queueName, msgBody, next = function() {}) {
-    this.cmq_client.request({
-        Action: 'SendMessage',
-        queueName: queueName,
-        msgBody: msgBody
     }, function(error, data) {
         next(error, data)
     })

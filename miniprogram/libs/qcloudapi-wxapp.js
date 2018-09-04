@@ -62,14 +62,11 @@ QcloudApi.prototype.generateParams = function(data, opts) {
   //附上公共参数
   var param = {
     Action: data.Action,
-    // Region: opts.Region || defaults.Region,
-    // SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
+    Region: opts.Region || defaults.Region,
+    SignatureMethod: opts.signatureMethod || defaults.signatureMethod,
     SecretId: opts.SecretId || defaults.SecretId,
-    // Timestamp: Math.round(Date.now() / 1000),
-    // Nonce: Math.round(Math.random() * 65535)
-    SignatureMethod: 'HmacSHA1',
-    Timestamp: 1534154812,
-    Nonce: 2889712707386595659
+    Timestamp: Math.floor(Date.now() / 1000),
+    Nonce: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
   }
 
   // 初始化配置和传入的参数冲突时，以传入的参数为准
@@ -80,18 +77,10 @@ QcloudApi.prototype.generateParams = function(data, opts) {
   var method = (opts.method || defaults.method).toUpperCase()
   var path = opts.path === undefined ? defaults.path : opts.path
   let qstr = codeObj(sortKeys(param))
-
-  let hashResult // 16进制负载hash值
-  if ( param.SignatureMethod === 'HmacSHA256' ) {
-    hashResult = crypto
-      .createHash(opts.signatureMethod)
-      .update(qstr)
-      .digest('hex')
-    qstr = '\n' + hashResult
-  }
-
+  let strq = method + host + path + '?' + qstr
+//  strq = 'POSTcmq-queue-gz.api.tencentyun.com/v2/index.php?Action=SendMessage&Nonce=2889712707386595659&RequestClient=SDK_Python_1.3&SecretId=AKIDPcYDclDJCn8D0Xypa4f3pKYUCVYLn3zT&SignatureMethod=HmacSHA1&Timestamp=1534154812&clientRequestId=1231231231&delaySeconds=0&msgBody=msg&queueName=test1';
   param.Signature = this.sign(
-    method + host + path + '?' + qstr,
+    strq,
     opts.SecretKey || defaults.SecretKey,
     opts.signatureMethod || defaults.signatureMethod
   )
@@ -107,40 +96,33 @@ QcloudApi.prototype.generateParams = function(data, opts) {
  * @param {requestCallback} callback 请求回调
  * @param {Object} [extra] 传给 request 库的额外参数
  */
-QcloudApi.prototype.request = function(data, opts, callback, extra) {
-  if (typeof opts === 'function') {
-    callback = opts
-    opts = this.defaults
-  }
+QcloudApi.prototype.request = function(data, opts, extra) {
   opts = opts || this.defaults
-  callback = callback || Function.prototype
-  Object.assign(data, extra)
-  var params = this.generateParams(data, opts)
-  console.log(params.Signature)
-  // wx.request({       //请求回调callback,error 请求错误,data API的请求结果
-  //   method: (opts.method || this.defaults.method).toUpperCase(),
-  //   url: this.generateUrl(opts),
-  //   dataType: opts.dataType || 'json',
-  //   header: opts.header || {'content-type': 'application/json'},
-  //   data: params,
-  //   success: function success(res) {
-  //    return callback(
-  //      error:{},
-  //      data:{
-  //      statusCode: res.statusCode,
-  //      responseText: res.data,
-  //      headers: res.header,
-  //      statusMessage: res.errMsg
-  //    });
-  //   },
-  //   fail: function fail(res) {
-  //    return callback(
-  //      error:{
-  //      statusCode: res.statusCode || 0,
-  //      statusMessage: res.errMsg
-  //    });
-  //   }
-  // })
+  return new Promise((resolve, reject) => {
+    Object.assign(data, extra)
+    var params = this.generateParams(data, opts)
+    wx.request({       //请求回调callback,error 请求错误,data API的请求结果
+      method: (opts.method || this.defaults.method).toUpperCase(),
+      url: this.generateUrl(opts),
+      dataType: opts.dataType || 'json',
+      header: opts.header || {'content-type': 'application/json'},
+      data: params,
+      success: function success(res) {
+        resolve({
+          statusCode: res.statusCode,
+          data: res.data,
+          headers: res.header,
+          statusMessage: res.errMsg
+        });
+      },
+      fail: function fail(res) {
+        reject({
+          statusCode: res.statusCode || 0,
+          statusMessage: res.errMsg
+        });
+      }
+    })
+  });
 }
 
 /**
@@ -150,9 +132,9 @@ QcloudApi.prototype.request = function(data, opts, callback, extra) {
  * @param {String} signatureMethod 签名方法，默认sha1
  * @returns {String} 签名
  */
-QcloudApi.prototype.sign = function(str, secretKey, signatureMethod = 'sha1') {
-  var hmac = crypto.createHmac(signatureMethod, secretKey || '')
-  return hmac.update(new Buffer(str, 'utf8')).digest('base64')
+QcloudApi.prototype.sign = function (str, secretKey, signatureMethod = 'HmacSHA1') {
+  var hmac = crypto[signatureMethod](str, secretKey);
+  return crypto.enc.Base64.stringify(crypto.HmacSHA1(str, secretKey))
 }
 
 /**
@@ -167,8 +149,8 @@ QcloudApi.prototype._getHost = function(opts) {
   var host = opts.host
   if (!host) {
     host =
-      (opts.serviceType || this.defaults.serviceType) +
-      '.' +
+      (opts.serviceType || this.defaults.serviceType) + '-' +
+      (opts.Region || this.defaults.Region) +'.' +
       (opts.baseHost || this.defaults.baseHost)
   }
   return host

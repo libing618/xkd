@@ -26,8 +26,8 @@ Page({
       mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
       pageData: app.aData.articles
     });
-    var cmq = CMQ();
-    cmq.SendMessageAsync('test1','msg')
+    var cmq = new CMQ();
+    cmq.ListQueue().then(res=>{console.log(res)})
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
