@@ -97,6 +97,18 @@ getData: function(isDown,pNo,isAll,requirement,uId){    //查询方向，表名�
     if (!that.netState) { wx.showToast({ title: '请检查网络！' }) }
     console.error()
   });
+},
+
+getToken:function(){
+  return new Promise((resolve, reject) => {
+    db.collection('accessToken').orderBy('accessOverTime', 'asc').limit(1).get().then(({ data }) => {
+      if (Date.now() > data[0].accessOverTime) {
+        wx.cloud.callFunction({ name: 'wxcustomer', data: { customerState: 0 } }).then(sToken => { resolve(sToken.result) })
+      } else {
+        resolve(data[0].accessToken)
+      }
+    }).catch(err => { reject(err) })
+  })
 }
 
 
