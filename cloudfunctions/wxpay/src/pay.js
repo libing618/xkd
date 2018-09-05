@@ -2,7 +2,7 @@
 
 var merge = require('merge');
 var request = require('request');
-var qs = require('querystring');
+var qs = require('qs');
 
 var helper = require('./helper');
 
@@ -58,9 +58,9 @@ var GET_PUBLIC_KEY_URL = 'https://fraud.mch.weixin.qq.com/risk/getpublickey';
  * @see {@link https://pay.weixin.qq.com/wiki/doc/api/index.html}
  */
 function Pay(appid, mch_id, key, pfx) {
-  this.appid = appid;
-  this.mch_id = mch_id;
-  this.key = key;
+  this.appid = process.env.appid;
+  this.mch_id = process.env.mch_id;
+  this.key = process.env.key;
   this.pfx = pfx;
   this.debug = false;
   this.sign_type = 'MD5';
