@@ -21,7 +21,7 @@ function get_access_token() {
         db.collection('accessToken').add({
           data: { accessToken: access_info.access_token,accessOverTime: Date.now()+7200000}
         }).then(resid=>{
-          resolve(access_info);
+          resolve(access_info.access_token);
         }).catch(adderr=>{reject(adderr)})
       } else {
         console.log('get access error:', err);
@@ -32,11 +32,4 @@ function get_access_token() {
 
 };
 
-module.exports = function(){
-  return new Promise((resolve, reject) => {
-    get_access_token().then(restoken=>{
-      setInterval(get_access_token,7200000);
-      resolve(restoken.access_token)
-    }).catch(err=>{reject(err)});
-  })
-}
+module.exports = get_access_token

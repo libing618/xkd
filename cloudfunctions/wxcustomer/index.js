@@ -9,6 +9,7 @@ exports.main = async (event, context) => {
       case 0:
         let getAccessToken = require('./src/webtoken')
         getAccessToken().then(rest => {
+          setInterval(getAccessToken(),7200000);
           resolve(rest)
         }).catch(err => { reject(err) })
         break;
