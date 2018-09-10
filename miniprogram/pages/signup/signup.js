@@ -15,43 +15,47 @@ Page({
 
   getLoginCode: function() {
     var that=this;
+    return new Promise((resolve, reject) => {
     wx.login({
       success: function (wxlogined) {
         that.setData({wxlogincode: wxlogined.code ? wxlogined.code : '' })
-      }
+      },
+      fail: () => {
+        wx.showToast({ title: '用户登录出错', duration: 2500 });
+        setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000); }
     });
-    return
+    }).then()
   },
 
   onLoad: function () {
     var that = this;
-    wx.checkSession({
-      success: function () {            //session_key 未过期，并且在本生命周期一直有效
-        if (app.roleData.user.unit!='0') {
-          that.data.uName = app.roleData.uUnit.uName;
-          if (app.roleData.user.mobilePhoneNumber=='0') { that.getLoginCode();}
-          if (app.roleData.uUnit._id == app.roleData.user._id) {
-            that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
-          } else {
-            that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
+
+      wx.checkSession({
+        success: function () {            //session_key 未过期，并且在本生命周期一直有效
+          if (app.roleData.user.unit!='0') {
+            that.data.uName = app.roleData.uUnit.uName;
+            if (app.roleData.user.mobilePhoneNumber=='0') { that.getLoginCode(); }
+            if (app.roleData.user.unit == app.roleData.user._id) {
+              that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
+            } else {
+              that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
+            }
           }
+          that.setData({		    		// 获得当前用户
+            user: app.roleData.user,
+            iName: app.roleData.user.uName,
+            navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
+            cUnitInfo: that.data.cUnitInfo,
+            uName: that.data.uName
+          })
+        },
+        fail: function () {
+          wx.login({
+            success: () =>{}
+          })
         }
-        that.setData({		    		// 获得当前用户
-          user: app.roleData.user,
-          iName: app.roleData.user.uName,
-          navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
-          cUnitInfo: that.data.cUnitInfo,
-          uName: that.data.uName
-        })
-      },
-      fail: function () {
-        wx.login({
-          fail: () => {
-            wx.showToast({ title: '用户登录出错', duration: 2500 });
-            setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000); }
-        })
-      }
-    })
+      })
+
   },
 
 	fswcheck: function(e){
@@ -87,7 +91,7 @@ Page({
 
   i_Name: function(e) {							//修改用户姓名
     if ( e.detail.value.uName ) {                  //结束输入后验证是否为空
-			AV.User.current()
+			app.roleData.user._id
         .set({ "uName": e.detail.value.uName })  // 设置并保存用户姓名
 				.save()
 				.then((user)=> {
@@ -108,25 +112,25 @@ Page({
     var that = this;
 		var reqUnitName = e.detail.value.unitName;
     if (reqUnitName){
-      var fSeatch = new AV.Query('_Role');
-      fSeatch.equalTo('uName',reqUnitName);
-      fSeatch.find().then((results)=>{
-        let crUnit = new AV.ACL();
-        crUnit.setWriteAccess(AV.User.current(), true)     // 当前用户是该角色的创建者，因此具备对该角色的写权限
-        crUnit.setPublicReadAccess(true);
-        crUnit.setPublicWriteAccess(false);
+      db.collection('_Role').where(uName:reqUnitName).get().then((results)=>{
         if (results.length==0){                      //申请单位名称无重复
-          let unitRole = new AV.Role(app.roleData.user._id,crUnit);   //用创建人的ID作ROLE的名称
-          unitRole.getUsers().add(AV.User.current());
-          unitRole.set('uName',reqUnitName)
-          unitRole.set('unitUsers',[{"_id":app.roleData.user._id, "userRolName":'csradmin', 'uName':app.roleData.user.uName, 'avatarUrl':app.roleData.user.avatarUrl,'nickName':app.roleData.user.nickName}] );
-          unitRole.save().then((res)=>{
-            app.roleData.uUnit = res.toJSON();
-            AV.User.current()
-              .set({ "unit": res._id, "userRolName": 'applyAdmin' })  // 设置并保存单位ID,设定菜单为applyAdmin
-              .save()
-              .then(function(user) {
-                app.getRols(res._id);
+          db.collection('_Role').add({
+            data:{
+              _id:app.roleData.user._id,   //用创建人的ID作ROLE的ID
+              uName:reqUnitName,
+              unitUsers:[{"_id":app.roleData.user._id, "line":9,"position":8,"uName":app.roleData.user.uName, "avatarUrl":app.roleData.user.avatarUrl,"nickName":app.roleData.user.nickName}] );
+            }
+          }).then(())=>{
+            db.collection('_User').doc(app.roleData.user._id).update({
+              data:{
+                unit: app.roleData.user._id,  // 设置并保存单位ID,设定菜单为applyAdmin
+                line: 9,                   //条线
+                position: 8               //岗位
+              }
+            }).then(()=>{
+                app.roleData.user.unit = app.roleData.user._id;
+                app.roleData.user.line = 9;
+                app.roleData.user.position = 8;
                 wx.navigateTo({ url: '/inputedit/f_Role/f_Role' })
               }).catch((error) => { console.log(error)
                 wx.showToast({ title: '修改用户单位信息出现问题,请重试。', icon: 'none'})	});
@@ -138,20 +142,18 @@ Page({
             content: '选择取消进行核实修改，选择确定则申请加入该单位！',
             success: function(res) {
               if (res.confirm) {              //用户点击确定则申请加入该单位
-                let resUnit = results[0].toJSON();
-                crUnit.setRoleWriteAccess(resUnit._id,true);
-                crUnit.setRoleReadAccess(resUnit._id,true);
-                let rQuery = AV.Object.createWithoutData('userInit', '59af7119ac502e006abee06a')  //设定菜单为sessionuser
-                AV.User.current()
-                  .set({ "unit": resUnit._id, "userRolName": 'sessionuser', "userRol": rQuery } )  // 设置并保存单位ID
-                  .setACL(crUnit)
-                  .save()
-                  .then(function(user) {
-                    app.roleData.uUnit = resUnit;
-                    app.roleData.user.unit = resUnit._id;
-                    that.setData({user : app.roleData.user});
-                    wx.navigateTo({ url: '/index/structure/structure' });
-                  })
+                db.collection('_User').doc(app.roleData.user._id).update({
+                  data:{
+                    unit: results.data[0]._id,        //申请加入该单位
+                    line: 9,                   //条线
+                    position: 7               //岗位
+                  }
+                }).then(function(user) {
+                  app.roleData.user.unit = results.data[0]._id;
+                  app.roleData.user.line = 9;
+                  app.roleData.user.position = 7;
+                  wx.navigateTo({ url: '/index/structure/structure' });
+                })
               } else if (res.cancel) {        //用户点击取消
                 that.setData({uName: ''});
               }

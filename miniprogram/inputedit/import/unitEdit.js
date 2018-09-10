@@ -72,7 +72,7 @@ function roleAuthorization(){      //权限表和用户表授权
   let unitRole = AV.Query(AV.Role);
   unitRole.get(app.roleData.uUnit._id).then(uRole=>{           //得到单位的权限对象
     uRole.setACL(roleAcl).save().then(()=>{
-      AV.User.current()
+      app.roleData.user._id
       .setACL(roleAcl)
       .save()
     })

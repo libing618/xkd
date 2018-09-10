@@ -30,7 +30,6 @@ module.exports = {
                         uName: res.result.nickName,
                         unionid: res.result.unionId || null,
                         unit: '0',
-                        unitVerified: false,
                         mobilePhoneNumber: "0"
                       }
                     };

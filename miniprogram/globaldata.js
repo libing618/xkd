@@ -6,7 +6,6 @@ module.exports={
       "unit": "0",
       "city": "Taiyuan",
       "uName": "0",
-      "unitVerified": false,
       "nickName": "游客",
       "language": "zh_CN",
       "gender": 1,
