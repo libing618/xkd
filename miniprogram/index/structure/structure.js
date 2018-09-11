@@ -63,16 +63,13 @@ Page({
 			userRolName: app.roleData.user.userRolName
 		})
   },
-	giveRole: function(operation,sRole) {
-		let sUser = AV.Object.createWithoutData('_User',operation);
-		if (sRole=='sessionuser'){
-		  sUser.set('unitVerified', false );
-		  sUser.set('unit', '0' );
-		} else {
-		  sUser.set('unitVerified', true );
-		}
-		sUser.set('userRolName',sRole);
-		return sUser.save();
+	giveRole: function(userId,line,position) {
+		return db.collection('_User').doc(userId).update({
+		  data:{
+		    line: line,
+		    position: position
+			}
+		});
 	},
 
 	fSpicker: function(e) {                         //选择岗位和条线

@@ -11,7 +11,7 @@ function sumArr(arrData,arrIndex){
   return dSum
 };
 function getMonInterval(){
-  var starts = app.roleData.user.createdAt.split('-');
+  var starts = app.roleData.user.updatedAt.split('-');
   var staYear = parseInt(starts[0]);
   var staMon = parseInt(starts[1]);
   var endYear = new Date().getFullYear();
@@ -287,9 +287,9 @@ module.exports = {
             resolve(new Date(0))
           };
         });
-    }).then(createdAt => {
+    }).then(updatedAt => {
       return new Promise((resolve, reject) => {
-        readSumData(className, cField, createdAt, 'createdAt').then(sumData => {
+        readSumData(className, cField, updatedAt, 'updatedAt').then(sumData => {
           if (sumData) {
             let recordJSON;
             sumData.forEach(mRecord => {

@@ -39,7 +39,7 @@
         <view class="page__title"> 岗位申请：</view>
       </view>
       <view class="page__bd">
-        <block wx:for="{{applyUser}}" wx:key="{{createdAt}}">
+        <block wx:for="{{applyUser}}" wx:key="{{updatedAt}}">
           <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
               <image class="weui-media-box__thumb" src="{{item.avatarUrl}}" background-size="cover"></image>

@@ -60,57 +60,54 @@ Page({
 
   fsave:function(e) {                         //保存审批意见，流向下一节点
     var that = this;
-    function setRole(){
-      return new Promise((resolve, reject) => {
-        if (that.data.aValue.dProcedure == '_Role') {                    //是否单位审批流程
-          let setUser = AV.Object.createWithoutData('_User',that.data.aValue.unitId);
-          setUser.set('unitVerified',true);
-          setUser.set('userRolName','u'+that.data.aValue.afamily+'.admin');
-          setUser.save().then(()=>{ resolve(true) })
-        } else { resolve(false) }
-      }).catch(console.error);
-    };
     var nInstace = Number(that.data.aValue.cInstance);        //下一流程节点
     if (nInstace>=0) {
       var rResultId = Number(e.detail.value.dResult)+1;
       return new Promise((resolve, reject) => {
         if ( nInstace==that.data.cmLength && rResultId === 1 ){   //最后一个节点审批通过
-          let sData = that.data.aValue.dObject;
-          let sObject;
-          if (that.data.aValue.dObjectId=='0'){       //新建数据
-            let dObject = AV.Object.extend(that.data.pModel);
-            sObject = new dObject();
-          } else {       //修改数据
-            sObject = AV.Object.createWithoutData(that.data.pModel,that.data.aValue.dObjectId)
-          }
-          if (that.data.aValue.dProcedure !== '_Role') {
-            sData.unitId = that.data.aValue.unitId;
-            sData.unitName = that.data.aValue.unitName;
+          let scData = {
+            pModel: that.data.pModel,
+            dObjectId: that.data.aValue.dObjectId,
+            sData: that.data.aValue.dObject
           };
-          let unitRole = new AV.ACL();
-          unitRole.setPublicReadAccess(true);
-          unitRole.setRoleWriteAccess(that.data.aValue.unitId,true);  //为单位角色设置写权限
-          sObject.setACL(unitRole);
-          sObject.set(sData).save().then((sd)=>{
-            setRole().then(()=>{
+          if (that.data.aValue.dProcedure !== '_Role') {            //是否单位审批流程
+            scData.sData.unitId = that.data.aValue.unitId;
+            scData.sData.unitName = that.data.aValue.unitName;
+          }
+          return new Promise((resolve, reject) => {
+            if (that.data.aValue.dObjectId=='0') {       //新建数据
+              resolve( db.collection(that.data.pModel).add({data:sData}) );
+            } else {       //修改数据
+              scData.processState = 2
+              resolve( wx.cloud.callFunction({ name:'process', data:scData }) )
+            };
+          }).then((sd)=>{
               wx.showToast({ title: '审批内容已发布', duration:2000 });
-              resolve(sd._id);
-            })
+              resolve(sd);
           }).catch((error)=>{
             wx.showToast({ title: '审批内容发布出现错误'+error.error, duration: 2000 });
             reject(error);
           })
-        } else { resolve(0) };
-      }).then((sObjectId)=>{
-        let cApproval = AV.Object.createWithoutData('sengpi', that.data.aValue._id);
-        if (sObjectId) {cApproval.set('dObjectId',sObjectId);}
-        cApproval.set('dResult', rResultId);                //流程处理结果
+        } else { resolve(false) };
+      }).then(processEnd=>{
+        let cApproval = {
+          dResult: rResultId,                //流程节点
+          cInstance: nInstace,             //下一处理节点
+          cFlowStep: nInstace == that.data.cmLength ? ['流程结束'] : that.data.aValue.cManagers[nInstace]  //下一流程审批人
+        };
+        if (processEnd) { cApproval.dObjectId = sObjectId }
         let uIdear = that.data.aValue.dIdear;
         uIdear.unshift({ un: app.roleData.user.uName, dt: new Date(), di:that.data.uIdearArray[rResultId-1] , dIdear:e.detail.value.dIdear })
-        cApproval.set('dIdear', uIdear);       //流程处理意见
-        cApproval.set('cInstance', nInstace);             //下一处理节点
-        cApproval.set('cFlowStep', nInstace == that.data.cmLength ? ['流程结束'] : that.data.aValue.cManagers[nInstace]); //下一流程审批人
-        cApproval.save().then(function () {
+        cApproval.dIdear = uIdear;       //流程处理意见
+        wx.cloud.callFunction({
+          name: 'process',
+          data: {
+            pModel: 'sengpi',
+            dObjectId: that.data.aValue._id,
+            sData: cApproval,
+            processState: 1
+          }
+        }).then(function () {
           wx.showToast({ title: '流程已提交,请查询结果。', duration: 2000 }) // 保存成功
           setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
         })

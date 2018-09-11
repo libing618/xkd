@@ -23,25 +23,25 @@ Page({
 
   onLoad: function (options) {
     var that = this;
-    if (app.roleData.uUnit.name == app.roleData.user._id) {       //单位名等于用户ID则为创始人
-      new AV.Query('sengpi')
-        .equalTo('unitId', app.roleData.uUnit._id)
-        .equalTo('dProcedure', 0)
-        .select(['dObject', 'cInstance', 'dObjectId', 'cManagers'])
-        .descending('createdAt')
-        .first().then((rdata) => {
-          if (rdata) {
-            var spdata = rdata.toJSON();
-            that.data.vData = spdata.dObject;
-            that.data.unEdit = spdata.cInstance > 0 && spdata.cInstance < spdata.cManagers.length;        //流程起点或已结束才能提交
-          } else { that.data.vData=require('../../test/irole.js')};
-          that.data.dObjectId = app.roleData.user.unit;
-          initData(app.fData._Role.pSuccess, that.data.vData).then(({iFormat, vData, funcArr})=>{
-            funcArr.forEach(functionName => { that[functionName] = wImpEdit[functionName] });
-            that.data.iFormat = iFormat;
-            that.data.vData = vData;
-            that.setData( that.data );
-          });
+    if (app.roleData.user.position==8) {
+      db.collection('sengpi').where({
+        unitId: app.roleData.user._id,       //单位ID等于用户ID则为负责人
+        dProcedure: 0
+      }).orderBy('updatedAt','desc')
+        .limit(1)
+        .get().then(({data}) =>
+      {
+        if (data.length==1) {
+          that.data.vData = data[0].dObject;
+          that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
+        } else { that.data.vData=require('../../test/irole.js')};
+        that.data.dObjectId = app.roleData.user.unit;
+        initData(app.fData._Role.pSuccess, that.data.vData).then(({iFormat, vData, funcArr})=>{
+          funcArr.forEach(functionName => { that[functionName] = wImpEdit[functionName] });
+          that.data.iFormat = iFormat;
+          that.data.vData = vData;
+          that.setData( that.data );
+        });
       }).catch(console.error )
     } else {
       wx.showToast({ title: '您不是单位创始人，请在《我的信息》页创建单位！', icon: 'none', duration: 2500 });

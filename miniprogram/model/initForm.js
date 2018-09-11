@@ -23,11 +23,6 @@ function requestCallback(err, data) {
   } else { return data}
 };
 
-function exitPage(){
-  wx.showToast({ title: '权限不足请检查', duration: 2500 });
-  setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-};
-
 module.exports = {
 
 loginAndMenu: function (roleData) {
@@ -89,15 +84,16 @@ loginAndMenu: function (roleData) {
   }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
 },
 
-checkRols: function(ouRole,user){
-  let uRoleName = user.userRolName.split('.')
-  if (uRoleName[1]=='admin' && user.unitVerified){
+checkRols: function(ouLine,user,ouPosition){  //要求的条线，用户数据，要求的岗位
+  if (user.line==8 && user.position==8){        //单位负责人
     return true;
   } else {
-    if (parseInt(uRoleName[1])==ouRole && user.unitVerified) {
+    let verPosition = ouPosition ? user.position==ouPosition : true ;
+    if (user.line==ouLine && verPosition) {
       return true;
     } else {
-      exitPage();
+      wx.showToast({ title: '权限不足请检查', duration: 2500 });
+      setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);;
       return false
     }
   }

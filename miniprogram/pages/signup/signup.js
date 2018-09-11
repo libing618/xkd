@@ -16,46 +16,52 @@ Page({
   getLoginCode: function() {
     var that=this;
     return new Promise((resolve, reject) => {
-    wx.login({
-      success: function (wxlogined) {
-        that.setData({wxlogincode: wxlogined.code ? wxlogined.code : '' })
-      },
-      fail: () => {
-        wx.showToast({ title: '用户登录出错', duration: 2500 });
-        setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000); }
-    });
-    }).then()
+      wx.login({
+        success: (wxlogined)=> {
+          wx.cloud.callFunction({                  // 调用云函数
+          name: 'login',
+          data: { code: wxlogined.code, loginState:3 }
+          }).then(res => {
+            resolve('sessionOk')
+          })
+        },
+        fail: (error)=> {
+          reject(error)
+        }
+      });
+    })
   },
 
   onLoad: function () {
     var that = this;
-
+    return new Promise((resolve, reject) => {
       wx.checkSession({
         success: function () {            //session_key 未过期，并且在本生命周期一直有效
-          if (app.roleData.user.unit!='0') {
-            that.data.uName = app.roleData.uUnit.uName;
-            if (app.roleData.user.mobilePhoneNumber=='0') { that.getLoginCode(); }
-            if (app.roleData.user.unit == app.roleData.user._id) {
-              that.data.cUnitInfo = '您创建的单位' + (app.roleData.user.unitVerified ? '' : '正在审批中')
-            } else {
-              that.data.cUnitInfo = '您申请的' + (app.roleData.user.unitVerified ? '' : '岗位正在审批中')
-            }
-          }
-          that.setData({		    		// 获得当前用户
-            user: app.roleData.user,
-            iName: app.roleData.user.uName,
-            navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
-            cUnitInfo: that.data.cUnitInfo,
-            uName: that.data.uName
-          })
+          resolve('sessionOk')
         },
         fail: function () {
-          wx.login({
-            success: () =>{}
-          })
+          resolve(that.getLoginCode())
         }
       })
-
+    }).then(ressession=>{
+      if (app.roleData.user.unit!='0') {
+        that.data.uName = app.roleData.uUnit.uName;
+        if (app.roleData.user.line==9) {
+          that.data.cUnitInfo = (app.roleData.user.unit == app.roleData.user._id) ? '您创建的单位正在审批中' : '您申请的岗位正在审批中'
+        }
+      }
+      that.setData({		    		// 获得当前用户
+        user: app.roleData.user,
+        iName: app.roleData.user.uName,
+        wxlogincode: ressession,
+        navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
+        cUnitInfo: that.data.cUnitInfo,
+        uName: that.data.uName
+      });
+    }).catch(err=>{
+      wx.showToast({ title: '用户登录出错', duration: 2500 });
+      setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
+    })
   },
 
 	fswcheck: function(e){
@@ -64,8 +70,20 @@ Page({
 
   gUserPhoneNumber: function(e) {
     var that = this;
-    if (that.data.wxlogincode) {
-      if (e.detail.errMsg == 'getPhoneNumber:ok'){
+    if (e.detail.errMsg == 'getPhoneNumber:ok'){
+      return new Promise((resolve, reject) => {
+        wx.checkSession({
+          success: function () {            //session_key未过期
+            resolve('sessionOk')
+          },
+          fail: function () {
+            wx.showToast({
+              title: '需要进行微信登录，请再次点击注册。', icon: 'none',duration: 2000
+            });
+            resolve(that.getLoginCode())
+          }
+        })
+      }).then(ressession=>{
         wx.cloud.callFunction({                  // 调用云函数
           name: 'login',
           data: { code: that.data.wxlogincode, encryptedData: e.detail.encryptedData, iv: e.detail.iv, loginState: 2}
@@ -76,16 +94,11 @@ Page({
           })
           that.setData({ user:app.roleData.user })
         }).catch(console.error());
-      } else {
+      });
+    } else {
         wx.showToast({
           title: '不授权使用微信手机号则不可注册！',icon:'none', duration: 2000
         });
-      }
-    } else {
-      wx.showToast({
-        title: '需要进行微信登录，请再次点击本按钮。', icon: 'none',duration: 2000
-      });
-      that.getLoginCode();
     }
   },
 
@@ -121,6 +134,7 @@ Page({
               unitUsers: [{ "_id": app.roleData.user._id, "line": 9, "position": 8, "uName": app.roleData.user.uName, "avatarUrl": app.roleData.user.avatarUrl, "nickName": app.roleData.user.nickName }]
             }
           }).then(() => {
+            app.roleData.uUnit.uName = reqUnitName;
             db.collection('_User').doc(app.roleData.user._id).update({
               data: {
                 unit: app.roleData.user._id,  // 设置并保存单位ID,设定菜单为applyAdmin
@@ -148,12 +162,13 @@ Page({
               if (res.confirm) {              //用户点击确定则申请加入该单位
                 db.collection('_User').doc(app.roleData.user._id).update({
                   data: {
-                    unit: results.data[0]._id,        //申请加入该单位
+                    unit: res.data[0]._id,        //申请加入该单位
                     line: 9,                   //条线
                     position: 7               //岗位
                   }
                 }).then(function (user) {
-                  app.roleData.user.unit = results.data[0]._id;
+                  app.roleData.uUnit.uName = reqUnitName
+                  app.roleData.user.unit = res.data[0]._id;
                   app.roleData.user.line = 9;
                   app.roleData.user.position = 7;
                   wx.navigateTo({ url: '/index/structure/structure' });

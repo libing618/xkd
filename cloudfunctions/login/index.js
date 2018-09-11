@@ -3,7 +3,7 @@ cloud.init({env:'cyfwtest-07b693'})
 const db = cloud.database()
 const _ = db.command
 const mRole = require('roleMenu');
-//loginState为0、第一次授权，1、已授权，2、读手机号
+//loginState为0、第一次授权，1、已授权，2、读手机号，3、重新登录获得session_key
 exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context) => {
   const appid = userInfo.appId;     //微信小程序appid
   const secret = process.env.secret;     //微信小程序secret
@@ -91,7 +91,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
           } else { resolve(roleData) };
         }).catch (error=> { reject(error) });
         break;
-      default:
+      case 1:
         reqSession(code).then(wxsk=>{
           deWxCode(wxsk).then(dewxcoded=>{
             db.collection('_User').where({
@@ -106,6 +106,11 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
             })
           })
         }).then(err=>{reject(err);});
+        break;
+      default:
+        reqSession(code).then(()=>{
+          resolve({sessionOk:true})
+        }).catch(err=>{ reject(err) });
         break;
     }
   });
