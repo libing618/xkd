@@ -1,0 +1,34 @@
+{
+  "address": {
+    "code": 140105,
+    "sName": "山西省太原市小店区创意街N、P、Q座"
+  },
+  "nick": "山西零用钱",
+  "desc": "山西零用钱",
+  "indType": {
+    "code": [
+      10104,
+      620406,
+      10109
+    ],
+    "sName": [
+      "谷子",
+      "电商服务",
+      "荞麦"
+    ]
+  },
+  "title": "山西零用钱",
+  "thumbnail": "http://ac-Trce3aqb.clouddn.com/4ca8a9f7f128d2cd06a6.png",
+  "uName": "山西零用钱电子商务",
+  "afamily": 1,
+  "sUnit": "59834d78a22b9d006d8d22a3",
+  "users": {
+    "__type": "Relation",
+    "className": "_User"
+  },
+  "aGeoPoint": {
+    "longitude": 112.5648006,
+    "latitude": 37.7951744
+  },
+  "licenseNumber": "14012000000"
+}

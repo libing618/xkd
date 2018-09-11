@@ -33,7 +33,7 @@ Page({
         unAuthorize: false,
         grids: that.data.grids
       });
-      if (!app.roleData.user.line==9){ wx.hideTabBar() };
+      if (app.roleData.user.line==9){ wx.hideTabBar() };
     }).catch(loginerr=>{
       app.logData.push(loginerr);
       that.setData({

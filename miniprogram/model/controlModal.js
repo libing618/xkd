@@ -220,13 +220,27 @@ module.exports = {
     let nowPage = that.data.sPages[pageNumber];
     switch (id) {
       case 'fSave':                  //确认返回数据
-        wx.canvasToTempFilePath({
-          canvasId: 'cei',
-          success: function(resTem){
-            hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = resTem.tempFilePath;
-            downModal(that,hidePage);
-          }
-        })
+        // wx.canvasToTempFilePath({
+        //   canvasId: 'cei',
+        //   success: function(resTem){
+        //     hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = resTem.tempFilePath;
+        //     downModal(that,hidePage);
+        //   }
+        // })
+          wx.canvasGetImageData({
+            canvasId: 'cei',
+            x: 0,
+            y: 0,
+            width: 300,
+            height: 225,
+            success(res) {
+              //比较重要的代码
+              const upng =require("../libs/UPNG.js")
+              let png = upng.encode([res.data.buffer],res.width,res.height)
+              hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = wx.arrayBufferToBase64(png);
+              downModal(that,hidePage);
+            }
+          });
         break;
       case 'fBack':                  //返回
         downModal(that,hidePage);

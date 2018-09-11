@@ -40,7 +40,7 @@ module.exports = {
   ],
   "puRoles": [
     "20",
-    "admin"
+    "88"
   ],
   "pBewrite": "编写各类文章，经单位领导审批后发布。个人编写的此类文章由所属服务机构审批。",
   "suRoles": [

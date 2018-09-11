@@ -73,22 +73,23 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
             uUnit: {},
             sUnit: {}
           };
-          roleData.wmenu = mRole['m' + roleData.user.line + roleData.user.position]
           if (roleData.user.unit != '0') {
             db.collection('_Role').doc(roleData.user.unit).get().then(uRole => {
-              if (uRole.data) {                          //本单位信息在云端有变化
-                roleData.uUnit = uRole.data;
-                if (roleData.uUnit.sUnit != '0') {
-                  db.collection('_Role').doc(roleData.uUnit.sUnit).get().then(sRole => {
-                    if (sRole.data) {
-                      roleData.sUnit = sRole.data;
-                    };
-                    resolve(roleData);
-                  });
-                } else { resolve(roleData) }
-              } else { resolve(roleData) };
+              roleData.wmenu = mRole['m' + uRole.data.afamily+roleData.user.line + roleData.user.position]
+              roleData.uUnit = uRole.data;
+              if (roleData.uUnit.sUnit != '0') {
+                db.collection('_Role').doc(roleData.uUnit.sUnit).get().then(sRole => {
+                  if (sRole.data) {
+                    roleData.sUnit = sRole.data;
+                  };
+                  resolve(roleData);
+                });
+              } else { resolve(roleData) }
             })
-          } else { resolve(roleData) };
+          } else {
+            roleData.wmenu = mRole['m0' + roleData.user.line + roleData.user.position]
+            resolve(roleData)
+          };
         }).catch (error=> { reject(error) });
         break;
       case 1:
