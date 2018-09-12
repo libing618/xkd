@@ -74,6 +74,7 @@ Page({
 
   gUserPhoneNumber: function(e) {
     var that = this;
+    console.log(e.detail)
     if (e.detail.errMsg == 'getPhoneNumber:ok'){
       return new Promise((resolve, reject) => {
         wx.checkSession({
