@@ -10,25 +10,50 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
   function reqSession(rcode){
     return new Promise((resolve, reject) => {
       if (rcode=='sessionOk'){
-        db.collection('miniProgramSession').doc(userInfo.openId).get().then(sk=>{resolve(sk.data.sessionKey)}).catch(err=>{reject(err)})
+        db.collection('miniProgramSession').doc(userInfo.openId).get().then(sk => {
+          resolve(sk.data.sessionKey)
+        }).catch(err => { resolve(false)})
       } else {
-        var requestWx = require('request');
-        var wxurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + appid + '&secret=' + secret + '&js_code=' + rcode + '&grant_type=authorization_code';
-        requestWx({ url: wxurl, header: { 'content-type': 'application/json' }, }, function (err, res, body) {
-          if (!err) {
-            var wxLoginInfo = JSON.parse(body);
-            var wxsk = String(wxLoginInfo.session_key);
-            db.collection('miniProgramSession').doc(userInfo.openId).set({
-              data:{
-                sessionKey: wxsk
-              }
-            });
-            resolve(wxsk)
-          } else {
-            reject(err);
-          }
-        });
+        resolve(false)
       }
+    }).then(sessionOk=>{
+      return new Promise((resolve, reject) => {
+        if (sessionOk){
+          resolve(sessionOk)
+        } else {
+          var requestWx = require('request');
+          var wxurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + appid + '&secret=' + secret + '&js_code=' + rcode + '&grant_type=authorization_code';
+          requestWx({ url: wxurl, header: { 'content-type': 'application/json' }, }, function (err, res, body) {
+            if (!err) {
+              var wxLoginInfo = JSON.parse(body);
+              var wxsk = String(wxLoginInfo.session_key);
+              db.collection('miniProgramSession').doc(userInfo.openId).get().then(({ data }) => {
+                if (data) {
+                  db.collection('miniProgramSession').doc(userInfo.openId).update({
+                    data: {
+                      sessionKey: wxsk
+                    }
+                  }).then(() => {
+                    resolve(wxsk)
+                  })
+                }
+              }).catch( serr=> {
+                db.collection('miniProgramSession').add({
+                  data: {
+                    _id: userInfo.openId,
+                    sessionKey: wxsk
+                  }
+                }).then(() => {
+                  resolve(wxsk)
+                });
+              })
+              
+            } else {
+              reject(err);
+            }
+          });
+        }
+      });
     });
   };
   function deWxCode(wxsk){
@@ -92,18 +117,18 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
           };
         }).catch (error=> { reject(error) });
         break;
-      case 1:
+      case 2:
         reqSession(code).then(wxsk=>{
           deWxCode(wxsk).then(dewxcoded=>{
             db.collection('_User').where({
               _openid: userInfo.openId
             }).update({                         //设置并保存手机号
               data:{
-                mobilePhoneNumber: decoded.phoneNumber,
+                mobilePhoneNumber: dewxcoded.phoneNumber,
                 updatedAt: db.serverDate()
               }
             }).then(()=>{
-              resolve(decoded.phoneNumber);
+              resolve({phoneNumber:dewxcoded.phoneNumber});
             })
           })
         }).then(err=>{reject(err);});

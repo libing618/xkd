@@ -7,7 +7,7 @@ Page({
     statusBar: app.sysinfo.statusBarHeight,
     sysheight: app.sysinfo.windowHeight-300,
     swcheck: true,
-    uName: '',
+    unitName: '',
     phonen: '',
     wxlogincode: '',
     cUnitInfo: '创建或加入单位(必须输入姓名)'
@@ -37,7 +37,11 @@ Page({
     return new Promise((resolve, reject) => {
       wx.checkSession({
         success: function () {            //session_key 未过期，并且在本生命周期一直有效
-          resolve('sessionOk')
+          db.collection('miniProgramSession').doc(app.roleData.user._openid).get().then(()=>{
+            resolve('sessionOk')
+          }).catch(()=>{
+            resolve(that.getLoginCode())
+          })
         },
         fail: function () {
           resolve(that.getLoginCode())
@@ -45,18 +49,18 @@ Page({
       })
     }).then(ressession=>{
       if (app.roleData.user.unit!='0') {
-        that.data.uName = app.roleData.uUnit.uName;
+        that.data.unitName = app.roleData.uUnit.uName;
         if (app.roleData.user.line==9) {
           that.data.cUnitInfo = (app.roleData.user.unit == app.roleData.user._id) ? '您创建的单位正在审批中' : '您申请的岗位正在审批中'
         }
       }
       that.setData({		    		// 获得当前用户
         user: app.roleData.user,
-        iName: app.roleData.user.uName,
+        uName: app.roleData.user.uName,
         wxlogincode: ressession,
         navBarTitle: '尊敬的' + app.roleData.user.nickName + (app.roleData.user.gender == 1 ? '先生' : '女士'),
         cUnitInfo: that.data.cUnitInfo,
-        uName: that.data.uName
+        unitName: that.data.unitName
       });
     }).catch(err=>{
       wx.showToast({ title: '用户登录出错', duration: 2500 });
@@ -88,7 +92,7 @@ Page({
           name: 'login',
           data: { code: that.data.wxlogincode, encryptedData: e.detail.encryptedData, iv: e.detail.iv, loginState: 2}
         }).then(phone=> {
-          app.roleData.user.mobilePhoneNumber = phone;
+          app.roleData.user.mobilePhoneNumber = phone.result.phoneNumber;
           wx.showToast({
             title: '微信绑定的手机号注册成功', icon: 'none',duration: 2000
           })
@@ -104,10 +108,11 @@ Page({
 
   i_Name: function(e) {							//修改用户姓名
     if ( e.detail.value.uName ) {                  //结束输入后验证是否为空
-			app.roleData.user._id
-        .set({ "uName": e.detail.value.uName })  // 设置并保存用户姓名
-				.save()
-				.then((user)=> {
+			db.collection('_User').doc(app.roleData.user._id).update({
+        data:{
+          uName: e.detail.value.uName  // 设置并保存用户姓名
+        }
+      }).then((user)=> {
           app.roleData.user['uName'] = e.detail.value.uName;
           this.setData({ iName: e.detail.value.uName})
 			}).catch((error)=>{console.log(error)

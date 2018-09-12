@@ -20,7 +20,7 @@
         <view class="weui-label">真实姓名:</view>
       </view>
       <view class="weui-cell__bd">
-        <input name="userName" value="{{iName}}" class="weui-input" placeholder="请点击此处输入" />
+        <input name="uName" value="{{uName}}" class="weui-input" placeholder="请点击此处输入" />
       </view>
       <view class="weui-cell__ft">
         <button class="weui-vcode-btn" formType="submit">保   存</button>
@@ -39,7 +39,7 @@
           <view class="weui-label">单位名称:</view>
         </view>
         <view class="weui-cell__bd">
-          <input name="unitName" value="{{uName}}" class="weui-input" placeholder="请输入单位名称" />
+          <input name="unitName" value="{{unitName}}" class="weui-input" placeholder="请输入单位名称" />
         </view>
       </view>
       <view class="weui-cell">
