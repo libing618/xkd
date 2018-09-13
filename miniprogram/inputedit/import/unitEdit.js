@@ -63,21 +63,7 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
   cManagers.forEach((manger) => { manger.forEach((mUser) => { managers.push(mUser) }) });
   return { cManagers,cUserName,managers}
 };
-function roleAuthorization(){      //权限表和用户表授权
-  let roleAcl = new AV.ACL();
-  roleAcl.setWriteAccess(app.roleData.user._id, true)     // 当前用户是该角色的创建者，因此具备对该角色的写权限
-  roleAcl.setPublicReadAccess(true);
-  roleAcl.setPublicWriteAccess(false);
-  roleAcl.setRoleReadAccess(app.roleData.sUnit._id, true);
-  let unitRole = AV.Query(AV.Role);
-  unitRole.get(app.roleData.uUnit._id).then(uRole=>{           //得到单位的权限对象
-    uRole.setACL(roleAcl).save().then(()=>{
-      app.roleData.user._id
-      .setACL(roleAcl)
-      .save()
-    })
-  }).catch( wx.showToast({ title: '上级单位授权中发生错误,请联系客服人员。', icon:'none',duration: 2000 }) )  //保存错误
-};
+
 module.exports = {
 
 initData: function(req, vData) {      //对数据录入或编辑的格式数组和数据对象进行初始化操作
@@ -143,7 +129,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
                   wx.getLocation({
                     type: 'wgs84',
                     success: function (res) {
-                      vData[reqField.gname] = new AV.GeoPoint({ latitude: res.latitude, longitude: res.longitude });
+                      vData[reqField.gname] = new db.Geo.Point(res.longitude,res.latitude);
                       QQMapWX.reverseGeocoder({
                         location: { latitude: res.latitude, longitude: res.longitude },
                         success: function ({ result: { ad_info, address } }) {
@@ -395,17 +381,17 @@ fSubmit: function (e) {
           return new Promise((resolve, reject) => {
             if (sFileArr.length > 0) {
               wx.showLoading({ title: '文件提交中' });
-              sFileArr.map(sFileStr => () => new AV.File('filename', { blob: { uri: sFileStr.fPath, }, }).save().then(sfile => {
-                if (sFileStr.fType == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
+              sFileArr.map(sFileStr => () => wx.cloud.uploadFile({ cloudPath:'editpath', filePath: sFileStr.fPath }).then(sfile => {
+                if (sfile.statusCode == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
                 switch (sFileStr.fn) {
                   case 0:
-                    that.data.vData[sFileStr.na[0]] = sfile.url();
+                    that.data.vData[sFileStr.na[0]] = sfile.fileID;
                     break;
                   case 1:
-                    that.data.vData[sFileStr.na[0]][sFileStr.na[1]] = sfile.url();
+                    that.data.vData[sFileStr.na[0]][sFileStr.na[1]] = sfile.fileID;
                     break;
                   case 2:
-                    that.data.vData[sFileStr.na[0]][sFileStr.na[1]].c = sfile.url();
+                    that.data.vData[sFileStr.na[0]][sFileStr.na[1]].c = sfile.fileID;
                     break;
                   default:
                     break;
@@ -423,23 +409,18 @@ fSubmit: function (e) {
         }).then((sFiles) => {
           if (that.data.targetId == '0') {                    //新建流程的提交
             let approvalRole = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
-            var acl = new AV.ACL();      // 新建一个 ACL 实例
             if (approvalRole.cManagers.length==1){                  //流程无后续审批人
-              let dObject = AV.Object.extend(that.data.pNo);
-              let sObject = new dObject();
+              let sObject = db.collection(that.data.pNo);
               that.data.vData.unitId = app.roleData.uUnit._id;
               that.data.vData.unitName = app.roleData.uUnit.uName;
-              acl.setReadAccess(approvalRole.managers[0], true);
-              acl.setWriteAccess(approvalRole.managers[0], true);
-              sObject.setACL(acl);
+
               sObject.set(that.data.vData).save().then((sd)=>{
                 wx.showToast({ title: '审批内容已发布', duration:2000 });
               }).catch((error)=>{
                 wx.showToast({ title: '审批内容发布出现错误'+error.error, icon:'none', duration: 2000 });
               })
             } else {
-              let nApproval = AV.Object.extend('sengpi');        //创建审批流程
-              var fcApproval = new nApproval();
+              let fcApproval = db.collection('sengpi');        //创建审批流程
               fcApproval.set('dProcedure', that.data.pNo);                //流程
               fcApproval.set('dResult', 0);                //流程处理结果0为提交
               fcApproval.set("unitName", app.roleData.uUnit.uName);                 //申请单位
@@ -451,13 +432,7 @@ fSubmit: function (e) {
               fcApproval.set('cInstance', 1);             //下一处理节点
               fcApproval.set('cFlowStep', approvalRole.cManagers[1]);              //下一流程审批人
               fcApproval.set('dObject', that.data.vData);            //流程审批内容
-              acl.setRoleReadAccess(app.roleData.uUnit._id, true);
-              acl.setRoleReadAccess(app.roleData.sUnit._id, true);
-              approvalRole.managers.forEach(mUser => {
-                acl.setWriteAccess(mUser, true);
-                acl.setReadAccess(mUser, true);
-              })
-              fcApproval.setACL(acl);         // 将 ACL实例赋予fcApproval对象
+
               fcApproval.save().then((resTarget) => {
                 wx.showToast({ title: '流程已提交,请查询审批结果。', icon:'none',duration: 2000 }) // 保存成功
                 if (that.data.pNo == '_Role') { roleAuthorization() };

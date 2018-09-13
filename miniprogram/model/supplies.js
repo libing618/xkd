@@ -1,6 +1,6 @@
 const db = wx.cloud.database();
 const _ = db.command;
-class supplies extends AV.Object {
+class supplies extends {
   get tradeId() { return this.get('tradeId'); }
 //  set tradeId(value) { this.set('tradeId', value); }
 
@@ -76,6 +76,5 @@ class supplies extends AV.Object {
   get receiptTotal() { return this.get('receiptTotal'); }
   set receiptTotal(value) { this.set('receiptTotal', value); }
 }
-AV.Object.register(supplies);
 
 module.exports = supplies;

@@ -20,7 +20,7 @@ Page ({
 
   fetchData: function(oState) {
     var that = this;
-    let supplieQuery = new AV.Query(supplies);
+    let supplieQuery = db.collection(supplies);
     supplieQuery.select(['tradeId','quantity','proName','cargo','cargoName','address','paidAt'])
     supplieQuery.ascending('paidAt');           //按付款时间升序排列
     switch (oState){
@@ -97,7 +97,6 @@ Page ({
     let subIds = Object.keys(e.detail.value);
     let subSuppli = subIds.map(subKey=>{return that.data.pageData[subKey.substring(7)]})
     let setSingle = [];               //定义成品对象的库存数据
-//    return AV.Object.createWithouData('cargo',cargoId)
     that.cargoPlans[cargoId].set({
       'cargoStock':that.cargoPlans[cargoId].cargoStock-confimate,
       'payment':that.cargoPlans[cargoId].payment-confimate,
@@ -106,7 +105,7 @@ Page ({
       let sd = {};
       sd.cargoCount[cargoId] = that.cargoPlans[cargoId].cargoStock;
       that.setData(sd);
-      return AV.Object.saveAll(subSuppli)
+      return db.saveAll(subSuppli)
     }).then(saveSuppli=>{
 
     })

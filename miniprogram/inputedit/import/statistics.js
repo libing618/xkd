@@ -1,5 +1,6 @@
 //订单统计
 const db = wx.cloud.database();
+const _ = db.command;
 const orders = require('../../model/supplies');
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
@@ -47,12 +48,10 @@ Page({
 
   sumOrders:function(){
     var that = this;
-    new AV.Query(orders)
-    .equalTo('unitId', app.roleData.uUnit._id)
-    .greaterThan('updatedAt', new Date(that.data.vData.seDate[0]))
-    .lessThan('updatedAt', new Date(that.data.vData.seDate[1])+86400000)
-    .limit(1000)
-    .find().then(orderlist=>{
+    db.collection('orders').where({
+      unitId: app.roleData.uUnit._id,
+      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt( new Date(that.data.vData.seDate[1])+86400000)))
+    }).count().then(orderlist=>{
       if (orderlist) {
         that.data.mPage.forEach(product=>{
           let sumPro = 0;

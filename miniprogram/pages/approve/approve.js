@@ -78,7 +78,7 @@ Page({
             if (that.data.aValue.dObjectId=='0') {       //新建数据
               resolve( db.collection(that.data.pModel).add({data:sData}) );
             } else {       //修改数据
-              scData.processState = 2
+              scData.processState = 4
               resolve( wx.cloud.callFunction({ name:'process', data:scData }) )
             };
           }).then((sd)=>{
@@ -105,7 +105,7 @@ Page({
             pModel: 'sengpi',
             dObjectId: that.data.aValue._id,
             sData: cApproval,
-            processState: 1
+            processState: 3
           }
         }).then(function () {
           wx.showToast({ title: '流程已提交,请查询结果。', duration: 2000 }) // 保存成功

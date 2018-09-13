@@ -281,11 +281,9 @@ module.exports = {
       sizeType: ['original', 'compressed'],
       sourceType: ['camera'],                      //用户拍摄
       success: function (res) {
-        new AV.File('file-name', {
-          blob: { uri: res.tempFilePaths[0], },
-        }).save().then(file => {
+
           that.setData(vdSet(that.data.iFormat[n].gname, file.url()));
-        }).catch(console.error);
+
       }
     });
   },
@@ -299,7 +297,7 @@ module.exports = {
           location: { latitude: res.latitude, longitude: res.longitude },
           success: function ({ result: { ad_info, address } }) {
             let setAd = {};
-            setAd['vData.aGeoPoint'] = new AV.GeoPoint({ latitude: res.latitude, longitude: res.longitude });
+            setAd['vData.aGeoPoint'] = new db.Geo.Point(res.longitude, res.latitude);
             setAd['vData.address'] = { code: ad_info.adcode, sName: address };
             that.setData(setAd);
           }

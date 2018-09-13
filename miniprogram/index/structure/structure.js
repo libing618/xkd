@@ -15,8 +15,7 @@ Page({
 		applyUser: [],
 		cmRole:[0,0],
 		reqrole: [0,0],
-    reqstate: 0,
-		eRole: '00'                        //岗位代码
+    reqstate: 0
 	},
   aUser: {},
 
@@ -28,32 +27,21 @@ Page({
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
       } else {
 				db.collection('_Role').doc(app.roleData.user.unit).get().then(unitInfo => {
-        if (app.roleData.uUnit.name == app.roleData.user._id) {                //创建人读取单位员工信息
-
+          if (app.roleData.uUnit._id == app.roleData.user._id) {                //创建人读取单位所有员工信息
             that.setData({ applyUser: applyUser });
-          }).catch(console.error);
-          let crole = {};
-          app.roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
-          that.setData({
-            crole: crole,
-            uUnitUsers: app.roleData.uUnit.unitUsers
-          })
-        } else {
-          new db.collection('reqUnit').equalTo('userId', app.roleData.user._id).find().then((resus) => {
-            if (resus.length == 0) {
-              let reso = AV.Object.extend('reqUnit');
-              that.aUser = new reso();
-              that.aUser.set('userId', app.roleData.user._id);
-              that.aUser.set('uName', app.roleData.user.uName);
-              that.aUser.set('avatarUrl', app.roleData.user.avatarUrl);
-              that.aUser.set('nickName', app.roleData.user.nickName);
-              that.aUser.set('rUnit', app.roleData.user.unit);
-              that.aUser.set('rRolArray', [4, 4]);
-            } else {
-              that.setData({ reqstate: 1, reqrole: resus[0].get('rRolArray') });
-            }
-          }).catch(console.error())
-        }
+            let crole = {};
+            app.roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
+            that.setData({
+              crole: crole,
+              uUnitUsers: app.roleData.uUnit.unitUsers
+            })
+            wx.cloud.callFunction({ name: 'process', data: { pModel:'_User', dObjectId:app.roleData.user.unit, processState:5}}).then(({result}) => {
+              if (result.length > 0) {
+                that.setData({ reqstate: 1, reqUsers: result });
+              }
+            }).catch(console.error())
+          }
+        })
       };
     } else {
       wx.showToast({ title: '没有注册用户或申请单位,请在个人信息菜单注册。', duration: 7500 })
@@ -63,19 +51,10 @@ Page({
 			userRolName: app.roleData.user.userRolName
 		})
   },
-	giveRole: function(userId,line,position) {
-		return db.collection('_User').doc(userId).update({
-		  data:{
-		    line: line,
-		    position: position
-			}
-		});
-	},
 
 	fSpicker: function(e) {                         //选择岗位和条线
 		let rval = e.detail.value;
-		this.setData({ reqrole: rval,
-			eRole: rval[0].toString()+ rval[1].toString() });     //对申请条线和岗位进行编码
+		this.setData({ reqrole: rval});
 	},
 
 	fManageRole: function(e) {                         //点击解职、调岗操作
@@ -96,7 +75,7 @@ Page({
 			unitRole.set('unitUsers',app.roleData.uUnit.unitUsers);
 			unitRole.save().then((muser) => { resolve(muRole); })
 		}).then((uSetRole)=>{
-			that.giveRole(uId , uSetRole).then( ()=>{
+			wx.cloud.callFunction({name:'process', data:{}} ).then( ()=>{
 				that.setData({ uUnitUsers: app.roleData.uUnit.unitUsers });
 			})
     }).catch(console.error())

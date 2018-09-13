@@ -44,10 +44,9 @@ function getMonInterval(){
   }
   return {yearMon:result,dayRange,endYear:endYearIndex,endYearMon:endYear+(endMon>9 ? '-' : '-0')+endMon};
 };
-function readSumData(className,sumField,updAt,atName){
+function readSumData(className,sumField,updAt){
   var sumRecords = [];
-  if (!atName) { atName = 'updatedAt' };
-  let readUp = Promise.resolve(new AV.Query(className).select(sumField).greaterThan(atName, updAt).limit(1000).ascending(uatName)).then(results=>{
+  let readUp = Promise.resolve(db.collection(className).field(sumField).where({updatedAt: _.gt(updAt)}).limit(20).orderBy('updatedAt','asc').then(results=>{
     if (results) {
       results.forEach(result=>{ sumRecords.push(result.toJSON()) });
       updAt = results[0].updatedAt;
@@ -161,7 +160,7 @@ module.exports = {
       fields.forEach(field=>{ sFields.push(field+i) });
     }
     return new Promise((resolve,reject)=>{
-      new AV.Query(className+'Family')
+      db.collection(className+'Family')
       .equalTo('userId',app.roleData.user._id)
       .first().then(sFamily=>{
         if(sFamily){
@@ -289,7 +288,7 @@ module.exports = {
         });
     }).then(updatedAt => {
       return new Promise((resolve, reject) => {
-        readSumData(className, cField, updatedAt, 'updatedAt').then(sumData => {
+        readSumData(className, cField, updatedAt).then(sumData => {
           if (sumData) {
             let recordJSON;
             sumData.forEach(mRecord => {

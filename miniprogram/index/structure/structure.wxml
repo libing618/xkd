@@ -14,9 +14,9 @@
       </picker-view-column>
     </picker-view>
   </view>
-  <view wx:if="{{ userRolName=='admin' }}">
+  <view wx:if="{{ userIsAdmin' }}">
     <block wx:for="{{uUnitUsers}}" wx:key="{{index}}">
-      <view wx:if="{{item.userRolName==eRole}}" class="weui-cell">
+      <view wx:if="{{item.line==mRols[0] && item.position==mRols[1]}}" class="weui-cell">
         <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image class="weui-media-box__thumb" src="{{item.avatarUrl}}" background-size="cover"></image>

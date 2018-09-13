@@ -52,7 +52,7 @@ Page({
     switch (id) {
       case 'fSwitch':                  //确认切换到下一数组并返回
         let arrNext = (that.data.ht.pageCk + 1) == that.data.ht.fLength ? 0 : (that.data.ht.pageCk + 1);
-        AV.Object.createWithoutData('share',that.data.modalId).set('afamily',arrNext).save().then(()=>{
+        db.collection('share').doc(that.data.modalId).set('afamily',arrNext).save().then(()=>{
           that.data.cPage[arrNext].push(that.data.modalId);
           let oldNo = that.data.cPage[that.data.ht.pageCk].indexOf(that.data.modalId);
           that.data.cPage[that.data.ht.pageCk].splice(oldNo, 1);

@@ -138,7 +138,7 @@ Page({
               _id: app.roleData.user._id,   //用创建人的ID作ROLE的ID
               uName: reqUnitName,
               afamily: 0,
-              unitUsers: [{ "_id": app.roleData.user._id, "line": 9, "position": 8, "uName": app.roleData.user.uName, "avatarUrl": app.roleData.user.avatarUrl, "nickName": app.roleData.user.nickName }]
+              unitUsers: [{ "userId": app.roleData.user._id, "line": 9, "position": 8, "uName": app.roleData.user.uName, "avatarUrl": app.roleData.user.avatarUrl, "nickName": app.roleData.user.nickName }]
             }
           }).then(() => {
             app.roleData.uUnit.uName = reqUnitName;

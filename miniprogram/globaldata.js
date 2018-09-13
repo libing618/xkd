@@ -12,7 +12,6 @@ module.exports={
       "province": "Shanxi",
       "avatarUrl": "../../images/index.png",
       "country": "CN",
-      "userAuthorize": -1,
       "mobilePhoneNumber": "0",
       "_id": "0"
     },

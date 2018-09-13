@@ -44,7 +44,7 @@ Page({
   indexClick: indexClick,
   sumOrders:function(){
     var that = this;
-    new AV.Query('cargoSupplies')
+    db.collection('cargoSupplies')
     .equalTo('unitId', app.roleData.uUnit._id)
     .greaterThan('updatedAt', new Date(that.data.vData.seDate[0]))
     .lessThan('updatedAt', new Date(that.data.vData.seDate[1])+86400000)

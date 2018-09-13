@@ -32,7 +32,8 @@ Page({
   onLoad:function(options){
     var that = this;
     if (checkRols(9,app.roleData.user)) {
-      new AV.Query('distributor').equalTo('unitId',app.roleData.uUnit._id).ascending('updatedAt').find().then(channel=>{
+      db.collection('distributor').where({
+        unitId:app.roleData.uUnit._id}).orderBy('updatedAt'.'asc').get().then(channel=>{
         if (channel) {
           let fc;
           channel.forEach(csi=>{

@@ -28,7 +28,7 @@ Page({
     wWidth: app.sysinfo.windowWidth,
     statusBar: app.sysinfo.statusBarHeight,
     ht: {
-      navTabs: ['待我审', '处理中', '已结束'],
+      navTabs: ['待我审', '我已审', '已发布'],
       fLength: 3,
       pageCk: 0
     },
@@ -43,6 +43,7 @@ Page({
       this.data.pClassName[procedure] = app.fData[procedure].pName;
       if (!app.mData.procedures[procedure]) { app.mData.procedures[procedure]=[] }
     };
+
     this.setData({
       pClassName: this.data.pClassName,
       indexPage: ats(),
@@ -64,18 +65,19 @@ Page({
     this.setData({ anClicked: app.mData.proceduresCk });
   },
 
-  updatepending: function(isDown){                          //更新数据 ，0上拉刷新，1下拉刷新
+  updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
-    var readProcedure = new AV.Query('sengpi');                                      //进行数据库初始化操作
-    if (isDown) {
-      readProcedure.greaterThan('updatedAt',new Date(app.mData.proceduresAt[1]));         //查询本地最新时间后修改的记录
-      readProcedure.ascending('updatedAt');           //按更新时间升序排列
-      readProcedure.limit(1000);                      //取最大数量新闻
-    } else {
-      readProcedure.lessThan('updatedAt',new Date(app.mData.proceduresAt[0]));          //查询最后更新时间前修改的记录
-      readProcedure.descending('updatedAt');           //按更新时间降序排列
-    };
-    readProcedure.find().then((results) => {
+    wx.cloud.callFunction({
+      name:'prosess',
+      data:{
+       sData:{
+         proceduresCk: app.mData.proceduresCk,
+         rDate: app.mData.proceduresAt,
+         isDown: isDown ? 'asc' : 'desc'
+       },
+       processState: that.data.ht.pageCk    //类型(0待我审,1处理中,2已结束)
+      }
+    }).then((results) => {
       let lena = results.length ;
       if (lena>0){
         let aprove = {},uSetData = {}, aPlace = -1;

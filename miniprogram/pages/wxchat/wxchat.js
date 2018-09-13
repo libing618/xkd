@@ -1,4 +1,5 @@
 //系统对话和聊天室模块
+const db = wx.cloud.database();
 const conversationRole = {
   "推广通知":{participant:9,chairman:6},
   "工作沟通":{participant:8,chairman:5},
@@ -51,7 +52,7 @@ Page({
           if (app.aData[options.pNo][options.artId]){
             resolve(true)
           } else {
-            AV.Object.createWithoutData(options.pNo,options.artId).fetch().then(getData=>{
+            db.collection(options.pNo).doc(options.artId).update().then(getData=>{
               app.aData[options.pNo][options.artId] = getData.toJSON();
               resolve(true)
             }).catch(reject(false))

@@ -29,7 +29,7 @@ Page({
     return new Promise((resolve, reject) => {
       var umdata = new Array(app.fData.service.afamily.length);
       umdata.fill([]);
-      var readProcedure = new AV.Query('service');                                      //进行数据库初始化操作
+      var readProcedure = db.collection('service');                                      //进行数据库初始化操作
       var unitId = uId ? uId : app.roleData.uUnit._id;
       readProcedure.equalTo('unitId', unitId);                //除权限和文章类数据外只能查指定单位的数据
       readProcedure.greaterThan('startDate', new Date());
