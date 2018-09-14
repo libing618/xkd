@@ -26,11 +26,8 @@ Page({
     if (app.roleData.user.position==8) {
       db.collection('sengpi').where({
         unitId: app.roleData.user._id,       //单位ID等于用户ID则为负责人
-        dProcedure: 0
-      }).orderBy('updatedAt','desc')
-        .limit(1)
-        .get().then(({data}) =>
-      {
+        dProcedure: '_Role'
+      }).orderBy('updatedAt','desc').limit(1).get().then(({data}) =>{
         if (data.length==1) {
           that.data.vData = data[0].dObject;
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交

@@ -6,62 +6,46 @@ const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
 function setRole(puRoles,suRoles){      //流程审批权限列表
-  let cUserName = {};
-  let cManagers = [[app.roleData.user._id]];
-  cUserName[app.roleData.user._id] = app.roleData.user.uName;
+  let cManagers = [app.roleData.user.unit+app.roleData.user.line+app.roleData.user.position];
   if (app.roleData.uUnit.afamily > 2 && puRoles) {          //单位类型为企业且有本单位审批设置
     let pRolesNum = 0, pRoleUser;
     for (let i = 0; i < puRoles.length; i++) {
-      pRoleUser = [];
+      pRoleUser = false;
       app.roleData.uUnit.unitUsers.forEach((pUser) => {
-        if (pUser.userRolName.substring(3) == puRoles[i]) {
-          pRoleUser.push(pUser._id);
-          cUserName[pUser._id] = pUser.uName;
+        if ((pUser.line+''+pUser.position) == puRoles[i]) {
+          pRoleUser = true;
         }
       })
-      if (pRoleUser.length != 0) {
+      if (pRoleUser) {
         pRolesNum = pRolesNum + 1;
-        cManagers.push(pRoleUser);
+        cManagers.push(app.roleData.user.unit+puRoles[i]);
       }
     };
-    if (pRolesNum == 0 && app.roleData.user.userRolName.substring(3) != 'admin') {
-      app.roleData.uUnit.unitUsers.forEach((pUser) => {
-        if (pUser.userRolName.substring(3) == 'admin') {
-          cManagers.push([pUser._id]);
-          cUserName[pUser._id] = pUser.uName;
-        }
-      })
+    if (pRolesNum==0 && app.roleData.user.line!=8) {
+      cManagers.push(app.roleData.user.unit+'88');
     }
   }
   if (suRoles) {                 //上级单位类型有审批设置
     let sRolesNum = 0, sRoleUser;
     if (app.roleData.sUnit.afamily>2) {     //单位类型为企业
       for (let i = 0; i < suRoles.length; i++) {
-        sRoleUser = [];
+        sRoleUser = false;
         app.roleData.sUnit.unitUsers.forEach((sUser) => {
-          if (sUser.userRolName.substring(3) == suRoles[i]) {
-            sRoleUser.push(sUser._id);
-            cUserName[sUser._id] = sUser.uName;
+          if (sUser.line+''+sUser.position == suRoles[i]) {
+            sRoleUser = true;
           }
         });
-        if (sRoleUser.length != 0) {
+        if (sRoleUser) {
           sRolesNum = sRolesNum + 1;
-          cManagers.push(sRoleUser);
+          cManagers.push(app.roleData.sUnit._id+suRoles[i]);
         }
       }
     }
     if (sRolesNum == 0) {
-      app.roleData.sUnit.unitUsers.forEach((sUser) => {
-        if (sUser.userRolName.substring(3) == 'admin') {
-          cManagers.push([sUser._id]);;
-          cUserName[sUser._id] = sUser.uName;
-        }
-      })
+      cManagers.push(app.roleData.sUnit._id+'88');
     }
   };
-  let managers = [];
-  cManagers.forEach((manger) => { manger.forEach((mUser) => { managers.push(mUser) }) });
-  return { cManagers,cUserName,managers}
+  return cManagers
 };
 
 module.exports = {
@@ -408,34 +392,31 @@ fSubmit: function (e) {
           })
         }).then((sFiles) => {
           if (that.data.targetId == '0') {                    //新建流程的提交
-            let approvalRole = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
-            if (approvalRole.cManagers.length==1){                  //流程无后续审批人
-              let sObject = db.collection(that.data.pNo);
+            let cManagers = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
+            if (cManagers.length==1){                  //流程无后续审批人
               that.data.vData.unitId = app.roleData.uUnit._id;
               that.data.vData.unitName = app.roleData.uUnit.uName;
-
-              sObject.set(that.data.vData).save().then((sd)=>{
+              db.collection(that.data.pNo).add({data:that.data.vData}).then(()=>{
                 wx.showToast({ title: '审批内容已发布', duration:2000 });
               }).catch((error)=>{
                 wx.showToast({ title: '审批内容发布出现错误'+error.error, icon:'none', duration: 2000 });
               })
             } else {
-              let fcApproval = db.collection('sengpi');        //创建审批流程
-              fcApproval.set('dProcedure', that.data.pNo);                //流程
-              fcApproval.set('dResult', 0);                //流程处理结果0为提交
-              fcApproval.set("unitName", app.roleData.uUnit.uName);                 //申请单位
-              fcApproval.set("sponsorName", app.roleData.user.uName);         //申请人
-              fcApproval.set("unitId", app.roleData.uUnit._id);        //申请单位的ID
-              fcApproval.set('dIdear', [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }]);       //流程处理意见
-              fcApproval.set('cManagers', approvalRole.cManagers);             //处理人数组
-              fcApproval.set('cUserName', approvalRole.cUserName);             //处理人姓名JSON
-              fcApproval.set('cInstance', 1);             //下一处理节点
-              fcApproval.set('cFlowStep', approvalRole.cManagers[1]);              //下一流程审批人
-              fcApproval.set('dObject', that.data.vData);            //流程审批内容
-
-              fcApproval.save().then((resTarget) => {
+              db.collection('sengpi').add({        //创建审批流程
+                data:{
+                  dProcedure that.data.pNo,                //流程
+                  dResult: 0,                //流程处理结果0为提交
+                  unitName: app.roleData.uUnit.uName,                 //申请单位
+                  sponsorName: app.roleData.user.uName,         //申请人
+                  unitId: app.roleData.uUnit._id,        //申请单位的ID
+                  dIdear: [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }]);       //流程处理意见
+                  cManagers: cManagers,             //单位条线岗位数组
+                  cInstance: 1,                     //下一处理节点
+                  cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位
+                  dObject: that.data.vData            //流程审批内容
+                }
+              }).then(() => {
                 wx.showToast({ title: '流程已提交,请查询审批结果。', icon:'none',duration: 2000 }) // 保存成功
-                if (that.data.pNo == '_Role') { roleAuthorization() };
               }).catch(wx.showToast({ title: '提交保存失败!', icon:'loading',duration: 2000 })) // 保存失败
             }
           } else {

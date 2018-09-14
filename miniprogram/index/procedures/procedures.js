@@ -60,34 +60,34 @@ Page({
 
   hTabClick: hTabClick,
 
-  anClick: function(e){                           //选择审批流程类型的数组下标
-    app.mData.proceduresCk = e.currentTarget.id.substring(3);
+  anClick: function(e){                           //选择审批流程类型
+    app.mData.proceduresCk = e.currentTarget.id;
     this.setData({ anClicked: app.mData.proceduresCk });
   },
 
-  updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
+  updatepending: function(isDown,nProcess){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
     wx.cloud.callFunction({
       name:'prosess',
       data:{
        sData:{
-         proceduresCk: app.mData.proceduresCk,
-         rDate: app.mData.proceduresAt,
+         pName: app.mData.proceduresCk,
+         rDate: app.mData.proceduresAt[nProcess],
          isDown: isDown ? 'asc' : 'desc'
        },
-       processState: that.data.ht.pageCk    //类型(0待我审,1处理中,2已结束)
+       processState: nProcess    //类型(0待我审,1处理中,2已结束)
       }
-    }).then((results) => {
-      let lena = results.length ;
+    }).then(({result}) => {
+      let lena = result.length ;
       if (lena>0){
         let aprove = {},uSetData = {}, aPlace = -1;
         if (isDown) {                     //下拉刷新
-          app.mData.proceduresAt[1] = results[lena-1].updatedAt;                          //更新本地最新时间
-          app.mData.proceduresAt[0] = results[0].updatedAt;                 //更新本地最后更新时间
+          app.mData.proceduresAt[1] = result[lena-1].updatedAt;                          //更新本地最新时间
+          app.mData.proceduresAt[0] = result[0].updatedAt;                 //更新本地最后更新时间
         } else {
-          app.mData.proceduresAt[0] = results[lena - 1].updatedAt;          //更新本地最后更新时间
+          app.mData.proceduresAt[0] = result[lena - 1].updatedAt;          //更新本地最后更新时间
         };
-        results.forEach( (region) =>{
+        result.forEach( (region) =>{
           aprove=region.toJSON();                      //dProcedure为审批流程的序号
           if (isDown) {                               //ats为各类审批流程的ID数组
             aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove._id)
@@ -113,14 +113,14 @@ Page({
   },
 
   onShow: function() {
-    this.updatepending(true);
+    this.updatepending(true,this.data.ht.pageCk);
   },
   onPullDownRefresh: function () {
-    this.updatepending(true);
+    this.updatepending(true,this.data.ht.pageCk);
   },
 
   onReachBottom: function () {
-    this.updatepending(false);
+    this.updatepending(false,this.data.ht.pageCk);
   },
 
   onShareAppMessage: function () {    // 用户点击右上角分享
