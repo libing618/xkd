@@ -8,16 +8,20 @@ const _ = db.command;
 exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, context) => {
   function setRole(userId,sLine,sPosition) {
     return new Promise((resolve, reject) => {
-      db.collection('_User').doc(userId).update({
-        data: {                   //负责人的ID与单位ID相同
-          line: sLine,
-          position: sPosition,
-          updatedAt: db.serverData()
-        }
-      }).then(() => {
+      if (pModel=='_Role'){
+        db.collection('_User').doc(userId).update({
+          data: {                   //负责人的ID与单位ID相同
+            line: sLine,
+            position: sPosition,
+            updatedAt: db.serverData()
+          }
+        }).then(() => {
+          resolve(true)
+        })
+      } else {
         resolve(true)
-      }).catch(error=>{resolve(error)});
-    })
+      }
+    }).catch(error=>{reject(error)});
   };
   function userRole(){           //获取用户数据
     db.collection('_User').where({
@@ -55,9 +59,8 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
       case 1:                    //查询待用户处理过未发布的流程
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
-            approveUnit: user.unit,
-            approveLine: user.line,
-            approvePosition: user.position,
+            processUser: user._id,    //已处理人ID
+            processState: 1,
             updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
           })
           reqProcess.count().then(qCount=>{
@@ -74,9 +77,8 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
       case 2:                    //查询用户岗位可阅读和审批过的已发布流程
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
-            approveUnit: user.unit,
-            approveLine: user.line,
-            approvePosition: user.position,
+            processUser: user._id,    //已处理人ID
+            processState: 2,
             updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
           })
           reqProcess.count().then(qCount=>{
@@ -95,13 +97,15 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
           resolve(pEnd.stats)
         }).catch(err => { reject(err) })
         break;
-      case 4:                    //审批单位，修改原记录后发布
-        delete sData.uPhoto;     //删除证件照
-        delete sData.pPhoto;     //删除申请人照
-        sData.unitUsers.forEach((unitUser,i)=>{
-          if(unitUser.userId==dObjectId){ sData.unitUsers[i].line=9}
-        })
-        db.collection('_Role').doc(dObjectId).update({ data: sData }).then(pEnd => {
+      case 4:                    //审批，修改原记录后发布
+        if (pModel=='_Role') {
+          delete sData.uPhoto;     //删除证件照
+          delete sData.pPhoto;     //删除申请人照
+          sData.unitUsers.forEach((unitUser,i)=>{
+            if(unitUser.userId==dObjectId){ sData.unitUsers[i].line=9}
+          })
+        }
+        db.collection(pModel).doc(dObjectId).update({ data: sData }).then(pEnd => {
           setRole(dObjectId,8,8).then(() => { resolve(pEnd.stats) })
         }).catch(err => { reject(err) })
         break;

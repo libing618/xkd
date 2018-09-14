@@ -28,8 +28,8 @@ Page({
         pBewrite: procedureClass.pBewrite,     //流程说明
         pModel: app.procedures[options.approveId].dProcedure,         //流程写入的数据表名
         aValue: app.procedures[options.approveId],        //流程缓存
+        processState: app.procedures[options.approveId].processState,
         enEdit: app.roleData.uUnit._id==app.procedures[options.approveId].unitId,          //本单位的流程允许编辑
-        enApprove: app.procedures[options.approveId].cFlowStep.indexOf(app.roleData.user._id) >= 0,     //当前用户为流程处理人
         afamilys: procedureClass.afamily ? procedureClass.afamily : false,                              //流程内容分组
         cmLength: app.procedures[options.approveId].cManagers.length    //流程审批节点长度
       });
@@ -43,28 +43,38 @@ Page({
   },
 
   resultChange: function(e){
-    var nInstace = Number(this.data.aValue.cInstance);
+    var that = this;
+    var nInstace = Number(that.data.aValue.cInstance);
 	  switch (e.detail.value) {
       case "0":
         nInstace++;
+        if (nInstace==that.data.cmLength) {
+          that.data.processState=2
+        } else {
+          that.data.processState=1
+        };
         break;
       case "1":
         nInstace=0;
+        that.data.processState=0;
         break;
       case "2":
-        nInstace=this.data.cmLength;
+        nInstace=that.data.cmLength;
         break;
     };
-    this.setData({cResult:Number(e.detail.value), "aValue.cInstance":nInstace})
+    that.setData({
+      processState: that.data.processState,
+      cResult:Number(e.detail.value),
+      "aValue.cInstance":nInstace
+    })
   },
 
   fsave:function(e) {                         //保存审批意见，流向下一节点
     var that = this;
     var nInstace = Number(that.data.aValue.cInstance);        //下一流程节点
     if (nInstace>=0) {
-      var rResultId = Number(e.detail.value.dResult)+1;
       return new Promise((resolve, reject) => {
-        if ( nInstace==that.data.cmLength && rResultId === 1 ){   //最后一个节点审批通过
+        if ( nInstace==that.data.cmLength && that.data.processState == 2 ){   //最后一个节点审批通过
           let scData = {
             pModel: that.data.pModel,
             dObjectId: that.data.aValue.dObjectId,
@@ -91,13 +101,13 @@ Page({
         } else { resolve(false) };
       }).then(processEnd=>{
         let cApproval = {
-          dResult: rResultId,                //流程节点
+          processState: that.data.processState,                //流程节点
           cInstance: nInstace,             //下一处理节点
           cFlowStep: nInstace == that.data.cmLength ? ['流程结束'] : that.data.aValue.cManagers[nInstace]  //下一流程审批人
         };
         if (processEnd) { cApproval.dObjectId = sObjectId }
         let uIdear = that.data.aValue.dIdear;
-        uIdear.unshift({ un: app.roleData.user.uName, dt: new Date(), di:that.data.uIdearArray[rResultId-1] , dIdear:e.detail.value.dIdear })
+        uIdear.unshift({ un: app.roleData.user.uName, dt: new Date(), di:that.data.uIdearArray[that.data.cResult] , dIdear:e.detail.value.dIdear })
         cApproval.dIdear = uIdear;       //流程处理意见
         wx.cloud.callFunction({
           name: 'process',

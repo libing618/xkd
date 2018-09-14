@@ -5,22 +5,29 @@
   <template is="p_navBar__headTab" data="{{statusBar,...ht}}"/>
 
   <view class="page__bd weui-tab__panel">
-    <block wx:for="{{indexPage[pageCk].total}}" wx:key="{{index}}" wx:for-item="ac" wx:for-index="j">
-      <view wx:if="{{ac!=0}}" class="weui-cells">
-        <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="ac-{{j}}" bindtap="anClick">
-          <template is="{{ anClicked==j ? 'selecticon1' : 'selecticon2'}}" />
-          <view class="weui-cell__bd">{{pClassName[j]}}审批流程</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access">{{ac}}</view>
+    <view wx:if="{{ht.pageCk==3}}">
+      <block wx:for="{{pClassName}}" wx:key="{{index}}" wx:for-item="ac" wx:for-index="j" class="weui-cells">
+        <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac.id}}" bindtap="anClick">
+          <template is="{{ anClicked==ac.id ? 'selecticon1' : 'selecticon2'}}" />
+          <view class="weui-cell__bd">{{ac.pName}}审批流程</view>
         </view>
-        <view hidden="{{anClicked!=j}}">
-          <block class="weui-cell" wx:for="{{indexPage[pageCk].ats[j]}}" wx:key="{{index}}" wx:for-item="id">
-            <navigator url="/pages/approve/approve?approveId={{id}}">
-              <view class="weui-cell__bd">发起人:{{pageData[id].unitName}} {{pageData[id].sponsorName}}</view>
-              <view class="weui-cell__ft">{{pageData[id].dIdear[0].un}}于{{pageData[id].dIdear[0].dt}} {{pageData[id].dIdear[0].di}}</view>
+        <view hidden="{{anClicked!=ac.id}}">
+          <block class="weui-cell" wx:for="{{procedures[ac.id]}}" wx:key="{{index}}" wx:for-item="pd">
+            <navigator url="/pages/approve/approve?approveId={{pd}}">
+              <view class="weui-cell__bd">发起人:{{pageData[pd].unitName}} {{pageData[pd].sponsorName}}</view>
+              <view class="weui-cell__ft">{{pageData[pd].dIdear[0].un}}于{{pageData[pd].dIdear[0].dt}} {{pageData[pd].dIdear[0].di}}</view>
             </navigator>
           </block>
         </view>
-      </view>
-    </block>
+      </block>
+    </view>
+    <view wx:else>
+      <block class="weui-cell" wx:for="{{indexPage[ht.pageCk]}}" wx:key="{{index}}" wx:for-item="pc">
+        <navigator url="/pages/approve/approve?approveId={{pc}}">
+          <view class="weui-cell__bd">发起人:{{pageData[pc].unitName}} {{pageData[pc].sponsorName}}</view>
+          <view class="weui-cell__ft">{{pageData[pc].dIdear[0].un}}于{{pageData[pc].dIdear[0].dt}} {{pageData[pc].dIdear[0].di}}</view>
+        </navigator>
+      </block>
+    </view>
   </view>
 </view>

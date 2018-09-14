@@ -2,26 +2,7 @@
 const db = wx.cloud.database();
 const { hTabClick } = require('../../libs/util.js');
 var app = getApp();
-function ats(){
-  let rats = [{},{},{}], j;
-  for (j in app.fData) {
-    if (app.mData.procedures[j]) {
-      app.mData.procedures[j].forEach(mpoId => {
-        if (typeof rats[app.procedures[mpoId].apState][j] == 'undefined') { rats[app.procedures[mpoId].apState][j] = [] };
-        rats[app.procedures[mpoId].apState][j].push(mpoId);
-      })
-    }
-  };
-  let atotal = [];
-  for (let i = 0; i < 3; i++) {
-    let total = {};
-    for (j in rats[i]){
-      total[j] = typeof rats[i][j] == 'undefined' ? 0 : rats[i][j].length
-    }
-    atotal.push({ ats: rats[i], total: total})
-  };
-  return atotal;
-}
+
 Page({
   data:{
     pClassName: {},
@@ -38,15 +19,20 @@ Page({
   },
 
   onLoad:function(options){
-    let procedure;
+    let procedure,userRole=app.roleData.user.ling+''+app.roleData.user.position;
+    this.data.pClassName = [];
     for (procedure in app.fData) {
-      this.data.pClassName[procedure] = app.fData[procedure].pName;
-      if (!app.mData.procedures[procedure]) { app.mData.procedures[procedure]=[] }
+      this.data.pClassName.push({id:procedure,pName:app.fData[procedure].pName});
+      if (!app.mData.procedures[procedure]) {
+        app.mData.procedures[procedure]=[];
+        app.mData.proceduresAt[procedure]=[new Date(0),new Date(0)];
+      }
     };
 
     this.setData({
       pClassName: this.data.pClassName,
-      indexPage: ats(),
+      indexPage: app.mData.prodessing,
+      procedures:app.mData.procedures,
       anClicked: app.mData.proceduresCk,
       pageData: app.procedures
     });
@@ -72,23 +58,22 @@ Page({
       data:{
        sData:{
          pName: app.mData.proceduresCk,
-         rDate: app.mData.proceduresAt[nProcess],
+         rDate: nProcess==3 ? app.mData.proceduresAt[app.mData.proceduresCk] : app.mData.processingAt[nProcess],
          isDown: isDown ? 'asc' : 'desc'
        },
        processState: nProcess    //类型(0待我审,1处理中,2已结束)
       }
     }).then(({result}) => {
-      let lena = result.length ;
+      let lena = result.records.length ;
       if (lena>0){
         let aprove = {},uSetData = {}, aPlace = -1;
         if (isDown) {                     //下拉刷新
-          app.mData.proceduresAt[1] = result[lena-1].updatedAt;                          //更新本地最新时间
-          app.mData.proceduresAt[0] = result[0].updatedAt;                 //更新本地最后更新时间
+          app.mData.processingAt[1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
+          app.mData.processingAt[0] = result.records[0].updatedAt;                 //更新本地最后更新时间
         } else {
-          app.mData.proceduresAt[0] = result[lena - 1].updatedAt;          //更新本地最后更新时间
+          app.mData.processingAt[0] = result.records[lena - 1].updatedAt;          //更新本地最后更新时间
         };
-        result.forEach( (region) =>{
-          aprove=region.toJSON();                      //dProcedure为审批流程的序号
+        result.records.forEach( aprove =>{              //dProcedure为审批流程的序号
           if (isDown) {                               //ats为各类审批流程的ID数组
             aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove._id)
             if (aPlace >= 0) { app.mData.procedures[aprove.dProcedure].splice(aPlace, 1) }           //删除本地的重复记录列表
@@ -106,7 +91,7 @@ Page({
           app.procedures[aprove._id] = aprove;            //pageData是ID为KEY的JSON格式的审批流程数据
           uSetData['pageData.'+aprove._id] = aprove;                  //增加页面中的新收到数据
         });
-        uSetData.indexPage = ats();
+        uSetData.indexPage = app.mData.processing;
         that.setData( uSetData );
       }
      }).catch( console.error );

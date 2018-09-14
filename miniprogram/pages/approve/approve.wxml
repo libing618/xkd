@@ -26,7 +26,7 @@
     </view>
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <template is="{{ aprvClicked[1] ? 'selecticon1' : 'selecticon2'}}" />
-      <view wx:if="{{enEdit && enApprove}}">
+      <view wx:if="{{enEdit && processState==0}}">
         <navigator url="/inputedit/fprocedure/fprocedure?tgId={{aValue._id}}">
           <view class="weui-cell__bd">审批内容（点击此处进行编辑）</view>
         </navigator>
@@ -56,10 +56,10 @@
       </block>
     </view>
 
-    <form wx:if="{{enApprove}}" class="page__bd" bindsubmit="fsave">
+    <form wx:if="{{processState<2}}" class="page__bd" bindsubmit="fsave">
       <view class="weui-cell weui-cell_input">
         <view class="weui-label">审批意见:</view>
-        <radio-group name="dResult" bindchange="resultChange">
+        <radio-group name="audit" bindchange="resultChange">
           <label style="flex-direction:row;" wx:for="{{uIdearArray}}" wx:key="{{index}}">
             <radio value="{{index}}" checked="{{cResult==index}}"/>{{item}}
           </label>

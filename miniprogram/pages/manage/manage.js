@@ -11,7 +11,7 @@ Page({
     pNo: 'articles',                       //文章类信息
     fLength:3,
     tabs: ["品牌建设", "政策扶持", "我的商圈"],
-    pageCk: app.mData.pCk1
+    pageCk: app.mData.pCkartcles
   },
 
   onLoad: function () {

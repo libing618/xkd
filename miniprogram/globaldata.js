@@ -29,10 +29,11 @@ module.exports={
     sUnit:{}                           //上级单位信息（若有）
   },
   mData: {
-    proceduresAt:[date0,date0,date0]           //缓存中流程更新时间
+    processingAt:[date0,date0],           //缓存中处理中流程更新时间
+    proceduresAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"specs":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0},
     articles: [[], [], [], [], []],              //已发布文章分类缓存数组
-    pCk1: 1,            //已发布文章分类阅读选中序号
-    pCk8: 1,            //已发布团购众筹分类阅读选中序号
+    pCkarticles: 1,            //已发布文章分类阅读选中序号
+    pCkpromotion: 1,            //已发布团购众筹分类阅读选中序号
     asset: [],              //已发布固定资产缓存数组
     product: [],              //已发布产品分类缓存数组
     service: [],              //已发布服务分类缓存数组
@@ -40,9 +41,9 @@ module.exports={
     goods: [],              //已发布商品分类缓存数组
     specs: [],              //已发布规格分类缓存数组
     promotion: [[],[], []],              //已发布团购众筹分类缓存数组
-    prodesign: [],              //已发布生产计划缓存数组
-    procedures: [[],[], []],              //流程分类缓存数组
-    proceduresCk: '_Role',
+    prodessing: [[],[]],              //已发布生产计划缓存数组
+    procedures: {},              //已发布流程分类缓存数组
+    proceduresCk: 'goods',             //选中的已发布流程
     pAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"specs":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0}
   },
   aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"specs":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}},
