@@ -12,26 +12,15 @@
   </view>
   <view class="weui-panel weui-panel_access">
     <block wx:for="{{mPage}}" wx:key="{{index}}" wx:for-item="ac">
-      <view class="weui-panel__hd">
       <view class="weui-media-box weui-media-box_small-appmsg">
-        <view class="weui-cells weui-cells_in-small-appmsg">
-          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac}}" bindtap="indexClick">
-            <view class="weui-cell__hd">{{pageData[ac].uName}}</view>
-            <view class="weui-cell__bd weui-cell_primary">可供应量{{mSum[ac][0]}}份,库存{{mSum[ac][1]}}份</view>
-            <view hidden="{{iClicked==ac}}" class="weui-cell__ft weui-cell__ft_in-access"></view>
-          </view>
-        </view>
-      </view>
-      </view>
-      <view hidden="{{iClicked!=ac}}" wx:for="{{pageData[ac].cargo}}" wx:key="{{index}}" class="weui-panel__bd">
-        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{ac}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-            <image class="weui-media-box__thumb" src="{{cargo[item].thumbnail}}" background-size="cover"></image>
+            <image class="weui-media-box__thumb" src="{{pageData[ac].thumbnail}}" background-size="cover"></image>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-            <view class="weui-media-box__title">{{cargo[item].uName}}</view>
-            <view class="weui-media-box__desc">{{cargo[item].title}}</view>
-            <view class="weui-media-box__desc">可供应量{{cargo[item].canSupply}},库存{{cargo[item].cargoStock}}</view>
+            <view class="weui-media-box__title">{{pageData[ac].uName}}</view>
+            <view class="weui-media-box__desc">{{pageData[ac].title}}</view>
+            <view class="weui-media-box__desc">可供应量{{pageData[ac].canSupply}},库存{{pageData[ac].cargoStock}}</view>
           </view>
         </navigator>
       </view>

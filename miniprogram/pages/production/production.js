@@ -1,7 +1,6 @@
-const { getData } = require('../../model/wx_data');
+const { getData,getAllData } = require('../../model/wx_data');
 const { unitData } = require('../../model/initForm.js');
-const { cargoSum,integration } = require('../../model/dataAnalysis.js');
-const {indexClick} = require('../../libs/util.js');
+const { cargoCount } = require('../../model/dataAnalysis.js');
 
 var app = getApp()
 Page({
@@ -9,23 +8,19 @@ Page({
     mPage: [],
     pNo: 'cargo',                       //成品信息
     pageData: {},
-    iClicked: '0',
-    mSum: {},
     grids: []
   },
   onLoad:function(options){
-    this.setPage(app.mData.product[app.roleData.uUnit._id]);
+    this.setPage(app.mData.cargo[app.roleData.uUnit._id]);
   },
 
   setPage: function(iu){
     if (iu){
-      cargoSum(['canSupply', 'cargoStock']).then(cSum=>{
+      cargoCount(['canSupply', 'cargoStock']).then(cSum=>{
         this.setData({
-          mPage:app.mData.product[app.roleData.uUnit._id],
-          pageData:unitData('product'),
-          cargo:unitData('cargo'),
-          pandect:cSum.rSum,
-          mSum: cSum.mSum
+          mPage:app.mData.cargo[app.roleData.uUnit._id],
+          pageData:unitData('cargo'),
+          pandect:cSum
         })
       })
     }
@@ -33,7 +28,7 @@ Page({
 
   onReady:function(){
     var that = this;
-    integration("product", "cargo",app.roleData.uUnit._id).then(isupdated=>{this.setPage(isupdated)});
+    getData(true, "cargo",app.roleData.uUnit._id).then(isupdated=>{this.setPage(isupdated)});
     this.grids = require('../../libs/allmenu.js').iMenu(2,app.roleData.wmenu[2]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,

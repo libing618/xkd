@@ -21,9 +21,9 @@ Page({
         if (proData){
           that.data.mPage = app.mData.order[app.roleData.user.unit];
           that.data.pageData = app.aData.order;
-          getData(true,'specs').then(specData=>{
+          getData(true,'cargo').then(specData=>{
             if(specData){
-              that.data.specData = app.aData.specs;
+              that.data.specData = app.aData.cargo;
               let shelves={};
               that.data.mPage.forEach(pObjectId=>{
                 shelves[pObjectId] = specData.mPage.filter(spec => {return that.data.specPage[spec].product==pObjectId})

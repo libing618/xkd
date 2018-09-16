@@ -31,11 +31,6 @@ class supplies extends {
 
   get goodsName() { return this.get('goodsName'); }      //商品名称
 
-  get specs() { return this.get('specs'); }
-  //  set specs(value) { this.set('specs', value); }规格ID
-
-  get specsName() { return this.get('specsName'); }      //规格名称
-
   get cargo() { return this.get('cargo'); }
 //  set cargo(value) { this.set('cargo', value); }成品ID
   get cargoName() { return this.get('cargoName'); }      //成品名称

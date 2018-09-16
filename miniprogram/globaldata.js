@@ -30,7 +30,7 @@ module.exports={
   },
   mData: {
     processingAt:[date0,date0],           //缓存中处理中流程更新时间
-    proceduresAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"specs":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0},
+    proceduresAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0},
     articles: [[], [], [], [], []],              //已发布文章分类缓存数组
     pCkarticles: 1,            //已发布文章分类阅读选中序号
     pCkpromotion: 1,            //已发布团购众筹分类阅读选中序号
@@ -39,13 +39,13 @@ module.exports={
     service: [],              //已发布服务分类缓存数组
     cargo: [],              //已发布成品分类缓存数组
     goods: [],              //已发布商品分类缓存数组
-    specs: [],              //已发布规格分类缓存数组
+    share: [],              //已发布规格分类缓存数组
     promotion: [[],[], []],              //已发布团购众筹分类缓存数组
     prodessing: [[],[]],              //已发布生产计划缓存数组
     procedures: {},              //已发布流程分类缓存数组
     proceduresCk: 'goods',             //选中的已发布流程
-    pAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"specs":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0}
+    pAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0}
   },
-  aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"specs":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}},
-  aCount: { "articles": {}, "asset": {}, "product": {}, "service": {}, "cargo": {}, "goods": {}, "specs": {}, "promotion": {}, "material": {}, "sOrder": {}, "prodesign": {}, "wholesale": {}, "rawStock": {}, "packing": {}, "order": {} }
+  aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"share":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}},
+  aCount: { "articles": {}, "asset": {}, "product": {}, "service": {}, "cargo": {}, "goods": {}, "share": {}, "promotion": {}, "material": {}, "sOrder": {}, "prodesign": {}, "wholesale": {}, "rawStock": {}, "packing": {}, "order": {} }
 }

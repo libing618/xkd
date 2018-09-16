@@ -1,7 +1,6 @@
 const db = wx.cloud.database();
 const { getData } = require('../../model/wx_data');
 const { unitData } = require('../../model/initForm.js');
-const { integration } = require('../../model/dataAnalysis');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
@@ -70,11 +69,8 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
             reqField.master = require('../libs/goodstype').master;
             reqField.slave = require('../libs/goodstype').slave;
           } else {
-            promArr.push(integration('product', 'cargo', unitId));
+            promArr.push(getAllData('product', unitId));
           };
-          break;
-        case 'specsel':                    //规格选择字段
-          promArr.push(integration('specs', 'cargo', unitId));
           break;
         case 'sId':
           setPromise.add(reqField.gname);
@@ -197,15 +193,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
                 return { masterId: proId, slaveId: app.aData.product[proId].cargo }
               })
             };
-            break;
-          case 'specsel':                    //规格选择字段
-            iFormat[i].ensel = (vData.specstype == 0);
-            iFormat[i].master = {};
-            iFormat[i].slave = {};
-            vData.specs.forEach(specsId => {
-              iFormat[i].master[specsId] = app.aData.specs[specsId];
-              iFormat[i].slave[specsId] = app.aData.cargo[app.aData.specs[specsId].cargo];
-            });
             break;
           case 'chooseAd':
             vData.address = getAddress;

@@ -2,7 +2,6 @@
 const db = wx.cloud.database();
 const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
-const { integration } = require('../../model/dataAnalysis');
 const { checkRols,unitData } = require('../../model/initForm.js');
 var app = getApp()
 Page({
@@ -70,7 +69,7 @@ Page({
     if (checkRols(app.fData.rawOperate.ouRoles[ops.oState],app.roleData.user)){  //检查用户操作权限
       that.indexField = app.fData.rawOperate.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.rawOperate.oSuccess[ops.oState].sumField;
-      integration('rawStock','cargo',app.roleData.uUnit._id).then(isupdated=>{
+      getData(true,'cargo',app.roleData.uUnit._id).then(isupdated=>{
         that.setData({cargo:unitData('cargo',app.roleData.uUnit._id)});
         that.fetchData.bind(that) ;
         wx.setNavigationBarTitle({

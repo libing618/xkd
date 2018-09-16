@@ -99,6 +99,22 @@ getData: function(isDown,pNo,isAll,requirement,uId){    //查询方向，表名�
   });
 },
 
+getAllData: function(className,unitId=app.roleData.user.unit) {    //整合选择数组(主表，从表，单位Id)
+  return new Promise((resolve, reject) => {
+    getData(true, className, unitId).then(() => {
+      let allslave = function()=>{
+        getData(false, className, unitId).then(notEnd => {
+          if (notEnd) {
+            return allslave();
+          } else {
+            resolve(uMaster || uSlave)
+          }
+        })
+      };
+    }).catch(error=>{reject(error))};
+  })
+},
+
 getToken:function(){
   return new Promise((resolve, reject) => {
     db.collection('accessToken').orderBy('accessOverTime', 'asc').limit(1).get().then(({ data }) => {

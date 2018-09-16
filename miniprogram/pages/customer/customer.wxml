@@ -13,21 +13,14 @@
   <view class="weui-tab">
     <block wx:for="{{mPage}}" wx:key="{{index}}" wx:for-item="ac">
       <view class="weui-cells">
-        <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac}}" bindtap="indexClick">
-          <template is="{{ iClicked==ac ? 'selecticon1' : 'selecticon2'}}" />
-          <view class="weui-cell">{{pageData[ac].uName}}</view>
-          <view class="weui-cell">销量{{mSum[ac][0]}}份,付款未发货{{mSum[ac][2]}}份,交货且签收{{mSum[ac][4]}}份</view>
-        </view>
-      </view>
-      <view hidden="{{iClicked!=ac}}" wx:for="{{pageData[ac].cargo}}" wx:key="{{index}}">
-        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
+        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{ac}}">
           <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="{{cargo[item].thumbnail}}" background-size="cover"></image>
+              <image class="weui-media-box__thumb" src="{{pageData[ac].thumbnail}}" background-size="cover"></image>
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__title">{{cargo[item].uName}}:销量{{cargo[item].sold}}</view>
-              <view class="weui-media-box__desc">付款未发货{{cargo[item].payment}},交货且签收{{cargo[item].delivered}}</view>
+              <view class="weui-media-box__title">{{pageData[ac].uName}}:销量{{pageData[ac].sold}}</view>
+              <view class="weui-media-box__desc">付款未发货{{pageData[ac].payment}},交货且签收{{pageData[ac].delivered}}</view>
             </view>
           </view>
         </navigator>

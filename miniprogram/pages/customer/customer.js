@@ -1,43 +1,36 @@
-const { getData } = require('../../model/wx_data');
-const { cargoSum,integration } = require('../../model/dataAnalysis.js');
+const { getData,getAllData } = require('../../model/wx_data');
+const { cargoCount } = require('../../model/dataAnalysis.js');
 const { unitData, shareMessage } = require('../../model/initForm.js');
-const {indexClick} = require('../../libs/util.js');
 
 var app = getApp()
 Page({
   data:{
     pNo: "cargo",                       //流程的序号5为成品信息
-    iClicked: '0',
     grids: []
   },
   onLoad:function(options){
-    this.setPage(app.mData.product[app.roleData.uUnit._id]);
-
+    this.setPage(app.mData.cargo[app.roleData.uUnit._id]);
   },
 
   setPage: function(iu){
     if (iu){
-      cargoSum(['sold', 'reserve', 'payment', 'delivering', 'delivered']).then(cSum=>{
+      cargoCount(['sold', 'reserve', 'payment', 'delivering', 'delivered']).then(cSum=>{
         this.setData({
-          mPage:app.mData.product[app.roleData.uUnit._id],
-          pageData:unitData('product'),
-          cargo:unitData('cargo'),
-          pandect:cSum.rSum,
-          mSum: cSum.mSum
+          mPage:app.mData.cargo[app.roleData.uUnit._id],
+          pageData:unitData('cargo'),
+          pandect:cSum
         })
       })
     }
   },
 
   onReady:function(){
-    integration("product", "cargo",app.roleData.uUnit._id).then(isupdated=>{ this.setPage(isupdated) });
+    getData(true, "cargo",app.roleData.uUnit._id).then(isupdated=>{ this.setPage(isupdated) });
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
       grids: require('../../libs/allmenu.js').iMenu(3,app.roleData.wmenu[3])
     })
   },
-
-  indexClick:indexClick,
 
   onPullDownRefresh: function() {
     getData(true,'cargo').then(isupdated=>{ this.setPage(isupdated) });

@@ -36,7 +36,7 @@ let allMenu=[
   N201:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=service", "mName": "新增服务" },
   N202:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=cargo", "mName": "新增成品" },
   N203:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=goods", "mName": "新增商品" },
-  N204:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=specs", "mName": "商品规格" },
+  N204:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=share", "mName": "共享服务" },
   N205:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=promotion&artId=0", "mName": "团购管理" },
   N206:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=promotion&artId=1", "mName": "发起众筹" },
   N207:{"tourl": "/inputedit/fprocedure/fprocedure?pNo=promotion&artId=2", "mName": "促销活动" },

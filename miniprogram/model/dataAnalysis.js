@@ -1,6 +1,6 @@
 const db = wx.cloud.database();
 const _ = db.command;
-const { getData } = require('wx_data');
+const { getData,getAllData } = require('wx_data');
 
 var app = getApp();
 function sumArr(arrData,arrIndex){
@@ -57,47 +57,21 @@ function readSumData(className,sumField,updAt){
 module.exports = {
   getMonInterval:getMonInterval,
 
-  integration: function(masterClass, slaveClass, unitId) {    //整合选择数组(主表，从表，单位Id)
+  cargoCount: function (fields) {
     return new Promise((resolve, reject) => {
-      return Promise.all([getData(true, masterClass, unitId), getData(true, slaveClass, unitId)]).then(([uMaster, uSlave]) => {
-        let allslave = Promise.resolve(getData(false, slaveClass, unitId)).then(notEnd => {
-          if (notEnd) {
-            return allslave();
-          } else {
-            let masterArr = [];
-            app.mData[masterClass][unitId].forEach(masterId => {
-              if (typeof app.aData[masterClass][masterId] != 'undefined') {
-                app.aData[masterClass][masterId][slaveClass] = app.mData[slaveClass][unitId].filter(slaveId => { return app.aData[slaveClass][slaveId][masterClass] == masterId });
-              }
-            })
-          }
-          resolve(uMaster || uSlave)
-        });
-      })
-    }).catch(console.error);
-  },
-
-  cargoSum: function (fields) {
-    return new Promise((resolve, reject) => {
-      let sLength = fields.length;
-      let fieldSum = new Array(sLength);
-      let mSum = {};
-      fieldSum.fill(0);         //定义汇总数组长度且填充为0
-      if (app.mData.product[app.roleData.uUnit._id]) {
-        app.mData.product[app.roleData.uUnit._id].forEach(mId => {
-          mSum[mId] = [];
-          for (let i = 0; i < sLength; i++) { mSum[mId].push(0) };
-          if (app.aData.product[mId].cargo){
-            app.aData.product[mId].cargo.forEach(aId => {
-              for (let i = 0; i < sLength; i++) {
-                fieldSum[i] += app.aData.cargo[aId][fields[i]];
-                mSum[mId][i] = mSum[mId][i] + app.aData.cargo[aId][fields[i]];
-              }
-            })
-          };
+      function cCount(field){
+        return new Promise((resolve,reject)=>{
+          wx.collection('order').where({
+            unitId: app.roleData.user.unit,
+            orderState: field
+          }).count().then(（{total})=>{
+            resolve(total)
+          }).catch(err=>{reject(err)})
         })
-      }
-      resolve({ rSum: fieldSum, mSum });
+      };
+      Promise.all(fields.map(cField=>{ cCount(cField).then(ft=>{ return tf }) }) ).then(cfs=>{
+        resolve(cfs);
+      })
     }).catch(console.error);
   },
 

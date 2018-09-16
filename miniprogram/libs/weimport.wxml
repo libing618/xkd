@@ -191,7 +191,7 @@
   </view>
 </template>
 
-<template name="s_specsel">
+<template name="s_arrselnum">
 <wxs module="sstock">
   module.exports = {
     scale: function(spec,pkn){

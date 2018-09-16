@@ -2,7 +2,7 @@
 //csc对应关系:aslist行业数组选择，存储{code:代码数组，sName:代码对应值的数组}
 //csc对应关系:arrsel数组选择，存储{code:选择值，sName:选择对应的值}
 //csc对应关系:objsel对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
-//csc对应关系:specsel对象选择，存储gname对应数据表选择的ID值，显示slave对应要素及carga要素
+//csc对应关系:arrselnum对象选择并输入数量，存储gname对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idsel数组选择，存储gname对应数据表选择的ID值，显示选择对应的app.aData[gname].uName
 //csc对应关系:t:"dg"为数据型,csc的digit代表2位小数点浮点数，number则为整数型
 module.exports = {
@@ -79,10 +79,7 @@ module.exports = {
     {gname:"PARM_attention", p:'注意事项', t:"h4" },
     {gname:"PARM_period", p:'期限(天)', t:"dg",csc:"digit" },
     {gname:"standard_code", p:'执行标准', t:"h4" },
-    {gname:"license_no", p:'许可证号', t:"h4" },
-    {gname:"surface", p:'外观范围', t:"arrList",inclose:true },
-    {gname:"size", p:'尺寸范围', t:"arrList",inclose:true },
-    {gname:"weight", p:'重量范围', t:"arrList",inclose:true }
+    {gname:"license_no", p:'许可证号', t:"h4" }
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -143,11 +140,13 @@ module.exports = {
 "cargo":{
   "pName": "成品",
   "pSuccess": [
-    {gname:"product", p:'产品', t:"sId", csc:"idsel" },
     {gname:"title", p:'成品简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t: "cutImageThumbnail" },
-    {gname:"s_product", p:'外观尺寸重量', t:"arrplus", csc:"arrsel" },
-    {gname:"content", p:'内含物', t:"content", csc:"arrsel" },
+    {gname:"serFamily", p:'送货类型', inclose:false,t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
+    {gname:"surface", p:'外观', t:"h4" },
+    {gname:"size", p:'尺寸', t:"h4" },
+    {gname:"weight", p:'重量', t:"h4" },
+    {gname:"content", p:'内含物', t:"s_product", csc:"arrselnum" },
     {gname:"retail_price", p:'零售价', t:"dg",itype:"digit",csc:"digit" },
     {gname:"cargoStock", p:'库存', t:"dg",itype:"number", csc:"canSupply"},
     {gname: "canSupply", p:'可供销售', t: "fg"}
@@ -163,9 +162,10 @@ module.exports = {
   "pSuccess": [
     {inclose: true, gname:"goodstype", p:'商品类别',t:"sObject",  csc:"objsel" },
     {gname:"title", p:'简介',t:"h3" },
-    {gname:"desc", p:'描述',t:"p" },
-    {gname:"specstype", p:'规格类型', inclose:false,t:"listsel", aList:['单品','套餐']},
     {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
+    {gname:"desc", p:'描述',t:"p" },
+    {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
+    {gname:"cargos", p:'成品表', inclose: true,t:"s_cargo", csc:"arrselnum" },
     {gname:"pics", p:'图片集',t:"pics"},
     {gname:"tvidio", p:'视频简介',t: "vidio" },
     {gname: "channel", p:'渠道分成比例%',t:"dg",itype:"digit",csc:"mCost"},
@@ -180,28 +180,11 @@ module.exports = {
   ],
   "suRoles": ["12"]
 },
- "specs":{
-  "pName": "商品规格",
-  "pSuccess": [
-    {gname:"goods", p:'商品', t:"sId", csc:"idsel" },
-    {gname:"cargo", p:'成品', inclose: true,t:"sObject", csc:"objsel" },
-    {gname:"serFamily", p:'服务类型', inclose:false,t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
-    {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
-    {gname:"package", p:'含成品数量', t:"dg",csc:"number" },
-    {gname:"price", p:'零售价', t:"dg",csc:"digit" }
-  ],
-  "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
-  "puRoles": [
-    "12",
-    "11"
-  ]
-},
 "promotion":{
   "pName": "众筹团购及促销",
   "afamily":['众筹','团购','促销'],
   "pSuccess": [
-    {gname:"specs", p:'商品规格', t:"sId", csc:"idsel" },
+    {gname:"goods", p:'商品', t:"sId", csc:"idsel" },
     {gname:"base_price", p:'基础优惠价', t:"dg",csc:"digit" },
     {gname:"base_amount", p:'基础目标数量',t:"dg",csc:"number" },
     {gname:"big_price", p:'大额优惠价', t:"dg",csc:"digit" },
@@ -268,7 +251,9 @@ module.exports = {
     {gname:"product", p:'产品', t:"sId", csc:"idsel" },
     {gname:"title", p:'批发品简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t: "cutImageThumbnail" },
-    {gname:"s_product", p:'外观尺寸重量', t:"arrplus", csc:"arrsel" },
+    {gname:"surface", p:'外观', t:"h4" },
+    {gname:"size", p:'尺寸', t:"h4" },
+    {gname:"weight", p:'重量', t:"h4" },
     {gname:"whole_price", p:'零售价', t:"dg",itype:"digit",csc:"digit" },
     {gname:"wholeStock", p:'库存', t:"dg",itype:"number", csc:"canSupply"},
     {gname: "canwholesale", p:'可供销售', t: "fg"}

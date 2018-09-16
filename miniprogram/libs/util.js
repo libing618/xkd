@@ -1,6 +1,5 @@
 const db = wx.cloud.database();
 const { getData } = require('../model/wx_data');
-const { integration } = require('../model/dataAnalysis');
 var app=getApp()
 function formatNumber(n) {
   n = n.toString()
@@ -22,12 +21,7 @@ readShowFormat: function(req, vData) {
         case 'sObject':
           if (reqField.gname == 'goodstype') {
             reqField.slave = require('../libs/goodstype').slave[vData.goodstype];
-          } else {
-            promArr.push(integration('product', 'cargo', unitId));
           };
-          break;
-        case 'specsel':                    //规格选择字段
-          promArr.push(integration('specs', 'cargo', unitId));
           break;
         case 'sId':
           setPromise.add(reqField.gname);
@@ -41,14 +35,6 @@ readShowFormat: function(req, vData) {
         switch (vFormat[i].t) {
           case 'sObject':                    //对象选择字段
             if (vFormat[i].gname != 'goodstype') { vFormat[i].slave = app.aData[vFormat[i].gname][vData[vFormat[i].gname]]; };
-            break;
-          case 'specsel':                    //规格选择字段
-            vFormat[i].master = {};
-            vFormat[i].slave = {};
-            vData.specs.forEach(specsId => {
-              vFormat[i].master[specsId] = app.aData.specs[specsId];
-              vFormat[i].slave[specsId] = app.aData.cargo[app.aData.specs[specsId].cargo];
-            });
             break;
           case 'sId':
             vFormat[i].thumbnail = app.aData[vFormat[i].gname][vData[vFormat[i].gname]].thumbnail;

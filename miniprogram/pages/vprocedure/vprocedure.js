@@ -21,19 +21,6 @@ Page({
     that.inFamily = (typeof app.fData[that.data.pNo].afamily != 'undefined');
     that.data.vData = app.aData[that.data.pNo][options.artId];
     let showFormat = app.fData[that.data.pNo].pSuccess;
-    switch (that.data.pNo) {
-      case 'goods':
-        showFormat = [
-          {gname:"pics", p:'图片集',t:"pics"},
-          {gname:"uName", p:'名称', t:"h1" },
-          {gname:"title", p:'简介',t:"h2" },
-          {gname:"tvidio", p:'',t: "vidio" },
-          {gname:"desc", p:'',t:"p" },
-          {gname:"specstype", p:'规格类型', t:"listsel", aList:['单品','套餐']},
-          {gname:"specs", p:'规格',t:"specsel",csc:"specsel" },
-          {gname:"details", p:'详情',t:"eDetail" }]
-        break;
-    };
     readShowFormat(showFormat, that.data.vData).then(req=>{
       that.data.vFormat=req;
       that.data.navBarTitle += '的' + (that.inFamily ? app.fData[that.data.pNo].afamily[that.data.vData.afamily] : app.fData[that.data.pNo].pName);
