@@ -2,7 +2,7 @@
 //csc对应关系:aslist行业数组选择，存储{code:代码数组，sName:代码对应值的数组}
 //csc对应关系:arrsel数组选择，存储{code:选择值，sName:选择对应的值}
 //csc对应关系:objsel对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
-//csc对应关系:arrselnum对象选择并输入数量，存储gname对应数据表选择的json值及数量，显示json对应要素及数量
+//csc对应关系:t:"sobjpackage"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idsel数组选择，存储gname对应数据表选择的ID值，显示选择对应的app.aData[gname].uName
 //csc对应关系:t:"dg"为数据型,csc的digit代表2位小数点浮点数，number则为整数型
 module.exports = {
@@ -92,6 +92,7 @@ module.exports = {
   "pSuccess": [
     {gname:"serFamily", p:'服务类型', inclose: true, t:"producttype",  csc:"arrsel"},
     {gname:"title", p:'简介',t:"h4" },
+    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
     {gname:"aGeoPoint", p:'服务地位置', t: "chooseAd" },
     {gname:"address", p:'服务地址', t: "modalEditAddress" },
     {gname:"priceClass", p:'计价类型', inclose:false,t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
@@ -113,10 +114,10 @@ module.exports = {
   "pName": "共享服务",
   "afamily":['停止','开始','服务'],
   "pSuccess": [
+    {gname:"title", p:'简介',t:"h4" },
+    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
     {gname:"service", p:'服务', t:"sId", csc:"idsel" },
     {gname:"asset", p:'固定资产', t:"sId", csc:"idsel" },
-    {gname:"serFamily", p:'服务类型', inclose: true, t:"producttype",  csc:"arrsel"},
-    {gname:"title", p:'简介',t:"h4" },
     {gname:"aGeoPoint", p:'服务地位置', t: "chooseAd" },
     {gname:"address", p:'服务地址', t: "modalEditAddress" },
     {gname:"fcode", p: '编号',t: "inScan" },
@@ -146,7 +147,7 @@ module.exports = {
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
     {gname:"weight", p:'重量', t:"h4" },
-    {gname:"content", p:'内含物', t:"s_product", csc:"arrselnum" },
+    {gname:"content", p:'内含物', t:"sobjpackage", csc:"product" },
     {gname:"retail_price", p:'零售价', t:"dg",itype:"digit",csc:"digit" },
     {gname:"cargoStock", p:'库存', t:"dg",itype:"number", csc:"canSupply"},
     {gname: "canSupply", p:'可供销售', t: "fg"}
@@ -160,12 +161,12 @@ module.exports = {
 "goods":{
   "pName": "商品",
   "pSuccess": [
-    {inclose: true, gname:"goodstype", p:'商品类别',t:"sObject",  csc:"objsel" },
+    {inclose: true, gname:"goodstype", p:'商品类别',t:"goodstype",  csc:"objsel" },
     {gname:"title", p:'简介',t:"h3" },
     {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
     {gname:"desc", p:'描述',t:"p" },
     {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
-    {gname:"cargos", p:'成品表', inclose: true,t:"s_cargo", csc:"arrselnum" },
+    {gname:"cargos", p:'成品表', inclose: true,t:"sobjpackage", csc:"cargo" },
     {gname:"pics", p:'图片集',t:"pics"},
     {gname:"tvidio", p:'视频简介',t: "vidio" },
     {gname: "channel", p:'渠道分成比例%',t:"dg",itype:"digit",csc:"mCost"},
@@ -232,7 +233,7 @@ module.exports = {
   "pName": "生产计划",
   "afamily":['原材料供应','加工及包装'],
   "pSuccess": [
-    {gname:"cargo", p:'成品', inclose: true,t:"sObject", csc:"objsel" },
+    {gname:"cargo", p:'成品', inclose: true,t:"sId",csc:"idsel" },
     {gname:"title", p:'计划简述',t:"h3" },
     {gname:"thumbnail", p:'图片',t: "cutImageThumbnail" },
     {gname:"dOutput", p:'计划产量', t:"dg",csc:"number" },
@@ -286,7 +287,7 @@ module.exports = {
   "pName": "加工入库",
   "oprocess": ['安排生产', '生产加工', '成品入库'],
   "pSuccess": [
-    {gname:"cargo", p:'成品',t:"sObject", csc:"objsel" },
+    {gname:"cargo", p:'成品',t:"sId",csc:"idsel" },
     { gname: "thumbnail", p: '图片', t: "cutImageThumbnail" },
     { gname: "vUnit", p: '加工商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
@@ -304,7 +305,7 @@ module.exports = {
   "pName": "订单处理",
   "oprocess": ['订单确认', '成品出货', '到货确认'],
   "pSuccess": [
-    {gname:"cargo", p:'成品',t:"sObject", csc:"objsel" },
+    {gname:"cargo", p:'成品',t:"sId",csc:"idsel" },
     { gname: "thumbnail", p: '图片', t: "cutImageThumbnail" },
     { gname: "vUnit", p: '物流商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }

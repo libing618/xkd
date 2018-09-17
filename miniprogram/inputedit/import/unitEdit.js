@@ -75,9 +75,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
         case 'sId':
           setPromise.add(reqField.gname);
           break;
-        case 'arrplus':
-          setPromise.add('product');
-          break;
         case 'producttype':
           reqField.indlist = app.roleData.uUnit.indType.code;
           break;
@@ -156,9 +153,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
           case 'industrytype':
             vData[reqField.gname] = { code: [], sName: [] };
             break;
-          case 'arrplus':
-            vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
-            break;
           case 'modalEditAddress':
             if (typeof vData.aGeoPoint =='undefined') { vData[reqField.gname]= { code: 0, sName: '点此处进入编辑' } };
             break;
@@ -204,10 +198,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
             });
             iFormat[i].mn = vifData ? 0 : app.mData[iFormat[i].gname][unitId].indexOf(vData[iFormat[i].gname]);
             break;
-          case 'arrplus':
-            iFormat[i].sId = vData.sId ? vData.sId : app.mData.product[unitId][0];
-            iFormat[i].objects = unitData('product');
-            break;
         }
         if (iFormat[i].csc) {
           funcArr.push('f_' + iFormat[i].csc);
@@ -228,7 +218,7 @@ fSubmit: function (e) {
   var that = this;
   var subData = e.detail.value;
   let cNumber = ['fg','dg','listsel'];       //数字类型定义
-  let cObject = ['assettype','producttype','arrplus','modalEditAddress'];       //对象类型定义
+  let cObject = ['assettype','producttype','modalEditAddress'];       //对象类型定义
   if (Array.isArray(that.data.vData.details)) {
     for (let i = 0; i < that.data.vData.details.length; i++) {
       that.data.vData.details[i].e = subData['ade' + i];

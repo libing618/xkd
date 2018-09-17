@@ -1,4 +1,5 @@
 <import src="wedetail.wxml" />
+<wxs src="goodstype.wxs" module="gslist" />
 <wxs module="mDot">
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
@@ -10,13 +11,6 @@
     <view class="weui-cell__bd">
       <view wx:for="{{c}}" wx:key="{{index}}">{{ item }}{{mDot(index,c)}}</view>
     </view>
-  </view>
-</template>
-
-<template name="s_arrplus">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c.sName}}</view>
   </view>
 </template>
 
@@ -76,6 +70,21 @@
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
+  </view>
+</template>
+
+<template name="s_goodstype">
+  <view class="weui-cell">{{p}}:</view>
+  <view class="weui-cell" id="{{c}}">
+    <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+      <view class="weui-media-box__hd_in-appmsg">
+        <image class="weui-media-box__thumb" src="{{gslist.typevale[c].thumbnail}}" background-size="cover"></image>
+      </view>
+      <view class="weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title">{{gslist.typevale[c].uName}}</view>
+        <view class="weui-media-box__desc">{{gslist.typevale[c].title}}</view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -161,21 +170,6 @@
   </view>
 </template>
 
-<template name="s_sObject">
-  <view class="weui-cell">{{p}}:</view>
-  <view class="weui-cell" id="{{c}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
-    <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-      <view class="weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb" src="{{slave.thumbnail}}" background-size="cover"></image>
-      </view>
-      <view class="weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{slave.uName}}</view>
-        <view class="weui-media-box__desc">{{slave.title}}</view>
-      </view>
-    </view>
-  </view>
-</template>
-
 <template name="s_sId">
   <view class="weui-cell">{{p}}:</view>
   <view class="weui-cell" id="{{c}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
@@ -191,30 +185,34 @@
   </view>
 </template>
 
-<template name="s_arrselnum">
+<template name="s_sobjpackage">
 <wxs module="sstock">
   module.exports = {
-    scale: function(spec,pkn){
-      var sc = (spec.payment+spec.delivering+spec.delivered)/pkn;
+    scale: function({payment,delivering,delivered,package}){
+      var sc = (payment+delivering+delivered)/package;
       return sc.toFixed(0)
     },
-    csupply: function(spec,pkn){
-      var cs = spec.canSupply/pkn-0.5;
+    csupply: function({canSupply,package}){
+      var cs = canSupply/package-0.5;
       return cs.toFixed(0)
     }
   }
 </wxs>
   <view class="weui-cell">{{p}}:</view>
   <view class="weui-cells">
-    <block wx:for="{{c}}" wx:key="{{index}}" wx:for-item="specsId">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{specsId}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
+    <block wx:for="{{c}}" wx:key="{{index}}" wx:for-item="objarr">
+      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{objarr._id}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
         <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{master[specsId].thumbnail}}" background-size="cover"></image>
+          <image class="weui-media-box__thumb" src="{{objarr.thumbnail}}" background-size="cover"></image>
         </view>
-        <view wx:if="{{slave[specsId] && master[specsId]}}"class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{slave[specsId].uName}}/{{master[specsId].package}}份装/{{master[specsId].price}}元</view>
-          <view class="weui-media-box__desc">{{master[specsId].title}}</view>
-          <view class="weui-media-box__desc">已售{{sstock.scale(slave[specsId],master[specsId].package)}},库存{{sstock.csupply(slave[specsId],maste[specsId].package)}}</view>
+        <view wx:if="{{csc=='cargo'}}" class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{objarr.uName}}/{{objarr.package}}份装/{{objarr.price}}元</view>
+          <view class="weui-media-box__desc">{{objarr.title}}</view>
+          <view class="weui-media-box__desc">已售{{sstock.scale(objarr)}},库存{{sstock.csupply(objarr)}}</view>
+        </view>
+        <view wx:else class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{objarr.uName}}/ 含量{{objarr.package}}</view>
+          <view class="weui-media-box__desc">{{objarr.title}}</view>
         </view>
       </view>
     </block>
