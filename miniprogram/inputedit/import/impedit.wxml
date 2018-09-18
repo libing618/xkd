@@ -359,11 +359,14 @@
   <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
 </template>
 
-<template name="i_sobjpackage">
-  <view class="weui-cell">{{p}}:</view>
+<template name="i_cargopackage">
+  <view class="weui-cell" bingtap="i_cargopackage">
+    <view class="weui-cell__hd{{p}}:</view>
+    <view class="weui-cell__ft"><icon id="se-{{n}}" bindtap="i_cargopackage" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
+  </view>
   <view hidden="{{inclose}}" class="weui-cells">
     <view wx:for="{{c}}" wx:key="{{index}}" wx:for-item="objarr">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{objarr._id}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
+      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{objarr._id}}" data-pNo="{{gname}}" bingtap="i_cargopackage">
         <view class="weui-media-box__hd_in-appmsg">
           <image class="weui-media-box__thumb" src="{{objarr.thumbnail}}" background-size="cover"></image>
         </view>
@@ -379,25 +382,9 @@
 
 
     <view class="weui-cell__hd weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="f_aslist">{{item.uName}}</view>
-    <view class="weui-cell__ft"><icon id="se-{{n}}" bindtap="f_aslist" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
+
   </view>
 
-  <view class="weui-cell">
-    <view class="weui-cell__hd">选择类型：</view>
-    <view class="weui-cell__bd">{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]] }}</view>
-    <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" bindtap="f_aslist" size="mini">确定</button></view>
-  </view>
-    <picker-view id="pa-{{n}}" class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="f_aslist">
-        <picker-view-column>
-            <view wx:for="{{apdclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{apdclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{apdclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
-        </picker-view-column>
-    </picker-view>
   </view>
 </template>
 

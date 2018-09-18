@@ -26,6 +26,7 @@ App({
             traceUser: true
           })
         };
+        that.sysinfo.itemtotal = Number(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
       }
     });
     ['mData', 'aData','aCount', 'procedures'].forEach(dataName => {
