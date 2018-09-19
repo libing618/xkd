@@ -1,4 +1,5 @@
-// components/recycle-item/recycle-item.js
+//显示数据的关键要素
+var app = getApp()
 Component({
   relations: {
     './recycle-view': {
@@ -18,7 +19,22 @@ Component({
   data: {
     // height: 100
   },
-
+  lifetimes:{
+    attached:()=>{
+      var that = this;
+      
+      switch (that.data.item.pNo){
+        case 's_cargo':
+          cargototal = app.cargototal[that.data.item._id]
+          that.setData({
+            scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / package).toFixed(0),
+            csupply: (cargototal.canSupply / cargototal.package - 0.5).toFixed(0)
+          });
+          break;
+        default:
+      }
+    },
+  },
   /**
    * 组件的方法列表
    */

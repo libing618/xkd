@@ -379,12 +379,7 @@
           <view class="weui-media-box__desc">{{objarr.title}}</view>
         </view>
       </view>
-
-
     <view class="weui-cell__hd weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="f_aslist">{{item.uName}}</view>
-
-  </view>
-
   </view>
 </template>
 
