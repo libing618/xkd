@@ -1,26 +1,19 @@
 const db = wx.cloud.database();
-const config = require('../config');
+const _ = db.command;
+var app = getApp();
 class ACL {
-  constructor () {
-    this.cmq_client = new cmqClient({
-      serviceType: 'cmq-queue',
-      Region: config.Region,
-      RequestClient: 'qcloud-api-miniprogram',
-      SecretId: config.SecretId,
-      SecretKey: config.SecretKey
+  constructor (dataName) {
+    wx.getStorage({
+      key: dataName,
+      success: function (res) {
+        if (res.data) {
+          this[dataName] = res.data
+        } else {
+          getData(true,dataName).then()
+        };
+      }
     })
-        // this.CreateQueueAsync         = Promise.promisify(this.CreateQueue)
-    // this.AssertQueueAsync         = Promise.promisify(this.AssertQueue)
-    // this.ListQueueAsync           = Promise.promisify(this.ListQueue)
-    // this.GetQueueAttributesAsync  = Promise.promisify(this.GetQueueAttributes)
-    // this.SetQueueAttributesAsync  = Promise.promisify(this.SetQueueAttributes)
-    // this.DeleteQueueAsync         = Promise.promisify(this.DeleteQueue)
-    // this.SendMessageAsync         = Promise.promisify(this.SendMessage)
-    // this.BatchSendMessageAsync    = Promise.promisify(this.BatchSendMessage)
-    // this.ReceiveMessageAsync      = Promise.promisify(this.ReceiveMessage)
-    // this.BatchReceiveMessageAsync = Promise.promisify(this.BatchReceiveMessage)
-    // this.DeleteMessageAsync       = Promise.promisify(this.DeleteMessage)
-    // this.BatchDeleteMessageAsync  = Promise.promisify(this.BatchDeleteMessage)
+
   }
   SendMessage(queueName, msgBody) {
     return this.cmq_client.request({

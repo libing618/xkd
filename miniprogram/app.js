@@ -1,7 +1,6 @@
 App({
   roleData: require('globaldata.js').roleData,                 //读数据记录的缓存
   mData: require('globaldata.js').mData,
-  aData: require('globaldata.js').aData,              //以_id为key的数据记录
   aCount: require('globaldata.js').aCount,
   fData: require('./model/procedureclass'),
   logData: [],
@@ -29,7 +28,7 @@ App({
         that.sysinfo.itemtotal = Number(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
       }
     });
-    ['mData', 'aData','aCount', 'procedures'].forEach(dataName => {
+    ['mData', 'roleaData','aCount', 'procedures'].forEach(dataName => {
       wx.getStorage({
         key: dataName,
         success: function (res) {
@@ -67,7 +66,6 @@ App({
           wx.removeStorage({key:"procedures"});
         } else {
           wx.setStorage({ key: 'roleData', data: that.roleData });
-          wx.setStorage({ key: "aData", data: that.aData });
           wx.setStorage({key:"mData", data:that.mData});
           wx.setStorage({ key: 'aCount', data: that.aCount });
           wx.setStorage({key:"procedures", data:that.procedures});

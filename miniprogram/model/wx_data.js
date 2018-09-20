@@ -34,8 +34,8 @@ module.exports = {
   return new Promise((resolve, reject) => {
     dQuery.get().then(res => {
       let aProcedure = res.data;
-      if (isAll && aProcedure.length>0){
-        let reaAll = Promise.resolve(dQuery.skip().get()).then(notEnd => {
+      if (isAll && aProcedure.length>19){
+        let reaAll = Promise.resolve(dQuery.skip(aProcedure.length).get()).then(notEnd => {
           if (notEnd.data.length>0) {
             aProcedure = aProcedure.concat(notEnd.data)
             return readAll();
@@ -46,40 +46,36 @@ module.exports = {
       }
     });
   }).then(results => {
-    if (results) {
-      let aPlace = -1, aProcedure = {};
-      if (isDown) {
-        updAt[1] = results[lena - 1].updatedAt;                          //更新本地最新时间
-        updAt[0] = results[0].updatedAt; //若本地记录时间为空，则更新本地最后更新时间
-      } else {
-        updAt[0] = results[lena - 1].updatedAt;          //更新本地最后更新时间
-      };
-      results.forEach(aProc => {
-        if (inFamily) {                         //存在afamily类别
-          if (typeof umdata[aProc.afamily] == 'undefined') { umdata[aProc.afamily] = [] };
-          if (isDown) {
-            aPlace = umdata[aProc.afamily].indexOf(aProc._id);
-            if (aPlace >= 0) { umdata[aProc.afamily].splice(aPlace, 1) }           //删除本地的重复记录列表
-            umdata[aProc.afamily].unshift(aProc._id);
-          } else {
-            umdata[aProc.afamily].push(aProc._id);
-          }
+    return new Promise(resolve => {
+      if (results) {
+        let aPlace = -1, aProcedure = {};
+        if (isDown) {
+          updAt[1] = results[lena - 1].updatedAt;                          //更新本地最新时间
+          updAt[0] = results[0].updatedAt; //若本地记录时间为空，则更新本地最后更新时间
         } else {
-          if (isDown) {
-            aPlace = umdata.indexOf(aProc._id);
-            if (aPlace >= 0) { umdata.splice(aPlace, 1) }           //删除本地的重复记录列表
-            umdata.unshift(aProc._id);
-          } else {
-            umdata.push(aProc._id);                   //分类ID数组增加对应ID
-          }
+          updAt[0] = results[lena - 1].updatedAt;          //更新本地最后更新时间
         };
-        if (allData){
-          app.aData[pNo][aProc._id] = aProc;                 //将数据对象记录到本机
-        } else {
+        results.forEach(aProc => {
+          if (inFamily) {                         //存在afamily类别
+            if (typeof umdata[aProc.afamily] == 'undefined') { umdata[aProc.afamily] = [] };
+            if (isDown) {
+              aPlace = umdata[aProc.afamily].indexOf(aProc._id);
+              if (aPlace >= 0) { umdata[aProc.afamily].splice(aPlace, 1) }           //删除本地的重复记录列表
+              umdata[aProc.afamily].unshift(aProc._id);
+            } else {
+              umdata[aProc.afamily].push(aProc._id);
+            }
+          } else {
+            if (isDown) {
+              aPlace = umdata.indexOf(aProc._id);
+              if (aPlace >= 0) { umdata.splice(aPlace, 1) }           //删除本地的重复记录列表
+              umdata.unshift(aProc._id);
+            } else {
+              umdata.push(aProc._id);                   //分类ID数组增加对应ID
+            }
+          };
           aData[aProc._id] = aProc;
-        }
-      });
-      if (allData){
+        });
         if (allUnit) {
           app.mData[pNo] = umdata;
           app.mData.pAt[pNo] = updAt;
@@ -87,11 +83,9 @@ module.exports = {
           app.mData[pNo][unitId] = umdata;
           app.mData.pAt[pNo][unitId] = updAt;
         };
-        resolve(lena > 0);               //数据更新状态
-      } else {
-        resolve({umdata,aData});
+        resolve(aData);
       }
-    };
+    });
   }).catch(error => {
     if (!that.netState) { wx.showToast({ title: '请检查网络！' }) }
     console.error()

@@ -46,6 +46,5 @@ module.exports={
     proceduresCk: 'goods',             //选中的已发布流程
     pAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0}
   },
-  aData:{"articles":{},"asset":{},"product":{},"service":{},"cargo":{},"goods":{},"share":{},"promotion":{},"material":{},"sOrder":{},"prodesign":{},"wholesale":{},"rawStock":{},"packing":{},"order":{}},
   aCount: { "articles": {}, "asset": {}, "product": {}, "service": {}, "cargo": {}, "goods": {}, "share": {}, "promotion": {}, "material": {}, "sOrder": {}, "prodesign": {}, "wholesale": {}, "rawStock": {}, "packing": {}, "order": {} }
 }
