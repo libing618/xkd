@@ -2,7 +2,7 @@ const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp();
 module.exports = {
-getData: function(isDown,pNo,isAll,requirement,uId){    //查询方向，表名，是否全部，条件
+  getData: function (isDown, pNo, isAll = false, requirement = {}, unitId = app.roleData.uUnit._id){    //查询方向，表名，是否全部，条件
   let allUnit = (pNo=='articles') ;               //是否全部单位数组
   let inFamily = typeof app.fData[pNo].afamily != 'undefined';            //是否有分类数组
   let allData = (requirement ? false : true);               //是否无条件查询
@@ -11,7 +11,6 @@ getData: function(isDown,pNo,isAll,requirement,uId){    //查询方向，表名�
     updAt = app.mData.pAt[pNo];
     umdata = app.mData[pNo] || [];
   } else {
-    var unitId = uId ? uId : app.roleData.uUnit._id;
     if (allData){
       var aData = {};
       if (app.mData.pAt[pNo][unitId]) { updAt = app.mData.pAt[pNo][unitId] };
@@ -102,16 +101,16 @@ getData: function(isDown,pNo,isAll,requirement,uId){    //查询方向，表名�
 getAllData: function(className,unitId=app.roleData.user.unit) {    //整合选择数组(主表，从表，单位Id)
   return new Promise((resolve, reject) => {
     getData(true, className, unitId).then(() => {
-      let allslave = function()=>{
+      let allslave = () =>{
         getData(false, className, unitId).then(notEnd => {
           if (notEnd) {
             return allslave();
           } else {
-            resolve(uMaster || uSlave)
+            resolve(true)
           }
         })
       };
-    }).catch(error=>{reject(error))};
+    }).catch(error => { reject(error) });
   })
 },
 

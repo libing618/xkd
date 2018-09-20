@@ -212,6 +212,35 @@ module.exports = {
     "10"
   ]
 },
+"gOrder": {
+  "pName": "商品订单",
+  "pSuccess": [
+    {gname:"tradeId", p:'成交单号', t:"sId", csc:"idsel" },
+    {gname:"tradeType", p:'成交类型', t:"sId", csc:"idsel" },
+    {gname:"goods", p:'商品', t:"sId", csc:"idsel" },
+    { p: "商城", gname: "shopid", t: "String" },
+    {gname:"user", p:' 购买人', t:"sId", csc:"idsel" },
+    {gname:"ip", p:'下单IP地址', t:"sId", csc:"idsel" },
+    {gname:"quantity", p:'数量', t:"sId", csc:"idsel" },
+    {gname:"cargo", p:'成品', t:"sId", csc:"idsel" },
+    {gname:"serFamily", p:'服务类型', t:"sId", csc:"idsel" },
+    {gname:"address", p:'收货地址', t:"sId", csc:"idsel" },
+    {gname:"unitId", p:'厂家', t:"sId", csc:"idsel" },
+    {gname:"prepayId", p:' 订单ID', t:"sId", csc:"idsel" },
+    {gname:"paidAt", p:'下单时间', t:"sId", csc:"idsel" },
+    {gname:"confirmerArr", p:'订单确认出库', t:"sId", csc:"idsel" },
+    {gname:"confirmTotal", p:'订单确认出库数量', t:"sId", csc:"idsel" },
+    {gname:"deliverArr", p:'货运信息', t:"sId", csc:"idsel" },
+    {gname:"deliverTotal", p:'已发货数量', t:"sId", csc:"idsel" },
+    {gname:"receiptArr", p:'收货信息', t:"sId", csc:"idsel" },
+    {gname:"receiptTotal", p:'已收货数量', t:"sId", csc:"idsel" }
+  ],
+  "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
+  "puRoles": [
+    "11",
+    "10"
+  ]
+},
 "sOrder":{
   "pName": "服务订单",
   "pSuccess": [

@@ -3,5 +3,5 @@
   display: inline-block;
 }
 .wx-recycle-item {
-  height: 300rpx;
+  height: 160rpx;
 }

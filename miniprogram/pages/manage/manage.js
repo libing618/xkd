@@ -10,8 +10,7 @@ Page({
     scrollTop : 0,
     pNo: 'articles',                       //文章类信息
     fLength:3,
-    tabs: ["品牌建设", "政策扶持", "我的商圈"],
-    pageCk: app.mData.pCkartcles
+    tabs: ["品牌建设", "政策扶持", "我的商圈"]
   },
 
   onLoad: function () {
@@ -23,7 +22,8 @@ Page({
       wWidth: app.sysinfo.windowWidth,
       mSwiper: app.mData.articles[0],
       mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
-      pageData: app.aData.articles
+      pageData: app.aData.articles,
+      pageCk: app.mData.pCkarticles
     });
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
@@ -70,11 +70,11 @@ Page({
   tabClick: tabClick,
 
   onPullDownRefresh:function(){
-   getData(true,'articles',false,{}).then(isupdated=>{ this.setPage(isupdated) });
+   getData(true,'articles').then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onReachBottom:function(){
-    getData(false,'articles',false,{}).then(isupdated=>{ this.setPage(isupdated) });
+    getData(false,'articles').then(isupdated=>{ this.setPage(isupdated) });
   },
 
   onShareAppMessage: shareMessage    // 用户点击右上角分享

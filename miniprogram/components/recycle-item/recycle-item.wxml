@@ -1,13 +1,13 @@
 <!--components/recycle-item/recycle-item.wxml-->
 <view class="wx-recycle-item">
-  <view class="weui-media-box weui-media-box_appmsg" id="{{item._id}}" hover="true" hover-class="weui-cell_active" bindtap="f_modalRecordView">
+  <view class="weui-media-box weui-media-box_appmsg" id="{{sitem._id}}" hover="true" hover-class="weui-cell_active" bindtap="f_modalRecordView">
     <view class="weui-media-box__hd_in-appmsg">
-      <image class="weui-media-box__thumb" src="{{item.thumbnail}}" background-size="cover"></image>
+      <image class="weui-media-box__thumb" src="{{sitem.thumbnail}}" background-size="cover"></image>
     </view>
     <view class="weui-media-box__bd_in-appmsg">
-      <view class="weui-media-box__title">{{item.uName}}</view>
-      <view class="weui-media-box__desc">{{item.title}}</view>
-      <view wx:if="{{pNo=='s_cargo'}}" class="weui-media-box__desc">已售{{scale}},库存csupply}}</view>
+      <view class="weui-media-box__title">{{sitem.uName}}</view>
+      <view class="weui-media-box__desc">{{sitem.title}}</view>
+      <view wx:if="{{pNo=='s_cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
     </view>
   </view>
 

@@ -36,8 +36,6 @@ Page({
     })
   },
 
-  indexClick:indexClick,
-
   onPullDownRefresh: function() {
     getData(true,'cargo').then(isupdated=>{ this.setPage(isupdated) });
   },

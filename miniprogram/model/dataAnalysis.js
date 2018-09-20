@@ -46,13 +46,15 @@ function getMonInterval(){
 };
 function readSumData(className,sumField,updAt){
   var sumRecords = [];
-  let readUp = Promise.resolve(db.collection(className).field(sumField).where({updatedAt: _.gt(updAt)}).limit(20).orderBy('updatedAt','asc').then(results=>{
-    if (results) {
-      results.forEach(result=>{ sumRecords.push(result.toJSON()) });
-      updAt = results[0].updatedAt;
-      readUp();
-    } else { return sumRecords };
-  })
+  let readUp = Promise.resolve(
+    db.collection(className).field(sumField).where({updatedAt: _.gt(updAt)}).limit(20).orderBy('updatedAt','asc').then(results=>{
+      if (results) {
+        results.forEach(result=>{ sumRecords.push(result.toJSON()) });
+        updAt = results[0].updatedAt;
+        readUp();
+      } else { return sumRecords };
+    })
+  )
 };
 module.exports = {
   getMonInterval:getMonInterval,
@@ -64,7 +66,7 @@ module.exports = {
           wx.collection('order').where({
             unitId: app.roleData.user.unit,
             orderState: field
-          }).count().then(（{total})=>{
+          }).count().then( ({total})=>{
             resolve(total)
           }).catch(err=>{reject(err)})
         })
