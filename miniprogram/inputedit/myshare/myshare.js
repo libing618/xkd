@@ -1,7 +1,7 @@
 //共享信息管理
 const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
-const { getData } = require('../../model/wx_data');
+const { getData } = require('../../model/db-get-data');
 const {f_modalRecordView} = require('../../model/controlModal');
 var app = getApp()
 Page({

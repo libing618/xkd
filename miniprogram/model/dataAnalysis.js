@@ -1,6 +1,6 @@
 const db = wx.cloud.database();
 const _ = db.command;
-const { getData,getAllData } = require('wx_data');
+const { getData } = require('db-get-data');
 
 var app = getApp();
 function sumArr(arrData,arrIndex){

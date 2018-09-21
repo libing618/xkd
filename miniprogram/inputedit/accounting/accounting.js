@@ -2,7 +2,7 @@
 const db = wx.cloud.database();
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
-const { getData } = require('../../model/wx_data');
+const { getData } = require('../../model/db-get-data');
 const { i_sedate } = require('../import/impedit');
 var app = getApp();
 

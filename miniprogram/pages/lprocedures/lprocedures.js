@@ -1,4 +1,4 @@
-const { getData } = require('../../model/wx_data');
+const { getData } = require('../../model/db-get-data');
 var app = getApp()
 Page ({
   data: {

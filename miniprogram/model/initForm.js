@@ -1,5 +1,5 @@
 const db = wx.cloud.database();
-const { getData } = require('wx_data');
+const { getData } = require('db-get-data');
 const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5');
 const config = require('../config');

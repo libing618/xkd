@@ -1,4 +1,4 @@
-const { getData,getAllData } = require('../../model/wx_data');
+const { getData } = require('../../model/db-get-data');
 const { cargoCount } = require('../../model/dataAnalysis.js');
 const { unitData, shareMessage } = require('../../model/initForm.js');
 

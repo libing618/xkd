@@ -1,7 +1,7 @@
 const db = wx.cloud.database();
 import { loginAndMenu, shareMessage } from '../../model/initForm';
 import { openWxLogin,tabClick } from '../../libs/util';
-import { getData } from '../../model/wx_data';
+import { getData } from '../../model/db-get-data';
 var app = getApp();
 
 Page({

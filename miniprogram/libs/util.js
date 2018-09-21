@@ -1,5 +1,5 @@
 const db = wx.cloud.database();
-const { getData } = require('../model/wx_data');
+const { getData } = require('../model/db-get-data');
 var app=getApp()
 function formatNumber(n) {
   n = n.toString()

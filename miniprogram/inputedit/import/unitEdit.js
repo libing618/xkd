@@ -1,5 +1,5 @@
 const db = wx.cloud.database();
-const { getData } = require('../../model/wx_data');
+const { getData } = require('../../model/db-get-data');
 const { unitData } = require('../../model/initForm.js');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
@@ -61,16 +61,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
       switch (reqField.t) {
         case 'mapSelectUnit':
           reqField.e = vifData ? '点击选择服务单位' : app.roleData.sUnit.uName;
-          break;
-        case 'sObject':
-          reqField.osv = [0, 0];
-          if (reqField.gname == 'goodstype') {
-            reqField.objarr = require('../libs/goodstype').droneId;
-            reqField.master = require('../libs/goodstype').master;
-            reqField.slave = require('../libs/goodstype').slave;
-          } else {
-            promArr.push(getAllData('product', unitId));
-          };
           break;
         case 'sId':
           setPromise.add(reqField.gname);
@@ -179,15 +169,6 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
     return Promise.all(promArr).then(() => {
       for (let i = 0; i < iFormat.length; i++) {
         switch (iFormat[i].t) {
-          case 'sObject':                    //对象选择字段
-            if (iFormat[i].gname != 'goodstype') {
-              iFormat[i].master = unitData('product');
-              iFormat[i].slave = unitData('cargo');
-              iFormat[i].objarr = app.mData.product[unitId].map(proId => {
-                return { masterId: proId, slaveId: app.aData.product[proId].cargo }
-              })
-            };
-            break;
           case 'chooseAd':
             vData.address = getAddress;
             break;
