@@ -1,108 +1,93 @@
 const db = wx.cloud.database();
 const _ = db.command;
-var app = getApp();
 class getData {               //无条件查询
-  constructor (isDown,dataName) {
+  constructor (dataName,afamily=0,uId= app.roleData.uUnit._id) {
     this.pNo = dataName;
-    this.allUnit = (dataName=='articles') ;               //是否全部单位数组
-    this.inFamily = typeof app.fData[pNo].afamily != 'undefined';       //是否有分类数组
-    wx.getStorage({
-      key: dataName,
-      success: function (res) {
-        if (res.data) {
-          this.aData = res.data
-        } else {
-          _gData(true,dataName).then()
-        };
+    if(dataName=='articles'){               //是否全部单位数组
+      this.unitFamily = 'allUnit' + afamily;
+      this.requirement = {afamily: _.eq(afamily)};
+    } else {
+      this.unitFamily = uId;
+      this.requirement = {unitId: _.eq(uId)};                //除文章类数据外只能查指定单位的数据
+      if (typeof app.fData[pNo].afamily != 'undefined'){       //是否有分类数组
+        this.requirement.afamily = _.eq(afamily);
+        this.unitFamily  += afamily;
       }
-    })
-
-  },
-  _gData: function (isDown, pNo, isAll = false, unitId = app.roleData.uUnit._id){    //查询方向，表名，是否全部，条件
-
-  var umdata = [], updAt = [0, 0];
-  if (this.allUnit) {
-    updAt = app.mData.pAt[pNo];
-    umdata = app.mData[pNo] || [];
-  } else {
-
-      var aData = {};
-      if (app.mData.pAt[pNo][unitId]) { updAt = app.mData.pAt[pNo][unitId] };
-      if (typeof app.mData[pNo][unitId] == 'undefined') {       //添加以单位ID为Key的JSON初值
-        let umobj = {};
-        if (typeof app.mData[pNo] != 'undefined') { umobj = app.mData[pNo] };
-        umobj[unitId] = [];
-        app.mData[pNo] = umobj;
-
     };
-  };
+    this.indexKey = 'updatedAtdesc';
+    this.mData = getApp().mData[this.pNo];
+    return new Promise(resolve=>{
+      if (this.mData.hasOwnProperty(this.unitFamily)) {       //添加以单位ID为Key的JSON初值
+        if (this.mData[this.unitFamily].hasOwnProperty(this.indexKey)) {
+          wx.getStorage({
+            key: dataName,
+            success: function (res) {
+              if (res.data) {
+                this.aData = res.data
+                this.bufferTop = this.aData[this.mData[this.unitFamily][this.indexKey][0]].updatedAt;
+                resolve(this.aData[this.mData[this.unitFamily][this.indexKey][0]].updatedAt)
+              } else {
+                this.aData = {};
+                resolve(0)
+              };
+            },
+            fail: function (err){
+              resolve(0)
+            }
+          })
+        } else {
+          resolve(0)
+        };
+      } else {
+        this.mData[this.unitFamily] = {};
+        resolve(0)
+      };
+    })
+  }
 
-    requirement = {updatedAt: isDown ? _.gt(new Date(updAt[1])) : _.lt(new Date(updAt[0]))};
-          //查询本地最新时间后修改的或最后更新时间前修改的记录
-  if (this.allUnit){
-    requirement.unitId = _.eq(unitId);                //除文章类数据外只能查指定单位的数据
-  };
-  let dQuery = db.collection(pNo).where(requirement).orderBy('updatedAt',isDown ? 'asc' : 'desc').limit(20)  //按更新时间排列
-  return new Promise((resolve, reject) => {
-    dQuery.get().then(res => {
-      let aProcedure = res.data;
-      if (isAll && aProcedure.length>19){
-        let reaAll = Promise.resolve(dQuery.skip(aProcedure.length).get()).then(notEnd => {
-          if (notEnd.data.length>0) {
+  _gData(isDown ){    //查询方向，是否全部
+    this.requirement.updatedAt = _.gt(new Date(isDown ? this.bufferTop : 0));        //查询本地最新时间后修改的或最后更新时间前修改的记录
+    let dQuery = db.collection(pNo).where(this.requirement).orderBy('updatedAt','desc')  //按更新时间排列
+    return new Promise((resolve, reject) => {
+      dQuery.limit(20).get().then(res => {
+        let aProcedure = res.data;
+        if (isDown && aProcedure.length>19){
+          let reaAll = Promise.resolve(dQuery.skip(aProcedure.length).get()).then(notEnd => {
             aProcedure = aProcedure.concat(notEnd.data)
-            return readAll();
-          } else {
-            resolve(aProcedure);
-          }
-        });
-      }
-    });
-  }).then(results => {
-    return new Promise(resolve => {
-      if (results) {
-        let aPlace = -1, aProcedure = {};
-        if (isDown) {
-          updAt[1] = results[lena - 1].updatedAt;                          //更新本地最新时间
-          updAt[0] = results[0].updatedAt; //若本地记录时间为空，则更新本地最后更新时间
-        } else {
-          updAt[0] = results[lena - 1].updatedAt;          //更新本地最后更新时间
-        };
-        results.forEach(aProc => {
-          if (this.inFamily) {                         //存在afamily类别
-            if (typeof umdata[aProc.afamily] == 'undefined') { umdata[aProc.afamily] = [] };
-            if (isDown) {
-              aPlace = umdata[aProc.afamily].indexOf(aProc._id);
-              if (aPlace >= 0) { umdata[aProc.afamily].splice(aPlace, 1) }           //删除本地的重复记录列表
-              umdata[aProc.afamily].unshift(aProc._id);
+            if (notEnd.data.length>19) {
+              return readAll();
             } else {
-              umdata[aProc.afamily].push(aProc._id);
+              resolve(aProcedure);
             }
-          } else {
-            if (isDown) {
-              aPlace = umdata.indexOf(aProc._id);
-              if (aPlace >= 0) { umdata.splice(aPlace, 1) }           //删除本地的重复记录列表
-              umdata.unshift(aProc._id);
-            } else {
-              umdata.push(aProc._id);                   //分类ID数组增加对应ID
-            }
+          });
+        }
+      });
+    }).then(results => {
+      return new Promise(resolve => {
+        if (results) {
+          let aPlace = -1;
+          if (isDown) {
+            this.bufferTop = results[0].updatedAt;          //更新本地最后更新时间
           };
-          aData[aProc._id] = aProc;
-        });
-        if (allUnit) {
-          app.mData[pNo] = umdata;
-          app.mData.pAt[pNo] = updAt;
-        } else {
-          app.mData[pNo][unitId] = umdata;
-          app.mData.pAt[pNo][unitId] = updAt;
-        };
-        resolve(aData);
-      }
+          let umdata = results.map(aProc => {
+            aPlace = this.mData[this.unitFamily][this.indexKey].indexOf(aProc._id);
+            if (aPlace >= 0) { this.mData[this.unitFamily][this.indexKey].splice(aPlace, 1) }           //删除本地的重复记录列表
+            aData[aProc._id] = aProc;
+            return aProc._id;                   //分类ID数组增加对应ID
+          });
+          if (isDown){
+            this.mData[this.unitFamily][this.indexKey] = umdata.concat(this.mData[this.unitFamily][this.indexKey]);
+          } else {
+            this.mData[this.unitFamily][this.indexKey] = this.mData[this.unitFamily][this.indexKey].concat(umdata);
+          }
+          resolve(true);
+        }
+      });
+    }).catch(error => {
+      if (!app.netState) { wx.showToast({ title: '请检查网络！' }) }
+      console.error()
     });
-  }).catch(error => {
-    if (!app.netState) { wx.showToast({ title: '请检查网络！' }) }
-    console.error()
-  });
-},
+  }
 
 }
 module.exports = getData
