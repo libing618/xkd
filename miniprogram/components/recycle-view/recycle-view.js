@@ -1,7 +1,7 @@
 /* eslint complexity: ["error", {"max": 50}] */
 /* eslint-disable indent */
-const DEFAULT_SHOW_SCREENS = SHOW_SCREENS
-const DEFAULT_MAX_SHOW_SCREENS = MAX_SHOW_SCREENS
+const DEFAULT_SHOW_SCREENS = 4
+const DEFAULT_MAX_SHOW_SCREENS = 8
 const RECT_SIZE = 200
 const DEBUG = false
 const BOUNDARY_INTERVAL = 400 // 到达边界多少距离的时候, 直接改为边界位置

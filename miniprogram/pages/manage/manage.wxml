@@ -5,12 +5,13 @@
   <view class="page__hd">
     <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
       <block wx:for="{{mSwiper}}" wx:key="{{index}}">
-      <swiper-item>
+      <recycle-item pno="{{pNo}}" sitem="{{pageData[item]}}" isitem="{{false}}"></recycle-item>
+      <!-- <swiper-item>
           <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item._id}}">
             <image src="{{pageData[item].thumbnail}}" class="swimage"></image>
             <view class="swtext">{{pageData[item].title}}</view>
           </navigator>
-          </swiper-item>
+          </swiper-item> -->
       </block>
     </swiper>
   </view>
