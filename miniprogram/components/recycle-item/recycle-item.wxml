@@ -1,6 +1,6 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
-<view wx:if="{{isitem}}" class="wx-recycle-item">
+<view class="wx-recycle-item">
   <view class="weui-media-box weui-media-box_appmsg" id="{{sitem._id}}" hover="true" hover-class="weui-cell_active" bindtap="popModal">
     <view class="weui-media-box__hd_in-appmsg">
       <image class="weui-media-box__thumb" src="{{sitem.thumbnail}}" background-size="cover"></image>
@@ -12,16 +12,9 @@
     </view>
   </view>
 </view>
-<view wx:else>
-<swiper-item id="{{sitem._id}}" bindtap="popModal">
 
-            <image src="{{sitem.thumbnail}}" class="swimage"></image>
-            <view class="swtext">{{sitem.title}}</view>
-
-          </swiper-item>
-</view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}" bind:animationstart="recordView">
-  <view class="modal_box" id="fBack" bindtap="downModal"></view>
+<view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>
+<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__hd">
     <view class="page__title">{{sitem.uName}}</view>
     <view class="close_icon" id="fBack" bindtap="downModal">×</view>
@@ -34,7 +27,7 @@
     </view>
   </view>
   <view style="padding-bottom:100rpx;"></view>
-</view>
-<view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
-  <button bindtap="downModal" id="fBack">我知道了</button>
+  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
+    <button bindtap="downModal" id="fBack">我知道了</button>
+  </view>
 </view>

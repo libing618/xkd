@@ -43,8 +43,7 @@ module.exports={
     promotion: [[],[], []],              //已发布团购众筹分类缓存数组
     prodessing: [[],[]],              //流程分类缓存数组
     procedures: [],              //已发布流程缓存数组
-    proceduresCk: 'goods',             //选中的已发布流程
-    pAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0}
+    proceduresCk: 'goods'             //选中的已发布流程
   },
   aCount: { "articles": {}, "asset": {}, "product": {}, "service": {}, "cargo": {}, "goods": {}, "share": {}, "promotion": {}, "material": {}, "sOrder": {}, "prodesign": {}, "wholesale": {}, "rawStock": {}, "packing": {}, "order": {} }
 }

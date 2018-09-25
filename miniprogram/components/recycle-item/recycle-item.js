@@ -9,10 +9,6 @@ Component({
       type: String,
       value: 'default value',
     },
-    isitem: {
-      type: Boolean,
-      value: true,
-    },
     sitem: {type: Object}
   },
   options: {

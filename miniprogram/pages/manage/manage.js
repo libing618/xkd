@@ -10,6 +10,7 @@ Page({
     scrollTop : 0,
     pNo: 'articles',                       //文章类信息
     fLength:3,
+    pageCk:1,
     tabs: ["品牌建设", "政策扶持", "我的商圈"]
   },
 
