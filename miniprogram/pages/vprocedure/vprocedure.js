@@ -1,5 +1,5 @@
 // 浏览pages
-const { readShowFormat } = require('../../libs/util');
+
 var app=getApp()
 Page({
   data:{
@@ -21,12 +21,10 @@ Page({
     that.inFamily = (typeof app.fData[that.data.pNo].afamily != 'undefined');
     that.data.vData = app.aData[that.data.pNo][options.artId];
     let showFormat = app.fData[that.data.pNo].pSuccess;
-    readShowFormat(showFormat, that.data.vData).then(req=>{
-      that.data.vFormat=req;
-      that.data.navBarTitle += '的' + (that.inFamily ? app.fData[that.data.pNo].afamily[that.data.vData.afamily] : app.fData[that.data.pNo].pName);
-      that.data.enUpdate = that.data.vData.unitId==app.roleData.uUnit._id && typeof app.fData[that.data.pNo].suRoles!='undefined';  //本单位信息且流程有上级审批的才允许修改
-      that.setData(that.data);
-    });
+    that.data.vFormat=app.fData[this.data.pno].pSuccess;
+    that.data.navBarTitle += '的' + (that.inFamily ? app.fData[that.data.pNo].afamily[that.data.vData.afamily] : app.fData[that.data.pNo].pName);
+    that.data.enUpdate = that.data.vData.unitId==app.roleData.uUnit._id && typeof app.fData[that.data.pNo].suRoles!='undefined';  //本单位信息且流程有上级审批的才允许修改
+    that.setData(that.data);
   },
 
   fEditProcedure: function(e){

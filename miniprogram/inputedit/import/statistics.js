@@ -4,7 +4,6 @@ const _ = db.command;
 const orders = require('../../model/supplies');
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
-const { getData } = require('../../model/db-get-data');
 const { i_sedate } = require('../import/impedit');
 var app = getApp();
 
@@ -15,25 +14,7 @@ Page({
     iClicked: '0'
   },
   onLoad:function(options){
-    var that = this;
-    if ( checkRols(9,app.roleData.user) ) {
-      getData(true,'order').then(proData=>{
-        if (proData){
-          that.data.mPage = app.mData.order;
-          that.data.pageData = app.aData.order;
-          getData(true,'cargo').then(specData=>{
-            if(specData){
-              that.data.specData = app.aData.cargo;
-              let shelves={};
-              that.data.mPage.forEach(pObjectId=>{
-                shelves[pObjectId] = specData.mPage.filter(spec => {return that.data.specPage[spec].product==pObjectId})
-              })
-              that.data.specPage = shelves;
-            }
-          }).catch(console.error);
-        }
-      }).catch(console.error);
-    }
+    checkRols(9,app.roleData.user)
   },
 
   onReady:function(){

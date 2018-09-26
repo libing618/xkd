@@ -134,7 +134,10 @@
 </template>
 
 <template name="s_mapSelectUnit">
-  <view hidden="true">{{c}}</view>
+<view class="weui-cell">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd">{{c.sName}}</view>
+</view>
 </template>
 
 <template name="s_modalEditAddress">
@@ -172,14 +175,14 @@
 
 <template name="s_sId">
   <view class="weui-cell">{{p}}:</view>
-  <view class="weui-cell" id="{{c}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
+  <view class="weui-cell" id="{{c._id}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
     <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
       <view class="weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb" src="{{thumbnail}}" background-size="cover"></image>
+        <image class="weui-media-box__thumb" src="{{c.thumbnail}}" background-size="cover"></image>
       </view>
       <view class="weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{uName}}</view>
-        <view class="weui-media-box__desc">{{title}}</view>
+        <view class="weui-media-box__title">{{c.uName}}</view>
+        <view class="weui-media-box__desc">{{c.title}}</view>
       </view>
     </view>
   </view>

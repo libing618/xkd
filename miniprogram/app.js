@@ -3,6 +3,7 @@ App({
   mData: require('globaldata.js').mData,
   aCount: require('globaldata.js').aCount,
   fData: require('./model/procedureclass'),
+  aData:{},
   logData: [],
   procedures: {},              //读流程的缓存
 

@@ -1,5 +1,4 @@
 const db = wx.cloud.database();
-const { getData } = require('../../model/db-get-data');
 const { unitData } = require('../../model/initForm.js');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
@@ -55,20 +54,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
   var funcArr = [],getAddress;
   let unitId = vData.unitId ? vData.unitId : app.roleData.uUnit._id;  //数据中没有单位代码则用使用人的单位代码
   return new Promise((resolve, reject) => {
-    let promArr = [];               //定义一个Promise数组
-    let setPromise = new Set();
     var iFormat=req.map(reqField=>{
-      switch (reqField.t) {
-        case 'mapSelectUnit':
-          reqField.e = vifData ? '点击选择服务单位' : app.roleData.sUnit.uName;
-          break;
-        case 'sId':
-          setPromise.add(reqField.gname);
-          break;
-        case 'producttype':
-          reqField.indlist = app.roleData.uUnit.indType.code;
-          break;
-      };
       if (vifData) {
         switch (reqField.t) {
           case 'chooseAd':
@@ -110,7 +96,7 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
                 })
               }).catch(console.error)
             };
-            promArr.push(cLocation());          //地理位置字段
+            .push(cLocation());          //地理位置字段
             break;
           case 'eDetail':                      //详情字段
             vData[reqField.gname] = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
@@ -165,8 +151,8 @@ initData: function(req, vData) {      //对数据录入或编辑的格式数组�
       };
       return reqField;
     })
-    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, unitId))})
-    return Promise.all(promArr).then(() => {
+
+    return new Promise((resolve, reject) => {
       for (let i = 0; i < iFormat.length; i++) {
         switch (iFormat[i].t) {
           case 'chooseAd':

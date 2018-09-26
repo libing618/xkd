@@ -17,7 +17,7 @@ module.exports = {
     {gname: "thumbnail", p: '图片简介', t: "cutImageThumbnail" },
     {gname: "aGeoPoint", p: '选择地理位置', t: "chooseAd" },
     {gname: "address", p: '地址', t: "modalEditAddress"},
-    {gname: "sUnit", p: '服务单位', t: "mapSelectUnit", indTypes: 620406 },
+    {gname: "sUnit", p: '服务单位', t: "mapSelectUnit",csc:'arrsel', indTypes: 620406 },
     {gname: "licenseNumber", p:'社会信用代码', t: "h3" },
     {gname:"pPhoto", p:'申请人手持身份证的照片',t:"pic", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
     {gname:"uPhoto", p:'单位营业执照或个人身份证背面的照片',t:"pic", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }

@@ -12,6 +12,7 @@ const transformRpx = require('../utils/transformRpx.js').transformRpx
 var app = getApp()
 let SHOW_SCREENS = app.sysinfo.itemtotal
 let MAX_SHOW_SCREENS = SHOW_SCREENS+1 //最多显示条数
+const { getData } = require('../../model/db-get-data');
 Component({
   options: {
     addGlobalClass: true,

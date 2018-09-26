@@ -1,7 +1,6 @@
 //共享信息管理
 const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
-const { getData } = require('../../model/db-get-data');
 const {f_modalRecordView} = require('../../model/controlModal');
 var app = getApp()
 Page({
@@ -27,20 +26,17 @@ Page({
 
   onLoad: function (options) {
     var that = this;
-    if (checkRols(1,app.roleData.user)) {       //单位名等于用户ID则为创始人
-      getData(true,'share').then(()=>{
-        let pageData = {};
-        app.fData.share.afamily.forEach((afamily,i)=>{
-          app.mData.share[app.roleData.uUnit._id][i].forEach(ufod=>{
-            pageData[ufod] = {uName:app.aData.share[ufod].uName,thumbnail:app.aData.share[ufod].thumbnail};
-            pageData[ufod].title = pageSuccess[1].p+app.aData.unfinishedorder[ufod].amount +'/'+ pageSuccess[2].p+app.aData.unfinishedorder[ufod].amount;
-          })
+    if (checkRols(1,app.roleData.user)) {       //检查用户权限
+      app.fData.share.afamily.forEach((afamily,i)=>{
+        app.mData.share[app.roleData.uUnit._id][i].forEach(ufod=>{
+          pageData[ufod] = {uName:app.aData.share[ufod].uName,thumbnail:app.aData.share[ufod].thumbnail};
+          pageData[ufod].title = pageSuccess[1].p+app.aData.unfinishedorder[ufod].amount +'/'+ pageSuccess[2].p+app.aData.unfinishedorder[ufod].amount;
         })
-        that.setData({
-          cPage: app.mData.share[app.roleData.uUnit._id],
-          pageData: pageData
-        });
-      }).catch( console.error );
+      })
+      that.setData({
+        cPage: app.mData.share[app.roleData.uUnit._id],
+        pageData: pageData
+      });
     };
   },
 
@@ -81,25 +77,22 @@ Page({
     var that = this;
     switch (id) {
       case 'fSave':
-        getData(true,'asset').then(()=>{
-          let services = new Set();
-          app.mData.asset[app.roleData.uUnit._id].forEach(asId=>{
-            services.add(app.aData.asset[asId].manageParty)
+        let services = new Set();
+        app.mData.asset[app.roleData.uUnit._id].forEach(asId=>{
+          services.add(app.aData.asset[asId].manageParty)
+        });
+        return new Promise.all(services.map(suId=>{ return suId)).then(()=>{
+          that.data.iFormat = that.data.iFormat.map(req=>{
+            if (req.t=='sId') {
+              req.maData = app.mData[req.gname][app.roleData.uUnit._id].map(mId=>{
+                return {
+                    _id: mId, sName: app.aData[req.gname][mId].uName + ':  ' + app.aData[req.gname][mId].title }
+                });
+              req.mn = 0;
+            };
+            return req
           });
-          return new Promise.all(services.map(suId=>{ return getData(true,'service'),suId})).then(()=>{
-            that.data.iFormat = that.data.iFormat.map(req=>{
-              if (req.t=='sId') {
-                req.maData = app.mData[req.gname][app.roleData.uUnit._id].map(mId=>{
-                  return {
-                      _id: mId, sName: app.aData[req.gname][mId].uName + ':  ' + app.aData[req.gname][mId].title }
-                  });
-                req.mn = 0;
-              };
-              return req
-            });
-
-            that.setData({iFormat:that.data.iFormat})
-          })
+          that.setData({iFormat:that.data.iFormat})
         })
         break;
       default:

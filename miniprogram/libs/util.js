@@ -1,5 +1,5 @@
 const db = wx.cloud.database();
-const { getData } = require('../model/db-get-data');
+
 var app=getApp()
 function formatNumber(n) {
   n = n.toString()
@@ -7,46 +7,6 @@ function formatNumber(n) {
 };
 
 module.exports = {
-
-readShowFormat: function(req, vData) {
-  var unitId = vData.unitId || '';
-  return new Promise((resolve, reject) => {
-    let promArr = [];                   //定义一个Promise数组
-    let setPromise = new Set();
-    var vFormat=req.map(reqField=>{
-      switch (reqField.t) {
-        case 'mapSelectUnit':
-          reqField.e = app.roleData.sUnit.uName;
-          break;
-        case 'sObject':
-          if (reqField.gname == 'goodstype') {
-            reqField.slave = require('../libs/goodstype').slave[vData.goodstype];
-          };
-          break;
-        case 'sId':
-          setPromise.add(reqField.gname);
-          break;
-      };
-      return reqField;
-    })
-    setPromise.forEach(nPromise=> {promArr.push(getData(true, nPromise, true,{},unitId))})
-    return Promise.all(promArr).then(()=>{
-      for (let i = 0; i < vFormat.length; i++) {
-        switch (vFormat[i].t) {
-          case 'sObject':                    //对象选择字段
-            if (vFormat[i].gname != 'goodstype') { vFormat[i].slave = app.aData[vFormat[i].gname][vData[vFormat[i].gname]]; };
-            break;
-          case 'sId':
-            vFormat[i].thumbnail = app.aData[vFormat[i].gname][vData[vFormat[i].gname]].thumbnail;
-            vFormat[i].uName = app.aData[vFormat[i].gname][vData[vFormat[i].gname]].uName;
-            vFormat[i].title = app.aData[vFormat[i].gname][vData[vFormat[i].gname]].title;
-            break;
-        }
-      }
-      resolve(vFormat);
-    });
-  }).catch(console.error);
-},
 
 hTabClick: function (e) {                                //点击头部tab
   this.setData({

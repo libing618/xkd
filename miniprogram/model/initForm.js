@@ -1,5 +1,4 @@
 const db = wx.cloud.database();
-const { getData } = require('db-get-data');
 const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5');
 const config = require('../config');
@@ -60,17 +59,17 @@ loginAndMenu: function (roleData) {
         lang: 'zh_CN',
         success: function ({ userInfo }) {
           if (userInfo) {
-            let updateInfo = false,getData={};
+            let updateInfo = false,gData={};
             for (var iKey in userInfo) {
               if (userInfo[iKey] != reData.user[iKey]) {             //客户信息有变化
                 updateInfo = true;
                 reData.user[iKey] = userInfo[iKey];
-                getData[iKey] = userInfo[iKey];
+                gData[iKey] = userInfo[iKey];
               }
             };
             if (updateInfo) {
               db.collection('_User').doc(reData.user._id).update({
-                data: getData
+                data: gData
               }).then(() => {
                 resolve(reData);
               })
@@ -112,18 +111,6 @@ unitData: function(cName,uId){
   let unitId = uId ? uId : app.roleData.uUnit._id;
   if (app.mData[cName][unitId]) { app.mData[cName][unitId].forEach(cuId => { uData[cuId]=app.aData[cName][cuId]})};
   return uData;
-},
-
-allUnitData: function(dataClass, unitId) {
-  getData(true, dataClass, unitId).then(() => {
-    let readDown = Promise.resolve(getData(false, dataClass, unitId)).then(notEnd => {
-      if (notEnd) {
-        return readDown();
-      } else {
-        return true;
-      }
-    });
-  });
 },
 
 cosUploadFile: function(filePath){

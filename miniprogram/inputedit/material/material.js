@@ -69,13 +69,13 @@ Page({
     if (checkRols(app.fData.rawOperate.ouRoles[ops.oState],app.roleData.user)){  //检查用户操作权限
       that.indexField = app.fData.rawOperate.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.rawOperate.oSuccess[ops.oState].sumField;
-      getData(true,'cargo',app.roleData.uUnit._id).then(isupdated=>{
+      if (app.cargoStock).then(isupdated=>{
         that.setData({cargo:unitData('cargo',app.roleData.uUnit._id)});
         that.fetchData.bind(that) ;
         wx.setNavigationBarTitle({
           title: app.roleData.uUnit.nick + '的' + app.fData.rawOperate.oprocess[ops.oState]
         });
-      }).catch( ()=>{
+      } else {
         wx.showToast({ title: '无库存数据！', duration: 2500 });
         setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
       });

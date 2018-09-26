@@ -69,16 +69,16 @@ Page ({
     if (checkRols(app.fData.supplies.ouRoles[ops.oState],app.roleData.user)){  //检查用户操作权限
       that.indexField = app.fData.supplies.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.supplies.oSuccess[ops.oState].sumField;
-      getData(true,'cargo',app.roleData.uUnit._id).then(isupdated=>{
-        that.setData({cargo:app.aData.cargo});
+      if (app.cargoStock){
+
         that.fetchData.bind(that) ;
         wx.setNavigationBarTitle({
           title: app.roleData.uUnit.nick + '的' + app.fData.supplies.oprocess[ops.oState]
         });
-      }).catch( ()=>{
+      } else {
         wx.showToast({ title: '无库存数据！', duration: 2500 });
         setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-      });
+      };
     };
   },
 

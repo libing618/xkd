@@ -3,7 +3,6 @@
 <view class="weui-article__-2" id="ac-{{n}}" bindtap="i_thumbnail">
   <view hidden="{{c}}">{{p}}:</view>
   <image src="{{c ? c : '/images/2.png'}}" style="width: 100%;" mode="aspectFit"></image>
-  <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
 </view>
 
 <view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>

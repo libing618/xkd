@@ -52,8 +52,8 @@ Page({
           if (app.aData[options.pNo][options.artId]){
             resolve(true)
           } else {
-            db.collection(options.pNo).doc(options.artId).update().then(getData=>{
-              app.aData[options.pNo][options.artId] = getData.toJSON();
+            db.collection(options.pNo).doc(options.artId).get().then(({result})=>{
+              app.aData[options.pNo][options.artId] = result;
               resolve(true)
             }).catch(reject(false))
           }

@@ -1,6 +1,5 @@
 const db = wx.cloud.database();
 const _ = db.command;
-const { getData } = require('db-get-data');
 
 var app = getApp();
 function sumArr(arrData,arrIndex){
@@ -75,30 +74,6 @@ module.exports = {
         resolve(cfs);
       })
     }).catch(console.error);
-  },
-
-  readRoleData: function(className){
-    getData(true,className).then(()=>{
-      let readDown = Promise.resolve(getData(false, className)).then(notEnd => {
-        if (notEnd) {
-          return readDown();
-        } else {
-          return true;
-        }
-      });
-    });
-  },
-
-  allUpdateData: function(className){
-    getData(true,className).then(()=>{
-      let readDown = Promise.resolve(getData(false, className)).then(notEnd => {
-        if (notEnd) {
-          return readDown();
-        } else {
-          return true;
-        }
-      });
-    });
   },
 
   aDataSum: function(yearMons,className,sumField,idArr){

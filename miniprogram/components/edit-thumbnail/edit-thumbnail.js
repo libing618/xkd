@@ -3,13 +3,13 @@ var app = getApp()
 var sysinfo = app.sysinfo;
 var modalBehavior = require('../utils/poplib.js')
 Component({
-  behaviors: [modalBehavior],
+  behaviors: [modalBehavior, 'wx://form-field'],
   properties: {
     p: {
       type: String,
       value: '缩略图',
     },
-    gname: {
+    csc: {
       type: String,
       value: 'thumbnail',
     },
@@ -73,7 +73,7 @@ Component({
                   x:0,
                   y:0
                 });
-                popModal();
+                this.popModal();
                 this.ctx = wx.createCanvasContext('cei');
                 this.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
                 this.ctx.draw();
@@ -108,8 +108,8 @@ Component({
           //比较重要的代码
           const upng =require("../libs/UPNG.js")
           let png = upng.encode([res.data.buffer],res.width,res.height)
-          hidePage['vData.' + this.data.iFormat[nowPage.n].gname] = wx.arrayBufferToBase64(png);
-          downModal(that,hidePage);
+          this.setData({ vale: wx.arrayBufferToBase64(png) });
+          this.downModal();
         }
       });
     }

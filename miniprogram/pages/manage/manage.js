@@ -16,13 +16,17 @@ Page({
 
   onLoad: function () {
     var that = this;
-    app.mData.articles = require('../../test/articles').articles;
+    app.mData.articles0 = require('../../test/articles').articles0;
+    app.mData.articles1 = require('../../test/articles').articles1;
+    app.mData.articles2 = require('../../test/articles').articles2;
+    app.mData.articles3 = require('../../test/articles').articles3;
+    app.aData.articles = require('../../test/articles').artdata;
     that.setData({
       statusBar: app.sysinfo.statusBarHeight,
       wWidth: app.sysinfo.windowWidth,
-      mSwiper: app.mData.articles[0],
-      mPage: [app.mData.articles[1], app.mData.articles[2], app.mData.articles[3]],
-      pageData: require('../../test/articles').artdata,
+      mSwiper: app.mData.articles0,
+      mPage: [app.mData.articles1, app.mData.articles2, app.mData.articles3],
+      pageData: app.aData.articles,
       pageCk: app.mData.pCkarticles
     });
     loginAndMenu(app.roleData).then( rData => {
