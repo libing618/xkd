@@ -9,7 +9,11 @@ Component({
       type: String,
       value: 'default value',
     },
-    sitem: {type: Object}
+    sitem: {type: Object},
+    clickid: {
+      type: String,
+      value: '0'
+    }
   },
   options: {
     addGlobalClass: true
@@ -42,6 +46,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    
+    clickitem(){
+      if (this.data.clickid==this.data.sitem._id){
+        this.popModal()
+      } else {
+        let clickEventDetail = {id:this.data.sitem._id};
+        this.triggerEvent('clickeditem',clickEventDetail)
+      }
+    }
   }
 })

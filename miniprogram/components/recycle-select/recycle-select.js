@@ -129,9 +129,8 @@ Component({
     innerAfterHeight: 0,
     innerScrollTop: 0,
     innerScrollIntoView: '',
-    placeholderImageStr: '',
-    totalHeight: 0,
-    useInPage: false
+    placeholderImageStr: ''
+
   },
   attached() {
     if (this.data.placeholderImage) {
@@ -139,11 +138,6 @@ Component({
         placeholderImageStr: transformRpx(this.data.placeholderImage, true)
       })
     }
-    this.setItemSize({
-      array: [],
-      map: {},
-      totalHeight: 0
-    })
   },
   ready() {
     this._initPosition(() => {
@@ -174,14 +168,7 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    _log(...args) {
-      if (!DEBUG && !this.data.debug) return
-      const h = new Date()
-      const str = `${h.getHours()}:${h.getMinutes()}:${h.getSeconds()}.${h.getMilliseconds()}`
-      Array.prototype.splice.call(args, 0, 0, str)
-      // eslint-disable-next-line no-console
-      console.log(...args)
-    },
+
     _scrollToUpper(e) {
       this.triggerEvent('scrolltoupper', e.detail)
     },
@@ -194,19 +181,7 @@ Component({
         this._lastScrollTop = this._pos && (this._pos.top || 0)
       }
     },
-    _clearList(cb) {
-      this.currentScrollTop = 0
-      this._lastScrollTop = 0
-      const pos = this._pos
-      pos.beginIndex = this._pos.endIndex = -1
-      pos.afterHeight = pos.minTop = pos.maxTop = 0
-      this.page._recycleViewportChange({
-        detail: {
-          data: pos,
-          id: this.id
-        }
-      }, cb)
-    },
+
     // 判断RecycleContext是否Ready
     _isValid() {
       return this.page && this.context && this.context.isDataReady
@@ -243,10 +218,7 @@ Component({
         // scrollTop = 0
         isMatchBoundary = true
       }
-      if (this.totalHeight - scrollTop - BOUNDARY_INTERVAL < this.data.height) {
-        // scrollTop = this.totalHeight - this.data.height
-        // isMatchBoundary = true
-      }
+
       const usetime = Date.now() - this._lastRenderTime
       const scrollDistance = Math.abs(scrollTop - this._lastScrollTop)
 
@@ -272,27 +244,19 @@ Component({
         clearTimeout(this.timerId)
       }
       SHOW_SCREENS = DEFAULT_SHOW_SCREENS // 固定4屏幕
-      this._log('SHOW_SCREENS', SHOW_SCREENS, scrollTop, isNextScrollExpose)
+
       this._calcViewportIndexes(scrollLeft, scrollTop,
-          (beginIndex, endIndex, minTop, afterHeight, maxTop) => {
-        that._log('scrollDistance', scrollDistance, 'usetime', usetime, 'indexes', beginIndex, endIndex)
+          (beginIndex, endIndex) => {
         // 渲染的数据不变
-        if (!force && pos.beginIndex === beginIndex && pos.endIndex === endIndex &&
-            pos.minTop === minTop && pos.afterHeight === afterHeight) {
-          that._log('------------is the same beginIndex and endIndex')
+        if (!force && pos.beginIndex === beginIndex && pos.endIndex === endIndex) {
           return
         }
         // 如果这次渲染的范围比上一次的范围小，则忽略
-        that._log('【check】before setData, old pos is', pos.minTop, pos.maxTop, minTop, maxTop)
         that._throttle = false
         pos.left = scrollLeft
         pos.top = scrollTop
         pos.beginIndex = beginIndex
         pos.endIndex = endIndex
-        // console.log('render indexes', endIndex - beginIndex + 1, endIndex, beginIndex)
-        pos.minTop = minTop
-        pos.maxTop = maxTop
-        pos.afterHeight = afterHeight
         pos.ignoreBeginIndex = pos.ignoreEndIndex = -1
         pos.lastSetDataTime = Date.now() // 用于节流时间判断
         that._isScrollRendering = true
@@ -315,7 +279,6 @@ Component({
           // if (that._totalCount / that._totalTime <= SETDATA_INTERVAL_BOUNDARY) {
           //   MAX_SHOW_SCREENS = DEFAULT_MAX_SHOW_SCREENS + 1 // 多渲染2个屏幕的内容
           if (that._totalTime / that._totalCount > SETDATA_INTERVAL_BOUNDARY) {
-            that._log('【【SHOW_SCREENS 调整', that._totalCount / that._totalTime)
             MAX_SHOW_SCREENS = DEFAULT_MAX_SHOW_SCREENS - 1
           } else if (that._totalTime / that._totalCount > SETDATA_INTERVAL_BOUNDARY_1) {
             MAX_SHOW_SCREENS = DEFAULT_MAX_SHOW_SCREENS - 2
@@ -332,41 +295,21 @@ Component({
       // const st = +new Date
       this._getBeforeSlotHeight(() => {
         const {
-          beginIndex, endIndex, minTop, afterHeight, maxTop
+          beginIndex, endIndex
         } = that.__calcViewportIndexes(left, top)
         if (cb) {
-          cb(beginIndex, endIndex, minTop, afterHeight, maxTop)
+          cb(beginIndex, endIndex)
         }
       })
     },
-    _getBeforeSlotHeight(cb) {
-      if (typeof this.data.beforeSlotHeight !== 'undefined') {
-        if (cb) {
-          cb(this.data.beforeSlotHeight)
-        }
-      } else {
-        this.reRender(cb)
-      }
-    },
-    _getAfterSlotHeight(cb) {
-      if (typeof this.data.afterSlotHeight !== 'undefined') {
-        if (cb) {
-          cb(this.data.afterSlotHeight)
-        }
-        // cb && cb(this.data.afterSlotHeight)
-      } else {
-        this.reRender(cb)
-      }
-    },
-    _getIndexes(minTop, maxTop) {
-      if (minTop === maxTop && maxTop === 0) {
+
+    _getIndexes() {
+      if () {
         return {
           beginIndex: -1,
           endIndex: -1
         }
       }
-      const startLine = Math.floor(minTop / RECT_SIZE)
-      const endLine = Math.ceil(maxTop / RECT_SIZE)
       const rectEachLine = Math.floor(this.data.width / RECT_SIZE)
       let beginIndex
       let endIndex
@@ -413,19 +356,7 @@ Component({
       // top = Math.max(top, this.data.beforeSlotHeight)
       const beforeSlotHeight = this.data.beforeSlotHeight || 0
       // 和direction无关了
-      let minTop = top - pos.height * SHOW_SCREENS - beforeSlotHeight
-      let maxTop = top + pos.height * SHOW_SCREENS - beforeSlotHeight
-      // maxTop或者是minTop超出了范围
-      if (maxTop > this.totalHeight) {
-        minTop -= (maxTop - this.totalHeight)
-        maxTop = this.totalHeight
-      }
-      if (minTop < beforeSlotHeight) {
-        maxTop += Math.min(beforeSlotHeight - minTop, this.totalHeight)
-        minTop = 0
-      }
-      // 计算落在minTop和maxTop之间的方格有哪些
-      const indexObj = this._getIndexes(minTop, maxTop)
+      const indexObj = this._getIndexes()
       const beginIndex = indexObj.beginIndex
       let endIndex = indexObj.endIndex
       if (endIndex >= this.sizeArray.length) {
@@ -435,38 +366,15 @@ Component({
       if (!this._isIndexValid(beginIndex, endIndex)) {
         return {
           beginIndex: -1,
-          endIndex: -1,
-          minTop: 0,
-          afterHeight: 0,
-          maxTop: 0
+          endIndex: -1
         }
       }
-      // 计算白屏的默认占位的区域
-      const maxTopFull = this.sizeArray[endIndex].beforeHeight + this.sizeArray[endIndex].height
-      const minTopFull = this.sizeArray[beginIndex].beforeHeight
-
-      // console.log('render indexes', beginIndex, endIndex)
-      const afterHeight = this.totalHeight - maxTopFull
       return {
         beginIndex,
-        endIndex,
-        minTop: minTopFull, // 取整, beforeHeight的距离
-        afterHeight,
-        maxTop,
+        endIndex
       }
     },
-    setItemSize(size) {
-      this.sizeArray = size.array
-      this.sizeMap = size.map
-      if (size.totalHeight !== this.totalHeight) {
-        // console.log('---totalHeight is', size.totalHeight);
-        this.setData({
-          totalHeight: size.totalHeight,
-          useInPage: this.useInPage || false
-        })
-      }
-      this.totalHeight = size.totalHeight
-    },
+
     setList(key, newList) {
       this._currentSetDataKey = key
       this._currentSetDataList = newList
@@ -726,51 +634,10 @@ Component({
       return newVal
     },
     // 提供给开发者使用的接口
-    boundingClientRect(idx) {
-      if (idx < 0 || idx >= this.sizeArray.length) {
-        return null
+    clickeditem({detail:{id}}) {
+      if (id) {
+        this.setData({clickedid:id})
       }
-      return {
-        left: 0,
-        top: this.sizeArray[idx].beforeHeight,
-        width: this.sizeArray[idx].width,
-        height: this.sizeArray[idx].height
-      }
-    },
-    // 获取当前出现在屏幕内数据项， 返回数据项组成的数组
-    // 参数inViewportPx表示当数据项至少有多少像素出现在屏幕内才算是出现在屏幕内，默认是1
-    getIndexesInViewport(inViewportPx) {
-      if (!inViewportPx) {
-        (inViewportPx = 1)
-      }
-      const scrollTop = this.currentScrollTop
-      let minTop = scrollTop + inViewportPx
-      if (minTop < 0) minTop = 0
-      let maxTop = scrollTop + this.data.height - inViewportPx
-      if (maxTop > this.totalHeight) maxTop = this.totalHeight
-      const indexes = []
-      for (let i = 0; i < this.sizeArray.length; i++) {
-        if (this.sizeArray[i].beforeHeight + this.sizeArray[i].height >= minTop &&
-            this.sizeArray[i].beforeHeight <= maxTop) {
-          indexes.push(i)
-        }
-        if (this.sizeArray[i].beforeHeight > maxTop) break
-      }
-      return indexes
-    },
-    setUseInPage(useInPage) {
-      this.useInPage = useInPage
-    },
-    setPlaceholderImage(svgs, size) {
-      const fill = 'style=\'fill:rgb(204,204,204);\''
-      const placeholderImages = [`data:image/svg+xml,%3Csvg height='${size.height}' width='${size.width}' xmlns='http://www.w3.org/2000/svg'%3E`]
-      svgs.forEach(svg => {
-        placeholderImages.push(`%3Crect width='${svg.width}' x='${svg.left}' height='${svg.height}' y='${svg.top}' ${fill} /%3E`)
-      })
-      placeholderImages.push('%3C/svg%3E')
-      this.setData({
-        placeholderImageStr: placeholderImages.join('')
-      })
     }
   }
 })

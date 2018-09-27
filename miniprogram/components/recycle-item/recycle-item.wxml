@@ -1,7 +1,7 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
 <view class="wx-recycle-item">
-  <view class="weui-media-box weui-media-box_appmsg" id="{{sitem._id}}" hover="true" hover-class="weui-cell_active" bindtap="popModal">
+  <view class="weui-media-box weui-media-box_appmsg" hover-class="{{sitem._id==clickid ? 'weui-cell_active' : ''}}" bindtap="clickitem">
     <view class="weui-media-box__hd_in-appmsg">
       <image class="weui-media-box__thumb" src="{{sitem.thumbnail}}" background-size="cover"></image>
     </view>
