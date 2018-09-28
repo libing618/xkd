@@ -7,7 +7,11 @@ Component({
   properties: {
     pno: {
       type: String,
-      value: 'default value',
+      value: 'goods',
+    },
+    id: {
+      type: String,
+      value: '0'
     },
     sitem: {type: Object},
     clickid: {
@@ -39,7 +43,6 @@ Component({
           break;
         default:
       }
-      this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
     },
   },
   /**
@@ -48,9 +51,10 @@ Component({
   methods: {
     clickitem(){
       if (this.data.clickid==this.data.sitem._id){
+        this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
         this.popModal()
       } else {
-        let clickEventDetail = {id:this.data.sitem._id};
+        let clickEventDetail = {itemid:this.data.sitem._id};
         this.triggerEvent('clickeditem',clickEventDetail)
       }
     }

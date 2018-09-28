@@ -24,10 +24,8 @@ class getData {               //无条件查询
             success: function (res) {
               if (res.data) {
                 this.aData = res.data
-                this.bufferTop = this.aData[this.mData[this.unitFamily][this.indexKey][0]].updatedAt;
                 resolve(this.aData[this.mData[this.unitFamily][this.indexKey][0]].updatedAt)
               } else {
-                this.aData = {};
                 resolve(0)
               };
             },
@@ -42,6 +40,9 @@ class getData {               //无条件查询
         this.mData[this.unitFamily] = {};
         resolve(0)
       };
+    }).then(bufferTop=>{
+      this.bufferTop = bufferTop;
+      if (!bufferTop) {this.aData = {};}
     })
   }
 

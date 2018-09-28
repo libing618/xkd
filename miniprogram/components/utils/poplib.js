@@ -6,7 +6,7 @@ module.exports = Behavior({
     showModalBox: false
   },
   methods: {
-    popModal({ currentTarget: { id, dataset } }) {
+    popModal() {
       if (typeof animation == 'undefined') {
         var animation = wx.createAnimation({      //遮罩层
           duration: 200,
@@ -27,7 +27,7 @@ module.exports = Behavior({
         });
       }.bind(this), 200)
     },
-    downModal({ currentTarget: { id, dataset } }) {
+    downModal() {
       var animation = this.animation;
       animation.translateY(-sysinfo.windowHeight).step();
       this.setData({ animationData: animation.export() });
