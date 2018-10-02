@@ -1,5 +1,4 @@
 const db = wx.cloud.database();
-const { unitData } = require('../../model/initForm.js');
 const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
@@ -352,10 +351,10 @@ fSubmit: function (e) {
             }
           } else {
             app.procedures[that.data.targetId].dObject = that.data.vData;
-            app.logData.push([Date.now(),that.data.targetId+'修改内容：'+that.data.vData.toString()]);
+            app.logData.push([Date.now(),that.data.targetId+'修改内容：'+JSON.stringify(that.data.vData)]);
           }
           }).catch(error => {
-            app.logData.push([Date.now(), '编辑提交发生错误:' + error.toString()]);
+            app.logData.push([Date.now(), '编辑提交发生错误:' + JSON.stringify(error)]);
           });
         setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
       }

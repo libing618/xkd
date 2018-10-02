@@ -53,12 +53,12 @@ Component({
     },
     filterId: {
       type: String,
-      value: ''
+      value: 'updatedAtdesc'
     }
   },
 
   data: {
-    pNo '',
+    pNo: '',
     mPage: [],
     pageData: {},
     innerScrollIntoView: ''
@@ -88,14 +88,16 @@ Component({
           ignoreScroll: true
         }
       }, true)
-    })
+
     this._totalTime = this._totalCount = 0
   },
 
   detached() {
     if (this.gData) {
-      this.gData.destroy()
-      this.gData = null
+      this.gData.closeData().then(()=>{
+        this.gData.destroy();
+        this.gData = null
+      })
     };
   },
   /**
@@ -216,12 +218,7 @@ Component({
     },
 
     _getIndexes() {
-      if () {
-        return {
-          beginIndex: -1,
-          endIndex: -1
-        }
-      }
+
       const rectEachLine = Math.floor(this.data.width / RECT_SIZE)
       let beginIndex
       let endIndex

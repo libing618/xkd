@@ -1,5 +1,4 @@
 const db = wx.cloud.database();
-const { unitData } = require('../../model/initForm.js');
 var app = getApp();
 Page({
   data:{
@@ -10,7 +9,7 @@ Page({
   },
 
   setPage: function(){
-    wx.collection('goods').where({unitId:app.roleData.user.unit}).count().then(({total})=>{
+    db.collection('goods').where({unitId:app.roleData.user.unit}).count().then(({total})=>{
       this.setData({pandect:total})
     })
   },

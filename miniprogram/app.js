@@ -97,7 +97,7 @@ App({
   },
 
   onError: function (msg) {
-    this.logData.push([Date.now(), msg]);
+    this.logData.push([Date.now(), JSON.stringify(msg)]);
   }
 
 })

@@ -2,7 +2,7 @@
 const db = wx.cloud.database();
 const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
-const { checkRols,unitData } = require('../../model/initForm.js');
+const { checkRols } = require('../../model/initForm.js');
 var app = getApp()
 Page({
   data: {
@@ -69,9 +69,8 @@ Page({
     if (checkRols(app.fData.rawOperate.ouRoles[ops.oState],app.roleData.user)){  //检查用户操作权限
       that.indexField = app.fData.rawOperate.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.rawOperate.oSuccess[ops.oState].sumField;
-      if (app.cargoStock).then(isupdated=>{
-        that.setData({cargo:unitData('cargo',app.roleData.uUnit._id)});
-        that.fetchData.bind(that) ;
+      if (app.cargoStock) {
+
         wx.setNavigationBarTitle({
           title: app.roleData.uUnit.nick + '的' + app.fData.rawOperate.oprocess[ops.oState]
         });

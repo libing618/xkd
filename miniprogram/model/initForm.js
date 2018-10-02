@@ -80,7 +80,7 @@ loginAndMenu: function (roleData) {
         }
       });
     });
-  }).catch((loginErr) => { reject('系统登录失败:' + loginErr.toString()) });
+  }).catch((loginErr) => { reject('系统登录失败:' + JSON.stringify(loginErr) ) });
 },
 
 checkRols: function(ouLine,user,ouPosition){  //要求的条线，用户数据，要求的岗位
@@ -104,13 +104,6 @@ shareMessage: function () {
     desc: '扶贫济困，共享良品。', // 分享描述
     path: '/pages/manage/manage' // 分享路径
   }
-},
-
-unitData: function(cName,uId){
-  let uData = {};
-  let unitId = uId ? uId : app.roleData.uUnit._id;
-  if (app.mData[cName][unitId]) { app.mData[cName][unitId].forEach(cuId => { uData[cuId]=app.aData[cName][cuId]})};
-  return uData;
 },
 
 cosUploadFile: function(filePath){

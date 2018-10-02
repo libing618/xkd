@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "recycle-view": "/components/recycle-view/recycle-view",
-    "recycle-item": "/components/recycle-item/recycle-item"
+    "recycle-select": "../../components/recycle-select/recycle-select",
+    "recycle-item": "../../components/recycle-item/recycle-item"
   }
 }

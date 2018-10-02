@@ -39,7 +39,7 @@ Page({
       });
       if (app.roleData.user.line==9){ wx.hideTabBar() };
     }).catch(loginerr=>{
-      app.logData.push(loginerr);
+      app.logData.push([Date.now(),JSON.stringify(loginerr)]);
       that.setData({
         unAuthorize: true
       });
@@ -50,7 +50,7 @@ Page({
     var that = this;
     openWxLogin().then( mstate=> {
       app.roleData = mstate;
-      app.logData.push([Date.now(), '用户授权' + app.sysinfo.toString()]);                      //用户授权时间记入日志
+      app.logData.push([Date.now(), '用户授权' + JSON.stringify(app.sysinfo)]);                      //用户授权时间记入日志
       let grids = require('../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
       grids[0].mIcon=app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
       that.setData({ unAuthorize: false, grids: grids })

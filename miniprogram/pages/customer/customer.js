@@ -1,5 +1,5 @@
 const { cargoCount } = require('../../model/dataAnalysis.js');
-const { unitData, shareMessage } = require('../../model/initForm.js');
+const { shareMessage } = require('../../model/initForm.js');
 
 var app = getApp()
 Page({
@@ -11,8 +11,6 @@ Page({
   setPage: function(iu){
     cargoCount(['sold', 'reserve', 'payment', 'delivering', 'delivered']).then(cSum=>{
       this.setData({
-        mPage:app.mData.cargo[app.roleData.uUnit._id],
-        pageData:unitData('cargo'),
         pandect:cSum
       })
     })

@@ -1,6 +1,6 @@
 //货架管理
 const db = wx.cloud.database();
-const { checkRols,unitData } =  require('../../model/initForm');
+const { checkRols } =  require('../../model/initForm');
 
 var app = getApp();
 
