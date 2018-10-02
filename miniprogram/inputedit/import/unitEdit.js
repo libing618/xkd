@@ -333,13 +333,13 @@ fSubmit: function (e) {
             } else {
               db.collection('sengpi').add({        //创建审批流程
                 data:{
-                  dProcedure that.data.pNo,                //流程
+                  dProcedure: that.data.pNo,                //流程
                   processState: 0,                //流程处理结果0为提交
-                  processUser: [app.roleData.user._id]       //流程处理人ID
+                  processUser: [app.roleData.user._id],       //流程处理人ID
                   unitName: app.roleData.uUnit.uName,                 //申请单位
                   sponsorName: app.roleData.user.uName,         //申请人
                   unitId: app.roleData.uUnit._id,        //申请单位的ID
-                  dIdear: [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }]);       //流程处理意见
+                  dIdear: [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }],       //流程处理意见
                   cManagers: cManagers,             //单位条线岗位数组
                   cInstance: 1,                     //下一处理节点
                   cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位

@@ -1,6 +1,5 @@
 // 供货操作
 const db = wx.cloud.database();
-const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
 const { checkRols } = require('../../model/initForm.js');
 var app = getApp();

@@ -1,6 +1,5 @@
 //原材料
 const db = wx.cloud.database();
-const supplies = require('../../model/supplies.js');
 const { indexClick,binddata } = require('../../libs/util.js');
 const { checkRols } = require('../../model/initForm.js');
 var app = getApp()
@@ -77,7 +76,7 @@ Page({
       } else {
         wx.showToast({ title: '无库存数据！', duration: 2500 });
         setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-      });
+      };
     };
   },
 

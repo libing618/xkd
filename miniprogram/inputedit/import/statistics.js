@@ -1,7 +1,6 @@
 //订单统计
 const db = wx.cloud.database();
 const _ = db.command;
-const orders = require('../../model/supplies');
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
 const { i_sedate } = require('../import/impedit');
@@ -31,7 +30,7 @@ Page({
     var that = this;
     db.collection('orders').where({
       unitId: app.roleData.uUnit._id,
-      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt( new Date(that.data.vData.seDate[1])+86400000)))
+      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt( new Date(that.data.vData.seDate[1]+86400000)))
     }).count().then(orderlist=>{
       if (orderlist) {
         that.data.mPage.forEach(product=>{

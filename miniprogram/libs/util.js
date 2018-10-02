@@ -227,7 +227,7 @@ i_msgEditSend:function(e){            //消息编辑发送框
 },
 
 formatTime: function(date,isDay) {
-  var year = date.getFullYear()
+  var year = date.getFullYear()+''
   var month = date.getMonth() + 1
   var day = date.getDate()
   if (isDay){

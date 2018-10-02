@@ -77,23 +77,7 @@ Page({
     var that = this;
     switch (id) {
       case 'fSave':
-        let services = new Set();
-        app.mData.asset[app.roleData.uUnit._id].forEach(asId=>{
-          services.add(app.aData.asset[asId].manageParty)
-        });
-        return new Promise.all(services.map(suId=>{ return suId)).then(()=>{
-          that.data.iFormat = that.data.iFormat.map(req=>{
-            if (req.t=='sId') {
-              req.maData = app.mData[req.gname][app.roleData.uUnit._id].map(mId=>{
-                return {
-                    _id: mId, sName: app.aData[req.gname][mId].uName + ':  ' + app.aData[req.gname][mId].title }
-                });
-              req.mn = 0;
-            };
-            return req
-          });
-          that.setData({iFormat:that.data.iFormat})
-        })
+        db.collection('share')
         break;
       default:
         wx.navigateBack({ delta: 1 });

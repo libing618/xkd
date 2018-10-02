@@ -1,6 +1,6 @@
 var app = getApp()
 let SHOW_SCREENS = app.sysinfo.itemtotal //最多显示条数
-const { getData } = require('../../model/db-get-data');
+const getData = require('../../model/db-get-data');
 const { transformRpx } = require('../utils/transformRpx');
 Component({
   options: {
@@ -23,7 +23,7 @@ Component({
     },
     afamily: {           //数据表的类型
       type: Number,
-      value: 0,
+    //  value: 0,
     },
     filterId: {
       type: String,
@@ -45,7 +45,7 @@ Component({
       });
       this.gData = new getData(this.data.dataname, this.data.afamily, this.data.filterId)
       this.gData.gStorage().then(()=> {
-        if (this.gData.mData.indArr.length>0)
+        if (this.gData.mData.indArr.length>0){
           let aData = {};
           this.gData.mData.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
           this.setData({
@@ -66,8 +66,8 @@ Component({
           this.gData = null
         })
       };
-    },
-  }
+    }
+  },
 
 /**
  * 组件的方法列表

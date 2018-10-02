@@ -24,7 +24,7 @@ Page({
     var that = this;
     db.collection('cargoSupplies').where({
       unitId:app.roleData.uUnit._id,
-      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt(new Date(that.data.vData.seDate[1])+86400000)))
+      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt(new Date(that.data.vData.seDate[1]+86400000)))
     }).limit(20)
     .get().then(orderlist=>{
       if (orderlist) {

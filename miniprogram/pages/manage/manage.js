@@ -7,7 +7,6 @@ var app = getApp();
 Page({
   data: {
     autoplay: true,
-    scrollTop : 0,
     pNo: 'articles',                       //文章类信息
     fLength:3,
     pageCk:1,

@@ -11,7 +11,7 @@ class getData {               //无条件查询
     } else {
       this.unitFamily = uId;
       requirement = {unitId: _.eq(uId)};                //除文章类数据外只能查指定单位的数据
-      if (typeof app.fData[pNo].afamily != 'undefined'){       //是否有分类数组
+      if (typeof app.fData[dataName].afamily != 'undefined'){       //是否有分类数组
         requirement.afamily = _.eq(afamily);
         this.unitFamily  += afamily;
       }

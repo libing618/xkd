@@ -17,7 +17,7 @@ const mgrids = ['产品', '图像', '音频', '视频', '位置', '文件', '大
 const mid = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p'];
 function getdate(idate) {
   let rdate = new Date(idate)
-  var year = rdate.getFullYear();
+  var year = rdate.getFullYear()+'';
   var month = rdate.getMonth() + 1;
   var day = rdate.getDate();
   return year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)
