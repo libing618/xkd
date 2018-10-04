@@ -21,7 +21,7 @@ Page({
 
   onLoad: function () {
     var that = this;
-    if (app.roleData.user.mobilePhoneNumber && app.roleData.user.unit!='0') {			// 当前用户已注册且已有单位
+    if (app.roleData.user.mobilePhoneNumber!='0' && app.roleData.user.unit!='0') {			// 当前用户已注册且已有单位
       if (app.roleData.uUnit.afamily<3) {
         wx.showToast({ title: '非机构类单位,没有下级员工设置。', duration: 7500 })
         wx.navigateBack({ delta: 1 })                // 回退前1 页面

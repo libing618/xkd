@@ -29,7 +29,18 @@
     </form>
   </view>
 
-  <view wx:if="{{user.mobilePhoneVerified}}">
+  <view wx:if="{{user.mobilePhoneNumber=='0'}}">
+    <view class="weui-cells">
+      <scroll-view scroll-y="true" style="height:{{sysheight}}rpx;text-indent:2em" hover="true" hover-class="weui-hover" hover-stay-time="500">
+        <text>{{tk.tk}}</text>
+      </scroll-view>
+      <view class="weui-cell_switch"> <switch type="checkbox" checked="{{swcheck}}" bindchange="fswcheck"/>阅读并同意《电子商务服务平台使用条款》</view>
+      <view hidden="{{!swcheck}}">
+        <button open-type="getPhoneNumber" bindgetphonenumber="gUserPhoneNumber">使用微信手机号注册成为本平台用户</button>
+      </view>
+    </view>
+  </view>
+  <view wx:else>
     <view class="weui-cells">
       <icon class="weui-icon" type="info"/>{{cUnitInfo}}
     </view>
@@ -46,17 +57,6 @@
         <button class="weui-btn" type="warn" formType="submit">查询单位(存在可申请加入、不存在可创建)</button>
       </view>
     </form>
-  </view>
-  <view wx:else>
-    <view class="weui-cells">
-      <scroll-view scroll-y="true" style="height:{{sysheight}}rpx;text-indent:2em" hover="true" hover-class="weui-hover" hover-stay-time="500">
-        <text>{{tk.tk}}</text>
-      </scroll-view>
-      <view class="weui-cell_switch"> <switch type="checkbox" checked="{{swcheck}}" bindchange="fswcheck"/>阅读并同意《电子商务服务平台使用条款》</view>
-      <view hidden="{{!swcheck}}">
-        <button open-type="getPhoneNumber" bindgetphonenumber="gUserPhoneNumber">使用微信手机号注册成为本平台用户</button>
-      </view>
-    </view>
   </view>
 
 </view>

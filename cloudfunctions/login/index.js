@@ -47,7 +47,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
                   resolve(wxsk)
                 });
               })
-              
+
             } else {
               reject(err);
             }
@@ -98,7 +98,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
             uUnit: {},
             sUnit: {}
           };
-          if (roleData.user.unit != '0') {
+          if (roleData.user.line != 9) {
             db.collection('_Role').doc(roleData.user.unit).get().then(uRole => {
               roleData.wmenu = mRole['m' + uRole.data.afamily+roleData.user.line + roleData.user.position]
               roleData.uUnit = uRole.data;

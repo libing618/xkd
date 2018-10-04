@@ -46,10 +46,10 @@ function getMonInterval(){
 function readSumData(className,sumField,updAt){
   var sumRecords = [];
   let readUp = Promise.resolve(
-    db.collection(className).field(sumField).where({updatedAt: _.gt(updAt)}).limit(20).orderBy('updatedAt','asc').then(results=>{
-      if (results) {
-        results.forEach(result=>{ sumRecords.push(result.toJSON()) });
-        updAt = results[0].updatedAt;
+    db.collection(className).field(sumField).where({updatedAt: _.gt(updAt)}).limit(20).orderBy('updatedAt','asc').then(({data})=>{
+      if (data.length>0) {
+        data.forEach(result=>{ sumRecords.push(result.toJSON()) });
+        updAt = data[0].updatedAt;
         readUp();
       } else { return sumRecords };
     })

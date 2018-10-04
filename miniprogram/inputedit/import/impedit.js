@@ -280,11 +280,7 @@ module.exports = {
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['camera'],                      //用户拍摄
-      success: function (res) {
-
-          that.setData(vdSet(that.data.iFormat[n].gname, file.url()));
-
-      }
+      success: function (res) { that.setData(vdSet(that.data.iFormat[n].gname, res.tempFilePaths[0])); }
     });
   },
 

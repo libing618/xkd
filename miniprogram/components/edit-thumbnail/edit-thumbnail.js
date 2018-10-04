@@ -1,9 +1,8 @@
 //缩略图编辑
-var app = getApp()
-var sysinfo = app.sysinfo;
+const sysinfo = getApp().sysinfo;
 var modalBehavior = require('../utils/poplib.js')
 Component({
-  behaviors: [modalBehavior, 'wx://form-field'],
+  behaviors: [modalBehavior],
   properties: {
     p: {
       type: String,
@@ -25,29 +24,20 @@ Component({
    * 组件的初始数据
    */
   data: {
+    xImage: 300,
+    yImage: 225,
+    cScale: 1,
+    xOff: 300,
+    yOff: 225,
     x: 0,
     y: 0,
     animationData: {},
     showModalBox: false
   },
 
-  lifetimes:{
-    attached: function(){
-      switch (this.data.pno) {
-        case 's_cargo':
-          cargototal = app.cargoStock[this.data.sitem._id]
-          this.data.setData({
-            scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),
-            csupply: (cargototal.canSupply / cargototal.packages - 0.5).toFixed(0)
-          });
-          break;
-        default:
-      }
-      this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
-    },
-  },
   methods: {
     i_thumbnail({ currentTarget: { id, dataset }, detail }){
+      let that = this;
       wx.chooseImage({
         count: 1,                                     // 最多可以选择的图片张数，默认9
         sizeType: ['compressed'],         // original 原图，compressed 压缩图，默认二者都有
@@ -59,24 +49,24 @@ Component({
               if (res.width<300 || res.height<225){
                 wx.showToast({ title: '照片尺寸太小！' })
               } else {
-                let xMaxScall = app.sysinfo.windowWidth/res.width;
-                let yMaxScall = (app.sysinfo.windowHeight-260)/res.height;
+                let xMaxScall = sysinfo.windowWidth/res.width;
+                let yMaxScall = (sysinfo.windowHeight-260)/res.height;
                 let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
                 let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
-                this.setData({
-                  iscr:restem.tempFilePaths[0],
+                that.setData({
+                  c:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
-                  cScale: imageScall,
+                  cScale: imageScall.toFixed(3),
                   xOff: 300 /imageScall,
                   yOff: 225 /imageScall,
                   x:0,
                   y:0
                 });
-                this.popModal();
-                this.ctx = wx.createCanvasContext('cei');
-                this.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
-                this.ctx.draw();
+                that.popModal();
+                that.ctx = wx.createCanvasContext('cei',that);
+                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
+                that.ctx.draw();
               };
             }
           })
@@ -88,30 +78,32 @@ Component({
       let showPage = {}
       if (detail.scale){
         showPage.cScale = detail.scale;
-        this.ctx.drawImage(nowPage.iscr, nowPage.x, nowPage.y,detail.scale*nowPage.xOff, detail.scale*nowPage.yOff,0,0, 300, 225);
+        this.ctx.drawImage(this.data.c, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
       } else {
         showPage.x = detail.x;
         showPage.y = detail.y;
-        this.ctx.drawImage(nowPage.iscr,detail.x,detail.y,nowPage.cScale*nowPage.xOff, nowPage.cScale*nowPage.yOff,0,0, 300, 225);
+        this.ctx.drawImage(this.data.c,detail.x,detail.y,this.data.cScale*this.data.xOff, this.data.cScale*this.data.yOff,0,0, 300, 225);
       }
       this.setData(showPage);
       this.ctx.draw();
     },
     fSave(){                  //确认返回数据
+      let that = this;
+
       wx.canvasGetImageData({
         canvasId: 'cei',
         x: 0,
         y: 0,
         width: 300,
         height: 225,
-        success(res) {
+        success:(res)=> {
           //比较重要的代码
-          const upng =require("../libs/UPNG.js")
+          const upng =require("../../libs/UPNG.js")
           let png = upng.encode([res.data.buffer],res.width,res.height)
-          this.setData({ vale: wx.arrayBufferToBase64(png) });
-          this.downModal();
+          that.setData({ c: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+          that.downModal();
         }
-      });
+      },that);
     }
   }
 })

@@ -65,11 +65,11 @@ class filterData {               //有条件查询
           }
         }
       });
-    }).then(results => {
+    }).then(({data}) => {
       return new Promise(resolve => {
-        if (results) {
+        if (data) {
           let aPlace = -1;
-          let umdata = results.map(aProc => {
+          let umdata = data.map(aProc => {
             aPlace = this.mData[this.unitFamily][this.indexKey].indexOf(aProc._id);
             if (aPlace >= 0) { this.mData[this.unitFamily][this.indexKey].splice(aPlace, 1) }           //删除本地的重复记录列表
             aData[aProc._id] = aProc;

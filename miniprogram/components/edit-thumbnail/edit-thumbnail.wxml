@@ -10,8 +10,8 @@
   <view class="page__title" bindtap="fSave">确定缩放比例{{cScale}}</view>
   <view class="close_icon" id="fBack" bindtap="downModal">×</view>
   <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
-    <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{iscr}}"></image>
-    <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="i_cutImageThumbnail" bindscale="i_cutImageThumbnail" scale-value="{{cScale}}" id="fHandle">
+    <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{c}}"></image>
+    <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="fHandle" bindscale="fHandle" scale-value="{{cScale}}">
     </movable-view>
   </movable-area>
   <view class="weui-footer__center">

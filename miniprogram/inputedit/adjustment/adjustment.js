@@ -43,12 +43,12 @@ Page({
       readProcedure.lessThan('endTime', new Date());          //查询本地最新时间后修改的记录
       readProcedure.ascending('updatedAt');           //按更新时间升序排列
       readProcedure.limit(1000);                      //取最大数量
-      readProcedure.find().then(results => {
-        var lena = results.length;
+      readProcedure.find().then(({data}) => {
+        var lena = data.length;
         if (lena > 0) {
           let aProcedure,aData = {};
           for (let i = 0; i < lena; i++) {
-            aProcedure = results[i].toJSON();
+            aProcedure = data[i].toJSON();
             umdata[aProcedure.afamily].unshift(aProcedure._id);
             aData[aProcedure._id] = aProcedure;                        //将数据对象记录到本机
           };

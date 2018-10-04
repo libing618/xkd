@@ -6,7 +6,7 @@ var app = getApp()
 Page({
   data: {
     pNo: '_Role',                       //流程的序号
-    navBarTitle: app.roleData.uUnit.uName,              //申请项目名称
+    navBarTitle: app.roleData.uUnit.uName ? app.roleData.uUnit.uName : '创业服务平台--单位信息',              //申请项目名称
     statusBar: app.sysinfo.statusBarHeight,
     sPages: [{
       pageName: 'tabPanelIndex'

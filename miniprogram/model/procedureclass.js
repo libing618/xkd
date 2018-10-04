@@ -9,7 +9,7 @@ module.exports = {
 "_Role":{
   "pName": "单位名称和负责人",
   "pSuccess": [
-    {gname:"afamily", p:'厂商类型', inclose:false,t:"listsel", aList:['产品制造人','物流服务人','电商服务站','生产厂家','电子商务企业']},
+    {gname:"afamily", p:'厂商类型', inclose:false,t:"listsel", aList:['产品制造人','物流服务人','电商服务站','生产厂家及经销商','电子商务企业']},
     {inclose:true, gname:"indType", p:'主营业务', t:"industrytype", csc:"aslist" },
     {gname:"nick", p:'单位简称',t:"h2" },
     {gname: "title", p:'单位简介', t:"h3"},

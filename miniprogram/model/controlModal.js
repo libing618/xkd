@@ -189,11 +189,9 @@ module.exports = {
           return new AV.Query('ssq4')
           .equalTo('tncode', nowPage.saddv)
           .first()
-          .then(results => {
-            if (results){
-              let adgroup = results.toJSON();
-              console.log(adgroup)
-              showPage[spmKey + 'adglist'] = adgroup.tn
+          .then(({data}) => {
+            if (data.length>0){
+              showPage[spmKey + 'adglist'] = data[0].tn
               that.setData(showPage);
             };
           }).catch( console.error );
@@ -355,11 +353,10 @@ module.exports = {
             var query = new AV.Query('_Role');
             query.withinKilometers('aGeoPoint', cadd, 200);
             query.select(['uName','afamily','nick','title','aGeoPoint','indType','thumbnail','unitUsers'])
-            query.find().then( (results)=> {
-              if (results) {
+            query.find().then( ({data})=> {
+              if (data.length>0) {
                 let resJSON,badd,inInd;
-                results.forEach((result,i)=>{
-                  resJSON = result.toJSON();
+                data.forEach((resJSON,i)=>{
                   inInd = false;     //先假设单位的类型不在查找范围内
                   newPage.selIndtypes.forEach(indType=>{
                     if (resJSON.indType.code.indexOf(indType) >= 0) { inInd = true }

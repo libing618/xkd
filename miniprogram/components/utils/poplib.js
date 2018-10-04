@@ -1,7 +1,6 @@
 var sysinfo = getApp().sysinfo
 module.exports = Behavior({
   data: {
-    vFormat: [],
     animationData: {},
     showModalBox: false
   },

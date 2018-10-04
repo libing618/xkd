@@ -74,7 +74,6 @@ Page({
 
   gUserPhoneNumber: function(e) {
     var that = this;
-    console.log(e.detail)
     if (e.detail.errMsg == 'getPhoneNumber:ok'){
       return new Promise((resolve, reject) => {
         wx.checkSession({
@@ -127,16 +126,17 @@ Page({
 		}
   },
 
-  makeunit: function(e) {                         //创建单位并申请负责人岗位
+  makeunit: function(e) {
     var that = this;
 		var reqUnitName = e.detail.value.unitName;
     if (reqUnitName){
-      db.collection('_Role').where({uName:reqUnitName}).get().then(results=>{
-        if (results.length == 0) {                      //申请单位名称无重复
-          db.collection('_Role').add({
+      db.collection('_Role').where({uName:reqUnitName}).get().then(({data})=>{
+        if (data.length == 0) {                      //申请单位名称无重复
+          db.collection('_Role').add({                //创建单位并申请负责人岗位
             data: {
               _id: app.roleData.user._id,   //用创建人的ID作ROLE的ID
               uName: reqUnitName,
+              sUnit: '0',
               afamily: 0,
               unitUsers: [{ "userId": app.roleData.user._id, "line": 9, "position": 8, "uName": app.roleData.user.uName, "avatarUrl": app.roleData.user.avatarUrl, "nickName": app.roleData.user.nickName }]
             }
@@ -162,29 +162,34 @@ Page({
             wx.showToast({ title: '新建单位时出现问题,请重试。', icon: 'none', duration: 7500 })
           })
         } else {
-          wx.showModal({
-            title: '已存在同名单位',
-            content: '选择取消进行核实修改，选择确定则申请加入该单位！',
-            success: function (res) {
-              if (res.confirm) {              //用户点击确定则申请加入该单位
-                db.collection('_User').doc(app.roleData.user._id).update({
-                  data: {
-                    unit: res.data[0]._id,        //申请加入该单位
-                    line: 9,                   //条线
-                    position: 7               //岗位
-                  }
-                }).then(function (user) {
-                  app.roleData.uUnit.uName = reqUnitName
-                  app.roleData.user.unit = res.data[0]._id;
-                  app.roleData.user.line = 9;
-                  app.roleData.user.position = 7;
-                  wx.navigateTo({ url: '/index/structure/structure' });
-                })
-              } else if (res.cancel) {        //用户点击取消
-                that.setData({ uName: '' });
+          if (data.afamily>2){                         //单位能招收员工
+            wx.showModal({
+              title: '已存在同名单位',
+              content: '选择取消进行核实修改，选择确定则申请加入该单位！',
+              success: function (res) {
+                if (res.confirm) {              //用户点击确定则申请加入该单位
+                  db.collection('_User').doc(app.roleData.user._id).update({
+                    data: {
+                      unit: data[0]._id,        //申请加入该单位
+                      line: 9,                   //条线
+                      position: 7               //岗位
+                    }
+                  }).then(function (user) {
+                    app.roleData.uUnit.uName = reqUnitName
+                    app.roleData.user.unit = data[0]._id;
+                    app.roleData.user.line = 9;
+                    app.roleData.user.position = 7;
+                    wx.navigateTo({ url: '/index/structure/structure' });
+                  })
+                } else if (res.cancel) {        //用户点击取消
+                  that.setData({ uName: '' });
+                }
               }
-            }
-          })
+            })
+          } else {
+            wx.showToast({ title: '该单位不能招收员工。',icon: 'none'})
+          }
+
         }
       }).catch(error=> { console.log(error) });                                     //打印错误日志
     }

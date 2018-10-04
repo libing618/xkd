@@ -1,8 +1,9 @@
 var app = getApp()
 Page({
   data:{
-    sysheight:app.sysinfo.windowHeight-60,
-    syswidth:app.sysinfo.windowWidth-10,
+    sysheight:app.sysinfo.windowHeight-120,
+    syswidth:app.sysinfo.windowWidth-20,
+    statusBar: app.sysinfo.statusBarHeight,
     user: app.roleData.user,
     umessages: []
   },
