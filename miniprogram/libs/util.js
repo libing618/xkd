@@ -178,28 +178,7 @@ i_msgEditSend:function(e){            //消息编辑发送框
             })
             break;
           case 6:                     //选择文件
-            if (!that.f_modalSelectFile) { that.f_modalSelectFile = require('../../model/controlModal').f_modalSelectFile };
-            wx.getSavedFileList({
-              success: function(res) {
-                let index,filetype,fileData={},cOpenFile=['doc', 'xls', 'ppt', 'pdf', 'docx', 'xlsx', 'pptx'];
-                var sFiles=res.fileList.map(({filePath,createTime,size})=>{
-                  index = filePath.indexOf(".");                   //得到"."在第几位
-                  filetype = filePath.substring(index+1);          //得到后缀
-                  if ( cOpenFile.indexOf(filetype)>=0 ){
-                    fileData[filePath] = {"fType":filetype,"cTime":formatTime(createTime,false),"fLen":size/1024};
-                    return (fileList.filePath);
-                  }
-                })
-                showPage.pageData = fileData;
-                showPage.tPage = sFiles;
-                showPage.idClicked = '0';
-                that.data.sPages.push({ pageName: 'modalSelectFile', pNo: 'files', gname:'wcontent',p:'文件' });
-                showPage.sPages = that.data.sPages;
-                that.setData(showPage);
-                popModal(that);
-                resolve(true);
-              }
-            })
+
             break;
           default:
             resolve('输入文字');

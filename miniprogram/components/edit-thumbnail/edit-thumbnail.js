@@ -20,9 +20,7 @@ Component({
   options: {
     addGlobalClass: true
   },
-  /**
-   * 组件的初始数据
-   */
+
   data: {
     xImage: 300,
     yImage: 225,
@@ -57,11 +55,11 @@ Component({
                   c:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
-                  cScale: imageScall.toFixed(3),
-                  xOff: 300 /imageScall,
-                  yOff: 225 /imageScall,
-                  x:0,
-                  y:0
+                  cScale: imageScall.toFixed(3)
+                  // xOff: 300 /imageScall,
+                  // yOff: 225 /imageScall,
+                  // x:0,
+                  // y:0
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
@@ -89,21 +87,29 @@ Component({
     },
     fSave(){                  //确认返回数据
       let that = this;
-
-      wx.canvasGetImageData({
-        canvasId: 'cei',
-        x: 0,
-        y: 0,
-        width: 300,
-        height: 225,
-        success:(res)=> {
-          //比较重要的代码
-          const upng =require("../../libs/UPNG.js")
-          let png = upng.encode([res.data.buffer],res.width,res.height)
-          that.setData({ c: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
-          that.downModal();
-        }
-      },that);
+      if (that.data.csc=='base64'){
+        wx.canvasGetImageData({
+          canvasId: 'cei',
+          x: 0,
+          y: 0,
+          width: 300,
+          height: 225,
+          success:(res)=> {
+            const upng =require("../../libs/UPNG.js")          //比较重要的代码
+            let png = upng.encode([res.data.buffer],res.width,res.height)
+            that.setData({ c: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+            that.downModal();
+          }
+        },that);
+      } else {
+        wx.canvasToTempFilePath({
+          canvasId: 'cei',
+          success: function(resTem){
+            that.setData({ c: resTem.tempFilePath });
+            that.downModal();
+          }
+        })
+      }
     }
   }
 })

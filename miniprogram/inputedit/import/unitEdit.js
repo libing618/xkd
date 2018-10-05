@@ -1,6 +1,4 @@
 const db = wx.cloud.database();
-const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
-var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
 function setRole(puRoles,suRoles){      //流程审批权限列表
   let cManagers = [app.roleData.user.unit+app.roleData.user.line+app.roleData.user.position];
@@ -50,127 +48,83 @@ module.exports = {
 initData: function(iFormat, vData) {      //对数据录入或编辑的格式数组和数据对象进行初始化操作
   let vDataKeys = Object.keys(vData);            //数据对象是否为空
   let vifData = (vDataKeys.length == 0);
-  var funcArr = [],getAddress = false;
-  if (vifData) {
-    iFormat.forEach(reqField=>{
-      switch (reqField.t) {
-        case 'chooseAd':          //地理位置字段
-          getAddress = true;
-          break;
-        case 'eDetail':                      //详情字段
-          vData[reqField.gname] = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
-            { t: "h2", e: "大标题" },
-            { t: "p", e: "正文简介" },
-            { t: "h3", e: "中标题" },
-            { t: "p", e: "正文" },
-            { t: "h4", e: "1、小标题" },
-            { t: "p", e: "图片文章混排说明" },
-            { t: "-2", c: 'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明" },
-            { t: "p", e: "正文" },
-            { t: "h4", e: "2、小标题" },
-            { t: "p", e: "音频文章混排" },
-            { t: "-3", c: "https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明" },
-            { t: "p", e: "正文" },
-            { t: "h4", p: "3、小标题" },
-            { t: "p", p: "视频文章混排" },
-            { t: "-4", c: "https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明" },
-            { t: "p", e: "正文" },
-            { t: "p", e: "章节结尾" },
-            { t: "p", e: "文章结尾" }
-          ];
-          break;
-        case 'assettype':
-          vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
-          break;
-        case 'producttype':
-          vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
-          break;
-        case 'industrytype':
-          vData[reqField.gname] = { code: [], sName: [] };
-          break;
-        case 'modalEditAddress':
-          if (typeof vData.aGeoPoint =='undefined') { vData[reqField.gname]= { code: 0, sName: '点此处进入编辑' } };
-          break;
-        case 'listsel':
-          vData[reqField.gname] = 0;
-          break;
-        case 'arrList':
-          vData[reqField.gname] = [];
-          break;
-        case 'sedate':
-          vData[reqField.gname] = [getdate(Date.now()), getdate(Date.now() + 864000000)];
-          break;
-        case 'idate':
-          vData[reqField.gname] = getdate(Date.now());
-          break;
-        case 'fg' :
-          vData[reqField.gname] = 0;
-          break;
-      }
-    })
-  };
   return new Promise((resolve, reject) => {
-    if (getAddress){
-      wx.getSetting({
-        success(res) {
-          if (res.authSetting['scope.userLocation']) {                   //用户已经同意小程序使用用户地理位置
-            resolve(true)
-          } else {
-            wx.authorize({
-              scope: 'scope.userLocation',
-              success() { resolve(true) },
-              fail() {
-                wx.showToast({ title: '请授权使用位置', duration: 2500, icon: 'loading' });
-                setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-                reject();
-              }
-            })
-          };
+    let funcArr = [];
+    if (vifData) {
+      iFormat.forEach(reqField=>{
+        switch (reqField.t) {
+          case 'eDetail':                      //详情字段
+            vData[reqField.gname] = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
+              { t: "h2", e: "大标题" },
+              { t: "p", e: "正文简介" },
+              { t: "h3", e: "中标题" },
+              { t: "p", e: "正文" },
+              { t: "h4", e: "1、小标题" },
+              { t: "p", e: "图片文章混排说明" },
+              { t: "-2", c: 'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明" },
+              { t: "p", e: "正文" },
+              { t: "h4", e: "2、小标题" },
+              { t: "p", e: "音频文章混排" },
+              { t: "-3", c: "https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明" },
+              { t: "p", e: "正文" },
+              { t: "h4", p: "3、小标题" },
+              { t: "p", p: "视频文章混排" },
+              { t: "-4", c: "https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明" },
+              { t: "p", e: "正文" },
+              { t: "p", e: "章节结尾" },
+              { t: "p", e: "文章结尾" }
+            ];
+            break;
+          case 'assettype':
+            vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
+            break;
+          case 'producttype':
+            vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
+            break;
+          case 'industrytype':
+            vData[reqField.gname] = { code: [], sName: [] };
+            break;
+          case 'eAddress':
+            if (typeof vData.aGeoPoint =='undefined') { vData[reqField.gname]= { code: 0, sName: '点此处进入编辑' } };
+            break;
+          case 'listsel':
+            vData[reqField.gname] = 0;
+            break;
+          case 'arrList':
+            vData[reqField.gname] = [];
+            break;
+          case 'sedate':
+            vData[reqField.gname] = [getdate(Date.now()), getdate(Date.now() + 864000000)];
+            break;
+          case 'idate':
+            vData[reqField.gname] = getdate(Date.now());
+            break;
+          case 'fg' :
+            vData[reqField.gname] = 0;
+            break;
         }
       })
-    } else {resolve(false)}
-  }).then((vifAuth) => {
-    return new Promise((resolve, reject) => {
-      if (vifAuth) {
-        wx.getLocation({
-          type: 'wgs84',
-          success: function (res) {
-            vData[reqField.gname] = new db.Geo.Point(res.longitude,res.latitude);
-            QQMapWX.reverseGeocoder({
-              location: { latitude: res.latitude, longitude: res.longitude },
-              success: function ({ result: { ad_info, address } }) {
-                vData.address = { code: ad_info.adcode, sName: address }
-                resolve(true);
-              }
-            });
-          },
-          fail() { reject() }
-        })
-      } else {resolve(false)}
-    })
-  }).then(() => {
-    return new Promise((resolve, reject) => {
-      for (let i = 0; i < iFormat.length; i++) {
-        if (iFormat[i].csc) {
-          funcArr.push('f_' + iFormat[i].csc);
-          if (['aslist', 'arrsel'].indexOf(iFormat[i].csc) >= 0) {
-            iFormat[i].aVl = [0, 0, 0];
-            iFormat[i].inclose = vifData ? false : true;
-          };
-        } else {
-          if (iFormat[i].t.length > 2) { funcArr.push('i_' + iFormat[i].t) };             //每个输入类型定义的字段长度大于2则存在对应处理过程
+    };
+    for (let i = 0; i < iFormat.length; i++) {
+      if (iFormat[i].csc) {
+        funcArr.push('f_' + iFormat[i].csc);
+        if (['aslist', 'arrsel'].indexOf(iFormat[i].csc) >= 0) {
+          iFormat[i].aVl = [0, 0, 0];
+          iFormat[i].inclose = vifData ? false : true;
         };
+      } else {
+        if (iFormat[i].t.length > 2) { funcArr.push('i_' + iFormat[i].t) };             //每个输入类型定义的字段长度大于2则存在对应处理过程
       };
-      resolve({ iFormat, vData, funcArr });
-    });
-  }).catch(console.error);
+    };
+    resolve({ iFormat, vData, funcArr });
+  });
 },
 
 fSubmit: function (e) {
   var that = this;
   var subData = e.detail.value;
   let cNumber = ['fg','dg','listsel'];       //数字类型定义
-  let cObject = ['assettype','producttype','modalEditAddress'];       //对象类型定义
+  let cObject = ['assettype','producttype','eAddress'];       //对象类型定义
   if (Array.isArray(that.data.vData.details)) {
     for (let i = 0; i < that.data.vData.details.length; i++) {
       that.data.vData.details[i].e = subData['ade' + i];

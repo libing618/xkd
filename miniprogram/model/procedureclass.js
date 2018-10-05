@@ -5,6 +5,7 @@
 //csc对应关系:t:"sobjpackage"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idsel数组选择，存储gname对应数据表选择的ID值，显示选择对应的app.aData[gname].uName
 //csc对应关系:t:"dg"为数据型,csc的digit代表2位小数点浮点数，number则为整数型
+//address包括三个字段地址、地理位置"aGeoPoint"、行政编码"address_code"
 module.exports = {
 "_Role":{
   "pName": "单位名称和负责人",
@@ -14,13 +15,12 @@ module.exports = {
     {gname:"nick", p:'单位简称',t:"h2" },
     {gname: "title", p:'单位简介', t:"h3"},
     {gname: "desc", p: '单位描述', t: "p"},
-    {gname: "thumbnail", p: '图片简介', t: "cutImageThumbnail" },
-    {gname: "aGeoPoint", p: '选择地理位置', t: "chooseAd" },
-    {gname: "address", p: '地址', t: "modalEditAddress"},
+    {gname: "thumbnail", p: '图片简介', t:"cit",csc:"base64" },
+    {gname: "address", p: '常用地址', t: "eAddress"},
     {gname: "sUnit", p: '服务单位', t: "mapSelectUnit",csc:'arrsel', indTypes: 620406 },
     {gname: "licenseNumber", p:'社会信用代码', t: "h3" },
-    {gname:"pPhoto", p:'申请人手持身份证的照片',t:"pic", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
-    {gname:"uPhoto", p:'单位营业执照或个人身份证背面的照片',t:"pic", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
+    {gname:"pPhoto", p:'申请人手持身份证的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
+    {gname:"uPhoto", p:'单位营业执照或个人身份证背面的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
   ],
   "puRoles": [],
   "pBewrite": "单位负责人提出岗位和单位设置或修改申请，提交单位或个人身份证明文件的照片，由电子商务服务公司进行审批。",
@@ -34,7 +34,7 @@ module.exports = {
   "afamily": ['公告公示','品牌建设','扶持优惠','产品宣传','常见问题'],
   "pSuccess": [
     {gname:"title",t:"h2", p:"标题" },
-    {gname:"thumbnail", p: '上传用于缩略图的图片',t: "cutImageThumbnail" },
+    {gname:"thumbnail", p: '上传用于缩略图的图片',t: "cit",csc:"thumbnail" },
     {gname:"desc", t:"p", p:"摘要" },
     {gname:"details", p:'详情',t:"eDetail" }
   ],
@@ -54,9 +54,8 @@ module.exports = {
     {inclose:true, gname:"assetType", p:'固定资产类别',t:"assettype", csc:"arrsel"},
     {gname:"title", p:'固定资产简介',t:"h3" },
     {gname:"desc", p:'固定资产描述',t:"p" },
-    {gname:"aGeoPoint", p:'地理位置',t:"chooseAd" },
-    {gname:"address", p: '详细地址', t: "modalEditAddress"},
-    {gname:"thumbnail", p: '图片简介',t: "cutImageThumbnail" },
+    {gname:"address", p: '详细地址', t: "eAddress"},
+    {gname:"thumbnail", p: '图片简介',t: "cit",csc:"thumbnail" },
     {gname:"fcode", p: '编号',t: "inScan" },
     {gname:"manageParty", p:'管理方', t:"sId", csc:"idsel" }
   ],
@@ -71,9 +70,8 @@ module.exports = {
   "pSuccess": [
     {inclose: true, gname:"protype", p:'产品类别',t:"producttype",  csc:"arrsel" },
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
-    {gname:"aGeoPoint", p:'出厂位置', t: "chooseAd" },
-    {gname:"address", p:'产地', t: "modalEditAddress" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"address", p:'出产地址', t: "eAddress" },
     {gname:"PARM_content", p:'内容', t:"h4" },
     {gname:"PARM_additive", p:'附加', t:"h4" },
     {gname:"PARM_attention", p:'注意事项', t:"h4" },
@@ -92,9 +90,8 @@ module.exports = {
   "pSuccess": [
     {gname:"serFamily", p:'服务类型', inclose: true, t:"producttype",  csc:"arrsel"},
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
-    {gname:"aGeoPoint", p:'服务地位置', t: "chooseAd" },
-    {gname:"address", p:'服务地址', t: "modalEditAddress" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"address", p:'服务地址', t: "eAddress" },
     {gname:"priceClass", p:'计价类型', inclose:false,t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
     {gname:"priceMax", p:'价格区间', t:"dg",csc:"digit" },
     {gname:"price", p:'价格', t:"dg",csc:"digit" },
@@ -115,11 +112,10 @@ module.exports = {
   "afamily":['停止','开始','服务'],
   "pSuccess": [
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
     {gname:"service", p:'服务', t:"sId", csc:"idsel" },
     {gname:"asset", p:'固定资产', t:"sId", csc:"idsel" },
-    {gname:"aGeoPoint", p:'服务地位置', t: "chooseAd" },
-    {gname:"address", p:'服务地址', t: "modalEditAddress" },
+    {gname:"address", p:'服务地址', t: "eAddress" },
     {gname:"fcode", p: '编号',t: "inScan" },
     {gname:"priceClass", p:'计价类型', t: "h3" },
     {gname:"price", p:'价格', t:"dg",csc:"digit" },
@@ -142,7 +138,7 @@ module.exports = {
   "pName": "成品",
   "pSuccess": [
     {gname:"title", p:'成品简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t: "cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"thumbnail" },
     {gname:"serFamily", p:'送货类型', inclose:false,t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
@@ -163,7 +159,7 @@ module.exports = {
   "pSuccess": [
     {inclose: true, gname:"goodstype", p:'商品类别',t:"goodstype",  csc:"objsel" },
     {gname:"title", p:'简介',t:"h3" },
-    {gname:"thumbnail", p:'图片简介',t:"cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
     {gname:"desc", p:'描述',t:"p" },
     {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
     {gname:"cargos", p:'成品表', inclose: true,t:"sobjpackage", csc:"cargo" },
@@ -203,7 +199,7 @@ module.exports = {
   "pSuccess": [
     {gname:"title", p:'材料简述',t:"p" },
     {gname:"dafamily", p:'材料类型',inclose:false,t:"listsel", aList:['自产原料','外购原料','包装'] },
-    {gname:"thumbnail", p:'图片',t: "cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片',t: "cit",csc:"thumbnail" },
     {gname:"rawStocks", p:'原材料库存', t:"dg",csc:"number" }
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
@@ -264,7 +260,7 @@ module.exports = {
   "pSuccess": [
     {gname:"cargo", p:'成品', inclose: true,t:"sId",csc:"idsel" },
     {gname:"title", p:'计划简述',t:"h3" },
-    {gname:"thumbnail", p:'图片',t: "cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片',t: "cit",csc:"thumbnail" },
     {gname:"dOutput", p:'计划产量', t:"dg",csc:"number" },
     {gname:"startDate", p:'开始日期', t:"idate",endif:false},
     {gname:"endDate", p:'结束日期', t:"idate",endif:false}
@@ -280,7 +276,7 @@ module.exports = {
   "pSuccess": [
     {gname:"product", p:'产品', t:"sId", csc:"idsel" },
     {gname:"title", p:'批发品简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t: "cutImageThumbnail" },
+    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"thumbnail" },
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
     {gname:"weight", p:'重量', t:"h4" },
@@ -299,7 +295,7 @@ module.exports = {
   "oprocess": ['采供下单', '原料供应', '原料入库'],
   "pSuccess": [
     {gname:"material", p:'原料(包装)', t:"sId",csc:"idsel" },
-    { gname: "thumbnail", p: '图片', t: "cutImageThumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
     { gname: "vUnit", p: '供货商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],
@@ -317,7 +313,7 @@ module.exports = {
   "oprocess": ['安排生产', '生产加工', '成品入库'],
   "pSuccess": [
     {gname:"cargo", p:'成品',t:"sId",csc:"idsel" },
-    { gname: "thumbnail", p: '图片', t: "cutImageThumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
     { gname: "vUnit", p: '加工商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],
@@ -335,7 +331,7 @@ module.exports = {
   "oprocess": ['订单确认', '成品出货', '到货确认'],
   "pSuccess": [
     {gname:"cargo", p:'成品',t:"sId",csc:"idsel" },
-    { gname: "thumbnail", p: '图片', t: "cutImageThumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
     { gname: "vUnit", p: '物流商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],

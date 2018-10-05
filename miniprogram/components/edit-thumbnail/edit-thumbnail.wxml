@@ -1,11 +1,11 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
-<view class="weui-article__-2" id="ac-{{n}}" bindtap="i_thumbnail">
+<view class="weui-article__-2" id="ac-{{csc}}" bindtap="i_thumbnail">
   <view hidden="{{c}}">{{p}}:</view>
   <image src="{{c ? c : '/images/2.png'}}" style="width: 100%;" mode="aspectFit"></image>
 </view>
 
-<view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>
+<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__title" bindtap="fSave">确定缩放比例{{cScale}}</view>
   <view class="close_icon" id="fBack" bindtap="downModal">×</view>

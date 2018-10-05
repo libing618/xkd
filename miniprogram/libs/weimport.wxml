@@ -21,11 +21,6 @@
   </view>
 </template>
 
-<template name="s_chooseAd">
-  <view class="weui-label">{{p}}:</view>
-  <map longitude="{{c.longitude}}" latitude="{{c.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
-</template>
-
 <template name="s_content">
   <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
   <view class="weui-cell">
@@ -40,7 +35,7 @@
   </view>
 </template>
 
-<template name="s_cutImageThumbnail">
+<template name="s_cit">
   <view class="weui-article__-2" id="ac-{{n}}">
     <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
   </view>
@@ -51,6 +46,14 @@
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
   </view>
+</template>
+
+<template name="s_eAddress">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
+  <map longitude="{{location.longitude}}" latitude="{{location.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
 </template>
 
 <template name="s_eDetail">
@@ -140,11 +143,6 @@
 </view>
 </template>
 
-<template name="s_modalEditAddress">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd">{{c.sName}}</view>
-</template>
-
 <template name="s_p">
 <view class="weui-cell">
     <text>{{c}}</text>
@@ -159,11 +157,6 @@
       </swiper-item>
     </block>
   </swiper>
-</template>
-
-<template name="s_pic">
-  <view class="weui-article__-2">{{p}}:</view>
-  <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
 </template>
 
 <template name="s_producttype">

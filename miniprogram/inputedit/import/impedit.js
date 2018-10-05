@@ -1,7 +1,4 @@
 const db = wx.cloud.database();
-const {i_cutImageThumbnail,i_modalEditAddress,i_mapSelectUnit} = require('../../model/controlModal.js');
-const qqmap_wx = require('../../libs/qqmap-wx-jssdk.min.js');   //微信地图
-var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 var app = getApp();
 const vdSet = function (sname, sVal) {
   let reqset = {};
@@ -23,10 +20,6 @@ function getdate(idate) {
   return year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)
 };
 module.exports = {
-  i_modalEditAddress: i_modalEditAddress,
-  i_cutImageThumbnail: i_cutImageThumbnail,
-  i_mapSelectUnit: i_mapSelectUnit,
-
   f_idsel: function (e) {                         //选择ID
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
     let sIdValue = this.data.iFormat[n].maData[Number(e.detail.value)]._id;
@@ -273,35 +266,6 @@ module.exports = {
     })
   },
 
-  i_pic: function (e) {                         //上传申请人持身份证照片,单位组织机构代码证或个人身份证背面
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['camera'],                      //用户拍摄
-      success: function (res) { that.setData(vdSet(that.data.iFormat[n].gname, res.tempFilePaths[0])); }
-    });
-  },
-
-  i_chooseAd: function (e) {                         //选择地理位置
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    wx.chooseLocation({
-      success: function (res) {
-        QQMapWX.reverseGeocoder({                    //解析地理位置
-          location: { latitude: res.latitude, longitude: res.longitude },
-          success: function ({ result: { ad_info, address } }) {
-            let setAd = {};
-            setAd['vData.aGeoPoint'] = new db.Geo.Point(res.longitude, res.latitude);
-            setAd['vData.address'] = { code: ad_info.adcode, sName: address };
-            that.setData(setAd);
-          }
-        });
-      }
-    })
-  },
-
   i_vidio: function (e) {                         //选择视频文件
     var that = this;
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
@@ -425,28 +389,8 @@ module.exports = {
             resolve(true);
             break;
           case '-6':
-            if (!that.f_modalSelectFile) { that.f_modalSelectFile = require('../../model/controlModal').f_modalSelectFile };
-            wx.getSavedFileList({
-              success: function(res) {
-                let index,filetype,fileData={},cOpenFile=['doc', 'xls', 'ppt', 'pdf', 'docx', 'xlsx', 'pptx'];
-                var sFiles=res.fileList.map(({filePath,createTime,size})=>{
-                  index = filePath.indexOf(".");                   //得到"."在第几位
-                  filetype = filePath.substring(index+1);          //得到后缀
-                  if ( cOpenFile.indexOf(filetype)>=0 ){
-                    fileData[filePath] = {"fType":filetype,"cTime":formatTime(createTime,false),"fLen":size/1024};
-                    return (fileList.filePath);
-                  }
-                })
-                showPage.pageData = fileData;
-                showPage.tPage = sFiles;
-                showPage.idClicked = '0';
-                that.data.sPages.push({ pageName:'modalSelectFile', pNo:'files', gname:'details',p:'文件' });
-                showPage.sPages = that.data.sPages;
-                that.setData(showPage);
-                popModal(that);
-                resolve(true);
-              }
-            })
+
+            resolve(true);
             break;
           default: break;
         }
