@@ -1,0 +1,6 @@
+<import src="../../libs/wedetail.wxml" />
+<view class="weui-search-bar">
+  <view class="weui-search-bar__label">{{p}}</view>
+  <input class="weui-search-bar__input" name="{{gname}}" value="{{c}}" id="si-{{n}}"/>
+  <button class="weui-search-bar__cancel-btn" type="primary" size="mini" id="sc-{{n}}" bindtap="i_inScan">扫码</button>
+</view>

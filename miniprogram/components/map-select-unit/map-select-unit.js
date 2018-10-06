@@ -3,6 +3,7 @@ var modalBehavior = require('../utils/poplib.js');
 const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp();
+const qqmap_wx = require('../utils/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 Component({
   behaviors: [modalBehavior],
@@ -52,7 +53,7 @@ Component({
         type: 'gcj02',//'wgs84',
         success: function(res){
           let points = [{ latitude: res.latitude, longitude: res.longitude }]
-          db.collection('_Role').where({address_code: _.gt()}).get().then( ({data})=> {
+          db.collection('_Role').where({address_code: _.lt()}).get().then( ({data})=> {
             if (data.length>0) {
               let resJSON,badd,inInd;
               data.forEach((resJSON,i)=>{
@@ -110,7 +111,7 @@ Component({
 
     mapMarker({ currentTarget:{id,dataset},detail:{value},markerId }){      //点击merkers气泡
       this.setData({sId: markerId});
-    };
+    },
     moveLocation({type}){                 //移动点击
       let that = this;
       switch (type){

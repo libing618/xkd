@@ -42,64 +42,6 @@ module.exports = {
     }
   },
 
-  f_idate: function (e) {                         //日期选择
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    switch (id) {
-      case 'se':
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        break;
-      case 'pa':
-        that.setData( vdSet( that.data.iFormat[n].gname, new Date(e.detail.value) ) );
-        break;
-    }
-  },
-
-  f_itime: function (e) {                         //时间选择
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    switch (id) {
-      case 'se':
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        break;
-      case 'pa':
-        that.setData(vdSet(that.data.iFormat[n].gname, e.detail.value));
-        break;
-    }
-  },
-
-  f_aslist: function (e) {                         //选择行业类型
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    let fName = that.data.iFormat[n].gname;
-    switch (id) {
-      case 'se':                                   //按下载ICON打开选择框
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        break;
-      case 'su':                                   //按确定ICON确认选择
-        that.data.vData[fName].code.push(Number(e.currentTarget.dataset.ca));
-        that.data.vData[fName].sName.push(e.currentTarget.dataset.sa);
-        that.setData(vdSet(fName, that.data.vData[fName]))
-        break;
-      case 'pa':
-        let val = e.detail.value;
-        if (that.data.iFormat[n].aVl[0] == val[0]) {
-          if (that.data.iFormat[n].aVl[1] != val[1]) { val[2] = 0 }
-        } else { val[1] = 0; val[2] = 0 }
-        that.setData(rdSet(n, 'aVl', val));
-        break;
-      case 'lj':                                   //按显示类型名称进行删除
-        let i = Number(e.currentTarget.dataset.id);
-        that.data.vData[fName].code.splice(i, 1);
-        that.data.vData[fName].sName.splice(i, 1);
-        that.setData(vdSet(fName, that.data.vData[fName]))
-        break;
-    }
-  },
-
   f_number: function (e) {
     let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
     let vdSet = {};
@@ -160,96 +102,9 @@ module.exports = {
     }
   },
 
-  f_arrsel: function (e) {                         //数组选择类型
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    switch (id) {
-      case 'se':
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        break;
-      case 'ac':
-        if (!that.data.iFormat[n].inclose) {
-          that.setData(vdSet(that.data.iFormat[n].gname, { code: e.currentTarget.dataset.ca, sName:e.currentTarget.dataset.sa }))
-        }
-        that.setData(rdSet(n, 'inclose', true));
-        break;
-      case 'pa':
-        let aval = e.detail.value;
-        if (that.data.iFormat[n].aVl[0] == aval[0]) {
-          if (that.data.iFormat[n].aVl[1] != aval[1]) { aval[2] = 0; }
-        } else { aval[1] = 0; aval[2] = 0; }
-        that.setData(rdSet(n, 'aVl', aval));
-        break;
-    }
-  },
-
   i_listsel: function (e) {                         //选择类型
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
     this.setData(vdSet(this.data.iFormat[n].gname, Number(e.detail.value)))
-  },
-
-  i_sedate: function (e) {                         //选择开始和结束日期
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    let rSet = {};
-    switch (id) {
-      case 'ac':
-        rSet = vdSet(that.data.iFormat[n].gname, e.currentTarget.dataset.ei ? [that.data.vData[that.data.iFormat[n].gname][0], e.detail.value] : [e.detail.value, that.data.vData[that.data.iFormat[n].gname][1]]);
-        break;
-      case 'ds':                             //选择开始日期
-        rSet['iFormat[' + n + '].endif'] = false;
-        break;
-      case 'de':                           //选择结束日期
-        rSet['iFormat[' + n + '].endif'] = true;
-        break;
-    }
-    that.setData(rSet);
-  },
-
-  i_inScan: function (e) {                         //扫描及输入
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    let fName = that.data.iFormat[n].gname;
-    switch (id) {
-      case 'sc':
-        wx.scanCode({
-          success: (res) => {
-            that.setData(vdSet(fName, res.result));
-          }
-        })
-        break;
-      case 'su':
-        that.setData(vdSet(fName, e.detail.value[fName]));
-        break;
-    }
-  },
-
-  i_arrList: function (e) {                         //数组选择类型
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    let fName = that.data.iFormat[n].gname;
-    switch (id) {
-      case 'su':                                   //按下载ICON打开输入框
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        break;
-      case 'ai':
-        that.setData(rdSet(n, 'iValue', e.detail.value));
-        break;
-      case 'se':
-        that.data.vData[fName].push(e.currentTarget.dataset.add);
-        that.setData(vdSet(fName, that.data.vData[fName]));
-        that.setData(rdSet(n, 'iValue', ''));
-        break;
-      case 'lj':                                   //按显示类型名称进行删除
-        let i = Number(e.currentTarget.dataset.id);
-        that.data.vData[fName].splice(i, 1);
-        that.setData(vdSet(fName, that.data.vData[fName]))
-        break;
-      }
   },
 
   i_pics: function (e) {                         //选择图片组

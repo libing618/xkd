@@ -1,6 +1,6 @@
 //gname为字段名称，p为显示的没字名，t为编辑类型，css为存储和显示类型
-//csc对应关系:aslist行业数组选择，存储{code:代码数组，sName:代码对应值的数组}
-//csc对应关系:arrsel数组选择，存储{code:选择值，sName:选择对应的值}
+//csc对应关系:industrytype行业数组选择，存储{code:代码数组，sName:代码对应值的数组}
+//csc对应关系:codename数组选择，存储{code:选择值，sName:选择对应的值}
 //csc对应关系:objsel对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
 //csc对应关系:t:"sobjpackage"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idsel数组选择，存储gname对应数据表选择的ID值，显示选择对应的app.aData[gname].uName
@@ -11,13 +11,13 @@ module.exports = {
   "pName": "单位名称和负责人",
   "pSuccess": [
     {gname:"afamily", p:'厂商类型', inclose:false,t:"listsel", aList:['产品制造人','物流服务人','电商服务站','生产厂家及经销商','电子商务企业']},
-    {inclose:true, gname:"indType", p:'主营业务', t:"industrytype", csc:"aslist" },
+    {inclose:true, gname:"indType", p:'主营业务', t:"industrytype" },
     {gname:"nick", p:'单位简称',t:"h2" },
     {gname: "title", p:'单位简介', t:"h3"},
     {gname: "desc", p: '单位描述', t: "p"},
     {gname: "thumbnail", p: '图片简介', t:"cit",csc:"base64" },
     {gname: "address", p: '常用地址', t: "eAddress"},
-    {gname: "sUnit", p: '服务单位', t: "mapSelectUnit",csc:'arrsel', indTypes: 620406 },
+    {gname: "sUnit", p: '服务单位', t: "mapSelectUnit", indTypes: 620406 },
     {gname: "licenseNumber", p:'社会信用代码', t: "h3" },
     {gname:"pPhoto", p:'申请人手持身份证的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
     {gname:"uPhoto", p:'单位营业执照或个人身份证背面的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
@@ -51,7 +51,7 @@ module.exports = {
 "asset":{
   "pName": "固定资产",
   "pSuccess": [
-    {inclose:true, gname:"assetType", p:'固定资产类别',t:"assettype", csc:"arrsel"},
+    {inclose:true, gname:"assetType", p:'固定资产类别',t:"assettype", csc:"codename"},
     {gname:"title", p:'固定资产简介',t:"h3" },
     {gname:"desc", p:'固定资产描述',t:"p" },
     {gname:"address", p: '详细地址', t: "eAddress"},
@@ -68,7 +68,7 @@ module.exports = {
 "product":{
   "pName": "产品",
   "pSuccess": [
-    {inclose: true, gname:"protype", p:'产品类别',t:"producttype",  csc:"arrsel" },
+    {inclose: true, gname:"protype", p:'产品类别',t:"producttype",  csc:"codename" },
     {gname:"title", p:'简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
     {gname:"address", p:'出产地址', t: "eAddress" },
@@ -88,7 +88,7 @@ module.exports = {
 "service":{
   "pName": "服务项目",
   "pSuccess": [
-    {gname:"serFamily", p:'服务类型', inclose: true, t:"producttype",  csc:"arrsel"},
+    {gname:"serFamily", p:'服务类型', inclose: true, t:"producttype",  csc:"codename"},
     {gname:"title", p:'简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
     {gname:"address", p:'服务地址', t: "eAddress" },
@@ -186,7 +186,8 @@ module.exports = {
     {gname:"base_amount", p:'基础目标数量',t:"dg",csc:"number" },
     {gname:"big_price", p:'大额优惠价', t:"dg",csc:"digit" },
     {gname:"big_amount", p:'大额目标数量',t:"dg",csc:"number" },
-    {gname:"start_end", p:'活动起止日期', t:"sedate",endif:false}
+    {gname:"start_date", p:'活动开始日期', t:"idate"},
+    {gname:"end_date", p:'活动截止日期', t:"idate"}
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由营销条线负责人进行审批。",
   "puRoles": [

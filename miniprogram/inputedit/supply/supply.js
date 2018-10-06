@@ -86,8 +86,6 @@ Page ({
     this.unbind();
   },
 
-  i_inScan: require('../import/impedit.js').i_inScan,
-
   fSupplies: function(e){
     var that = this;
     let cargoId = e.currentTarget.id;

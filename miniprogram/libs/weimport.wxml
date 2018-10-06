@@ -5,15 +5,6 @@
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
  </wxs>
 
-<template name="s_arrList">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">
-      <view wx:for="{{c}}" wx:key="{{index}}">{{ item }}{{mDot(index,c)}}</view>
-    </view>
-  </view>
-</template>
-
 <template name="s_assettype">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
@@ -199,13 +190,6 @@
         </view>
       </view>
     </block>
-  </view>
-</template>
-
-<template name="s_sedate">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">自{{c[0]}}到{{c[1]}}</view>
   </view>
 </template>
 

@@ -50,68 +50,50 @@ initData: function(iFormat, vData) {      //对数据录入或编辑的格式数
   let vifData = (vDataKeys.length == 0);
   return new Promise((resolve, reject) => {
     let funcArr = [];
-    if (vifData) {
-      iFormat.forEach(reqField=>{
-        switch (reqField.t) {
-          case 'eDetail':                      //详情字段
-            vData[reqField.gname] = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
-              { t: "h2", e: "大标题" },
-              { t: "p", e: "正文简介" },
-              { t: "h3", e: "中标题" },
-              { t: "p", e: "正文" },
-              { t: "h4", e: "1、小标题" },
-              { t: "p", e: "图片文章混排说明" },
-              { t: "-2", c: 'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明" },
-              { t: "p", e: "正文" },
-              { t: "h4", e: "2、小标题" },
-              { t: "p", e: "音频文章混排" },
-              { t: "-3", c: "https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明" },
-              { t: "p", e: "正文" },
-              { t: "h4", p: "3、小标题" },
-              { t: "p", p: "视频文章混排" },
-              { t: "-4", c: "https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明" },
-              { t: "p", e: "正文" },
-              { t: "p", e: "章节结尾" },
-              { t: "p", e: "文章结尾" }
-            ];
-            break;
-          case 'assettype':
-            vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
-            break;
-          case 'producttype':
-            vData[reqField.gname] = { code: 0, sName: '点此处进行选择' };
-            break;
-          case 'industrytype':
-            vData[reqField.gname] = { code: [], sName: [] };
-            break;
-          case 'eAddress':
-            if (typeof vData.aGeoPoint =='undefined') { vData[reqField.gname]= { code: 0, sName: '点此处进入编辑' } };
-            break;
-          case 'listsel':
-            vData[reqField.gname] = 0;
-            break;
-          case 'arrList':
-            vData[reqField.gname] = [];
-            break;
-          case 'sedate':
-            vData[reqField.gname] = [getdate(Date.now()), getdate(Date.now() + 864000000)];
-            break;
-          case 'idate':
-            vData[reqField.gname] = getdate(Date.now());
-            break;
-          case 'fg' :
-            vData[reqField.gname] = 0;
-            break;
-        }
-      })
-    };
+
+    iFormat.forEach((reqField,i)=>{
+      switch (reqField.t) {
+        case 'eDetail':                      //详情字段
+        if (vifData) {
+          vData[reqField.gname] = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
+            { t: "h2", e: "大标题" },
+            { t: "p", e: "正文简介" },
+            { t: "h3", e: "中标题" },
+            { t: "p", e: "正文" },
+            { t: "h4", e: "1、小标题" },
+            { t: "p", e: "图片文章混排说明" },
+            { t: "-2", c: 'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明" },
+            { t: "p", e: "正文" },
+            { t: "h4", e: "2、小标题" },
+            { t: "p", e: "音频文章混排" },
+            { t: "-3", c: "https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明" },
+            { t: "p", e: "正文" },
+            { t: "h4", p: "3、小标题" },
+            { t: "p", p: "视频文章混排" },
+            { t: "-4", c: "https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明" },
+            { t: "p", e: "正文" },
+            { t: "p", e: "章节结尾" },
+            { t: "p", e: "文章结尾" }
+          ];}
+          break;
+        case 'eAddress':
+          if (!vifData) {
+            iFormat[i].location= vData.aGeoPoint;
+            iFormat[i].code = vData.address_code
+          };
+          break;
+        case 'listsel':
+          if (vifData) {vData[reqField.gname] = 0};
+          break;
+        case 'fg' :
+          vData[reqField.gname] = 0;
+          break;
+      }
+    })
+
     for (let i = 0; i < iFormat.length; i++) {
       if (iFormat[i].csc) {
         funcArr.push('f_' + iFormat[i].csc);
-        if (['aslist', 'arrsel'].indexOf(iFormat[i].csc) >= 0) {
-          iFormat[i].aVl = [0, 0, 0];
-          iFormat[i].inclose = vifData ? false : true;
-        };
       } else {
         if (iFormat[i].t.length > 2) { funcArr.push('i_' + iFormat[i].t) };             //每个输入类型定义的字段长度大于2则存在对应处理过程
       };

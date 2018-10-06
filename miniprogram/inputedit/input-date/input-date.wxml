@@ -1,0 +1,9 @@
+<view class="weui-cell">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd">{{c}}</view>
+  <view class="weui-cell__ft"><icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
+</view>
+<view hidden="{{inclose}}" class="weui-picker">
+  <picker mode="date" value="{{c}}" start="2015-09-01" bindchange="inputdate">
+  </picker>
+</view>

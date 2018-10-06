@@ -1,0 +1,22 @@
+<wxs src="assv.wxs" module="assv" />
+<wxs src="assc.wxs" module="assclist" />
+<view class="weui-cell">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd" bindtap="selclose">{{inclose ? c.sName : assv['a'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]] ]}} </view>
+  <view hidden="{{inclose}}" class="weui-cell__ft">
+    <button data-ca="{{assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{assv['s'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" size="mini" bindtap="assetsel">确定</button>
+  </view>
+</view>
+<view hidden="{{inclose}}" class="weui-picker">
+  <picker-view id="pa-{{n}}" class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="itemsel">
+    <picker-view-column>
+        <view wx:for="{{assclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+    </picker-view-column>
+    <picker-view-column>
+        <view wx:for="{{assclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+    </picker-view-column>
+    <picker-view-column>
+        <view wx:for="{{assclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{assv['a'+item]}}</view>
+    </picker-view-column>
+  </picker-view>
+</view>

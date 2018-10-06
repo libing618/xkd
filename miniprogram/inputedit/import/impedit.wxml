@@ -1,9 +1,4 @@
 <import src="../../libs/wedetail.wxml" />
-<wxs src="apdv.wxs" module="apdv" />
-<wxs src="apdc.wxs" module="apdclist" />
-<wxs src="assv.wxs" module="assv" />
-<wxs src="assc.wxs" module="assclist" />
-<wxs src="../../libs/goodstype.wxs" module="gslist" />
 <wxs src="impedit.wxs" module="wewxs" />
 
 <template name="i_arrList">
@@ -24,26 +19,7 @@
 </template>
 
 <template name="i_assettype">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd" id="se-{{n}}" bindtap="f_arrsel">{{inclose ? c.sName : assv['a'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]] ]}} </view>
-    <view hidden="{{inclose}}" class="weui-cell__ft">
-      <button id="ac-{{n}}" id="ac-{{n}}" data-ca="{{assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{assv['s'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" size="mini" bindtap="f_arrsel">确定</button>
-    </view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-    <picker-view id="pa-{{n}}" class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="f_arrsel">
-      <picker-view-column>
-          <view wx:for="{{assclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-      </picker-view-column>
-      <picker-view-column>
-          <view wx:for="{{assclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-      </picker-view-column>
-      <picker-view-column>
-          <view wx:for="{{assclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{assv['a'+item]}}</view>
-      </picker-view-column>
-    </picker-view>
-  </view>
+  <asset-type c="{{c}}" p="{{p}}"></asset-type>
 </template>
 
 <template name="i_content">
@@ -112,23 +88,7 @@
 </template>
 
 <template name="i_goodstype">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd" id="se-{{n}}" bindtap="f_objsel">{{gslist.typevale[c ? c : gslist.typevale[gslist.droneId[osv[0]].slaveId[osv[1]]]].uName}} </view>
-    <view hidden="{{inclose}}" class="weui-cell__ft">
-      <button id="ac-{{n}}" data-ca="{{ gslist.droneId[osv[0]].slaveId[osv[1]] }}" bindtap="f_objsel" size="mini">确定</button>
-    </view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-    <picker-view id="pa-{{n}}" class="weui-picker__view"  indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{osv}}" bindchange="f_objsel">
-      <picker-view-column>
-          <view wx:for="{{gslist.droneId}}" wx:key="{{index}}" style="line-height: 36rpx">{{gslist.typevale[item.masterId].uName}}</view>
-      </picker-view-column>
-      <picker-view-column>
-          <view wx:for="{{gslist.droneId[osv[0]].slaveId}}" wx:key="{{index}}" style="line-height: 36rpx">{{gslist.typevale[item].uName}}</view>
-      </picker-view-column>
-    </picker-view>
-  </view>
+  <goods-type name="{{gname}}" value="{{c}}" p="{{p}}"></goods-type>
 </template>
 
 <template name="i_h1">
@@ -176,53 +136,15 @@
 </template>
 
 <template name="i_idate">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-    <view class="weui-cell__ft"><icon id="se-{{n}}" bindtap="f_idate" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-    <picker mode="date" value="{{c}}" start="2015-09-01" id="pa-{{n}}" bindchange="f_idate">
-    </picker>
-  </view>
+  <input-date name="{{gname}}" value="{{c}}" p="{{p}}"></input-date>
 </template>
 
 <template name="i_industrytype">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd weui-cell__flex">
-      <view wx:for="{{c.sName}}" wx:key="{{index}}">
-        <view class="weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="f_aslist">{{item}}{{wewxs.mDot(index,c.sName)}}</view>
-      </view>
-    </view>
-    <view class="weui-cell__ft"><icon id="se-{{n}}" bindtap="f_aslist" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">选择类型：</view>
-    <view class="weui-cell__bd">{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]] }}</view>
-    <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" bindtap="f_aslist" size="mini">确定</button></view>
-  </view>
-    <picker-view id="pa-{{n}}" class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="f_aslist">
-        <picker-view-column>
-            <view wx:for="{{apdclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{apdclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{apdclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
-        </picker-view-column>
-    </picker-view>
-  </view>
+  <industry-type name="{{gname}}" value="{{c}}" p="{{p}}"></industry-type>
 </template>
 
 <template name="i_inScan">
-  <view class="weui-search-bar">
-    <view class="weui-search-bar__label">{{p}}</view>
-    <input class="weui-search-bar__input" name="{{gname}}" value="{{c}}" id="si-{{n}}" bindblur="i_inScan" />
-    <button class="weui-search-bar__cancel-btn" type="primary" size="mini" id="sc-{{n}}" bindtap="i_inScan">扫码</button>
-  </view>
+  <edit-scan name="{{gname}}" c="{{c}}" p="{{p}}"></edit-scan>
 </template>
 
 <template name="i_insdata">
@@ -237,15 +159,7 @@
 </template>
 
 <template name="i_itime">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
-    <view class="weui-cell__ft"><icon id="se-{{n}}" bindtap="f_itime" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-    <picker mode="time" value="{{c}}" start="08:01" id="pa-{{n}}" bindchange="f_itime">
-    </picker>
-  </view>
+  <input-time name="{{gname}}" value="{{c}}" p="{{p}}"></input-time>
 </template>
 
 <template name="i_listsel">
@@ -288,36 +202,7 @@
 </template>
 
 <template name="i_producttype">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd" id="se-{{n}}" bindtap="f_arrsel">{{inclose ? c.sName : apdv['s'+wewxs.glist(indlist,aVl,2)] }}</view>
-    <view hidden="{{inclose}}" class="weui-cell__ft">
-      <button id="ac-{{n}}" data-ca="{{wewxs.glist(indlist,aVl,2)}}" data-sa="{{apdv['s'+wewxs.glist(indlist,aVl,2)]}}" size="mini" bindtap="f_arrsel">确定</button>
-    </view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-picker">
-    <picker-view id="pa-{{n}}" class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="f_arrsel">
-        <picker-view-column>
-            <view wx:for="{{indlist}}" wx:key="{{index}}">{{apdv['s'+item]}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{wewxs.glist(indlist,aVl,0)}}" wx:key="{{index}}">{{apdv['s'+item]}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{wewxs.glist(indlist,aVl,1)}}" wx:key="{{index}}">{{apdv['s'+item]}}</view>
-        </picker-view-column>
-    </picker-view>
-  </view>
-</template>
-
-<template name="i_sedate">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <picker mode="date" id="ac-{{n}}" data-ei="{{endif}}" value="{{endif ? c[1] : c[0]}}" start="{{c[0]}}" end="2999-09-01" bindchange="i_sedate">
-      <view style='display: inline-block;' class="weui-cell__bd" id="ds-{{n}}" bindtap="i_sedate">开始日:{{c[0]}}　　</view>
-      <view style='display: inline-block;text-align: right;' id="de-{{n}}" bindtap="i_sedate">截止日:{{c[1]}}</view>
-    </picker>
-  </view>
+  <product-type c="{{c}}" p="{{p}}"></product-type>
 </template>
 
 <template name="i_sId">
@@ -351,7 +236,7 @@
         </view>
       </view>
     </view>
-    <view class="weui-cell__hd weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="f_aslist">{{item.uName}}</view>
+    <view class="weui-cell__hd weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="i_cargopackage">{{item.uName}}</view>
   </view>
 </template>
 

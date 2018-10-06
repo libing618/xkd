@@ -1,4 +1,4 @@
-//显示数据的关键要素
+// components/share-order/share-order.js
 var app = getApp()
 var sysinfo = app.sysinfo;
 var modalBehavior = require('../utils/poplib.js')
@@ -45,7 +45,16 @@ Component({
   },
 
   methods: {
-    clickitem(){
+    shareOrder(){
+      if (this.data.clickid==this.data.sitem._id){
+        this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
+        this.popModal()
+      } else {
+        let clickEventDetail = {itemid:this.data.sitem._id};
+        this.triggerEvent('clickeditem',clickEventDetail)
+      }
+    },
+    fSave(){
       if (this.data.clickid==this.data.sitem._id){
         this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
         this.popModal()

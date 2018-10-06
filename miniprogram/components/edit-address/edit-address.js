@@ -70,9 +70,9 @@ Component({
                 }
               });
             },
-            fail() { wx.navigateBack({ delta: 1 }) }, 2000 }
+            fail() { wx.navigateBack({ delta: 1 }) }
           })
-        } else {wx.navigateBack({ delta: 1 }) }, 2000}
+        } else {wx.navigateBack({ delta: 1 }) }
       });
     }
   },

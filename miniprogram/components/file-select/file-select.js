@@ -10,14 +10,6 @@ Component({
     c: {
       type: String,
       value: '文件路径',
-    },
-    location: {
-      type: Object,
-      value: {latitude: 23, longitude:113},
-    },
-    code: {
-      type: Number,
-      value: 11000,
     }
   },
   options: {

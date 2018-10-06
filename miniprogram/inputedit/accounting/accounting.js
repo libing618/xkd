@@ -3,14 +3,12 @@ const db = wx.cloud.database();
 const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
 const _ = db.command;
-const { i_sedate } = require('../import/impedit');
 var app = getApp();
 
 Page({
   data:{
     pNo: 'orderlist',                       //流程
     statusBar: app.sysinfo.statusBarHeight,
-    iFormat: [{ gname:"seDate", p:'起止日期', t:"sedate",endif:false}],
     vData: {start_end: [formatTime(Date.now() - 864000000, true), formatTime(Date.now(), true)]},
     iClicked: ''
   },
@@ -18,13 +16,13 @@ Page({
   onReady:function(){
     this.sumOrders();
   },
-  i_sedate: i_sedate,
+
   indexClick: indexClick,
   sumOrders:function(){
     var that = this;
     db.collection('cargoSupplies').where({
       unitId:app.roleData.uUnit._id,
-      updatedAt: _.gt(new Date(that.data.vData.seDate[0])).and(_.lt(new Date(that.data.vData.seDate[1]+86400000)))
+      updatedAt: _.gt(new Date(that.data.vData.sDate)).and(_.lt(new Date(that.data.vData.eDate+86400000)))
     }).limit(20)
     .get().then(orderlist=>{
       if (orderlist) {

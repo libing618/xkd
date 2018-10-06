@@ -1,5 +1,3 @@
-<import src="../../libs/wedetail.wxml" />
-<import src="../../libs/weimport.wxml" />
 <view class="weui-cell" bindtap='modalEditAddress'>{{p}}:{{c}}</view>
 <view bindtap="chooseAd">
   <view class="weui-label">{{p}}:</view>
@@ -13,12 +11,14 @@
     ></map>
   </view>
 </view>
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}></view>
+<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <form bindsubmit="fSave">
-    <view class="page__title">{{iFormat[n].p}}</view>
+  <view class="page__hd">
+    <view class="page__title">{{p}}</view>
     <view class="close_icon" bindtap="downModal">×</view>
-    <view class="page__hd">
+  </view>
+  <form bindsubmit="fSave">
+    <view class="page__bd">
       <view class="page__title">选择区(县)</view>
         <picker-view indicator-style="height: 40rpx;" style="width: 100%; height: 300rpx;" value="{{adcvalue}}" bindchange="faddclass">
           <picker-view-column>
