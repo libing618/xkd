@@ -81,7 +81,7 @@ let allMenu=[
   N402:{"tourl": "/inputedit/supply/supply?oState=2","mName": "确认到货" },
   N403:{"tourl": "/index/returns/returns","mName": "退换货" },
   N404:{"tourl": "/index/logistics/logistics","mName": "物流信息" },
-  N405:{"tourl": "/inputedit/import/statistics","mName": "订单统计" },
+  N405:{"tourl": "/inputedit/statistics/statistics","mName": "订单统计" },
   N406:{"tourl": "/index/evaluate/evaluate","mName": "评价统计" },
   N407:{"tourl": "/index/communication/communication", "mName": "沟通服务" },
   N408:{"tourl": "/index/statement/statement", "mName": "对账结算" },

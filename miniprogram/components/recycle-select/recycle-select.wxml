@@ -1,10 +1,16 @@
-<!--components/recycle-view/recycle-view.wxml-->
-<view bindtouchstart='_beginToScroll' style="height:{{height}}px;width:{{width}}px;transform:translateZ(0);-webkit-transform:translateZ(0);">
-  <scroll-view bindscroll="_scrollViewDidScroll" style='height:100%;position: relative;' scroll-y="{{true}}" scroll-x="{{false}}" scroll-into-view="{{innerScrollIntoView}}" scroll-with-animation="{{true}}" bindscrolltoupper="_scrollToUpper" enable-back-to-top="{{true}}">
+<view class="weui-cell" bindtap="selectid">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd">{{c.sName}}</view>
+</view>
+<view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>
+<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+<view style="height:{{height}}px;width:100%;transform:translateZ(0);-webkit-transform:translateZ(0);">
+  <scroll-view style='height:100%;position: relative;' scroll-y="{{true}}" scroll-x="{{false}}" scroll-into-view="{{clickedid}}" scroll-with-animation="{{true}}" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" enable-back-to-top="{{true}}">
     <view class="weui-tab__panel">
       <block wx:for="{{mPage}}" wx:key="{{index}}">
         <recycle-item pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></recycle-item>
       </block>
     </view>
   </scroll-view>
+</view>
 </view>

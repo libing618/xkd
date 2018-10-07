@@ -1,5 +1,5 @@
-<wxs src="../import/apdc.wxs" module="apdclist" />
-<wxs src="../import/apdv.wxs" module="apdv" />
+<wxs src="../utils/apdc.wxs" module="apdclist" />
+<wxs src="../utils/apdv.wxs" module="apdv" />
 <wxs module="mDot">
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }

@@ -1,7 +1,6 @@
 //单位信息编辑
 const db = wx.cloud.database();
-const { initData,fSubmit } = require('../import/unitEdit');
-const wImpEdit = require('../import/impedit');
+const wImpEdit = require('../../libs/impedit');
 var app = getApp()
 Page({
   data: {
@@ -33,7 +32,7 @@ Page({
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
         } else { that.data.vData=require('../../test/irole.js')};
         that.data.dObjectId = app.roleData.user.unit;
-        initData(app.fData._Role.pSuccess, that.data.vData).then(({iFormat, vData, funcArr})=>{
+        wImpEdit.initData(app.fData._Role.pSuccess, that.data.vData).then(({iFormat, vData, funcArr})=>{
           funcArr.forEach(functionName => { that[functionName] = wImpEdit[functionName] });
           that.data.iFormat = iFormat;
           that.data.vData = vData;
@@ -46,6 +45,6 @@ Page({
     }
   },
 
-  fSubmit: fSubmit
+  fSubmit: wImpEdit.fSubmit
 
 })

@@ -1,18 +1,18 @@
 <import src="wedetail.wxml" />
-<wxs src="goodstype.wxs" module="gslist" />
+<wxs src="../components/goods-type/goodstype.wxs" module="gslist" />
 <wxs module="mDot">
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
  </wxs>
 
-<template name="s_assettype">
+<template name="s_ast">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c.sName}}</view>
   </view>
 </template>
 
-<template name="s_content">
+<template name="s_cId">
   <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
   <view class="weui-cell">
     <view class="weui-cell__hd">材料(包装)</view>
@@ -39,7 +39,7 @@
   </view>
 </template>
 
-<template name="s_eAddress">
+<template name="s_eAd">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
@@ -67,7 +67,7 @@
   </view>
 </template>
 
-<template name="s_goodstype">
+<template name="s_gSt">
   <view class="weui-cell">{{p}}:</view>
   <view class="weui-cell" id="{{c}}">
     <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
@@ -104,7 +104,7 @@
   </view>
 </template>
 
-<template name="s_industrytype">
+<template name="s_iNd">
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd weui-flex">
@@ -113,7 +113,7 @@
 </view>
 </template>
 
-<template name="s_inScan">
+<template name="s_iSc">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
@@ -127,7 +127,7 @@
   </view>
 </template>
 
-<template name="s_mapSelectUnit">
+<template name="s_mSU">
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd">{{c.sName}}</view>
@@ -150,7 +150,7 @@
   </swiper>
 </template>
 
-<template name="s_producttype">
+<template name="s_pDt">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c.sName}}</view>
@@ -158,21 +158,13 @@
 </template>
 
 <template name="s_sId">
-  <view class="weui-cell">{{p}}:</view>
-  <view class="weui-cell" id="{{c._id}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
-    <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-      <view class="weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb" src="{{c.thumbnail}}" background-size="cover"></image>
-      </view>
-      <view class="weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{c.uName}}</view>
-        <view class="weui-media-box__desc">{{c.title}}</view>
-      </view>
-    </view>
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c.sName}}</view>
   </view>
 </template>
 
-<template name="s_sobjpackage">
+<template name="s_cId">
   <view class="weui-cell">{{p}}:</view>
   <view class="weui-cells">
     <block wx:for="{{c}}" wx:key="{{index}}" wx:for-item="objarr">

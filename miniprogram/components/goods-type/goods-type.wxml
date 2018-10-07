@@ -1,13 +1,13 @@
 <wxs src="goodstype.wxs" module="gslist" />
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd" id="se-{{n}}" bindtap="f_objsel">{{gslist.typevale[c ? c : gslist.typevale[gslist.droneId[osv[0]].slaveId[osv[1]]]].uName}} </view>
+  <view class="weui-cell__bd" bindtap="selclose">{{gslist.typevale[c ? c : gslist.typevale[gslist.droneId[osv[0]].slaveId[osv[1]]]].uName}} </view>
   <view hidden="{{inclose}}" class="weui-cell__ft">
-    <button id="ac-{{n}}" data-ca="{{ gslist.droneId[osv[0]].slaveId[osv[1]] }}" bindtap="f_objsel" size="mini">确定</button>
+    <button data-ca="{{ gslist.droneId[osv[0]].slaveId[osv[1]] }}" bindtap="goodssel" size="mini">确定</button>
   </view>
 </view>
 <view hidden="{{inclose}}" class="weui-picker">
-  <picker-view id="pa-{{n}}" class="weui-picker__view"  indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{osv}}" bindchange="f_objsel">
+  <picker-view class="weui-picker__view"  indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{osv}}" bindchange="itemsel">
     <picker-view-column>
         <view wx:for="{{gslist.droneId}}" wx:key="{{index}}" style="line-height: 36rpx">{{gslist.typevale[item.masterId].uName}}</view>
     </picker-view-column>

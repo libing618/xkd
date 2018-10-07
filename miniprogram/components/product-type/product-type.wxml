@@ -1,5 +1,5 @@
 <wxs module="we">
-  var tapdv=require("apdv.wxs");
+  var tapdv=require("../utils/apdv.wxs");
   var glist = function(clist,svale,sn){
     var apdb1 = [];
     var k = clist[svale[0]];

@@ -1,5 +1,5 @@
-<import src="../import/impedit.wxml" />
-<import src="../../../libs/wedetail.wxml"/>
+<import src="../../libs/impedit.wxml" />
+<import src="../../libs/wedetail.wxml"/>
 <view class="page">
   <view class="page__hd weui-cells">
     <form bindsubmit="orderquery">

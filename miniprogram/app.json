@@ -68,7 +68,7 @@
     {
       "root": "inputedit",
       "pages": [
-        "import/statistics",
+        "statistics/statistics",
         "f_Role/f_Role",
         "adjustment/adjustment",
         "accounting/accounting",

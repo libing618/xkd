@@ -1,5 +1,5 @@
-<import src="../import/impedit.wxml"/>
-<import src="../../../libs/wedetail.wxml"/>
+<import src="../../libs/impedit.wxml"/>
+<import src="../../libs/wedetail.wxml"/>
 <view class="page">
   <view class="page__bd">
     <block wx:for="{{indexList}}" wx:key="{{index}}" wx:for-item="ac">
@@ -33,7 +33,7 @@
             <view class="weui-cell">应发{{qCount[ac]}}份 已包{{iSum[ac]}}份</view>
           </view>
           <view hidden="{{iClicked!=ac}}">
-            <template is="i_inScan" data="{{...iFormat[0],c:nowPacking}}"/>
+            <template is="i_iSc" data="{{...iFormat[0],c:nowPacking}}"/>
             <button class="weui-btn" type="primary" id="su-{{n}}" bindtap="cargoPack">打包</button>
             <block class="weui-agree" wx:for="{{mPage[ac]}}" wx:key="{{index}}" wx:for-index="i">
               <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{item}}" bindtap="mChick">
@@ -62,7 +62,7 @@
             <view class="weui-cell">应发{{qCount[ac]}}份 已收{{iSum[ac]}}份</view>
           </view>
           <view hidden="{{iClicked!=ac}}">
-            <template is="i_inScan" data="{{...iFormat[0],c:nowPacking}}"/>
+            <template is="i_iSc" data="{{...iFormat[0],c:nowPacking}}"/>
             <block class="weui-agree" wx:for="{{mPage[ac]}}" wx:key="{{index}}" wx:for-index="i">
               <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{item}}" bindtap="mChick">
                 <view class="weui-cell__hd">{{pageData[item].proName}}</view>

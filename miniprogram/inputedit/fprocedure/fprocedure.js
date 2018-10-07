@@ -1,6 +1,5 @@
 // 通用的内容编辑pages
-const wImpEdit = require('../import/impedit.js');
-const { initData,fSubmit } = require('../import/unitEdit');
+const wImpEdit = require('../../libs/impedit.js');
 var app = getApp()
 Page({
   data: {
@@ -50,7 +49,7 @@ Page({
           break;
       }
       if (typeof aaData == 'undefined') { aaData = app.aData[ops.pNo][that.data.dObjectId] || {} }//require('../../test/goods0')[0]
-      initData(app.fData[ops.pNo].pSuccess, aaData).then(({ iFormat, vData, funcArr })=>{
+      wImpEdit.initData(app.fData[ops.pNo].pSuccess, aaData).then(({ iFormat, vData, funcArr })=>{
         funcArr.forEach(functionName => {
           that[functionName] = wImpEdit[functionName];
           if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于2则存在对应处理过程
@@ -73,6 +72,6 @@ Page({
     });
   },
 
-  fSubmit: fSubmit
+  fSubmit: wImpEdit.fSubmit
 
 })

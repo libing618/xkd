@@ -1,12 +1,20 @@
-<import src="../../libs/wedetail.wxml" />
-<wxs src="impedit.wxs" module="wewxs" />
-
+<import src="wedetail.wxml" />
+<wxs module="mDot">
+module.exports =
+  function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
+</wxs>
+<wxs module="mgrids">
+module.exports = ['产品', '图像', '音频', '视频', '位置', '文件', '大标题', '中标题', '小标题', '正文']
+</wxs>
+<wxs module="mid">
+module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
+</wxs>
 <template name="i_arrList">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd weui-cell__flex">
       <view wx:for="{{c}}" wx:key="{{index}}">
-        <view class="weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="i_arrList">{{ item }}{{wewxs.mDot(index,c)}}</view>
+        <view class="weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="i_arrList">{{ item }}{{mDot(index,c)}}</view>
       </view>
     </view>
     <view class="weui-cell__ft"><icon id="su-{{n}}" bindtap="i_arrList" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
@@ -18,22 +26,12 @@
   </view>
 </template>
 
-<template name="i_assettype">
+<template name="i_ast">
   <asset-type c="{{c}}" p="{{p}}"></asset-type>
 </template>
 
-<template name="i_content">
-  <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
-  <view class="weui-cell">
-    <view class="weui-cell__hd">材料(包装)</view>
-    <view class="weui-cell__bd">内含数量</view>
-    <view class="weui-cell__ft">单位</view>
-  </view>
-  <view class="weui-cell" wx:for="{{c}}" wx:key="index" bindtap="i_modalContent">
-    <view class="weui-cell__hd">{{item.material}}</view>
-    <view class="weui-cell__bd">{{item.dOutput}}</view>
-    <view class="weui-cell__ft">{{item.dUnit}}</view>
-  </view>
+<template name="i_cId">
+  <edit-content name="{{gname}}" c="{{c}}" p="{{p}}"></edit-content>
 </template>
 
 <template name="i_cit">
@@ -52,7 +50,7 @@
   </view>
 </template>
 
-<template name="i_eAddress">
+<template name="i_eAd">
   <edit-address c="{{c}}" p="{{p}}" location="{{location}}" code="{{code}}"></edit-address>
 </template>
 
@@ -87,7 +85,7 @@
   </view>
 </template>
 
-<template name="i_goodstype">
+<template name="i_gSt">
   <goods-type name="{{gname}}" value="{{c}}" p="{{p}}"></goods-type>
 </template>
 
@@ -139,18 +137,18 @@
   <input-date name="{{gname}}" value="{{c}}" p="{{p}}"></input-date>
 </template>
 
-<template name="i_industrytype">
+<template name="i_iNd">
   <industry-type name="{{gname}}" value="{{c}}" p="{{p}}"></industry-type>
 </template>
 
-<template name="i_inScan">
+<template name="i_iSc">
   <edit-scan name="{{gname}}" c="{{c}}" p="{{p}}"></edit-scan>
 </template>
 
 <template name="i_insdata">
   <view class="weui-footer_fixed-bottom weui-grids">
-    <block wx:for="{{wewxs.mgrids}}" wx:key="{{index}}">
-      <view class="weui-grid" id="{{wewxs.mid[index]}}" hover-class="weui-grid_active" bindtap="i_insdata">
+    <block wx:for="{{mgrids}}" wx:key="{{index}}">
+      <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="i_insdata">
         <image class="weui-grid__icon" src="../../images/{{index+1}}.png"></image>
         <view class="weui-grid__label">{{item}}</view>
       </view>
@@ -159,7 +157,7 @@
 </template>
 
 <template name="i_itime">
-  <input-time name="{{gname}}" value="{{c}}" p="{{p}}"></input-time>
+  <input-time name="{{gnamegSt="{{c}}" p="{{p}}"></input-time>
 </template>
 
 <template name="i_listsel">
@@ -172,7 +170,7 @@
 </template>
 
 
-<template name="i_mapSelectUnit">
+<template name="i_mSU">
   <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
   <map-select-unit c="{{c}}" p="{{p}}"></map-select-unit>
 </template>
@@ -201,18 +199,12 @@
   </view>
 </template>
 
-<template name="i_producttype">
-  <product-type c="{{c}}" p="{{p}}"></product-type>
+<template name="i_pDt">
+  <product-type name="{{gname}}" c="{{c}}" p="{{p}}"></product-type>
 </template>
 
 <template name="i_sId">
-  <picker id="ac-{{n}}" mode="selector" value="{{mn}}" range="{{maData}}" range-key="sName" bindchange="f_idsel">
-    <view class="weui-cell">
-      <view class="weui-cell__hd">{{p}}:</view>
-      <view class="weui-cell__bd">{{maData[mn].sName}}</view>
-    </view>
-  </picker>
-  <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
+  <recycle-select name="{{gname}}" c="{{c}}" p="{{p}}"></recycle-select>
 </template>
 
 <template name="i_cargopackage">

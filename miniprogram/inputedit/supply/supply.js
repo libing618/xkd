@@ -10,7 +10,7 @@ Page ({
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
     pageData: [],
     iClicked: '0',
-    iFormat:[{gname:"nowPacking", p: '出品包装号',t: "inScan",n:0}]
+    iFormat:[{gname:"nowPacking", p: '出品包装号',t: "iSc",n:0}]
   },
   subscription: {},
   indexField:'',      //定义索引字段

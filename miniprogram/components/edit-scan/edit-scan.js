@@ -28,7 +28,6 @@ Component({
     attached: function(){
 
       }
-    },
   },
 
   methods: {
