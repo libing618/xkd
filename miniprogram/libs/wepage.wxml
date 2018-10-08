@@ -173,31 +173,3 @@
     <button bindtap="f_modalFieldView" id="fBack">我知道了</button>
   </view>
 </template>
-
-<template name="p_modalSelectPanel">
-  <view class="modal_box" id="fBack" bindtap="i_modalSelectPanel"></view>
-  <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-    <view class="page__title">选择--{{p}}</view>
-    <view class="close_icon" id="fBack" bindtap="i_modalSelectPanel">×</view>
-    <view class="page__hd">
-    <view class="weui-tab__panel">
-      <block wx:for="{{tPage}}" wx:key="{{index}}">
-        <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{item}}" bindtap="i_modalSelectPanel">
-          <view class="weui-media-box__hd_in-appmsg">
-            <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
-          </view>
-          <view class="weui-media-box__bd_in-appmsg">
-            <view class="weui-media-box__title">{{pageData[item].uName}}</view>
-            <view class="weui-media-box__desc">{{pageData[item].title}}</view>
-          </view>
-        </view>
-        <view wx:if="{{idClicked==item}}" class="weui-cell__ft" id="{{item}}" data-pNo="{{pNo}}" bingtap="f_modalRecordView">详情</view>
-      </block>
-    </view>
-    </view>
-    <view style="padding-bottom:100rpx;"></view>
-  </view>
-  <view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
-    <button class="weui-btn" type="primary" bindtap="i_modalSelectPanel" id="fSelect">选定{{pageData[idClicked].uName}}</button>
-  </view>
-</template>

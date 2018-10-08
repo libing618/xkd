@@ -103,31 +103,6 @@ module.exports = {
         popModal(that)
         break;
     }
-  },
-
-  i_modalSelectPanel: function ({ currentTarget:{id,dataset} }) {            //单项选择面板弹出页
-    var that = this;
-    let hidePage = {}, showPage = {}, pageNumber = that.data.sPages.length - 1;
-    let spmKey = 'sPages[' + pageNumber +'].';
-    let nowPage = that.data.sPages[pageNumber];
-    switch (id) {
-      case 'fBack':                  //返回
-        downModal(that,hidePage);
-        break;
-      case 'fSelect':                  //选定返回
-        let nowPage = that.data.sPages[that.data.sPages.length-1];
-        if (that.data.selectd<0){
-          hidePage['vData.'+nowPage.gname] = that.data.pageData[that.data.idClicked];
-          hidePage['vData.' + nowPage.gname].pNo = nowPage.pNo;
-        } else {
-          hidePage['vData.'+nowPage.gname+'['+that.data.selectd+']'] = that.data.pageData[that.data.idClicked];
-          hidePage['vData.' + nowPage.gname + '[' + that.data.selectd + ']'].pNo = nowPage.pNo;
-        }
-        downModal(that,hidePage);
-        break;
-      default:                  //确认ID
-        that.setData({idClicked:id});
-        break;
-    }
   }
+
 }

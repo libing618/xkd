@@ -119,13 +119,25 @@ i_msgEditSend:function(e){            //消息编辑发送框
   var that = this;
   switch (e.currentTarget.id) {
     case 'sendMsg':
-      app.sendM(e.detail.value,that.data.cId).then( (rsm)=>{
-        if (rsm){
-          that.setData({
-            vData: {mtype:-1,mtext:'',wcontent},
-            messages: app.conMsg[that.data.cId]
-          })
-        }
+      return new Promise( (resolve, reject) => {
+        if (sIndex>1 && sIndex<5){
+          wx.saveFile({
+            tempFilePath : icontent,
+            success: function(cres){ resolve(cres.savedFilePath); },
+            fail: function(cerr){ reject('媒体文件保存错误！') }
+          });
+        }else{
+          resolve(wcontent);
+        };
+      }).then( (content) =>{
+        app.sendM(e.detail.value,that.data.cId).then( (rsm)=>{
+          if (rsm){
+            that.setData({
+              vData: {mtype:-1,mtext:'',wcontent},
+              messages: app.conMsg[that.data.cId]
+            })
+          }
+        });
       });
       break;
     case 'fMultimedia':
@@ -137,15 +149,7 @@ i_msgEditSend:function(e){            //消息编辑发送框
         let showPage = {};
         switch (sIndex){
           case 1:             //选择产品
-            if (!that.f_modalSelectPanel) {that.f_modalSelectPanel = require('../../model/controlModal').f_modalSelectPanel}
-            showPage.pageData = app.aData.goods;
-            showPage.tPage = app.mData.goods;
-            showPage.idClicked = '0';
-            that.data.sPages.push({ pageName: 'modalSelectPanel', pNo: 'goods', gname:'wcontent',p:'产品' });
-            showPage.sPages = that.data.sPages;
-            that.setData(showPage);
-            popModal(that);
-            resolve(true);
+            resolve({_id:'0',uName:'选择商品'});
             break;
           case 2:               //选择相册图片或拍照
             wx.chooseImage({
@@ -178,25 +182,13 @@ i_msgEditSend:function(e){            //消息编辑发送框
             })
             break;
           case 6:                     //选择文件
-
+            resolve({'选择文件'});
             break;
           default:
             resolve('输入文字');
             break;
         }
       }).then( (wcontent)=>{
-        return new Promise( (resolve, reject) => {
-          if (sIndex>1 && sIndex<5){
-            wx.saveFile({
-              tempFilePath : icontent,
-              success: function(cres){ resolve(cres.savedFilePath); },
-              fail: function(cerr){ reject('媒体文件保存错误！') }
-            });
-          }else{
-            resolve(wcontent);
-          };
-        });
-      }).then( (content) =>{
         that.setData({ mtype: -sIndex ,wcontent: content });
       }).catch((error)=>{console.log(error)});
     break;

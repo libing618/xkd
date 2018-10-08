@@ -217,27 +217,6 @@ module.exports = {
         artArray.splice(that.data.selectd, instif, { t: sIndex, e: mgrids[sI] });
       };
       that.setData({ 'vData.details': artArray, enIns: true });
-      if (['-1', '-6'].indexOf(sIndex) >= 0) {
-        let showPage = {};;
-        switch (sIndex) {
-          case '-1':
-            if (!that.f_modalSelectPanel) {that.f_modalSelectPanel = require('../../model/controlModal').f_modalSelectPanel}
-            showPage.pageData = app.aData.goods;
-            showPage.tPage = app.mData.goods;
-            showPage.idClicked = '0';
-            that.data.sPages.push({ pageName:'modalSelectPanel', pNo:'goods', gname:'details',p:'产品' });
-            showPage.sPages = that.data.sPages;
-            that.setData(showPage);
-            popModal(that);
-            resolve(true);
-            break;
-          case '-6':
-
-            resolve(true);
-            break;
-          default: break;
-        }
-      }
     }).catch(console.error);
   },
 

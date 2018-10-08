@@ -165,24 +165,7 @@
 </template>
 
 <template name="s_cId">
-  <view class="weui-cell">{{p}}:</view>
-  <view class="weui-cells">
-    <block wx:for="{{c}}" wx:key="{{index}}" wx:for-item="objarr">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{objarr._id}}" data-pNo="{{gname}}" bingtap="f_modalFieldView">
-        <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{objarr.thumbnail}}" background-size="cover"></image>
-        </view>
-        <view wx:if="{{csc=='cargo'}}" class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{objarr.uName}}/{{objarr.package}}份装/{{objarr.price}}元</view>
-          <view class="weui-media-box__desc">{{objarr.title}}</view>
-        </view>
-        <view wx:else class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{objarr.uName}}/ 含量{{objarr.package}}</view>
-          <view class="weui-media-box__desc">{{objarr.title}}</view>
-        </view>
-      </view>
-    </block>
-  </view>
+<field-view pno=
 </template>
 
 <template name="s_sCargo">

@@ -42,9 +42,12 @@ Component({
     mPage: [],
     pageData: {},
     height: app.sysinfo.windowHeight,
-    clickedid: ''
+    clickedid: '0'
   },
   lifetimes: {
+    attached() {
+      if (this.data.c._id == '0') { this.selectid() }
+    }
     detached() {
       if (this.gData) {
         this.gData.closeData().then(() => {
@@ -80,7 +83,7 @@ Component({
       addItem.forEach(mId=>{ spData['pageData.'+mId]=this.gData.aData[mId] });
       this.setData({spData})
     },
-    selectid() {
+    selectid() {            //单项选择面板弹出页
       this.setData({
         height: transformRpx(Math.max(this.data.showitems, SHOW_SCREENS)* 160, true)
       });
@@ -101,7 +104,7 @@ Component({
       this.popModal();
     },
 
-    successid(e) {                         //选择ID
+    successid(e) {                  //选定返回
       if (this.data.clickedid!='0'){
         this.setData({
           c: {_id:this.gData.aData[this.data.clickedid]._id,sName:this.gData.aData[this.data.clickedid].uName},
@@ -111,7 +114,7 @@ Component({
       }
     },
 
-    clickeditem({detail:{itemid}}) {
+    clickeditem({detail:{itemid}}) {                         //选择ID
       if (id) {
         this.setData({clickedid:itemid})
       }

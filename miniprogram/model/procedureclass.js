@@ -143,7 +143,7 @@ module.exports = {
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
     {gname:"weight", p:'重量', t:"h4" },
-    {gname:"content", p:'内含物', t:"cId", csc:"product" },
+    {gname:"product", p:'内含物', t:"cId", csc:"digit" },
     {gname:"retail_price", p:'零售价', t:"dg",itype:"digit" },
     {gname:"cargoStock", p:'库存', t:"dg",itype:"number"},
     {gname: "canSupply", p:'可供销售', t:"dg",itype:"number"}
@@ -162,7 +162,7 @@ module.exports = {
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
     {gname:"desc", p:'描述',t:"p" },
     {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
-    {gname:"cargos", p:'成品表', inclose: true,t:"sobjpackage", csc:"cargo" },
+    {gname:"cargos", p:'成品规格', inclose: true,t:"cId", csc:"number" },
     {gname:"pics", p:'图片集',t:"pics"},
     {gname:"tvidio", p:'视频简介',t: "vidio" },
     {gname: "channel", p:'渠道分成比例%',t:"dg",itype:"mCost"},
