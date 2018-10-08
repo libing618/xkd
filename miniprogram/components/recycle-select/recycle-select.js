@@ -34,6 +34,10 @@ Component({
     filterId: {
       type: String,
       value: 'updatedAtdesc'
+    },
+    editen: {
+      type: Boolean,
+      value: false,
     }
   },
 

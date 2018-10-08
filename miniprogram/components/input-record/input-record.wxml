@@ -1,5 +1,5 @@
 <import src="../../libs/impedit.wxml"/>
-<view class="modal_box" id="fBack" bindtap="f_modalSwitchBox"></view>
+<view class="modal_box" id="fBack" bindtap="downModal"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <form bindsubmit="fSubmit">
     <view class="page__bd_spacing" id="{{targetId}}">

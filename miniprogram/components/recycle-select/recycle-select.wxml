@@ -15,7 +15,7 @@
       </view>
     </scroll-view>
   </view>
-  <view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
+  <view wx:if="{{clickedid!=='0' && editen}}" class="page__ft weui-footer_fixed-bottom">
     <button class="weui-btn" type="primary" bindtap="successid">选定{{pageData[idClicked].uName}}</button>
   </view>
 </view>

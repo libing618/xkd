@@ -1,7 +1,6 @@
 //共享信息管理
 const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
-const {f_modalRecordView} = require('../../model/controlModal');
 var app = getApp()
 Page({
   data: {
@@ -41,37 +40,6 @@ Page({
   },
 
   hTabClick: require('../../libs/util').hTabClick,
-
-  f_modalSwitchBox: function ({ currentTarget:{id,dataset} }) {            //切换选择弹出页
-    var that = this;
-    let hidePage = {};
-    switch (id) {
-      case 'fSwitch':                  //确认切换到下一数组并返回
-        let arrNext = (that.data.ht.pageCk + 1) == that.data.ht.fLength ? 0 : (that.data.ht.pageCk + 1);
-        db.collection('share').doc(that.data.modalId).set('afamily',arrNext).save().then(()=>{
-          that.data.cPage[arrNext].push(that.data.modalId);
-          let oldNo = that.data.cPage[that.data.ht.pageCk].indexOf(that.data.modalId);
-          that.data.cPage[that.data.ht.pageCk].splice(oldNo, 1);
-          hidePage.cPage = that.data.cPage;
-          downModal(that,hidePage)
-        });
-        break;
-      case 'fBack':                  //返回
-        downModal(that,hidePage);
-        break;
-      default:                  //打开弹出页
-        that.data.sPages.push({
-          pageName: 'modalSwitchBox',
-          targetId: id,
-          smtName: that.data.ht.modalBtn[that.data.ht.pageCk]
-        });
-        that.setData({
-          sPages: that.data.sPages
-        });
-        popModal(that)
-        break;
-    }
-  },
 
   fRegisterShare: function({currentTarget:{id}}){
     var that = this;

@@ -10,6 +10,10 @@ Component({
     c: {
       type: String,
       value: '文件路径',
+    },
+    editen: {
+      type: Boolean,
+      value: false,
     }
   },
   options: {
@@ -18,12 +22,18 @@ Component({
 
   data: {
     idClicked: '0',
+    fileType: '',
     animationData: {},
     showModalBox: false
   },
   lifetimes:{
     attached(){
-      if (!this.data.c){ this.modalSelectFile() }
+      if (this.data.c){
+        let index = this.data.c.indexOf(".");
+        this.setData({fileType: this.data.c.substring(index+1)});
+      } else {
+        this.modalSelectFile()
+      }
     }
   },
   methods: {
@@ -54,7 +64,7 @@ Component({
     },
     fOpen({ currentTarget:{id,dataset} }) {                  //打开文件
       wx.openDocument({
-        filePath: this.data.idClicked
+        filePath: id
       });
     },
     fClick({ currentTarget:{id,dataset} }) {                 //确认ID

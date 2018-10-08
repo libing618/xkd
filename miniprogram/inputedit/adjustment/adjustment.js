@@ -2,7 +2,6 @@
 const db = wx.cloud.database();
 const { checkRols,shareMessage } =  require('../../model/initForm');
 const {hTabClick} = require('../../libs/util.js');
-const {f_modalRecordView} = require('../../model/controlModal');
 var app = getApp();
 
 Page({
@@ -16,12 +15,6 @@ Page({
     },
     cPage: [],
     pageData: {},
-    sPages: [{
-      pageName: 'tabPanel'
-    }],
-    showModalBox: false,
-    animationData: {},
-    iFormat:app.fData.prodesign.pSuccess
   },
 
   onLoad: function (ops) {        //传入参数为pNo

@@ -1,7 +1,5 @@
 //共享信息管理
 const { checkRols } =  require('../../model/initForm');
-const {f_modalRecordView} = require('../../model/controlModal');
-
 var app = getApp()
 Page({
   data: {

@@ -2,7 +2,7 @@
 const db = wx.cloud.database();
 const { checkRols } =  require('../../model/initForm');;
 const {hTabClick} = require('../../libs/util.js');
-const {f_modalRecordView} = require('../../model/controlModal');
+
 var app = getApp()
 Page({
   data:{
@@ -49,5 +49,5 @@ Page({
     };
   },
   hTabClick:hTabClick,
-  f_modalRecordView:f_modalRecordView
+
 })
