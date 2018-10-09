@@ -111,14 +111,16 @@ Component({
       this.downModal()
     },
 
-    faddclass: function({ currentTarget:{id,dataset},detail:{value} }){              //选择行政区划
+    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,postcode} }){              //选择行政区划
       let showPage={};
-      if (this.data.adcvalue[0] == value[0]){
-        if (this.data.adcvalue[1] == value[1]) {
-          showPage.saddv = this.data.adclist[value[0]].st[value[1]].ct[value[2]].c;
-          showPage.address1 = this.data.adclist[value[0]].n + this.data.adclist[value[0]].st[value[1]].n + this.data.adclist[value[0]].st[value[1]].ct[value[2]].n;
-        } else { value[2]=0 }
-      } else { value[1]=0 }
+      showPage.saddv = code;
+      showPage.address1 = region[0]+region[1]+region[2];
+      // if (this.data.adcvalue[0] == value[0]){
+      //   if (this.data.adcvalue[1] == value[1]) {
+      //     showPage.saddv = this.data.adclist[value[0]].st[value[1]].ct[value[2]].c;
+      //     showPage.address1 = this.data.adclist[value[0]].n + this.data.adclist[value[0]].st[value[1]].n + this.data.adclist[value[0]].st[value[1]].ct[value[2]].n;
+      //   } else { value[2]=0 }
+      // } else { value[1]=0 }
       showPage.adcvalue = value;
       this.setData(showPage);
     },

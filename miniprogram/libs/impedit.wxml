@@ -79,7 +79,7 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
         <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
-      <view>{{c}}</view>
+      <view>{{c ? c : 0}}</view>
       <input hidden="{{true}}" name="{{gname}}" value="{{c}}"/>
     </view>
   </view>
@@ -164,7 +164,7 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
   <picker id="ac-{{n}}" name="{{gname}}" mode="selector" value="{{c}}" range="{{aList}}" bindchange="i_listsel">
     <view  class="weui-cell">
       <view class="weui-cell__hd">{{p}}:</view>
-      <view class="weui-cell__bd">{{aList[c]}}</view>
+      <view class="weui-cell__bd">{{c ? aList[c] : aList[0]}}</view>
     </view>
   </picker>
 </template>

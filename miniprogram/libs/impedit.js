@@ -256,15 +256,10 @@ module.exports = {
               iFormat[i].code = vData.address_code
             };
             break;
-          case 'listsel':
-            if (vifData) {vData[reqField.gname] = 0};
-            break;
-          case 'fg' :
-            if (vifData) {vData[reqField.gname] = 0};
+          default :
             break;
         }
       })
-
       for (let i = 0; i < iFormat.length; i++) {
         if (iFormat[i].csc) {
           funcArr.push('f_' + iFormat[i].itype);
