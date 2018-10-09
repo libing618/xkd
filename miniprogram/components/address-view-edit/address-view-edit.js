@@ -3,23 +3,24 @@ var modalBehavior = require('../utils/poplib.js')
 const qqmap_wx = require('../utils/qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 Component({
-  behaviors: [modalBehavior],
+  behaviors: [modalBehavior,'wx://form-field'],
   properties: {
     p: {
       type: String,
       value: '地址',
     },
     c: {
-      type: String,
-      value: '请输入地址',
-    },
-    location: {
       type: Object,
-      value: {latitude: 23, longitude:113},
+      value: {
+        address:'请输入地址',
+        location:{latitude: 23, longitude:113},
+        code: 110000,
+        post: '010001'
+      }
     },
-    code: {
-      type: Number,
-      value: 11000,
+    editen: {
+      type: Boolean,
+      value: false,
     }
   },
   options: {
@@ -58,14 +59,15 @@ Component({
           wx.getLocation({
             type: 'wgs84',
             success(res) {
-              vData[reqField.gname] = new db.Geo.Point(res.longitude,res.latitude);
               QQMapWX.reverseGeocoder({
                 location: { latitude: res.latitude, longitude: res.longitude },
-                success: function ({ result: { ad_info, address } }) {
+                success: function ({ result: { ad_info, address_component,address } }) {
+                  that.data.c.address = address;
+                  that.data.c.location = { latitude: res.latitude, longitude: res.longitude };
+                  that.data.c.code = ad_info.adcode;
                   that.setData({
-                    location: { latitude: res.latitude, longitude: res.longitude },
-                    code: ad_info.adcode,
-                    c: address
+                    c: that.data.c,
+                    region:[address_component.province,address_component.city,address_component.district]
                   });
                 }
               });
@@ -78,12 +80,12 @@ Component({
   },
   methods: {
     modalEditAddress: function ({ currentTarget:{id,dataset},detail:{value} }) {      //地址编辑弹出页
-      this.setData({
-        adclist: require('addresclass.js'),   //读取行政区划分类数据
-        adglist: [],
-        saddv: 0,
-        adcvalue: [3, 9, 15],
-        adgvalue: [0, 0]
+      this.setData({address1: this.data.c.address
+        // adclist: require('addresclass.js'),   //读取行政区划分类数据
+        // adglist: [],
+        // saddv: 0,
+        // adcvalue: [3, 9, 15],
+        // adgvalue: [0, 0]
       });
       this.popModal();                 //打开弹出页
     },
@@ -94,11 +96,13 @@ Component({
         success: function (res) {
           QQMapWX.reverseGeocoder({                    //解析地理位置
             location: { latitude: res.latitude, longitude: res.longitude },
-            success: function ({ result: { ad_info, address } }) {
+            success: function ({ result: { ad_info, address_component,address } }) {
+              that.data.c.address = address;
+              that.data.c.location = { latitude: res.latitude, longitude: res.longitude };
+              that.data.c.code = ad_info.adcode;
               that.setData({
-                location: { latitude: res.latitude, longitude: res.longitude },
-                code: ad_info.adcode,
-                c: address
+                c: that.data.c,
+                region:[address_component.province,address_component.city,address_component.district]
               });
             }
           });
@@ -107,22 +111,29 @@ Component({
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
-      this.setData({ code: this.data.saddv, c: value.address1 });
+      this.data.c.address = this.data.address1
+      this.setData({ value: this.data.c, c: this.data.c });
       this.downModal()
     },
 
     faddclass: function({ currentTarget:{id,dataset},detail:{value,code,postcode} }){              //选择行政区划
-      let showPage={};
-      showPage.saddv = code;
-      showPage.address1 = region[0]+region[1]+region[2];
+      let that = this;
+      that.data.c.postcode = postcode;
+      that.data.c.code = code;
+      that.data.c.address = region[0]+region[1]+region[2];
+      that.setData({
+        address1: region[0]+region[1]+region[2],
+        c: that.data.c
+      })
+      //let showPage={};
       // if (this.data.adcvalue[0] == value[0]){
       //   if (this.data.adcvalue[1] == value[1]) {
       //     showPage.saddv = this.data.adclist[value[0]].st[value[1]].ct[value[2]].c;
       //     showPage.address1 = this.data.adclist[value[0]].n + this.data.adclist[value[0]].st[value[1]].n + this.data.adclist[value[0]].st[value[1]].ct[value[2]].n;
       //   } else { value[2]=0 }
       // } else { value[1]=0 }
-      showPage.adcvalue = value;
-      this.setData(showPage);
+      // showPage.adcvalue = value;
+      // this.setData(showPage);
     },
 
     raddgroup: function({ currentTarget:{id,dataset},detail:{value} }){                  //读村镇区划数据

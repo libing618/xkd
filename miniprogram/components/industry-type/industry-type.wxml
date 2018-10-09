@@ -3,7 +3,7 @@
 <wxs module="mDot">
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
- </wxs>
+</wxs>
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd weui-cell__flex">

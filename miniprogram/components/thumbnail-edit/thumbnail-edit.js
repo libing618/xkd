@@ -2,7 +2,7 @@
 const sysinfo = getApp().sysinfo;
 var modalBehavior = require('../utils/poplib.js')
 Component({
-  behaviors: [modalBehavior],
+  behaviors: [modalBehavior,'wx://form-field'],
   properties: {
     p: {
       type: String,
@@ -12,7 +12,7 @@ Component({
       type: String,
       value: 'thumbnail',
     },
-    c: {
+    value: {
       type: String,
       value: '/images/2.png',
     }
@@ -52,7 +52,7 @@ Component({
                 let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
                 let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
                 that.setData({
-                  c:restem.tempFilePaths[0],
+                  value:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
                   cScale: imageScall.toFixed(3)
@@ -97,7 +97,7 @@ Component({
           success:(res)=> {
             const upng =require("../../libs/UPNG.js")          //比较重要的代码
             let png = upng.encode([res.data.buffer],res.width,res.height)
-            that.setData({ c: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+            that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
             that.downModal();
           }
         },that);
@@ -105,7 +105,7 @@ Component({
         wx.canvasToTempFilePath({
           canvasId: 'cei',
           success: function(resTem){
-            that.setData({ c: resTem.tempFilePath });
+            that.setData({ value: resTem.tempFilePath });
             that.downModal();
           }
         })

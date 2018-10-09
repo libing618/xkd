@@ -1,0 +1,20 @@
+<wxs module="mDot">
+  module.exports =
+    function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
+</wxs>
+<view class="weui-cell">
+  <view class="weui-cell__hd">{{p}}:</view>
+  <view class="weui-cell__bd weui-cell__flex">
+    <view wx:for="{{c}}" wx:key="{{index}}">
+      <view class="weui-cell_link" id="{{index}}" bindtap="arrdel">{{ item }}{{mDot(index,c)}}</view>
+    </view>
+  </view>
+  <view class="weui-cell__ft" wx:if="{{editen}}">
+    <icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/>
+  </view>
+</view>
+<view wx:if="{{editen && !inclose}}" class="weui-cell weui-cell_access">
+  <view class="weui-cell__hd">输入增加的内容：</view>
+  <input class="weui-cell__bd" name="iValue" id="ai-{{n}}" bindinput="inputarr"/>
+  <view class="weui-cell__ft"><button data-add="{{iValue}}" size="mini" bindtap="seccessarr">确定</button></view>
+</view>

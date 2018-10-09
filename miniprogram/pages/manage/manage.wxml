@@ -26,7 +26,7 @@
     <template is="tabsCk" data="{{ fLength , pageCk , tabs ,wWidth }}"/>
     <!-- <view class="weui-tab__panel">
       <block wx:for="{{mPage[pageCk]}}" wx:key="{{index}}">
-        <recycle-item pno="{{pNo}}" sitem="{{pageData[item]}}"></recycle-item>
+        <record-view pno="{{pNo}}" sitem="{{pageData[item]}}"></record-view>
       </block>
     </view> -->
     <recycle-view dataname="articles" afamily="{{pageCk+1}}"></recycle-view>

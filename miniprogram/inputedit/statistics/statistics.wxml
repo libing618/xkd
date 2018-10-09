@@ -3,8 +3,8 @@
 <view class="page">
   <view class="page__hd weui-cells">
     <form bindsubmit="orderquery">
-      <input-date name="sDate" value="{{c}}" p="开始时间"></input-date>
-      <input-date name="eDate" value="{{c}}" p="结束时间"></input-date>
+      <date-view-edit name="sDate" value="{{c}}" p="开始时间" editen="{{true}}"></date-view-edit>
+      <date-view-edit name="eDate" value="{{c}}" p="结束时间" editen="{{true}}"></date-view-edit>
       <button class="weui-btn" formType="submit">查询该时间段交易</button>
     </form>
   </view>

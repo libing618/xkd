@@ -7,7 +7,7 @@ Component({
     addGlobalClass: true
   },
   relations: {
-    '../recycle-item/recycle-item': {
+    '../record-view/record-view': {
       type: 'child', // 关联的目标节点应为子节点
     }
   },

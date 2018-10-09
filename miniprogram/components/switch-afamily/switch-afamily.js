@@ -1,4 +1,4 @@
-//显示数据的关键要素
+//顺序切换分类数据
 var app = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({
@@ -31,7 +31,7 @@ Component({
   lifetimes:{
     attached: function(){
       switch (this.data.pno) {
-        case 's_cargo':
+        case 'cargo':
           cargototal = app.cargoStock[this.data.sitem._id]
           this.data.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),

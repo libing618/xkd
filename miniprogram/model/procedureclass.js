@@ -186,8 +186,8 @@ module.exports = {
     {gname:"base_amount", p:'基础目标数量',t:"dg",csc:"number" },
     {gname:"big_price", p:'大额优惠价', t:"dg",csc:"digit" },
     {gname:"big_amount", p:'大额目标数量',t:"dg",csc:"number" },
-    {gname:"start_date", p:'活动开始日期', t:"idate"},
-    {gname:"end_date", p:'活动截止日期', t:"idate"}
+    {gname:"start_date", p:'活动开始日期', t:"dVE"},
+    {gname:"end_date", p:'活动截止日期', t:"dVE"}
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由营销条线负责人进行审批。",
   "puRoles": [
@@ -246,7 +246,7 @@ module.exports = {
     {p:"资产转入帐户",gname:"dst_account",t:"sId"},
     {p:"资产类型",gname:"asset_type",t:"sId"},
     {p:"转让份额",gname:"amount",t:"dg"},
-    {p:"要求签收时间",gname:"sign_in_date",t:"idate"}
+    {p:"要求签收时间",gname:"sign_in_date",t:"dVE"}
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -262,8 +262,8 @@ module.exports = {
     {gname:"title", p:'计划简述',t:"h3" },
     {gname:"thumbnail", p:'图片',t: "cit",csc:"thumbnail" },
     {gname:"dOutput", p:'计划产量', t:"dg",csc:"number" },
-    {gname:"startDate", p:'开始日期', t:"idate",endif:false},
-    {gname:"endDate", p:'结束日期', t:"idate",endif:false}
+    {gname:"startDate", p:'开始日期', t:"dVE",endif:false},
+    {gname:"endDate", p:'结束日期', t:"dVE",endif:false}
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [

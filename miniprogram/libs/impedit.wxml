@@ -10,20 +10,7 @@ module.exports = ['产品', '图像', '音频', '视频', '位置', '文件', '�
 module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 </wxs>
 <template name="i_arrList">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd weui-cell__flex">
-      <view wx:for="{{c}}" wx:key="{{index}}">
-        <view class="weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="i_arrList">{{ item }}{{mDot(index,c)}}</view>
-      </view>
-    </view>
-    <view class="weui-cell__ft"><icon id="su-{{n}}" bindtap="i_arrList" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
-  </view>
-  <view hidden="{{inclose}}" class="weui-cell weui-cell_access">
-    <view class="weui-cell__hd">输入增加的内容：</view>
-    <input class="weui-cell__bd" name="iValue" id="ai-{{n}}" bindinput="i_arrList"/>
-    <view class="weui-cell__ft"><button id="se-{{n}}" data-add="{{iValue}}" size="mini" bindtap="i_arrList">确定</button></view>
-  </view>
+  <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editen="{{true}}"></array-view-edit>
 </template>
 
 <template name="i_ast">
@@ -31,12 +18,11 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 </template>
 
 <template name="i_cId">
-  <edit-content name="{{gname}}" c="{{c}}" p="{{p}}"></edit-content>
+  <content-edit name="{{gname}}" c="{{c}}" p="{{p}}"></content-edit>
 </template>
 
 <template name="i_cit">
-  <edit-thumbnail csc="{{csc}}" c="{{c}}" p="{{p}}"></edit-thumbnail>
-  <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
+  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}"></thumbnail-edit>
 </template>
 
 <template name="i_dg">
@@ -51,7 +37,7 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 </template>
 
 <template name="i_eAd">
-  <edit-address c="{{c}}" p="{{p}}" location="{{location}}" code="{{code}}"></edit-address>
+  <address-view-edit c="{{c}}" p="{{p}}" editen="{{true}}"></address-view-edit>
 </template>
 
 <template name="i_eDetail">
@@ -133,8 +119,8 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
   </view>
 </template>
 
-<template name="i_idate">
-  <input-date name="{{gname}}" value="{{c}}" p="{{p}}"></input-date>
+<template name="i_dVE">
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editen="{{true}}"></date-view-edit>
 </template>
 
 <template name="i_iNd">
@@ -142,7 +128,7 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 </template>
 
 <template name="i_iSc">
-  <edit-scan name="{{gname}}" c="{{c}}" p="{{p}}"></edit-scan>
+  <inscan-edit name="{{gname}}" c="{{c}}" p="{{p}}"></inscan-edit>
 </template>
 
 <template name="i_insdata">

@@ -5,7 +5,7 @@
   <view class="page__sub" id="model-{{pNo}}">
     <view class="weui-tab__panel">
       <block wx:for="{{cPage[ht.pageCk]}}" wx:key="{{index}}">
-        <recycle-item pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></recycle-item>
+        <record-view pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></record-view>
       </block>
     </view>
     <view style="padding-bottom:100rpx;"></view>

@@ -225,7 +225,7 @@ module.exports = {
     let vifData = (vDataKeys.length == 0);
     return new Promise((resolve, reject) => {
       let funcArr = [];
-      iFormat.forEach((reqField,i)=>{
+      vDataKeys.indexOf()=>{
         switch (reqField.t) {
           case 'eDetail':                      //详情字段
           if (vifData) {
@@ -250,14 +250,7 @@ module.exports = {
               { t: "p", e: "文章结尾" }
             ];}
             break;
-          case 'eAd':
-            if (!vifData) {
-              iFormat[i].location= vData.aGeoPoint;
-              iFormat[i].code = vData.address_code
-            };
-            break;
-          default :
-            break;
+
         }
       })
       for (let i = 0; i < iFormat.length; i++) {

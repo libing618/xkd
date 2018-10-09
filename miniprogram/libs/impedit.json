@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "edit-thumbnail": "../../components/edit-thumbnail/edit-thumbnail",
-    "recycle-item": "../../components/recycle-item/recycle-item"
+    "thumbnail-edit": "../../components/thumbnail-edit/thumbnail-edit",
+    "record-view": "../../components/record-view/record-view"
   }
 }

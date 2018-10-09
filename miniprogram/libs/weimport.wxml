@@ -4,6 +4,9 @@
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
  </wxs>
+ <template name="s_arrList">
+   <array-view-edit c="{{c}}" p="{{p}}""></array-view-edit>
+ </template>
 
 <template name="s_ast">
   <view class="weui-cell">
@@ -39,12 +42,16 @@
   </view>
 </template>
 
+<template name="s_dVE">
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"></date-view-edit>
+</template>
+
 <template name="s_eAd">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c}}</view>
+    <view class="weui-cell__bd">{{c.address}}</view>
   </view>
-  <map longitude="{{location.longitude}}" latitude="{{location.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
+  <map longitude="{{c.longitude}}" latitude="{{c.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
 </template>
 
 <template name="s_eDetail">

@@ -1,4 +1,3 @@
-// inputedit/input-date/input-date.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
@@ -6,9 +5,13 @@ Component({
       type: String,
       value: '日期',
     },
-    c: {
+    value: {
       type: Date,
       value: 0
+    },
+    editen: {
+      type: Boolean,
+      value: false,
     }
   },
   options: {
@@ -29,7 +32,6 @@ Component({
     },
     inputdate({ currentTarget:{id,dataset},detail:{value} }) {
       this.setData({                       //日期选择
-        c: new Date(value),
         value: new Date(value)
       });
     }

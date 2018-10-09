@@ -89,7 +89,7 @@
         <view class="weui-cell__bd">{{ac.iCount}} 笔</view>
         <view wx:if="{{iClicked==ac.indexId}}">
           <block wx:for="{{ac.indexFieldId}}" wx:key="{{index}}">
-            <recycle-item pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></recycle-item>
+            <record-view pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></record-view>
           </block>
         </view>
       </view>
