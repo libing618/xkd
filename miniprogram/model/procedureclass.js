@@ -125,8 +125,8 @@ module.exports = {
     {gname:"manageParty", p:'管理方', t:"h4" },
     {gname:"manageName", p:'管理人姓名', t:"h4" },
     {gname:"managePhone", p:'管理人电话', t:"h4" },
-    {gname:"startTime", p:'开始时间', t:"itime",endif:false},
-    {gname:"endTime", p:'结束时间', t:"itime",endif:false}
+    {gname:"startTime", p:'开始时间', t:"tVE",endif:false},
+    {gname:"endTime", p:'结束时间', t:"tVE",endif:false}
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [

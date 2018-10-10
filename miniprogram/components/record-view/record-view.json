@@ -1,4 +1,6 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "content-edit": "../content-edit/content-edit"
+  }
 }

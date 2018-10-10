@@ -22,7 +22,7 @@ Component({
     c: {
       type: Object,
       value:{ _id: '0', sName: '点此处进行选择' }
-    }
+    },
     name: {
       type: String,
       value: 'goods',
@@ -51,7 +51,7 @@ Component({
   lifetimes: {
     attached() {
       if (this.data.c._id == '0') { this.selectid() }
-    }
+    },
     detached() {
       if (this.gData) {
         this.gData.closeData().then(() => {

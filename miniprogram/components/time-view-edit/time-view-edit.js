@@ -1,10 +1,9 @@
-// inputedit/input-time/input-time.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
     p: {
       type: String,
-      value: '日期',
+      value: '时间',
     },
     c: {
       type: Date,

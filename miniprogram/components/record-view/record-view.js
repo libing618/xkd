@@ -3,6 +3,11 @@ var app = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior],
+  relations: {
+    '../content-edit/content-edit': {
+      type: 'child', // 关联的目标节点应为子节点
+    }
+  },
   properties: {
     pno: {
       type: String,

@@ -142,10 +142,6 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
   </view>
 </template>
 
-<template name="i_itime">
-  <input-time name="{{gnamegSt="{{c}}" p="{{p}}"></input-time>
-</template>
-
 <template name="i_listsel">
   <picker id="ac-{{n}}" name="{{gname}}" mode="selector" value="{{c}}" range="{{aList}}" bindchange="i_listsel">
     <view  class="weui-cell">
@@ -191,6 +187,10 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 
 <template name="i_sId">
   <recycle-select name="{{gname}}" c="{{c}}" p="{{p}}"></recycle-select>
+</template>
+
+<template name="i_tVE">
+  <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editen="{{true}}"></time-view-edit>
 </template>
 
 <template name="i_cargopackage">
