@@ -6,7 +6,6 @@ const conversationRole = {
   "直播课堂":{participant:9,chairman:7},
   "客户服务":{participant:9,chairman:6}
 };
-const {i_msgEditSend} = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
 var app = getApp()
 Page({
@@ -24,8 +23,7 @@ Page({
     vData: {},
     message: [],
     idClicked: '0',
-    cId:'',
-    mgrids: ['产品','图像','音频','视频','位置','文件']
+    cId:''
   },
 
   onLoad:function(options){
@@ -71,7 +69,29 @@ Page({
       }
     }).catch( console.error );
   },
-
-  i_msgEditSend: i_msgEditSend
-
+  sendMsg({ currentTarget:{id,dataset},detail:{value} }) {
+    return new Promise( (resolve, reject) => {
+      if (value.mtype>1 && value.mtype<5){
+        wx.saveFile({
+          tempFilePath : value.wcontent,
+          success: function(cres){
+            resolve(cres.savedFilePath);
+          },
+          fail: function(cerr){ reject('媒体文件保存错误！') }
+        });
+      }else{
+        resolve(value.wcontent);
+      };
+    }).then( (content) =>{
+      value.wcontent = content;
+      app.sendM(value,that.data.cId).then( (rsm)=>{
+        if (rsm){
+          that.setData({
+            vData: {mtype:-1,mtext:'',wcontent},
+            messages: app.conMsg[that.data.cId]
+          })
+        }
+      });
+    });
+  }
 })

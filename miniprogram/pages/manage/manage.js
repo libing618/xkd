@@ -1,7 +1,7 @@
 const db = wx.cloud.database();
 const { loginAndMenu, shareMessage } = require('../../model/initForm') ;
-const { openWxLogin, tabClick } = require('../../libs/util');
-
+const { tabClick } = require('../../libs/util');
+const { openWxLogin } = require('../../model/wxcloudcf');
 var app = getApp();
 
 Page({

@@ -32,12 +32,9 @@ Page({
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
         } else { that.data.vData=require('../../test/irole.js')};
         that.data.dObjectId = app.roleData.user.unit;
-        wImpEdit.initData(app.fData._Role.pSuccess, that.data.vData).then(({iFormat, vData, funcArr})=>{
-          funcArr.forEach(functionName => { that[functionName] = wImpEdit[functionName] });
-          that.data.iFormat = iFormat;
-          that.data.vData = vData;
-          that.setData( that.data );
-        });
+        wImpEdit.initFunc(app.fData._Role.pSuccess).forEach(functionName => { that[functionName] = wImpEdit[functionName] });
+        that.data.iFormat = app.fData._Role.pSuccess;
+        that.setData( that.data );
       }).catch(console.error )
     } else {
       wx.showToast({ title: '您不是单位创始人，请在《我的信息》页创建单位！', icon: 'none', duration: 2500 });

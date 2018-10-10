@@ -220,20 +220,18 @@ module.exports = {
     }).catch(console.error);
   },
 
-  initData: function(iFormat, vData) {      //对数据录入或编辑的格式数组和数据对象进行初始化操作
-    let vDataKeys = Object.keys(vData);            //数据对象是否为空
-    let vifData = (vDataKeys.length == 0);
-    return new Promise((resolve, reject) => {
-      let funcArr = [];
-      for (let i = 0; i < iFormat.length; i++) {
-        if (iFormat[i].csc) {
-          funcArr.push('f_' + iFormat[i].itype);
-        } else {
-          if (iFormat[i].t.length > 3) { funcArr.push('i_' + iFormat[i].t) };             //每个输入类型定义的字段长度大于2则存在对应处理过程
+  initFunc: function(iFormat, ) {      //对数据录入或编辑的格式数组增加函数
+    let funcArr = [];
+    for (let i = 0; i < iFormat.length; i++) {
+      if (iFormat[i].csc) {
+        funcArr.push('f_' + iFormat[i].itype);
+      } else {
+        if (iFormat[i].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
+          funcArr.push('i_' + iFormat[i].t);
         };
       };
-      resolve({ iFormat, vData, funcArr });
-    });
+    };
+    return funcArr;
   },
 
   fSubmit: function (e) {

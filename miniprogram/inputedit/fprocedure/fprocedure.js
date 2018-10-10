@@ -49,22 +49,43 @@ Page({
           break;
       }
       if (typeof aaData == 'undefined') { aaData = app.aData[ops.pNo][that.data.dObjectId] || {} }//require('../../test/goods0')[0]
-      wImpEdit.initData(app.fData[ops.pNo].pSuccess, aaData).then(({ iFormat, vData, funcArr })=>{
-        funcArr.forEach(functionName => {
-          that[functionName] = wImpEdit[functionName];
-          if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于2则存在对应处理过程
-            that.farrData = wImpEdit.farrData;
-            that.i_insdata = wImpEdit.i_insdata;
+      wImpEdit.initFunc(app.fData[ops.pNo].pSuccess).forEach(functionName => {
+        that[functionName] = wImpEdit[functionName];
+        if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于3则存在对应处理过程
+          let vDataKeys = Object.keys(vData);            //数据对象是否为空
+          that.farrData = wImpEdit.farrData;
+          that.i_insdata = wImpEdit.i_insdata;
+          if (vDataKeys.length == 0){
+            aaData.eDetail = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
+              { t: "h2", e: "大标题" },
+              { t: "p", e: "正文简介" },
+              { t: "h3", e: "中标题" },
+              { t: "p", e: "正文" },
+              { t: "h4", e: "1、小标题" },
+              { t: "p", e: "图片文章混排说明" },
+              { t: "-2", c: 'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明" },
+              { t: "p", e: "正文" },
+              { t: "h4", e: "2、小标题" },
+              { t: "p", e: "音频文章混排" },
+              { t: "-3", c: "https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明" },
+              { t: "p", e: "正文" },
+              { t: "h4", p: "3、小标题" },
+              { t: "p", p: "视频文章混排" },
+              { t: "-4", c: "https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明" },
+              { t: "p", e: "正文" },
+              { t: "p", e: "章节结尾" },
+              { t: "p", e: "文章结尾" }
+            ]
           }
-        });
-        iFormat.unshift({gname:"uName", t:"h2", p:"名称" });
-        that.setData({
-          pNo: ops.pNo,
-          navBarTitle: that.data.navBarTitle,
-          iFormat: iFormat,
-          vData: vData
-        });
-      })
+        }
+      });
+      iFormat.unshift({gname:"uName", t:"h2", p:"名称" });
+      that.setData({
+        pNo: ops.pNo,
+        navBarTitle: that.data.navBarTitle,
+        iFormat: iFormat,
+        vData: aaData
+      });
     }).catch((error)=>{
       console.log(error)
       wx.showToast({ title: '数据传输有误',icon:'loading', duration: 2500 });

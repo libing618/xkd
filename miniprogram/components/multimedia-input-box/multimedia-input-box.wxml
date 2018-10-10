@@ -1,2 +1,17 @@
-<!--components/multimedia-input-box/mult.wxml-->
-<text>components/multimedia-input-box/mult.wxml</text>
+<view class="weui-cell__hd" bindtap="fMultimedia">
+  <image class="weui-grid__icon" src="../../images/Multimedia.png"></image>
+  <input hidden="{{true}}" name="mtype" value="{{mtype}}"/>
+  <input hidden="{{true}}" name="wcontent" value="{{wcontent}}"/>
+</view>
+<view class="weui-cell__bd">
+  <input name="mtext" value="{{mtext}}" placeholder="请输入文字" />
+</view>
+
+<view class="weui-grids" hidden="{{enMultimedia}}">
+  <block wx:for="{{mgrids}}" wx:key="{{index}}">
+    <view class="weui-grid" data-n="{{index+1}}" hover-class="weui-grid_active" id="iMultimedia" bindtap="i_msgEditSend">
+      <image class="weui-grid__icon" src="../../images/{{index+1}}.png"></image>
+      <view class="weui-grid__label">{{item}}</view>
+    </view>
+  </block>
+</view>
