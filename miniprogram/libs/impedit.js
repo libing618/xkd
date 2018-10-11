@@ -220,7 +220,7 @@ module.exports = {
     }).catch(console.error);
   },
 
-  initFunc: function(iFormat, ) {      //对数据录入或编辑的格式数组增加函数
+  initFunc: function(iFormat) {      //对数据录入或编辑的格式数组增加函数
     let funcArr = [];
     for (let i = 0; i < iFormat.length; i++) {
       if (iFormat[i].csc) {
