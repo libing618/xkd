@@ -1,0 +1,19 @@
+<view class="touchView" style="height:{{scrollPosition.scrollViewHeight}}px;"  catchtouchstart="draggleTouch"
+    catchtouchmove="draggleTouch" catchtouchend="draggleTouch">
+</view>
+<movable-area class="moveable_row" style="height: {{scrollPosition.scrollViewHeight}}px;">
+  <movable-view style="height: {{scrollPosition.everyOptionCell}}px; width: 100%; background-color: #fff;"
+          direction="vertical" x="{{movableViewPosition.x}}" y="{{movableViewPosition.y}}"
+          inertia="false" damping="9999"  friction="9999">
+    <record-view pno="{{pNo}}" id="{{clickedid}}" sitem="{{pageData[clickedid]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></record-view>
+  </movable-view>
+</movable-area>
+<view style="height:{{height}}px;width:100%;transform:translateZ(0);-webkit-transform:translateZ(0);">
+  <scroll-view style='height:100%;position: relative;' scroll-y="{{true}}" scroll-x="{{false}}" bindscroll="bindscroll" scroll-with-animation="{{true}}" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" enable-back-to-top="{{true}}">
+    <view class="weui-tab__panel">
+      <block wx:for="{{mPage}}" wx:key="{{index}}">
+        <record-view pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></record-view>
+      </block>
+    </view>
+  </scroll-view>
+</view>
