@@ -49,9 +49,9 @@
     <block wx:for="{{c}}" wx:key="{{index}}">
       <view class="weui-article__{{item.t}}" id="ad-{{index}}">
         <view wx:if="{{item.t<0}}">
-          <template is="{{item.t}}" data="{{...item}}"></template>
+          <template is="{{item.t}}" data="{{...item.c}}"></template>
         </view>
-        <view wx:if="{{item.e}}">{{item.e}}</view>
+        <view wx:if="{{item.c.e}}">{{item.c.e}}</view>
       </view>
     </block>
   </view>
@@ -163,13 +163,6 @@
 
 <template name="s_tVE">
   <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"></time-view-edit>
-</template>
-
-<template name="s_sCargo">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{ ad[c].uName }}</view>
-  </view>
 </template>
 
 <template name="s_table">

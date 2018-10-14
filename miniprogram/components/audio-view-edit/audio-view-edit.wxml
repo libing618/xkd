@@ -1,0 +1,20 @@
+<view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__{{item.t}}" id="ad-{{n}}">
+  <view class="weui-picker"  catchtap="chooseaudio">
+    <audio controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></audio>
+  </view>
+  <text >value.e</text>
+</view>
+<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
+<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
+  <view class="page__hd">
+    <view class="page__title">{{p}}</view>
+    <view class="close_icon" bindtap="downModal">×</view>
+  </view>
+  <form bindsubmit="fSave">
+    <view class="page__bd">
+      <audio controls="{{true}}" id="myAudio" src="{{audsrc}}"></audio>
+      <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+    </view>
+    <button class="weui-btn" formType="submit" size="mini">确定</button>
+  </form>
+</view>

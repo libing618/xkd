@@ -10,8 +10,6 @@ const rdSet = function (n, rdg, rdn) {
   reqdataset['iFormat[' + n + '].' + rdg] = rdn;
   return reqdataset;
 };
-const mgrids = ['产品', '图像', '音频', '视频', '位置', '文件', '大标题', '中标题', '小标题', '正文'];
-const mid = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p'];
 function getdate(idate) {
   let rdate = new Date(idate)
   var year = rdate.getFullYear()+'';
@@ -109,38 +107,6 @@ module.exports = {
     })
   },
 
-  i_vidio: function (e) {                         //选择视频文件
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    wx.chooseVideo({
-      sourceType: ['album', 'camera'],
-      maxDuration: 60,
-      camera: 'back',
-      success: function (res) {
-        let vdv = vdSet(that.data.iFormat[n].gname, res.tempFilePath);
-        that.setData(vdv);
-      },
-      fail: function () { wx.showToast({ title: '选取视频失败！' }) }
-    })
-  },
-
-  i_sCargo: function (e) {                         //选择产品服务
-    var that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    var id = e.currentTarget.id.substring(0, 2);
-    switch (id) {
-      case 'ac':
-        that.setData(rdSet(n, 'inclose', !that.data.iFormat[n].inclose));
-        that.setData(vdSet(that.data.iFormat[n].gname, ''));
-        break;
-      case 'pa':
-        let aval = e.detail.value;
-        if (that.data.iFormat[n].provalue[0] != aval[0]) { aval[1] = 0; }
-        that.setData(rdSet(n, 'provalue', aval));
-        break;
-    }
-  },
-
   i_eDetail: function (e) {                                 //内容可以插入和删除
     var that = this;
     that.setData({
@@ -156,68 +122,10 @@ module.exports = {
   farrData: function (sIndex, instif) {                          //详情插入或替换数据
     var that = this;
     var artArray = that.data.vData.details;       //详情的内容
-    return new Promise((resolve, reject) => {
-      switch (sIndex) {
-        case '-1':             //选择产品
-          resolve('选择商品');
-          break;
-        case '-2':               //选择相册图片或拍照
-          wx.chooseImage({
-            count: 1, // 默认9
-            sizeType: ['original', 'compressed'],             //可以指定是原图还是压缩图，默认二者都有
-            sourceType: ['album', 'camera'],                 //可以指定来源是相册还是相机，默认二者都有
-            success: function (res) { resolve(res.tempFilePaths[0]); },
-            fail: function (err) { reject(err) }
-          });
-          break;
-        case '-3':               //录音
-          wx.startRecord({
-            success: function (res) {
-              wx.saveFile({
-                tempFilePath: res.tempFilePath,
-                success: function (cres) { resolve(cres.savedFilePath); },
-                fail: function (cerr) { reject('录音文件保存错误！') }
-              });
-            },
-            fail: function (err) { reject(err) }
-          });
-          break;
-        case '-4':               //选择视频或拍摄
-          wx.chooseVideo({
-            sourceType: ['album', 'camera'],
-            maxDuration: 60,
-            camera: ['front', 'back'],
-            success: function (res) {
-              wx.saveFile({
-                tempFilePath: res.tempFilePath,
-                success: function (cres) { resolve(cres.savedFilePath); },
-                fail: function (cerr) { reject('视频文件保存错误！') }
-              });
-            },
-            fail: function (err) { reject(err) }
-          })
-          break;
-        case '-5':                    //选择位置
-          wx.chooseLocation({
-            success: function (res) { resolve({ latitude: res.latitude, longitude: res.longitude }); },
-            fail: function (err) { reject(err) }
-          })
-          break;
-        case '-6':                     //选择文件
-          resolve('选择文件');
-          break;
-        default:
-          resolve(false);
-      }
-    }).then((content) => {
-      let sI = mid.indexOf(sIndex);
-      if (content) {
-        artArray.splice(that.data.selectd, instif, { t: sIndex, e: '点击此处输入' + mgrids[sI] + '的说明', c: content });
-      } else {
-        artArray.splice(that.data.selectd, instif, { t: sIndex, e: mgrids[sI] });
-      };
-      that.setData({ 'vData.details': artArray, enIns: true });
-    }).catch(console.error);
+    let mgrids = ['产品', '图像', '音频', '视频', '位置', '文件', '大标题', '中标题', '小标题', '正文'];
+    let sI = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p'].indexOf(sIndex);
+    artArray.splice(that.data.selectd, instif, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
+    that.setData({ 'vData.details': artArray, enIns: true });
   },
 
   initFunc: function(iFormat) {      //对数据录入或编辑的格式数组增加函数
@@ -258,14 +166,12 @@ module.exports = {
     });
     var sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
       let filePaths = [];
-      const mdtn = ['pic', 'thumb', 'vidio', 'file'];
-      const mdt = ['-2', '-3', '-4', '-6'];
       that.data.iFormat.forEach(nField => {
         switch (nField.t) {
           case 'eDetail':
             for (let a = 0; a < that.data.vData[nField.gname].length; a++) {
-              if (mdt.indexOf(that.data.vData[nField.gname][a].t) >= 0) {     //该字段正文的内容为媒体
-                filePaths.push({ na: [nField.gname, a], fPath: that.data.vData[nField.gname][a].c, fType: 2, fn: 2 });
+              if (['-2', '-3', '-4', '-6'].indexOf(that.data.vData[nField.gname][a].t) >= 0) {     //该字段正文的内容为媒体
+                filePaths.push({ na: [nField.gname, a], fPath: that.data.vData[nField.gname][a].c.filepath, fType: 2, fn: 2 });
               }
             }
             break;
@@ -275,8 +181,8 @@ module.exports = {
             }
             break;
           default:
-            if (mdtn.indexOf(nField.t) >= 0) {            //该字段为媒体
-              filePaths.push({ na: [nField.gname, -1], fPath: that.data.vData[nField.gname], fType: 2, fn: 0 });
+            if (['pic', 'audio', 'vidio', 'file'].indexOf(nField.csc) >= 0) {            //该字段为媒体
+              filePaths.push({ na: [nField.gname, -1], fPath: that.data.vData[nField.gname].filepath, fType: 2, fn: 0 });
             }
             break;
         }
@@ -338,7 +244,7 @@ module.exports = {
                           that.data.vData[tFileStr.na[0]][tFileStr.na[1]] = res2.savedFilePath;
                           break;
                         case 2:
-                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]].c = res2.savedFilePath;
+                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]].c.filepath = res2.savedFilePath;
                           break;
                       }
                       resolve(res2.savedFilePath)

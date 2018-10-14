@@ -1,6 +1,15 @@
 <view class="weui-cell" bindtap="selectid">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd">{{c.sName}}</view>
+  <view wx:if="{{csc=='idname'}}">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c.sName}}</view>
+  </view>
+  <view wx:else>
+    <view class="weui-cell__hd">
+        <image src="{{c.thumbnail}}" class="weui-thumb"></image>
+    </view>
+    <view class="weui-cell__bd">{{c.uName}}</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access">{{c.title}}</view>
+  </view>  
 </view>
 <view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">

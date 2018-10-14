@@ -1,5 +1,3 @@
-<import src="../../libs/wedetail.wxml" />
-<import src="../../libs/weimport.wxml" />
 <view class="weui-article__-2" id="ac-{{csc}}" bindtap="i_thumbnail">
   <view hidden="{{c}}">{{p}}:</view>
   <image src="{{c ? c : '/images/2.png'}}" style="width: 100%;" mode="aspectFit"></image>
@@ -7,14 +5,17 @@
 
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__title" bindtap="fSave">确定缩放比例{{cScale}}</view>
-  <view class="close_icon" id="fBack" bindtap="downModal">×</view>
-  <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
-    <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{c}}"></image>
-    <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="fHandle" bindscale="fHandle" scale-value="{{cScale}}">
-    </movable-view>
-  </movable-area>
-  <view class="weui-footer__center">
-    <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
-  </view>
+  <form bindsubmit="fSave">
+    <button class="page__title" formType="submit" size="mini">确定缩放比例{{cScale}}</button>
+    <view class="close_icon" bindtap="downModal">×</view>
+    <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
+      <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{c}}"></image>
+      <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="fHandle" bindscale="fHandle" scale-value="{{cScale}}">
+      </movable-view>
+    </movable-area>
+    <view class="weui-footer__center">
+      <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
+    </view>
+    <input hidden="{{csc=='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+  </form>
 </view>

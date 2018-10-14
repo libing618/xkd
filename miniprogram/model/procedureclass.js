@@ -34,7 +34,7 @@ module.exports = {
   "afamily": ['公告公示','品牌建设','扶持优惠','产品宣传','常见问题'],
   "pSuccess": [
     {gname:"title",t:"h2", p:"标题" },
-    {gname:"thumbnail", p: '上传用于缩略图的图片',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p: '上传用于缩略图的图片',t: "cit",csc:"pic" },
     {gname:"desc", t:"p", p:"摘要" },
     {gname:"details", p:'详情',t:"eDetail" }
   ],
@@ -55,7 +55,7 @@ module.exports = {
     {gname:"title", p:'固定资产简介',t:"h3" },
     {gname:"desc", p:'固定资产描述',t:"p" },
     {gname:"address", p: '详细地址', t: "eAd"},
-    {gname:"thumbnail", p: '图片简介',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p: '图片简介',t: "cit",csc:"pic" },
     {gname:"fcode", p: '编号',t: "iSc" },
     {gname:"manageParty", p:'管理方', t:"sId", csc:"idname" }
   ],
@@ -70,7 +70,7 @@ module.exports = {
   "pSuccess": [
     {inclose: true, gname:"protype", p:'产品类别',t:"pDt",  csc:"codename" },
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"address", p:'出产地址', t: "eAd" },
     {gname:"PARM_content", p:'内容', t:"h4" },
     {gname:"PARM_additive", p:'附加', t:"h4" },
@@ -90,7 +90,7 @@ module.exports = {
   "pSuccess": [
     {gname:"serFamily", p:'服务类型', inclose: true, t:"pDt",  csc:"codename"},
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"address", p:'服务地址', t: "eAd" },
     {gname:"priceClass", p:'计价类型', inclose:false,t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
     {gname:"priceMax", p:'价格区间', t:"dg",csc:"digit" },
@@ -112,7 +112,7 @@ module.exports = {
   "afamily":['停止','开始','服务'],
   "pSuccess": [
     {gname:"title", p:'简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"service", p:'服务', t:"sId", csc:"idname" },
     {gname:"asset", p:'固定资产', t:"sId", csc:"idname" },
     {gname:"address", p:'服务地址', t: "eAd" },
@@ -138,7 +138,7 @@ module.exports = {
   "pName": "成品",
   "pSuccess": [
     {gname:"title", p:'成品简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"pic" },
     {gname:"serFamily", p:'送货类型', inclose:false,t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
@@ -159,12 +159,12 @@ module.exports = {
   "pSuccess": [
     {inclose: true, gname:"goodstype", p:'商品类别',t:"gSt" },
     {gname:"title", p:'简介',t:"h3" },
-    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"desc", p:'描述',t:"p" },
     {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
     {gname:"cargos", p:'成品规格', inclose: true,t:"cId", csc:"number" },
     {gname:"pics", p:'图片集',t:"pics"},
-    {gname:"tvidio", p:'视频简介',t: "vidio" },
+    {gname:"tvidio", p:'视频简介',t: "vidio",csc:"vidio"},
     {gname: "channel", p:'渠道分成比例%',t:"dg",itype:"mCost"},
     {gname: "extension", p:'推广分成比例%',t:"dg",itype:"mCost"},
     {gname: "mCost", p:'销售管理总占比', t: "fg"},
@@ -200,7 +200,7 @@ module.exports = {
   "pSuccess": [
     {gname:"title", p:'材料简述',t:"p" },
     {gname:"dafamily", p:'材料类型',inclose:false,t:"listsel", aList:['自产原料','外购原料','包装'] },
-    {gname:"thumbnail", p:'图片',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片',t: "cit",csc:"pic" },
     {gname:"rawStocks", p:'原材料库存', t:"dg",csc:"number" }
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
@@ -260,7 +260,7 @@ module.exports = {
   "pSuccess": [
     {gname:"cargo", p:'成品', inclose: true,t:"sId",csc:"idname" },
     {gname:"title", p:'计划简述',t:"h3" },
-    {gname:"thumbnail", p:'图片',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片',t: "cit",csc:"pic" },
     {gname:"dOutput", p:'计划产量', t:"dg",csc:"number" },
     {gname:"startDate", p:'开始日期', t:"dVE",endif:false},
     {gname:"endDate", p:'结束日期', t:"dVE",endif:false}
@@ -276,7 +276,7 @@ module.exports = {
   "pSuccess": [
     {gname:"product", p:'产品', t:"sId", csc:"idname" },
     {gname:"title", p:'批发品简介',t:"h4" },
-    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"thumbnail" },
+    {gname:"thumbnail", p:'图片简介',t: "cit",csc:"pic" },
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
     {gname:"weight", p:'重量', t:"h4" },
@@ -295,7 +295,7 @@ module.exports = {
   "oprocess": ['采供下单', '原料供应', '原料入库'],
   "pSuccess": [
     {gname:"material", p:'原料(包装)', t:"sId",csc:"idname" },
-    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '供货商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],
@@ -313,7 +313,7 @@ module.exports = {
   "oprocess": ['安排生产', '生产加工', '成品入库'],
   "pSuccess": [
     {gname:"cargo", p:'成品',t:"sId",csc:"idname" },
-    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '加工商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],
@@ -331,7 +331,7 @@ module.exports = {
   "oprocess": ['订单确认', '成品出货', '到货确认'],
   "pSuccess": [
     {gname:"cargo", p:'成品',t:"sId",csc:"idname" },
-    { gname: "thumbnail", p: '图片', t: "cit",csc:"thumbnail" },
+    { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '物流商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
   ],

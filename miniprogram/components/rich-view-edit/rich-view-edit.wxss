@@ -121,14 +121,14 @@ view {
   word-break: break-all;
   overflow: auto;
 }
-.rich-parse-video-view {
+.rich-parse-4-view {
   text-align: center;
   margin: 20rpx 0;
 }
-.rich-parse-video {
+.rich-parse-4 {
   width: 100%;
 }
-.rich-parse-audio-view {
+.rich-parse-3-view {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -137,7 +137,10 @@ view {
           justify-content: center;
   overflow: hidden;
 }
-.rich-parse-img {
+.rich-parse-3 {
+  width: 100%;
+}
+.rich-parse-2 {
   overflow: hidden;
   max-width: 100%;
 }
