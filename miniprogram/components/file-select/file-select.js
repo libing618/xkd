@@ -43,7 +43,7 @@ Component({
         success: function(res) {
           let index,filetype,fileData={},cOpenFile=['doc', 'xls', 'ppt', 'pdf', 'docx', 'xlsx', 'pptx'];
           let sFiles=res.fileList.map(({filePath,createTime,size})=>{
-            index = filePath.indexOf(".");                   //得到"."在第几位
+            index = filePath.lastIndexOf(".");                   //得到"."在第几位
             filetype = filePath.substring(index+1);          //得到后缀
             if ( cOpenFile.indexOf(filetype)>=0 ){
               fileData[filePath] = {"fType":filetype,"cTime":formatTime(createTime,false),"fLen":size/1024};

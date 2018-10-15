@@ -72,31 +72,25 @@ module.exports = {
     })
   },
 
-  fileUpload: function (cloudPath, filePath) {
-    wx.cloud.uploadFile({
-      cloudPath,
-      filePath,
-      success: res => {
-        console.log('[上传文件] 成功：', res)
-
-        app.globalData.fileID = res.fileID
-        app.globalData.cloudPath = cloudPath
-        app.globalData.imagePath = filePath
-
-        wx.navigateTo({
-          url: '../storageConsole/storageConsole'
-        })
-      },
-      fail: e => {
-        console.error('[上传文件] 失败：', e)
+  fileUpload: function (cSavePath, filePath, fe) {
+    return new Promise((resolve, reject) => {
+      let extIndex = filePath.lastIndexOf(".");
+      let nameIndex =  filePath.lastIndexOf("\\");
+      let fileName = filePath.substring(nameIndex+1);
+      wx.showLoading({title:'正在上传《${{fe}}》',mack:true})
+      wx.cloud.uploadFile({
+        cloudPath: cSavePath+fileName,
+        filePath: filePath
+      }).then( res => {
+        wx.hideLoading()
+        resolve({_id:fileID,fileExt:filePath.substring(extIndex+1)})
+      }).catch(e => {
+        wx.hideLoading()
         wx.showToast({
           icon: 'none',
-          title: '上传失败',
+          title: '上传失败'+e,
         })
-      },
-      complete: () => {
-        wx.hideLoading()
-      }
+      })
     })
   }
 }

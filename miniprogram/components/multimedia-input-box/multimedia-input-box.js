@@ -12,16 +12,14 @@ Component({
    */
   data: {
     sIndex: 0,
-    mgrids: ['产品','图像','音频','视频','位置','文件']
+
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    fMultimedia(){
-      this.setData({enMultimedia: !this.data.enMultimedia});
-    },
+
     iMultimedia(){
       let that = this;
       var sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;

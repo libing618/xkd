@@ -6,7 +6,8 @@ const conversationRole = {
   "直播课堂":{participant:9,chairman:7},
   "客户服务":{participant:9,chairman:6}
 };
-const { checkRols } =  require('../../model/initForm');
+const { checkRols } = require('../../model/initForm');
+const { fileUpload } = require('../../model/wxcloudcf');
 var app = getApp()
 Page({
   data:{
@@ -15,14 +16,12 @@ Page({
     statusBar: app.sysinfo.statusBarHeight,
     user: app.roleData.user,
     enMultimedia: true,
-    announcement: false,
-    showModalBox: false,
-    animationData: {},
     chairman: false,
     sPages: [],
     vData: {},
     message: [],
     idClicked: '0',
+    mgrids: ['产品','图像','音频','视频','位置','文件']，
     cId:''
   },
 
@@ -42,6 +41,7 @@ Page({
         app.fwCs.forEacth(conversation=>{ if (options.ctype == conversation.name){cPageSet.cId=conversation.cId} });
       }
     };
+
     app.getM(cPageSet.cId).then(updatedmessage=>{
       cPageSet.messages = app.conMsg[cPageSet.cId];
       if (options.pNo && options.artId){
@@ -69,11 +69,24 @@ Page({
       }
     }).catch( console.error );
   },
+
+  fMultimedia(){
+    this.setData({enMultimedia: !this.data.enMultimedia});
+  },
+
+  iMultimedia(){
+    this.setData({
+      mtype: '-'+e.currentTarget.id,
+      wcontent: {}
+    })
+  },
+
   sendMsg({ currentTarget:{id,dataset},detail:{value} }) {
+    let that = this;
     return new Promise( (resolve, reject) => {
-      if (value.mtype>1 && value.mtype<5){
-        wx.saveFile({
-          tempFilePath : value.wcontent,
+      if (['-2','-3','-4','-6'].indexOf(that.data.mtype)>=0){
+        wx.cloud.uploadFile({
+          tempFilePath : value.adc0.filepath,
           success: function(cres){
             resolve(cres.savedFilePath);
           },
@@ -87,7 +100,7 @@ Page({
       app.sendM(value,that.data.cId).then( (rsm)=>{
         if (rsm){
           that.setData({
-            vData: {mtype:-1,mtext:'',wcontent},
+            vData: {mtype:0,wcontent:{}},
             messages: app.conMsg[that.data.cId]
           })
         }
