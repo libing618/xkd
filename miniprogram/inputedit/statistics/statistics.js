@@ -26,7 +26,7 @@ Page({
     var that = this;
     db.collection('orders').where({
       unitId: app.roleData.uUnit._id,
-      updatedAt: _.gt(new Date(that.data.vData.sDate])).and(_.lt( new Date(that.data.vData.eDate+86400000)))
+      updatedAt: _.gt(new Date(that.data.vData.sDate)).and(_.lt( new Date(that.data.vData.eDate)))
     }).count().then(orderlist=>{
       if (orderlist) {
         that.data.mPage.forEach(product=>{

@@ -10,11 +10,11 @@ Component({
     },
     csc: {
       type: String,
-      value: 'thumbnail',
+      value: 'pic',
     },
     value: {
       type: String,
-      value: '/images/2.png',
+      value: require('../../config.js').placeimg      //占位图像文件
     }
   },
   options: {
@@ -33,6 +33,13 @@ Component({
     showModalBox: false
   },
 
+  lifetimes:{
+    attached(){
+      if (this.data.csc=='img'){
+        this.setData({value: value._id ? value._id : value.filepath})
+      }
+    }
+  },
   methods: {
     i_thumbnail({ currentTarget: { id, dataset }, detail }){
       let that = this;
@@ -85,30 +92,42 @@ Component({
       this.setData(showPage);
       this.ctx.draw();
     },
-    fSave(){                  //确认返回数据
+    fSave({ currentTarget: { id, dataset }, detail }){                  //确认返回数据
       let that = this;
-      if (that.data.csc=='base64'){
-        wx.canvasGetImageData({
-          canvasId: 'cei',
-          x: 0,
-          y: 0,
-          width: 300,
-          height: 225,
-          success:(res)=> {
-            const upng =require("../../libs/UPNG.js")          //比较重要的代码
-            let png = upng.encode([res.data.buffer],res.width,res.height)
-            that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
-            that.downModal();
-          }
-        },that);
-      } else {
-        wx.canvasToTempFilePath({
-          canvasId: 'cei',
-          success: function(resTem){
-            that.setData({ value: resTem.tempFilePath });
-            that.downModal();
-          }
-        })
+      switch (that.data.csc) {
+        case 'base64':
+          wx.canvasGetImageData({
+            canvasId: 'cei',
+            x: 0,
+            y: 0,
+            width: 300,
+            height: 225,
+            success:(res)=> {
+              const upng =require("../../libs/UPNG.js")          //比较重要的代码
+              let png = upng.encode([res.data.buffer],res.width,res.height)
+              that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+              that.downModal();
+            }
+          },that);
+          break;
+        case 'pic':
+          wx.canvasToTempFilePath({
+            canvasId: 'cei',
+            success: function(resTem){
+              that.setData({ value: resTem.tempFilePath });
+              that.downModal();
+            }
+          },that);
+          break;
+        default:
+          wx.canvasToTempFilePath({
+            canvasId: 'cei',
+            success: function(resTem){
+              that.setData({ value: {filepath:resTem.tempFilePath, e:value.explain } });
+              that.downModal();
+            }
+          },that);
+          break;
       }
     }
   }

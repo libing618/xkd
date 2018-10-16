@@ -1,6 +1,6 @@
 <view class="weui-article__-2" id="ac-{{csc}}" bindtap="i_thumbnail">
-  <view hidden="{{c}}">{{p}}:</view>
-  <image src="{{c ? c : '/images/2.png'}}" style="width: 100%;" mode="aspectFit"></image>
+  <view hidden="{{value}}">{{p}}:</view>
+  <image src="{{value}}" style="width: 100%;" mode="aspectFit"></image>
 </view>
 
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
@@ -16,6 +16,6 @@
     <view class="weui-footer__center">
       <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
     </view>
-    <input hidden="{{csc=='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+    <input hidden="{{csc!='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
   </form>
 </view>

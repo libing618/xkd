@@ -35,25 +35,23 @@ Component({
     attached(){
       let that = this;
       return new Promise((resolve, reject) => {
-        if (getAddress){
-          wx.getSetting({
-            success(res) {
-              if (res.authSetting['scope.userLocation']) {                   //用户已经同意小程序使用用户地理位置
-                resolve(true)
-              } else {
-                wx.authorize({
-                  scope: 'scope.userLocation',
-                  success() { resolve(true) },
-                  fail() {
-                    wx.showToast({ title: '请授权使用位置', duration: 2500, icon: 'loading' });
-                    setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-                    reject();
-                  }
-                })
-              };
-            }
-          })
-        } else {resolve(false)}
+        wx.getSetting({
+          success(res) {
+            if (res.authSetting['scope.userLocation']) {                   //用户已经同意小程序使用用户地理位置
+              resolve(true)
+            } else {
+              wx.authorize({
+                scope: 'scope.userLocation',
+                success() { resolve(true) },
+                fail() {
+                  wx.showToast({ title: '请授权使用位置', duration: 2500, icon: 'loading' });
+                  setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
+                  reject();
+                }
+              })
+            };
+          }
+        })
       }).then((vifAuth) => {
         if (vifAuth) {
           wx.getLocation({

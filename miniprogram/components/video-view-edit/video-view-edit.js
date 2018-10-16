@@ -5,7 +5,7 @@ Component({
     value: {
       type: Object,
       value: {
-        _id:require('../../config.js').video      //占位视频文件
+        _id:require('../../config.js').placevideo      //占位视频文件
       }
     },
     p: {

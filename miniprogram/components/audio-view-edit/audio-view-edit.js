@@ -5,7 +5,7 @@ Component({
     value: {
       type: Object,
       value: {
-        _id:require('../../config.js').audio      //占位单频文件
+        _id:require('../../config.js').placeaudio      //占位音频文件
       }
     },
     p: {

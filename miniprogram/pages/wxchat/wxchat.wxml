@@ -1,4 +1,4 @@
-<import src="../../libs/wedetailt.wxml"/>
+<import src="../../libs/wedetail.wxml"/>
 <import src="../../libs/wepage.wxml" />
 <view class="page">
   <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
@@ -20,7 +20,7 @@
             <image class="weui-grid__icon" src="../../images/Multimedia.png"></image>
           </view>
           <view wx:if="{{mtype<0}}">
-            <template is="{{mtype}}" data="{{c:wcontent,editen=true,n=0}}"
+            <template is="{{mtype}}" data="{{c:wcontent,editen:true,n:0}}" />
           </view>
           <view wx:else class="weui-cell__bd">
             <input name="adc0" value="{{mtext}}" placeholder="请输入文字" />

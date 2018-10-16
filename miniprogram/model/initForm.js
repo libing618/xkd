@@ -60,7 +60,7 @@ loginAndMenu: function (roleData) {
         success: function ({ userInfo }) {
           if (userInfo) {
             let updateInfo = false,gData={};
-            for (var iKey in userInfo) {
+            for (let iKey in userInfo) {
               if (userInfo[iKey] != reData.user[iKey]) {             //客户信息有变化
                 updateInfo = true;
                 reData.user[iKey] = userInfo[iKey];

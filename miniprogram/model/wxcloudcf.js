@@ -77,9 +77,9 @@ module.exports = {
       let extIndex = filePath.lastIndexOf(".");
       let nameIndex =  filePath.lastIndexOf("\\");
       let fileName = filePath.substring(nameIndex+1);
-      wx.showLoading({title:'正在上传《${{fe}}》',mack:true})
+      wx.showLoading({title:'正在上传《'+fe+'》',mack:true})
       wx.cloud.uploadFile({
-        cloudPath: cSavePath+fileName,
+        cloudPath: cSavePath+'\\'+fileName,
         filePath: filePath
       }).then( res => {
         wx.hideLoading()

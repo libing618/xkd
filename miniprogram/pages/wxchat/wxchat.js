@@ -21,7 +21,7 @@ Page({
     vData: {},
     message: [],
     idClicked: '0',
-    mgrids: ['产品','图像','音频','视频','位置','文件']，
+    mgrids: ['产品','图像','音频','视频','位置','文件'],
     cId:''
   },
 
@@ -85,14 +85,10 @@ Page({
     let that = this;
     return new Promise( (resolve, reject) => {
       if (['-2','-3','-4','-6'].indexOf(that.data.mtype)>=0){
-        wx.cloud.uploadFile({
-          tempFilePath : value.adc0.filepath,
-          success: function(cres){
-            resolve(cres.savedFilePath);
-          },
-          fail: function(cerr){ reject('媒体文件保存错误！') }
-        });
-      }else{
+        fileUpload('wechat', value.adc0.filepath).then((cres)=>{
+          resolve(...cres,value.adc0.e);
+        }).catch(()=>{ reject('媒体文件保存错误！') });
+      } else {
         resolve(value.wcontent);
       };
     }).then( (content) =>{

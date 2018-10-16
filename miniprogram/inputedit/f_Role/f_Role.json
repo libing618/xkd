@@ -1,6 +1,9 @@
 {
   "usingComponents": {
     "thumbnail-edit": "../../components/thumbnail-edit/thumbnail-edit",
+    "address-view-edit": "../../components/address-view-edit/address-view-edit",
+    "industry-type": "../../components/industry-type/industry-type",
+    "map-select-unit": "../../components/map-select-unit/map-select-unit",
     "record-view": "../../components/record-view/record-view"
   }
 }
