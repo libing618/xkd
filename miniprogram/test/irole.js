@@ -1,5 +1,11 @@
 module.exports = {
-  "address": { "code": 140105, "sName": "山西省太原市小店区创意街N、P、Q座" },
+  "address": {
+    "code": 140105, 
+    "location:": {
+      "longitude": 112.5648006,
+      "latitude": 37.7951744
+    },
+    "address": "山西省太原市小店区创意街N、P、Q座" },
   "nick": "山西乐农汇",
   "desc": "山西乐农汇",
   "indType": {
@@ -25,10 +31,7 @@ module.exports = {
     ]
   },
 //  "uPhoto": "",
-  "aGeoPoint": {
-    "longitude": 112.5648006,
-    "latitude": 37.7951744
-  },
+  
   "title": "山西乐农汇",
  // "pPhoto": "",
  // "thumbnail": "",

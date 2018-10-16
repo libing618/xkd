@@ -81,6 +81,7 @@ App({
           {
             wx.setStorageSync('loguser', logData)           //缓存操作日志
           } else {       //有网络则上传操作日志
+            const db = wx.cloud.database();
             db.collection('loguser').add({
               userObjectId: that.roleData.user.uId,
               workRecord: logData,

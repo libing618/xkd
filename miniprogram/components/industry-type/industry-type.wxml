@@ -7,8 +7,8 @@
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd weui-cell__flex">
-    <view wx:for="{{c.sName}}" wx:key="{{index}}">
-      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,c.sName)}}</view>
+    <view wx:for="{{value.sName}}" wx:key="{{index}}">
+      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.sName)}}</view>
     </view>
   </view>
   <view class="weui-cell__ft"><icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>

@@ -6,13 +6,13 @@ Component({
       type: String,
       value: '地址',
     },
-    c: {
+    value: {
       type: Object,
       value: {code: [], sName: []}
     },
     inclose: {
       type: Boolean,
-      value: false,
+      value: true,
     }
   },
   options: {
@@ -24,7 +24,7 @@ Component({
 
   lifetimes: {
     attached() {
-      this.setData({inclose:this.data.c.code.length!=0})
+      this.setData({inclose:this.data.value.code.length!=0})
     }
   },
   methods: {
@@ -34,10 +34,9 @@ Component({
     industrysel(e) {                         //选择行业类型
       let vdSet = {inclose: true};                      //按确定ICON确认选择
       if (!this.data.inclose) {
-        let cvalue = this.data.c;
+        let cvalue = this.data.value;
         cvalue.code.push(Number(e.currentTarget.dataset.ca));
         cvalue.sName.push(e.currentTarget.dataset.sa);
-        vdSet.c = { code: cvalue.code, sName:cvalue.sName };
         vdSet.value = { code: cvalue.code, sName:cvalue.sName };
       }
       this.setData(vdSet);
@@ -50,11 +49,9 @@ Component({
     },
     selectdel({ currentTarget:{id,dataset},detail:{value} }) {      //按显示类型名称进行删除
       let i = Number(dataset.id);
-      this.data.c.code.splice(i, 1);
-      this.data.c.sName.splice(i, 1);
+      this.data.value.code.splice(i, 1);
       this.setData({
-        c: this.data.c,
-        value: this.data.c
+        value: this.data.value
       })
     }
   }

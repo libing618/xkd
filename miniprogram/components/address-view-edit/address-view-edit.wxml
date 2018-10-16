@@ -1,16 +1,16 @@
-<view class="weui-cell" bindtap='modalEditAddress'>{{p}}:{{c}}</view>
 <view bindtap="chooseAd">
   <view class="weui-label">{{p}}:</view>
   <view class="weui-map-box">
     <map
       style="width: 100%; height: 300px;"
-      latitude="{{location.latitude}}"
-      longitude="{{location.longitude}}"
+      latitude="{{value.location.latitude}}"
+      longitude="{{value.location.longitude}}"
       covers="{{covers}}"
       show-location
     ></map>
   </view>
 </view>
+<view class="weui-cell" bindtap='modalEditAddress'>详细:{{value.address}}</view>
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__hd">

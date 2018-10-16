@@ -1,10 +1,9 @@
-<import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
 <view class="weui-cell weui-cell_input" id="ac-{{n}}" bindtap="mapSelectUnit">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd">{{c.sName}}</view>
 </view>
-<view class="modal_box" bindtap="downModal"></view>
+<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__title" bindtap="fSave">选择{{unitArray[sId].uName}}</view>
   <view class="close_icon" bindtap="downModal">×</view>
