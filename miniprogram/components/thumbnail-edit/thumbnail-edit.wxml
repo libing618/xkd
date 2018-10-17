@@ -7,17 +7,23 @@
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <form bindsubmit="fSave">
-    <button class="page__title" formType="submit" size="mini">确定缩放比例{{cScale}}</button>
+    <view class="modal_title" size="mini">确定缩放比例{{cScale}}</view>
     <view class="close_icon" bindtap="downModal">×</view>
-    <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
-      <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{editimg}}"></image>
-      <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="fHandle" bindscale="fHandle" scale-value="{{cScale}}">
-      </movable-view>
-    </movable-area>
-    <view class="weui-footer__center">
-      <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
+    <view class='modal_content'>
+      <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
+        <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{editimg}}"></image>
+        <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="fHandle" bindscale="fHandle" scale-value="{{cScale}}">
+        </movable-view>
+      </movable-area>
+      <view class="weui-footer__center">
+        <canvas class="weui-canvas" style="width:300px;height:225px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
+      </view>
+      <input hidden="{{csc!='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
     </view>
-    <input hidden="{{csc!='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+    <view class='modal_foot'>
+      <view class='modal_cancel_Btn' catchtap='clickCancel'>取消</view>
+      <button class='modal_sure_Btn'  formType="submit">确定</button>
+    </view>
   </form>
 </view>
 </view>

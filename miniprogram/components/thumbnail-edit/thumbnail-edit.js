@@ -71,8 +71,8 @@ Component({
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
                   cScale: imageScall.toFixed(3),
-                  // xOff: 300 /imageScall,
-                  // yOff: 225 /imageScall,
+                  xOff: 300*imageScall,
+                  yOff: 225*imageScall,
                   x:0,
                   y:0
                 });

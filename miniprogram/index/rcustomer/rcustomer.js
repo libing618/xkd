@@ -15,8 +15,7 @@ Page({
   onLoad: function () {
     var that = this;
     that.setData({		    		// 获得当前用户
-      user: app.roleData.user,
-      messages : app.getM('58e53adbb1acfc0056ba3897'),
+      user: app.roleData.user
     })
   }
 })
