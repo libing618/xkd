@@ -6,6 +6,10 @@ Component({
       type: String,
       value: '地址',
     },
+    name: {
+      type: String,
+      value: 'thumbnail',
+    },
     value: {
       type: Object,
       value: {code: [], sName: []}

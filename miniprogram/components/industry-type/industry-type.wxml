@@ -4,6 +4,7 @@
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
+<view id="{{name}}">
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd weui-cell__flex">
@@ -30,4 +31,5 @@
           <view wx:for="{{apdclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
       </picker-view-column>
   </picker-view>
+</view>
 </view>

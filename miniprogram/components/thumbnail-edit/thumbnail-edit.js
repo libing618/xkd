@@ -12,9 +12,18 @@ Component({
       type: String,
       value: 'pic',
     },
+    name: {
+      type: String,
+      value: 'thumbnail',
+    },
     value: {
       type: String,
-      value: require('../../config.js').placeimg      //占位图像文件
+      observer(newVal){
+        if (typeof newVal=='undefined'){
+          this.setData({value: require('../../config.js').placeimg})      //占位图像文件
+        }
+      }
+
     }
   },
   options: {
@@ -29,8 +38,7 @@ Component({
     yOff: 225,
     x: 0,
     y: 0,
-    animationData: {},
-    showModalBox: false
+    editimg:''
   },
 
   lifetimes:{
@@ -59,14 +67,14 @@ Component({
                 let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
                 let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
                 that.setData({
-                  value:restem.tempFilePaths[0],
+                  editimg:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
-                  cScale: imageScall.toFixed(3)
+                  cScale: imageScall.toFixed(3),
                   // xOff: 300 /imageScall,
                   // yOff: 225 /imageScall,
-                  // x:0,
-                  // y:0
+                  x:0,
+                  y:0
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
@@ -83,11 +91,11 @@ Component({
       let showPage = {}
       if (detail.scale){
         showPage.cScale = detail.scale;
-        this.ctx.drawImage(this.data.c, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
+        this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
       } else {
         showPage.x = detail.x;
         showPage.y = detail.y;
-        this.ctx.drawImage(this.data.c,detail.x,detail.y,this.data.cScale*this.data.xOff, this.data.cScale*this.data.yOff,0,0, 300, 225);
+        this.ctx.drawImage(this.data.editimg,detail.x,detail.y,this.data.cScale*this.data.xOff, this.data.cScale*this.data.yOff,0,0, 300, 225);
       }
       this.setData(showPage);
       this.ctx.draw();

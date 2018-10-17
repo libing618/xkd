@@ -7,17 +7,13 @@ Page({
     pNo: '_Role',                       //流程的序号
     navBarTitle: app.roleData.uUnit.uName ? app.roleData.uUnit.uName : '创业服务平台--单位信息',              //申请项目名称
     statusBar: app.sysinfo.statusBarHeight,
-    sPages: [{
-      pageName: 'tabPanelIndex'
-    }],
     targetId: '0',              //流程申请表的ID
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
     vData: {},                 //编辑值的对象
     unEdit: false,           //新建信息页面,可以提交和保存
     selectd: -1,                       //详情项选中字段序号
     iFormat: [],
-    showModalBox: false,
-    animationData: {}
+    showModal: false
   },
 
   onLoad: function (options) {

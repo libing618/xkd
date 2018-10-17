@@ -1,5 +1,6 @@
 <import src="../../libs/weimport.wxml" />
-<view class="weui-cell weui-cell_input" id="ac-{{n}}" bindtap="mapSelectUnit">
+<view id="{{name}}">
+<view class="weui-cell weui-cell_input" bindtap="mapSelectUnit">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd">{{c.sName}}</view>
 </view>
@@ -32,4 +33,5 @@
     <template is="s_iNd" data="{{p:'主营业务',c:unitArray[sId].indType}}" />
     <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
   </view>
+</view>
 </view>

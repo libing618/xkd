@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "thumbnail-edit": "../../components/thumbnail-edit/thumbnail-edit",
-    "record-view": "../../components/record-view/record-view"
-  }
-}

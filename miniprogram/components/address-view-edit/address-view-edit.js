@@ -10,6 +10,10 @@ Component({
       type: String,
       value: '地址',
     },
+    name: {
+      type: String,
+      value: 'thumbnail',
+    },
     value: {
       type: Object,
       value: {
@@ -79,13 +83,6 @@ Component({
         this.setData({address1: this.data.value.address});
         this.popModal();                 //打开弹出页
       }
-
-        // adclist: require('addresclass.js'),   //读取行政区划分类数据
-        // adglist: [],
-        // saddv: 0,
-        // adcvalue: [3, 9, 15],
-        // adgvalue: [0, 0]
-
     },
 
     chooseAd: function (e) {                         //选择地理位置

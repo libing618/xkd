@@ -12,13 +12,17 @@ Component({
       type: String,
       value: '地址',
     },
-    c: {
+    value: {
       type: String,
       value: '请输入地址',
     },
-    location: {
-      type: Object,
-      value: {latitude: 23, longitude:113},
+    name: {
+      type: String,
+      value: 'thumbnail',
+    },
+    indTypes: {
+      type: Number,
+      value: 620406
     },
     code: {
       type: Number,
@@ -30,8 +34,7 @@ Component({
   },
 
   data: {
-    animationData: {},
-    showModalBox: false
+    location: { latitude: 23, longitude: 113 },
   },
   methods: {
     mapSelectUnit: function (e) {      //地图选择单位弹出页
@@ -42,18 +45,18 @@ Component({
         sId: 0,
         markers:[],
         unitArray: [],
-        reqProIsSuperior: typeof that.data.iFormat[n].indTypes == 'number',
+        reqProIsSuperior: typeof that.data.indTypes == 'number',
         selIndtypes:[]
       };
       if ( newPage.reqProIsSuperior ) {
-        newPage.selIndtypes.push(that.data.iFormat[n].indTypes);
+        newPage.selIndtypes.push(that.data.indTypes);
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
-      } else {newPage.selIndtypes=that.data.iFormat[n].indTypes}
+      } else {newPage.selIndtypes=that.data.indTypes}
       wx.getLocation({
         type: 'gcj02',//'wgs84',
         success: function(res){
           let points = [{ latitude: res.latitude, longitude: res.longitude }]
-          db.collection('_Role').where({address_code: _.lt()}).get().then( ({data})=> {
+          db.collection('_Role').where({address_code: _.in(that.data.indTypes)}).get().then( ({data})=> {
             if (data.length>0) {
               let resJSON,badd,inInd;
               data.forEach((resJSON,i)=>{
@@ -85,8 +88,7 @@ Component({
                   radius: 3000,
                   strokeWidth: 1
                 }];
-              that.data.sPages.push(newPage);
-              that.setData({sPages: that.data.sPages});
+              that.setData(newPage);
               that.popModal();
               that.mapCtx = wx.createMapContext('mapSelect',that);
               that.mapCtx.includePoints({points});
@@ -97,15 +99,12 @@ Component({
     },
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
-      let hidePage = {};
-      hidePage['iFormat[' + nowPage.n + '].e'] = nowPage.unitArray[nowPage.sId].uName;
-      hidePage['vData.' + that.data.iFormat[nowPage.n].gname] = nowPage.unitArray[nowPage.sId]._id;
       if (this.data.reqProIsSuperior) {
-        app.roleData.uUnit.sUnit = nowPage.unitArray[nowPage.sId]._id;
-        app.roleData.sUnit = nowPage.unitArray[nowPage.sId];
-        hidePage['dObjectId'] = app.roleData.uUnit._id;
+        app.roleData.sUnit._id = this.data.sId;
+        this.setData({value:this.data.unitArray[this.data.sId]._id});
+      } else {
+        this.setData({value:this.data.unitArray[this.data.sId]})
       };
-      this.setData(hidePage)
       this.downModal()
     },
 
