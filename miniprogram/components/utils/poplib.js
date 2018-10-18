@@ -27,7 +27,6 @@ module.exports = Behavior({
       }.bind(this), 200)
     },
     downModal() {
-      console.log(typeof this.animation)
       var animation = this.animation;
       animation.translateY(-sysinfo.windowHeight).step();
       this.setData({ animationData: animation.export() });

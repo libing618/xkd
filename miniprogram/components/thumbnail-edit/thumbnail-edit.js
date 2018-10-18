@@ -20,7 +20,7 @@ Component({
       type: String,
       observer(newVal){
         if (typeof newVal=='undefined'){
-          this.setData({value: require('../../config.js').placeimg})      //占位图像文件
+          value = require('../../config.js').placeimg     //占位图像文件
         }
       }
 
@@ -43,9 +43,14 @@ Component({
 
   lifetimes:{
     attached(){
-      if (this.data.csc=='img'){
-        this.setData({value: value._id ? value._id : value.filepath})
+      if (this.data.value){
+        if (this.data.csc == 'img') {
+          this.setData({ value: value._id ? value._id : value.filepath })
+        }
+      } else {
+        this.setData({ value: require('../../config.js').placeimg})
       }
+      
     }
   },
   methods: {
@@ -93,9 +98,10 @@ Component({
         showPage.cScale = detail.scale;
         this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
       } else {
+        let cScale = Number(this.data.cScale);
         showPage.x = detail.x;
         showPage.y = detail.y;
-        this.ctx.drawImage(this.data.editimg,detail.x,detail.y,this.data.cScale*this.data.xOff, this.data.cScale*this.data.yOff,0,0, 300, 225);
+        this.ctx.drawImage(this.data.editimg,detail.x,detail.y,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
       }
       this.setData(showPage);
       this.ctx.draw();

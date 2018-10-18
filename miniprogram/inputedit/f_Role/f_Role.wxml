@@ -5,9 +5,9 @@
   <view hidden="{{showModal}}" class="page__sub" id="model-{{pNo}}">
     <form bindsubmit="fSubmit">
       <view class="page__bd_spacing" id="{{targetId}}">
-        <block wx:for="{{iFormat}}" wx:key="index">
+        <view class="weui-cells" wx:for="{{iFormat}}" wx:key="index">
           <template is="i_{{item.t}}" data="{{...item,c:vData[item.gname],n:index}}"></template>
-        </block>
+        </view>
       </view>
       <view style="padding-bottom:100rpx;"></view>
       <view hidden="{{unEdit}}" class="page__ft" id="{{dObjectId}}">

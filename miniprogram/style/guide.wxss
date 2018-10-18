@@ -130,37 +130,35 @@
 .modal_box {
   width: 100%;
   height: 100%;
+  z-index: 600;
   position: fixed;
   top: 0;
   left: 0;
-  color: rgba(0, 0, 0, 0.5);
-  background-color: #FFFFFF;
-  -moz-opacity: 0.8;
-  opacity: 0.8;
-  z-index: 600;
-  filter: alpha(opacity=40);
+  background-color:rgba(0, 0, 0, 0.5);
+  -moz-opacity: 1;
+  opacity: 1;
 }
 
 .modal_attr_box {
-  width: 90%;
   overflow: scroll;
   position: fixed;
   bottom: 30rpx;
-  top: 100rpx;
-  left: 5%;
+  top: 110rpx;
+  height: 90%;
   z-index: 700;
   border-radius: 10rpx;
   background: white;
 }
 
 .modal_title{
+  display: flex;
   text-align: center;
   padding: 10rpx 0;
-  font-size: 36rpx;
+  font-size: 30rpx;
 }
 .modal_content{
   padding: 20rpx 30rpx;
-  font-size: 34rpx;
+  font-size: 32rpx;
 }
 .modal_foot{
   display: flex;
