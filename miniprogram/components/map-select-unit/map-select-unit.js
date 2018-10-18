@@ -56,7 +56,7 @@ Component({
         type: 'gcj02',//'wgs84',
         success: function(res){
           let points = [{ latitude: res.latitude, longitude: res.longitude }]
-          db.collection('_Role').where({address_code: _.in(that.data.indTypes)}).get().then( ({data})=> {
+          db.collection('_Role').where({'indType.code': _.in(that.data.indTypes)}).get().then( ({data})=> {
             if (data.length>0) {
               let resJSON,badd,inInd;
               data.forEach((resJSON,i)=>{

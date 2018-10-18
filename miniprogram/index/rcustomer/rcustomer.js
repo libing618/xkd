@@ -1,3 +1,4 @@
+const db = wx.cloud.database();
 var app = getApp()
 Page({
   data: {
@@ -10,12 +11,15 @@ Page({
     wx.makePhoneCall({
         phoneNumber: '13903517701'       //拨打客服电话
     })
+    
+    
   },
 
   onLoad: function () {
     var that = this;
     that.setData({		    		// 获得当前用户
       user: app.roleData.user
-    })
+    });
+    
   }
 })

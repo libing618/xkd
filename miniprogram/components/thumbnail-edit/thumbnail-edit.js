@@ -50,7 +50,7 @@ Component({
       } else {
         this.setData({ value: require('../../config.js').placeimg})
       }
-      
+
     }
   },
   methods: {
@@ -92,19 +92,21 @@ Component({
         fail: function () { wx.showToast({ title: '选取照片失败！' }) }
       })
     },
-    fHandle({ currentTarget: { id, dataset }, detail }){
-      let showPage = {}
-      if (detail.scale){
-        showPage.cScale = detail.scale;
-        this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
-      } else {
-        let cScale = Number(this.data.cScale);
-        showPage.x = detail.x;
-        showPage.y = detail.y;
-        this.ctx.drawImage(this.data.editimg,detail.x,detail.y,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
-      }
-      this.setData(showPage);
+    onScale({ currentTarget: { id, dataset }, detail }){
+      this.setData({
+        scScale: detail.scale
+      });
+      this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
       this.ctx.draw();
+    },
+    onChange({ currentTarget: { id, dataset }, detail }){
+      let cScale = Number(this.data.cScale);
+      this.ctx.drawImage(this.data.editimg,detail.x,detail.y,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
+      this.ctx.draw();
+      this.setData({
+        x: detail.x,
+        y: detail.y
+      });
     },
     fSave({ currentTarget: { id, dataset }, detail }){                  //确认返回数据
       let that = this;
