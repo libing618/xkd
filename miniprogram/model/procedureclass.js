@@ -3,7 +3,7 @@
 //csc对应关系:codename数组选择，存储{code:选择值，sName:选择对应的值}
 //gSt对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
 //t:"cId"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
-//csc对应关系:idname数组选择，存储gname对应数据表选择的ID值，显示选择对应的app.aData[gname].uName
+//csc对应关系:idname数组选择，存储gname对应数据表选择的ID值，显示选择对应的uName
 //csc对应关系:t:"dg"为数据型,csc的digit代表2位小数点浮点数，number则为整数型
 //address包括三个字段地址、地理位置"aGeoPoint"、行政编码"address_code"
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
   "pName": "单位名称和负责人",
   "pSuccess": [
     {gname:"afamily", p:'厂商类型', inclose:false,t:"listsel", aList:['产品制造人','物流服务人','电商服务站','生产厂家及经销商','电子商务企业']},
-    {inclose:true, gname:"indType", p:'主营业务', t:"iNd" },
+    {inclose:true, gname:"indType", p:'主营业务', t:"iNd",addFields:['uName'] },
     {gname:"nick", p:'单位简称',t:"h2" },
     {gname: "title", p:'单位简介', t:"h3"},
     {gname: "desc", p: '单位描述', t: "p"},
@@ -51,13 +51,13 @@ module.exports = {
 "asset":{
   "pName": "固定资产",
   "pSuccess": [
-    {inclose:true, gname:"assetType", p:'固定资产类别',t:"ast", csc:"codename"},
+    {inclose:true, gname:"assetType", p:'固定资产类别',t:"ast", addFields:['uName']},
     {gname:"title", p:'固定资产简介',t:"h3" },
     {gname:"desc", p:'固定资产描述',t:"p" },
     {gname:"address", p: '详细地址', t: "eAd"},
     {gname:"thumbnail", p: '图片简介',t: "cit",csc:"pic" },
     {gname:"fcode", p: '编号',t: "iSc" },
-    {gname:"manageParty", p:'管理方', t:"sId", csc:"idname" }
+    {gname:"_Role", p:'管理方', t:"sId", addFields:['uName','title','thumbnail'] }
   ],
   "pBewrite": "综合条线提出固定资产设置或修改申请，由条线负责人进行审批。",
   "puRoles": [
@@ -68,7 +68,7 @@ module.exports = {
 "product":{
   "pName": "产品",
   "pSuccess": [
-    {inclose: true, gname:"protype", p:'产品类别',t:"pDt",  csc:"codename" },
+    {inclose: true, gname:"protype", p:'产品类别',t:"pDt",  addFields:['uName'] },
     {gname:"title", p:'简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"address", p:'出产地址', t: "eAd" },
@@ -88,7 +88,7 @@ module.exports = {
 "service":{
   "pName": "服务项目",
   "pSuccess": [
-    {gname:"serFamily", p:'服务类型', inclose: true, t:"pDt",  csc:"codename"},
+    {gname:"serFamily", p:'服务类型', inclose: true, t:"pDt",  addFields:['uName']},
     {gname:"title", p:'简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"address", p:'服务地址', t: "eAd" },
@@ -113,8 +113,8 @@ module.exports = {
   "pSuccess": [
     {gname:"title", p:'简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
-    {gname:"service", p:'服务', t:"sId", csc:"idname" },
-    {gname:"asset", p:'固定资产', t:"sId", csc:"idname" },
+    {gname:"service", p:'服务', t:"sId", addFields:['uName','title','thumbnail'] },
+    {gname:"asset", p:'固定资产', t:"sId", addFields:['uName','title','thumbnail'] },
     {gname:"address", p:'服务地址', t: "eAd" },
     {gname:"fcode", p: '编号',t: "iSc" },
     {gname:"priceClass", p:'计价类型', t: "h3" },
@@ -143,7 +143,7 @@ module.exports = {
     {gname:"surface", p:'外观', t:"h4" },
     {gname:"size", p:'尺寸', t:"h4" },
     {gname:"weight", p:'重量', t:"h4" },
-    {gname:"product", p:'内含物', t:"cId", csc:"digit" },
+    {gname:"product", p:'内含物', t:"cId", csc:"recordQuantity" },
     {gname:"retail_price", p:'零售价', t:"dg",itype:"digit" },
     {gname:"cargoStock", p:'库存', t:"dg",itype:"number"},
     {gname: "canSupply", p:'可供销售', t:"dg",itype:"number"}
@@ -162,7 +162,7 @@ module.exports = {
     {gname:"thumbnail", p:'图片简介',t:"cit",csc:"pic" },
     {gname:"desc", p:'描述',t:"p" },
     {gname:"specstype", p:'供应类型', inclose:false,t:"listsel", aList:['单品','套餐']},
-    {gname:"cargos", p:'成品规格', inclose: true,t:"cId", csc:"number" },
+    {gname:"cargo", p:'成品规格', inclose: true,t:"cId", csc:"recordQuantity" },
     {gname:"pics", p:'图片集',t:"pics"},
     {gname:"tvidio", p:'视频简介',t: "vidio",csc:"vidio"},
     {gname: "channel", p:'渠道分成比例%',t:"dg",itype:"mCost"},
@@ -181,7 +181,7 @@ module.exports = {
   "pName": "众筹团购及促销",
   "afamily":['众筹','团购','促销'],
   "pSuccess": [
-    {gname:"goods", p:'商品', t:"sId", csc:"idname" },
+    {gname:"goods", p:'商品', t:"sId", addFields:['uName','title','thumbnail'] },
     {gname:"base_price", p:'基础优惠价', t:"dg",csc:"digit" },
     {gname:"base_amount", p:'基础目标数量',t:"dg",csc:"number" },
     {gname:"big_price", p:'大额优惠价', t:"dg",csc:"digit" },
@@ -209,28 +209,28 @@ module.exports = {
     "10"
   ]
 },
-"gOrder": {
+"cargoOrder": {
   "pName": "商品订单",
   "pSuccess": [
-    {gname:"tradeId", p:'成交单号', t:"sId", csc:"idname" },
-    {gname:"tradeType", p:'成交类型', t:"sId", csc:"idname" },
-    {gname:"goods", p:'商品', t:"sId", csc:"idname" },
-    { p: "商城", gname: "shopid", t:"sId", csc:"idname" },
-    {gname:"user", p:' 购买人', t:"sId", csc:"idname" },
-    {gname:"ip", p:'下单IP地址', t:"sId", csc:"idname" },
-    {gname:"quantity", p:'数量', t:"sId", csc:"idname" },
-    {gname:"cargo", p:'成品', t:"sId", csc:"idname" },
-    {gname:"serFamily", p:'服务类型', t:"sId", csc:"idname" },
-    {gname:"address", p:'收货地址', t:"sId", csc:"idname" },
-    {gname:"unitId", p:'厂家', t:"sId", csc:"idname" },
-    {gname:"prepayId", p:' 订单ID', t:"sId", csc:"idname" },
-    {gname:"paidAt", p:'下单时间', t:"sId", csc:"idname" },
-    {gname:"confirmerArr", p:'订单确认出库', t:"sId", csc:"idname" },
-    {gname:"confirmTotal", p:'订单确认出库数量', t:"sId", csc:"idname" },
-    {gname:"deliverArr", p:'货运信息', t:"sId", csc:"idname" },
-    {gname:"deliverTotal", p:'已发货数量', t:"dg", csc:"idname" },
-    {gname:"receiptArr", p:'收货信息', t:"sId", csc:"idname" },
-    {gname:"receiptTotal", p:'已收货数量', t:"dg", csc:"idname" }
+    {gname:"tradeId", p:'成交单号', t:"h2" },
+    {gname:"tradeType", p:'成交类型', t:"h2" },
+    {gname:"goods", p:'商品', t:"sId", addFields:['uName'] },
+    { p: "商城", gname: "shopid", t:"sId", addFields:['uName'] },
+    {gname:"user", p:' 购买人', t:"sId", addFields:['uName'] },
+    {gname:"ip", p:'下单IP地址', t:"h3" },
+    {gname:"quantity", p:'数量', t:"dg",csc:"number" },
+    {gname:"cargo", p:'成品', t:"sId", addFields:['uName'] },
+    {gname:"serFamily", p:'送货类型', inclose:false,t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
+    {gname:"recaddress", p:'收货地址', t:"sId", csc:"recAddress" },
+    {gname:"_Role", p:'厂家', t:"sId", addFields:['uName'] },
+    {gname:"prepayId", p:' 订单ID', t:"dVE" },
+    {gname:"paidAt", p:'下单时间', t:"dVE" },
+    {gname:"confirmerArr", p:'订单确认出库', t:"sAr", csc:"cOrderArray" },
+    {gname:"confirmTotal", p:'订单确认出库数量', t:"dg",csc:"number" },
+    {gname:"deliverArr", p:'货运信息', t:"sAr", csc:"deliverArray" },
+    {gname:"deliverTotal", p:'已发货数量',t:"dg",csc:"number" },
+    {gname:"receiptArr", p:'收货信息', t:"sAr", csc:"cOrderArray" },
+    {gname:"receiptTotal", p:'已收货数量', t:"dg",csc:"number" }
   ],
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -258,7 +258,7 @@ module.exports = {
   "pName": "生产计划",
   "afamily":['原材料供应','加工及包装'],
   "pSuccess": [
-    {gname:"cargo", p:'成品', inclose: true,t:"sId",csc:"idname" },
+    {gname:"cargo", p:'成品', inclose: true,t:"sId",addFields:['uName','title','thumbnail'] },
     {gname:"title", p:'计划简述',t:"h3" },
     {gname:"thumbnail", p:'图片',t: "cit",csc:"pic" },
     {gname:"dOutput", p:'计划产量', t:"dg",csc:"number" },
@@ -274,7 +274,7 @@ module.exports = {
 "wholesale":{
   "pName": "产品批发",
   "pSuccess": [
-    {gname:"product", p:'产品', t:"sId", csc:"idname" },
+    {gname:"product", p:'产品', t:"sId", addFields:['uName','title','thumbnail'] },
     {gname:"title", p:'批发品简介',t:"h4" },
     {gname:"thumbnail", p:'图片简介',t: "cit",csc:"pic" },
     {gname:"surface", p:'外观', t:"h4" },
@@ -294,7 +294,7 @@ module.exports = {
   "pName": "原料采供",
   "oprocess": ['采供下单', '原料供应', '原料入库'],
   "pSuccess": [
-    {gname:"material", p:'原料(包装)', t:"sId",csc:"idname" },
+    {gname:"material", p:'原料(包装)', t:"sId",addFields:['uName','title','thumbnail'] },
     { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '供货商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
@@ -312,7 +312,7 @@ module.exports = {
   "pName": "加工入库",
   "oprocess": ['安排生产', '生产加工', '成品入库'],
   "pSuccess": [
-    {gname:"cargo", p:'成品',t:"sId",csc:"idname" },
+    {gname:"cargo", p:'成品',t:"sId",addFields:['uName','title','thumbnail'] },
     { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '加工商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
@@ -330,7 +330,7 @@ module.exports = {
   "pName": "订单处理",
   "oprocess": ['订单确认', '成品出货', '到货确认'],
   "pSuccess": [
-    {gname:"cargo", p:'成品',t:"sId",csc:"idname" },
+    {gname:"cargo", p:'成品',t:"sId",addFields:['uName','title','thumbnail'] },
     { gname: "thumbnail", p: '图片', t: "cit",csc:"pic" },
     { gname: "vUnit", p: '物流商', t: "h3", e: '单位名称' },
     { gname: "signUser", p: '签收人', t: "h3", e: '签收人名称' }
