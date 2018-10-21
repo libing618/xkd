@@ -14,7 +14,7 @@ const week = [
 ]
 
 Component({
-  behaviors: [],
+  behaviors: ['wx://form-field'],
 
   properties: {
     show: {

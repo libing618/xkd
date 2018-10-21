@@ -3,11 +3,8 @@
 module.exports =
   function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
-<wxs module="mgrids">
-module.exports = ['产品', '图像', '音频', '视频', '位置', '文件', '大标题', '中标题', '小标题', '正文']
-</wxs>
 <wxs module="mid">
-module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
+module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </wxs>
 <template name="i_arrList">
   <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editen="{{true}}"></array-view-edit>
@@ -36,7 +33,7 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
   </view>
 </template>
 
-<template name="i_eAd">
+<template name="i_-3">
   <address-view-edit c="{{c}}" p="{{p}}" editen="{{true}}"></address-view-edit>
 </template>
 
@@ -130,9 +127,9 @@ module.exports = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p']
 
 <template name="i_insdata">
   <view class="weui-footer_fixed-bottom weui-grids">
-    <block wx:for="{{mgrids}}" wx:key="{{index}}">
+    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
       <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="i_insdata">
-        <image class="weui-grid__icon" src="../../images/{{index+1}}.png"></image>
+        <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
         <view class="weui-grid__label">{{item}}</view>
       </view>
     </block>

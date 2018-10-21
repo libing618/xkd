@@ -32,7 +32,7 @@ Component({
       if (this.data.clickid==this.data.sitem._id){
         this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
         this.popModal();
-        if (this.data.fieldname=='cargo') {
+        if (this.data.fieldname=='goods') {
           cargototal = app.cargoStock[this.data.sfield[id]._id]
           this.data.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),

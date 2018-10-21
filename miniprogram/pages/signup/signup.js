@@ -137,7 +137,7 @@ Page({
               _id: app.roleData.user._id,   //用创建人的ID作ROLE的ID
               uName: reqUnitName,
               sUnit: '0',
-              afamily: 0,
+              uniType: 0,
               unitUsers: [{ "userId": app.roleData.user._id, "line": 9, "position": 8, "uName": app.roleData.user.uName, "avatarUrl": app.roleData.user.avatarUrl, "nickName": app.roleData.user.nickName }]
             }
           }).then(() => {
@@ -162,7 +162,7 @@ Page({
             wx.showToast({ title: '新建单位时出现问题,请重试。', icon: 'none', duration: 7500 })
           })
         } else {
-          if (data.afamily>2){                         //单位能招收员工
+          if (data.uniType>2){                         //单位能招收员工
             wx.showModal({
               title: '已存在同名单位',
               content: '选择取消进行核实修改，选择确定则申请加入该单位！',

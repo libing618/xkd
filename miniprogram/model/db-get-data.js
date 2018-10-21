@@ -1,5 +1,6 @@
 const db = wx.cloud.database();
 const _ = db.command;
+const CLOUD_FILE_ROOT = require('../config').cloudFileRoot;
 let app = getApp();
 class getData {               //无条件查询
   constructor (dataName,afamily=0,filterId='updatedAtdesc',uId=app.roleData.uUnit._id) {
@@ -59,6 +60,7 @@ class getData {               //无条件查询
       this.mData.indArr = bufferData;
     })
   };
+
   downData(){    //向下查询
     if (!this.isEnd){
       return new Promise((resolve, reject) => {

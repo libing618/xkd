@@ -17,9 +17,9 @@ Component({
     value: {
       type: Object,
       value: {
-        address:'请输入地址',
-        location:{latitude: 23, longitude:113},
-        code: 110000,
+        adinfo:'请输入地址',
+        aGeoPoint:[113, 23],
+        _id: 110000,
         post: '010001'
       }
     },
@@ -61,9 +61,9 @@ Component({
               QQMapWX.reverseGeocoder({
                 location: { latitude: res.latitude, longitude: res.longitude },
                 success: function ({ result: { ad_info, address_component,address } }) {
-                  that.data.value.address = address;
-                  that.data.value.location = { latitude: res.latitude, longitude: res.longitude };
-                  that.data.value.code = ad_info.adcode;
+                  that.data.value.adinfo = address;
+                  that.data.value.aGeoPoint = [res.longitude,res.latitude];
+                  that.data.value._id = ad_info.adcode;
                   that.setData({
                     value: that.data.value,
                     region:[address_component.province,address_component.city,address_component.district]
@@ -80,7 +80,7 @@ Component({
   methods: {
     modalEditAddress: function ({ currentTarget:{id,dataset},detail:{value} }) {      //地址编辑弹出页
       if (this.data.editen){
-        this.setData({address1: this.data.value.address});
+        this.setData({address1: this.data.value.adinfo});
         this.popModal();                 //打开弹出页
       }
     },
@@ -93,9 +93,9 @@ Component({
             QQMapWX.reverseGeocoder({                    //解析地理位置
               location: { latitude: res.latitude, longitude: res.longitude },
               success: function ({ result: { ad_info, address_component,address } }) {
-                that.data.value.address = address;
-                that.data.value.location = { latitude: res.latitude, longitude: res.longitude };
-                that.data.value.code = ad_info.adcode;
+                that.data.value.adinfo = address;
+                that.data.value.aGeoPoint = [res.longitude,res.latitude];
+                that.data.value._id = ad_info.adcode;
                 that.setData({
                   value: that.data.value,
                   region:[address_component.province,address_component.city,address_component.district]
@@ -108,29 +108,20 @@ Component({
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
-      this.data.value.address = this.data.address1
+      this.data.value.adinfo = this.data.address1
       this.setData({ value: this.data.value });
       this.downModal();
     },
 
-    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,postcode} }){              //选择行政区划
+    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,post} }){              //选择行政区划
       let that = this;
-      that.data.value.postcode = postcode;
-      that.data.value.code = code;
-      that.data.value.address = region[0]+region[1]+region[2];
+      that.data.value.post = post;
+      that.data.value._id = code;
+      that.data.value.adinfo = region[0]+region[1]+region[2];
       that.setData({
         address1: region[0]+region[1]+region[2],
         value: that.data.value
       })
-      //let showPage={};
-      // if (this.data.adcvalue[0] == value[0]){
-      //   if (this.data.adcvalue[1] == value[1]) {
-      //     showPage.saddv = this.data.adclist[value[0]].st[value[1]].ct[value[2]].c;
-      //     showPage.address1 = this.data.adclist[value[0]].n + this.data.adclist[value[0]].st[value[1]].n + this.data.adclist[value[0]].st[value[1]].ct[value[2]].n;
-      //   } else { value[2]=0 }
-      // } else { value[1]=0 }
-      // showPage.adcvalue = value;
-      // this.setData(showPage);
     },
 
     raddgroup: function({ currentTarget:{id,dataset},detail:{value} }){                  //读村镇区划数据
@@ -146,10 +137,11 @@ Component({
     },
 
     saddgroup: function({ currentTarget:{id,dataset},detail:{value} }){                  //选择村镇
-      let showPage = {adgvalue: value};
+      let showPage = {};
       if (this.data.adgvalue[0] == value[0]) {
         showPage.address1 = this.data.address1 + this.data.adglist[value[0]].n + this.data.adglist[value[0]].cm[value[1]].n;
-      }
+      } else { value[1]=0 }
+      showPage.adgvalue = value;
       that.setData(showPage);
     }
   }

@@ -1,5 +1,6 @@
 const db = wx.cloud.database();
-const _ = db.command
+const _ = db.command;
+
 module.exports = {
   openWxLogin: function () {              //解密unionid并进行注册
     return new Promise((resolve, reject) => {
@@ -71,6 +72,8 @@ module.exports = {
       }).catch(err => { reject(err) })
     })
   },
+
+
 
   fileUpload: function (cSavePath, filePath, fe) {
     return new Promise((resolve, reject) => {

@@ -1,15 +1,6 @@
 const db = wx.cloud.database();
 var app = getApp();
-const vdSet = function (sname, sVal) {
-  let reqset = {};
-  reqset['vData.' + sname] = sVal;
-  return reqset;
-};
-const rdSet = function (n, rdg, rdn) {
-  let reqdataset = {};
-  reqdataset['iFormat[' + n + '].' + rdg] = rdn;
-  return reqdataset;
-};
+
 function getdate(idate) {
   let rdate = new Date(idate)
   var year = rdate.getFullYear()+'';
@@ -63,14 +54,14 @@ module.exports = {
   f_number: function (e) {
     let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
     let vdSet = {};
-    vdSet['vData.' + this.data.iFormat[n].gname] = isNaN(Number(e.detail.value)) ? 0 : parseInt(Number(e.detail.value));      //不能输入非数字,转换为整数
+    vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? 0 : parseInt(Number(e.detail.value));      //不能输入非数字,转换为整数
     this.setData(vdSet);
   },
 
   f_digit: function (e) {
     let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
     let vdSet = {};
-    vdSet['vData.' + this.data.iFormat[n].gname] = isNaN(Number(e.detail.value)) ? '0.00' : parseFloat(Number(e.detail.value).toFixed(2));      //不能输入非数字,转换为浮点数保留两位小数
+    vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? '0.00' : parseFloat(Number(e.detail.value).toFixed(2));      //不能输入非数字,转换为浮点数保留两位小数
     this.setData(vdSet);
   },
 
@@ -79,18 +70,20 @@ module.exports = {
     let inmcost = Number(e.detail.value);
     let vdSet = {};
     if (isNaN(inmcost)){
-      vdSet['vData.'+this.data.iFormat[n].gname] = 0;      //不能输入非数字
+      vdSet['vData.'+this.data.fieldName[n]] = 0;      //不能输入非数字
     } else {
-      vdSet['vData.'+this.data.iFormat[n].gname] = inmcost>30 ? 30 : inmcost ;      //不能超过30%
+      vdSet['vData.'+this.data.fieldName[n]] = inmcost>30 ? 30 : inmcost ;      //不能超过30%
     }
-    this.data.vData[this.data.iFormat[n].gname] = isNaN(inmcost) ? 0 : (inmcost > 30 ? 30 : inmcost)
+    this.data.vData[this.data.fieldName[n]] = isNaN(inmcost) ? 0 : (inmcost > 30 ? 30 : inmcost)
     vdSet['vData.mCost'] = 87 - (this.data.vData.channel ? this.data.vData.channel : 0) - (this.data.vData.extension ? this.data.vData.extension :0);
     this.setData( vdSet );
   },
 
   i_listsel: function (e) {                         //选择类型
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    this.setData(vdSet(this.data.iFormat[n].gname, Number(e.detail.value)))
+    let reqset = {};
+    reqset['vData.' + this.data.fieldName[n]] = Number(e.detail.value);
+    this.setData(reqset)
   },
 
   i_pics: function (e) {                         //选择图片组
@@ -101,7 +94,7 @@ module.exports = {
       sizeType: ['compressed'],         // original 原图，compressed 压缩图，默认二者都有
       sourceType: ['album', 'camera'],             // album 从相册选图，camera 使用相机，默认二者都有
       success: function (restem) {                     // 返回选定照片的本地文件路径列表
-        that.setData(vdSet(that.data.iFormat[n].gname, restem.tempFilePaths));
+        that.setData(vdSet(that.data.fieldName[n], restem.tempFilePaths));
       },
       fail: function () { wx.showToast({ title: '选取照片失败！' }) }
     })
@@ -122,20 +115,20 @@ module.exports = {
   farrData: function (sIndex, instif) {                          //详情插入或替换数据
     var that = this;
     var artArray = that.data.vData.details;       //详情的内容
-    let mgrids = ['产品', '图像', '音频', '视频', '位置', '文件', '大标题', '中标题', '小标题', '正文'];
-    let sI = ['-1', '-2', '-3', '-4', '-5', '-6', 'h2', 'h3', 'h4', 'p'].indexOf(sIndex);
+    let mgrids = ['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件'];
+    let sI = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
     artArray.splice(that.data.selectd, instif, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
     that.setData({ 'vData.details': artArray, enIns: true });
   },
 
-  initFunc: function(iFormat) {      //对数据录入或编辑的格式数组增加函数
+  initFunc: function(cName,fieldName) {      //对数据录入或编辑的格式数组增加函数
     let funcArr = [];
-    for (let i = 0; i < iFormat.length; i++) {
-      if (iFormat[i].csc) {
-        funcArr.push('f_' + iFormat[i].itype);
+    for (let i = 0; i < fieldName.length; i++) {
+      if (app.fData[cName][fieldName[i]].csc) {
+        funcArr.push('f_' + app.fData[cName][fieldName[i]].itype);
       } else {
-        if (iFormat[i].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
-          funcArr.push('i_' + iFormat[i].t);
+        if (app.fData[cName][fieldName[i]].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
+          funcArr.push('i_' + app.fData[cName][fieldName[i]].t);
         };
       };
     };
@@ -146,7 +139,7 @@ module.exports = {
     var that = this;
     var subData = e.detail.value;
     let cNumber = ['fg','dg','listsel'];       //数字类型定义
-    let cObject = ['ast','iNd','pDt','eAd','gds','sId','cId'];       //对象类型定义
+    let cObject = ['ast','iNd','pDt','sId','cId'];       //对象类型定义
     if (Array.isArray(that.data.vData.details)) {
       for (let i = 0; i < that.data.vData.details.length; i++) {
         that.data.vData.details[i].e = subData['ade' + i];
@@ -154,19 +147,18 @@ module.exports = {
       };
     };
     var emptyField = '';                   //检查是否有字段输入为空
-    that.data.iFormat.forEach(req=>{
-      if (req.gname in subData){ that.data.vData[req.gname]=subData[req.gname]; }
-      if (typeof that.data.vData[req.gname]=='undefined'){
-        emptyField += '《' + req.p + '》';
+    that.data.fieldName.forEach(reqName=>{
+      if (reqName in subData){ that.data.vData[reqName]=subData[reqName]; }
+      if (typeof that.data.vData[reqName]=='undefined'){
+        emptyField += '《' + that.data.fieldType[reqName].p + '》';
       } else {
-        if (req.t=='tVE') {that.data.vData[req.gname] = Number(that.data.vData[req.gname].replace(':',''))};
-        if ( cNumber.indexOf(req.t)>=0 ) { that.data.vData[req.gname] = Number(that.data.vData[req.gname]); }
-        if ( cObject.indexOf(req.t)>=0 && typeof that.data.vData[req.gname]=='string') {that.data.vData[req.gname] = JSON.parse(that.data.vData[req.gname])}
+        if (that.data.fieldType[reqName].t=='tVE') {that.data.vData[reqName] = Number(that.data.vData[reqName].replace(':',''))};
+        if ( cNumber.indexOf(req.t)>=0 ) { that.data.vData[reqName] = Number(that.data.vData[reqName]); }
       }
     });
     var sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
       let filePaths = [];
-      that.data.iFormat.forEach(nField => {
+      that.data.fieldName.forEach(nField => {
         switch (nField.t) {
           case 'eDetail':
             for (let a = 0; a < that.data.vData[nField.gname].length; a++) {
@@ -294,12 +286,21 @@ module.exports = {
               } else { resolve('no files save') };
             })
           }).then((sFiles) => {
+            let saveData = that.data.vData;
+            for (let reqName in that.data.vData){
+              if ( that.data.fieldType[reqName].addFields.length>0) {
+                saveData[reqName] = that.data.vData[reqName]._id);
+                that.data.fieldType[reqName].addFields.forEach(aField=>{
+                  saveData[fname+'_'+aField] = that.data.vData[fname][aField];
+                })
+              }
+            }
             if (that.data.targetId == '0') {                    //新建流程的提交
               let cManagers = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
               if (cManagers.length==1){                  //流程无后续审批人
-                that.data.vData.unitId = app.roleData.uUnit._id;
-                that.data.vData.unitName = app.roleData.uUnit.uName;
-                db.collection(that.data.pNo).add({data:that.data.vData}).then(()=>{
+                saveData.unitId = app.roleData.uUnit._id;
+                saveData.unitName = app.roleData.uUnit.uName;
+                db.collection(that.data.pNo).add({data:saveData}).then(()=>{
                   wx.showToast({ title: '审批内容已发布', duration:2000 });
                 }).catch((error)=>{
                   wx.showToast({ title: '审批内容发布出现错误'+error.error, icon:'none', duration: 2000 });
@@ -317,15 +318,15 @@ module.exports = {
                     cManagers: cManagers,             //单位条线岗位数组
                     cInstance: 1,                     //下一处理节点
                     cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位
-                    dObject: that.data.vData            //流程审批内容
+                    dObject: saveData            //流程审批内容
                   }
                 }).then(() => {
                   wx.showToast({ title: '流程已提交,请查询审批结果。', icon:'none',duration: 2000 }) // 保存成功
                 }).catch(wx.showToast({ title: '提交保存失败!', icon:'loading',duration: 2000 })) // 保存失败
               }
             } else {
-              app.procedures[that.data.targetId].dObject = that.data.vData;
-              app.logData.push([Date.now(),that.data.targetId+'修改内容：'+JSON.stringify(that.data.vData)]);
+              app.procedures[that.data.targetId].dObject = saveData;
+              app.logData.push([Date.now(),that.data.targetId+'修改内容：'+JSON.stringify(saveData)]);
             }
             }).catch(error => {
               app.logData.push([Date.now(), '编辑提交发生错误:' + JSON.stringify(error)]);

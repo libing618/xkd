@@ -5,8 +5,8 @@
   <view hidden="{{showModal}}" class="page__sub" id="model-{{pNo}}">
     <form bindsubmit="fSubmit">
       <view class="page__bd_spacing" id="{{targetId}}">
-        <view class="weui-cells" wx:for="{{iFormat}}" wx:key="index">
-          <template is="i_{{item.t}}" data="{{...item,c:vData[item.gname],n:index}}"></template>
+        <view class="weui-cells" wx:for="{{fieldName}}" wx:key="index">
+          <template is="i_{{fData[item].t}}" data="{{...fData[item],c:vData[item],n:index}}"></template>
         </view>
       </view>
       <view style="padding-bottom:100rpx;"></view>

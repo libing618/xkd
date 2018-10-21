@@ -98,6 +98,23 @@ checkRols: function(ouLine,user,ouPosition){  //要求的条线，用户数据�
   }
 },
 
+initData:function(fieldName,fieldType, aData) {        //单一表记录录入或显示时数据初始化
+  let vData={},vDataKeys = Object.keys(aData);            //数据对象是否为空
+  if (vDataKeys.length > 0){
+    fieldName.forEach(fname=> {
+      if (fieldType[fname].addFields) {                    //多字段组合显示或修改
+        vData[fname] = {_id:aData[fname]}
+        fieldType[fname].addFields.forEach(aField=>{
+          vData[fname][aField] = aData[fname+'_'+aField];
+        })
+      } else {
+        vData[fname] = aData[fname]
+      };
+    };
+  };
+  return vData;
+},
+
 shareMessage: function () {
   return {
     title: '侠客岛创业服务平台', // 分享标题

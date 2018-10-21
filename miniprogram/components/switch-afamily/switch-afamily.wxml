@@ -21,8 +21,8 @@
   </view>
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
-      <block wx:for="{{iFormat}}" wx:key="index">
-        <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+      <block wx:for="{{fieldName}}" wx:key="index">
+        <template is="s_{{fData[item].t}}" data="{{...fData[item], c:pageData[targetId][item]}}"/>
       </block>
     </view>
   </view>

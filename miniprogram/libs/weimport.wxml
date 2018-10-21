@@ -36,7 +36,7 @@
   <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"></date-view-edit>
 </template>
 
-<template name="s_eAd">
+<template name="s_-3">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c.address}}</view>

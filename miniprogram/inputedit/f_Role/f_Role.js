@@ -12,7 +12,7 @@ Page({
     vData: {},                 //编辑值的对象
     unEdit: false,           //新建信息页面,可以提交和保存
     selectd: -1,                       //详情项选中字段序号
-    iFormat: [],
+    fieldName: [],
     showModal: false
   },
 
@@ -29,7 +29,8 @@ Page({
         } else { that.data.vData=require('../../test/irole.js')};
         that.data.dObjectId = app.roleData.user.unit;
         wImpEdit.initFunc(app.fData._Role.pSuccess).forEach(functionName => { that[functionName] = wImpEdit[functionName] });
-        that.data.iFormat = app.fData._Role.pSuccess;
+        that.data.fieldName = app.fData._Role.pSuccess;
+        that.data.fData = app.fData._Role;
         that.setData( that.data );
       }).catch(console.error )
     } else {

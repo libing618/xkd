@@ -10,7 +10,7 @@ Page ({
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
     pageData: [],
     iClicked: '0',
-    iFormat:[{gname:"nowPacking", p: '出品包装号',t: "iSc",n:0}]
+    fData:{nowPacking:{ p: '出品包装号',t: "iSc",n:0}}
   },
   subscription: {},
   indexField:'',      //定义索引字段
@@ -36,7 +36,7 @@ Page ({
     supplieQuery.equalTo('unitId',app.roleData.uUnit._id);                //只能查本单位数据
     supplieQuery.limit(1000);                      //取最大数量
     const setReqData = this.setReqData.bind(this);
-    return Promise.all([supplieQuery.find().then(setReqData), supplieQuery.subscribe()]).then( ([iFormat,subscription])=> {
+    return Promise.all([supplieQuery.find().then(setReqData), supplieQuery.subscribe()]).then( ([fData,subscription])=> {
       this.subscription = subscription;
       if (this.unbind) this.unbind();
       this.unbind = binddata(subscription, arp, setReqData);

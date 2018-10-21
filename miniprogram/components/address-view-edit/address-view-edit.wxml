@@ -4,14 +4,14 @@
   <view class="weui-map-box">
     <map
       style="width: 100%; height: 300px;"
-      latitude="{{value.location.latitude}}"
-      longitude="{{value.location.longitude}}"
+      latitude="{{value.aGeoPoint[1]}}"
+      longitude="{{value.aGeoPoint[0]}}"
       covers="{{covers}}"
       show-location
     ></map>
   </view>
 </view>
-<view class="weui-cell" bindtap='modalEditAddress'>详细:{{value.address}}</view>
+<view class="weui-cell" bindtap='modalEditAddress'>详细:{{value.adinfo}}</view>
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__hd">
@@ -42,7 +42,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" auto-height name="address1" value="{{address1 ? address1 : c}}" />
+          <textarea class="weui-textarea" auto-height name="address1" value="{{address1 ? address1 : value.adinfo}}" />
         </view>
       </view>
     </view>

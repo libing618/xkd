@@ -13,21 +13,25 @@
   </view>
 </view>
 
-<view class="modal_box" id="fBack" bindtap="downModal" wx:if="{{showModalBox}}"></view>
+<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__hd">
     <view class="page__title">{{sitem.uName}}</view>
-    <view class="close_icon" id="fBack" bindtap="downModal">×</view>
+    <view class="close_icon" bindtap="downModal">×</view>
   </view>
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
-      <block wx:for="{{vFormat}}" wx:key="index">
-        <template is="s_{{item.t}}" data="{{...item, c:sitem[item.gname]}}"/>
+      <block wx:for="{{fieldName}}" wx:key="index">
+        <template is="s_{{vFormat[item].t}}" data="{{...vFormat[item], c:sitem[item]}}"/>
       </block>
     </view>
   </view>
   <view style="padding-bottom:100rpx;"></view>
-  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
-    <button bindtap="downModal" id="fBack">我知道了</button>
+  <view wx:if="{{uEV}}" class="page__ft weui-footer_fixed-bottom">
+    <button wx:if="{{enUpdate}}" class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fModify" bindtap="fEditProcedure">修改并重新审批</button>
+    <button class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fTemplate" bindtap="fEditProcedure">以此为模板新建</button>
+  </view>
+  <view wx:else class="page__ft weui-footer_fixed-bottom">
+    <button bindtap="downModal">我知道了</button>
   </view>
 </view>

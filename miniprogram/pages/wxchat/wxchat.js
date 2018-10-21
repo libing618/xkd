@@ -21,7 +21,6 @@ Page({
     vData: {},
     message: [],
     idClicked: '0',
-    mgrids: ['产品','图像','音频','视频','位置','文件'],
     cId:''
   },
 

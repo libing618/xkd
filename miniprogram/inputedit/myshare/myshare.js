@@ -20,7 +20,7 @@ Page({
     showModalBox: false,
     animationData: {},
     vData: {},
-    iFormat:app.fData.share.pSuccess
+    fieldName:app.fData.share.pSuccess
   },
 
   onLoad: function (options) {
