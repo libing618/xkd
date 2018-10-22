@@ -4,7 +4,7 @@
   <view class="page__sub" id="model-{{pNo}}">
     <view class="weui-tab__panel">
       <block wx:for="{{cPage[ht.pageCk]}}" wx:key="{{index}}">
-        <switch-afamily name="{{gname}}" value="{{pageData[item]}}" p="{{p}}"></switch-afamily>
+        <switch-afamily name="{{pageData[item]._id}}" value="{{pageData[item]}}"></switch-afamily>
       </block>
     </view>
     <view style="padding-bottom:100rpx;"></view>

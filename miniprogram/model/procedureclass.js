@@ -91,7 +91,7 @@ module.exports = {
 },
 "service":{
   "pName": "服务项目",
-  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","channel","extension","mCost","serName","serPhone"],
+  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","mCost","serName","serPhone"],
   "fieldType":{
     "serFamily":{p:'服务类型', inclose: true, t:"pDt",  addFields:['uName']},
     "title":{p:'简介',t:"h4" },
@@ -163,7 +163,7 @@ module.exports = {
 },
 "goods":{
   "pName": "商品",
-  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","channel","extension","mCost","details"],
+  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","mCost","details"],
   "fieldType":{
     "goodstype":{inclose: true, p:'商品类别',t:"gSt" },
     "title":{p:'简介',t:"h3" },
@@ -226,7 +226,7 @@ module.exports = {
     "tradeId":{p:'成交单号', t:"h2" },
     "tradeType":{p:'成交类型', t:"h2" },
     "goods":{p:'商品', t:"sId", addFields:['uName'] },
-    "shopid":{ : "商城", t:"sId", addFields:['uName'] },
+    "shopid":{ p: "商城", t:"sId", addFields:['uName'] },
     "user":{p:' 购买人', t:"sId", addFields:['uName'] },
     "ip":{p:'下单IP地址', t:"h3" },
     "quantity":{p:'数量', t:"dg",csc:"number" },

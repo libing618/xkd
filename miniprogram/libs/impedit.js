@@ -135,25 +135,19 @@ module.exports = {
     return funcArr;
   },
 
-  fSubmit: function (e) {
+  fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
     var that = this;
-    var subData = e.detail.value;
-    let cNumber = ['fg','dg','listsel'];       //数字类型定义
-    let cObject = ['ast','iNd','pDt','sId','cId'];       //对象类型定义
-    if (Array.isArray(that.data.vData.details)) {
+    if (that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)) {
       for (let i = 0; i < that.data.vData.details.length; i++) {
-        that.data.vData.details[i].e = subData['ade' + i];
-        that.data.vData.details[i].c = subData['adc' + i];
+        that.data.vData.details[i].e = value['ade' + i];
+        that.data.vData.details[i].c = value['adc' + i];
       };
     };
     var emptyField = '';                   //检查是否有字段输入为空
     that.data.fieldName.forEach(reqName=>{
-      if (reqName in subData){ that.data.vData[reqName]=subData[reqName]; }
+      if (reqName in value){ that.data.vData[reqName]=value[reqName]; }
       if (typeof that.data.vData[reqName]=='undefined'){
         emptyField += '《' + that.data.fieldType[reqName].p + '》';
-      } else {
-        if (that.data.fieldType[reqName].t=='tVE') {that.data.vData[reqName] = Number(that.data.vData[reqName].replace(':',''))};
-        if ( cNumber.indexOf(req.t)>=0 ) { that.data.vData[reqName] = Number(that.data.vData[reqName]); }
       }
     });
     var sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
@@ -204,7 +198,7 @@ module.exports = {
         fail: function () { resolve([]) }
       });
     });
-    switch (e.detail.target.id) {
+    switch (target.id) {
       case 'fdeldata':                                 //删除内容部分选中的字段
         if (that.data.selectd >= 0) {                         //内容部分容许删除
           that.data.vData.details.splice(that.data.selectd, 1);
@@ -287,12 +281,20 @@ module.exports = {
             })
           }).then((sFiles) => {
             let saveData = that.data.vData;
-            for (let reqName in that.data.vData){
+            for (let reqName in that.data.vData){       //多字段对象类型分解
               if ( that.data.fieldType[reqName].addFields.length>0) {
                 saveData[reqName] = that.data.vData[reqName]._id);
                 that.data.fieldType[reqName].addFields.forEach(aField=>{
                   saveData[fname+'_'+aField] = that.data.vData[fname][aField];
                 })
+              }
+            }
+            for (let saveName in saveData){
+              if (that.data.fieldType[saveName].t=='tVE') {
+                that.data.vData[reqName] = Number(that.data.vData[reqName].replace(':',''))
+              };
+              if ( ['fg','dg','listsel'].indexOf(that.data.fieldType.saveName.t)>=0 ) {       //数字类型定义
+                that.data.vData[reqName] = Number(that.data.vData[reqName]);
               }
             }
             if (that.data.targetId == '0') {                    //新建流程的提交

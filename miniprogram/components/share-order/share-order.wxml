@@ -6,8 +6,8 @@
     <view class="close_icon" id="fBack" bindtap="downModal">×</view>
     <view class="page__ac_spacing">
       <view class="drawer_attr_content">
-        <block wx:for="{{vFormat}}" wx:key="index">
-          <template is="s_{{item.t}}" data="{{...item, c:pageData[targetId][item.gname]}}"/>
+        <block wx:for="{{fieldName}}" wx:key="index">
+          <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:pageData[targetId][item],gname:item}}"/>
         </block>
       </view>
     </view>

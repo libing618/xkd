@@ -24,9 +24,8 @@ Component({
   },
 
   data: {
-    vFormat: [],
-    animationData: {},
-    showModalBox: false
+    fieldName: [],
+    fieldType: {}
   },
 
   lifetimes:{
@@ -47,7 +46,10 @@ Component({
   methods: {
     shareOrder(){
       if (this.data.clickid==this.data.sitem._id){
-        this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
+        this.setData({
+          fieldName: app.fData[this.data.pno].pSuccess,
+          fieldType: app.fData[this.data.pno].fieldType
+        });
         this.popModal()
       } else {
         let clickEventDetail = {itemid:this.data.sitem._id};
@@ -55,12 +57,7 @@ Component({
       }
     },
     fSave(){
-      if (this.data.clickid==this.data.sitem._id){
-        this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
-        this.popModal()
-      } else {
-        let clickEventDetail = {itemid:this.data.sitem._id};
-        this.triggerEvent('clickeditem',clickEventDetail)
+
       }
     }
   }

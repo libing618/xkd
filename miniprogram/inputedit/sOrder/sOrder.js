@@ -6,13 +6,7 @@ Page({
     pNo: 'share',                       //流程
     statusBar: app.sysinfo.statusBarHeight,
     mPage: [],
-    pageData: {},
-    sPages: [{
-      pageName: 'tabPanel'
-    }],
-    showModalBox: false,
-    animationData: {},
-    vFormat:app.fData.share.pSuccess
+    pageData: {}
   },
 
   onLoad: function (options) {

@@ -13,14 +13,7 @@ Page({
       pageCk: 0
     },
     mPage: [],
-    pageData: {},
-    sPages: [{
-      pageName: 'tabPanel'
-    }],
-    showModalBox: false,
-    animationData: {},
-    vData: {},
-    fieldName:app.fData.share.pSuccess
+    pageData: {}
   },
 
   onLoad: function (options) {

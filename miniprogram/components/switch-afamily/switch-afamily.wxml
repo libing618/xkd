@@ -22,7 +22,7 @@
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
       <block wx:for="{{fieldName}}" wx:key="index">
-        <template is="s_{{fData[item].t}}" data="{{...fData[item], c:pageData[targetId][item]}}"/>
+        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:pageData[targetId][item]}}"/>
       </block>
     </view>
   </view>

@@ -13,6 +13,7 @@ Page({
     unEdit: false,           //新建信息页面,可以提交和保存
     selectd: -1,                       //详情项选中字段序号
     fieldName: [],
+    fieldType: {},
     showModal: false
   },
 
@@ -24,13 +25,15 @@ Page({
         dProcedure: '_Role'
       }).orderBy('updatedAt','desc').limit(1).get().then(({data}) =>{
         if (data.length==1) {
-          that.data.vData = data[0].dObject;
+          that.data.vData = wImpEdit.initData(app.fData._Role.pSuccess,app.fData._Role.fieldType,data[0].dObject);
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
         } else { that.data.vData=require('../../test/irole.js')};
         that.data.dObjectId = app.roleData.user.unit;
-        wImpEdit.initFunc(app.fData._Role.pSuccess).forEach(functionName => { that[functionName] = wImpEdit[functionName] });
+        wImpEdit.initFunc(app.fData._Role.pSuccess).forEach(functionName => {
+          that[functionName] = wImpEdit[functionName]
+        });
         that.data.fieldName = app.fData._Role.pSuccess;
-        that.data.fData = app.fData._Role;
+        that.data.fieldType = app.fData._Role.fieldType;
         that.setData( that.data );
       }).catch(console.error )
     } else {

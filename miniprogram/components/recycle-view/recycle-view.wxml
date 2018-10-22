@@ -3,7 +3,7 @@
   <scroll-view style='height:100%;position: relative;' scroll-y="{{true}}" scroll-x="{{false}}" scroll-into-view="{{clickedid}}" scroll-with-animation="{{true}}" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" enable-back-to-top="{{true}}">
     <view class="weui-tab__panel">
       <block wx:for="{{mPage}}" wx:key="{{index}}">
-        <record-view pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bind:clickeditem="clickeditem"></record-view>
+        <record-view pno="{{pNo}}" id="{{pageData[item]._id}}" sitem="{{pageData[item]}}" clickid="{{clickedid}}" bindclickeditem="clickeditem"></record-view>
       </block>
     </view>
   </scroll-view>

@@ -1,6 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-    "content-edit": "../content-edit/content-edit"
+    "field-view": "../field-view/field-view"
   }
 }

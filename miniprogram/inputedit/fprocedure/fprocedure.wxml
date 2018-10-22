@@ -6,7 +6,7 @@
     <form bindsubmit="fSubmit">
       <view class="page__bd_spacing" id="{{targetId}}">
         <block wx:for="{{fieldName}}" wx:key="index">
-          <template is="i_{{vData[item].t}}" data="{{...vData[item],c:vData[item],n:index}}"></template>
+          <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
         </block>
       </view>
       <view style="padding-bottom:100rpx;"></view>

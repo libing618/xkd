@@ -45,6 +45,14 @@
       }
     ]
   },
+  "usingComponents": {
+    "recycle-view": "components/recycle-view/recycle-view",
+    "thumbnail-edit": "components/thumbnail-edit/thumbnail-edit",
+    "address-view-edit": "components/address-view-edit/address-view-edit",
+    "industry-type": "components/industry-type/industry-type",
+    "record-view": "components/record-view/record-view",
+    "map-select-unit": "components/map-select-unit/map-select-unit"
+  },
   "subPackages": [
     {
       "root": "index",

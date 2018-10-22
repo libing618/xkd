@@ -8,7 +8,8 @@ Page({
     pNo: 'articles',
     statusBar: app.sysinfo.statusBarHeight,
     vData: {},
-    vFormat: []
+    fieldType: {},
+    fieldName: []
   },
   inFamily:false,
 
@@ -17,8 +18,8 @@ Page({
     that.data.pNo = options.pNo;
     that.inFamily = (typeof app.fData[that.data.pNo].afamily != 'undefined');
     that.data.vData = initData(app.fData[that.data.pNo].pSuccess,app.aData[that.data.pNo][options.artId]);
-    that.data.fieleName = app.fData[this.data.pno].pSuccess;
-    that.data.vFormat=app.fData[this.data.pno].fieldType;
+    that.data.fieldName = app.fData[this.data.pno].pSuccess;
+    that.data.fieldType=app.fData[this.data.pno].fieldType;
     that.data.navBarTitle = app.aData[that.data.pNo][options.artId].uName;
     that.data.enUpdate = that.data.vData.unitId==app.roleData.uUnit._id && typeof app.fData[that.data.pNo].suRoles!='undefined';  //本单位信息且流程有上级审批的才允许修改
     that.setData(that.data);

@@ -3,7 +3,7 @@ var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior],
   properties: {
-    fieldname: {
+    name: {
       type: String,
       value: 'goods',
     },
@@ -22,17 +22,19 @@ Component({
   },
 
   data: {
-    vFormat: [],
-    animationData: {},
-    showModalBox: false
+    fieldName: [],
+    fieldType: {}
   },
 
   methods: {
     clickfield({ currentTarget:{id,dataset},detail:{value} }){            //字段内容查看弹出页
       if (this.data.clickid==this.data.sitem._id){
-        this.setData({ vFormat: app.fData[this.data.pno].pSuccess });
+        this.setData({
+          fieldName: app.fData[this.data.pno].pSuccess,
+          fieldType: app.fData[this.data.pno].fieldType
+        });
         this.popModal();
-        if (this.data.fieldname=='goods') {
+        if (this.data.name=='goods') {
           cargototal = app.cargoStock[this.data.sfield[id]._id]
           this.data.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),

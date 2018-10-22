@@ -8,7 +8,7 @@
     <view class="weui-media-box__bd_in-appmsg">
       <view class="weui-media-box__title">{{sitem.uName}}</view>
       <view class="weui-media-box__desc">{{sitem.title}}</view>
-      <view wx:if="{{pNo=='s_cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
+      <view wx:if="{{pno=='goods'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
     </view>
   </view>
 </view>
@@ -22,7 +22,7 @@
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
       <block wx:for="{{fieldName}}" wx:key="index">
-        <template is="s_{{vFormat[item].t}}" data="{{...vFormat[item], c:sitem[item]}}"/>
+        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:sitem[item],gnaem:item}}"/>
       </block>
     </view>
   </view>

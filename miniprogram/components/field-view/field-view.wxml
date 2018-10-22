@@ -27,10 +27,10 @@
   </view>
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
-      <block wx:for="{{vFormat}}" wx:key="index">
-        <template is="s_{{item.t}}" data="{{...item, c:sfield[item.gname]}}"/>
+      <block wx:for="{{fieldName}}" wx:key="index">
+        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:sfield[item],gname:item}}"/>
       </block>
-      <view wx:if="{{fieldname=='cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
+      <view wx:if="{{name=='cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
     </view>
   </view>
   <view style="padding-bottom:100rpx;"></view>

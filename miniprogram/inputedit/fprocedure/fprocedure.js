@@ -16,6 +16,7 @@ Page({
     showModalBox: false,
     animationData: {},              //弹出动画
     vData: {},
+    fieldType: {},
     fieldName: []
   },
   onLoad: function (options) {        //传入参数为tgId或pNo/artId,不得为空
@@ -49,7 +50,7 @@ Page({
           break;
       }
       let fieldName = app.fData[ops.pNo].pSuccess;
-      let fData = app.fData[ops.pNo]
+      let fieldType = app.fData[ops.pNo].fieldType;
       fieldName.unshift("uName");
       fData.uName = {t:"h2", p:"名称" };
       if (typeof aaData == 'undefined') {

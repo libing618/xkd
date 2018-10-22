@@ -1,5 +1,6 @@
 //调整当日成品生产计划
 const db = wx.cloud.database();
+const _ = db.command;
 const { checkRols,shareMessage } =  require('../../model/initForm');
 const {hTabClick} = require('../../libs/util.js');
 var app = getApp();
@@ -29,14 +30,13 @@ Page({
     return new Promise((resolve, reject) => {
       var umdata = new Array(app.fData.prodesign.afamily.length);
       umdata.fill([]);
-      var readProcedure = db.collection(pNo);                                      //进行数据库初始化操作
       var unitId = uId ? uId : app.roleData.uUnit._id;
-      readProcedure.equalTo('unitId', unitId);                //除权限和文章类数据外只能查指定单位的数据
-      readProcedure.greaterThan('startTime', new Date());
-      readProcedure.lessThan('endTime', new Date());          //查询本地最新时间后修改的记录
-      readProcedure.ascending('updatedAt');           //按更新时间升序排列
-      readProcedure.limit(1000);                      //取最大数量
-      readProcedure.find().then(({data}) => {
+      db.collection(pNo).where({
+        unitId:unitId,                //除权限和文章类数据外只能查指定单位的数据
+        startTime: _.gt(new Date()),
+        endTime: _.lt(new Date())          //查询本地最新时间后修改的记录
+      }).orderBy('updatedAt','asc')           //按更新时间升序排列
+      .find().then(({data}) => {
         var lena = data.length;
         if (lena > 0) {
           let aProcedure,aData = {};

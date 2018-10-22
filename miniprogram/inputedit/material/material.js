@@ -1,5 +1,6 @@
 //原材料
 const db = wx.cloud.database();
+const _ = db.command;
 const { indexClick,binddata } = require('../../libs/util.js');
 const { checkRols } = require('../../model/initForm.js');
 var app = getApp()
@@ -10,6 +11,7 @@ Page({
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
     pageData: [],
     iClicked: '0',
+    fieldType:app.fData.rawOperate.fieldType,
     fieldName:app.fData.rawOperate.pSuccess
   },
   subscription: {},
@@ -69,7 +71,6 @@ Page({
       that.indexField = app.fData.rawOperate.oSuccess[ops.oState].indexField;
       that.sumField = app.fData.rawOperate.oSuccess[ops.oState].sumField;
       if (app.cargoStock) {
-
         wx.setNavigationBarTitle({
           title: app.roleData.uUnit.nick + '的' + app.fData.rawOperate.oprocess[ops.oState]
         });

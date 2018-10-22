@@ -23,9 +23,8 @@ Component({
   },
 
   data: {
-    vFormat: [],
-    animationData: {},
-    showModalBox: false
+    fieldName: [],
+    fieldType: {}
   },
 
   lifetimes:{
@@ -47,9 +46,10 @@ Component({
     clickitem(){            //切换选择弹出页
       if (this.data.clickid==this.data.sitem._id){
         this.setData({
-          vFormat: app.fData[this.data.pno].pSuccess,
+          fieldName: app.fData[this.data.pno].pSuccess,
+          fieldType: app.fData[this.data.pno].fieldType,
           targetId: id,
-          smtName: app.fData[this.data.pno].pSuccess.afamily[that.data.ht.pageCk]
+          smtName: app.fData[this.data.pno].afamily[that.data.ht.pageCk]
         });
         this.popModal()
       }
