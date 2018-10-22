@@ -32,7 +32,7 @@ Component({
     fieldType: {},
     uEV: app.roleData.user.line!=9,    //用户已通过单位和职位审核
     enUpdate: false,
-    vData: {},
+    vData:{},
     scale: 0,
     csupply: 0
   },
@@ -41,36 +41,36 @@ Component({
     attached: function(){
       switch (this.data.pno) {
         case 'goods':
-          if ( app.cargoStock[this.data.sitem._id]){
+          if (app.cargoStock) {      //[this.data.sitem._id]
             cargototal = app.cargoStock[this.data.sitem._id]
-            this.data.setData({
+            this.setData({
               scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),
               csupply: (cargototal.canSupply / cargototal.packages - 0.5).toFixed(0)
             });
           }
           break;
         default:
+          break;
       }
-    },
+    }
   },
 
-  methods: {
+  methods:{
     clickitem(){
-      if (this.data.clickid==this.data.sitem._id){
+      if (this.data.clickid == e.currentTarget.id){
         this.setData({
           fieleName: app.fData[this.data.pno].pSuccess,
           fieldType: app.fData[this.data.pno].fieldType,
-          vData: require('../../model/initForm').initData(app.fData[that.data.pno].pSuccess,app.fData[this.data.pno].fieldType,app.aData[that.data.pno][options.artId]),
-          enUpdate = that.data.vData.unitId==app.roleData.uUnit._id && typeof app.fData[that.data.pno].suRoles!='undefined'
+          vData: require('../../model/initForm').initData(app.fData[this.data.pno].pSuccess, app.fData[this.data.pno].fieldType, this.data.sitem),
+          enUpdate: this.data.sitem.unitId==app.roleData.uUnit._id && typeof app.fData[this.data.pno].suRoles!='undefined'
         });
         this.popModal()
       } else {
-        let clickEventDetail = {itemid:this.data.sitem._id};
-        this.triggerEvent('clickeditem',clickEventDetail)
+        this.setData({ clickid: e.currentTarget.id});
       }
     },
 
-    fEditProcedure: function(e){
+    fEditProcedure(e){
       var that = this;
       var url='/inputedit/fprocedure/fprocedure?pNo='+that.data.pno;
       switch (e.currentTarget.id){
@@ -79,10 +79,11 @@ Component({
           break;
         case 'fTemplate' :
           url += typeof app.fData[that.data.pno].afamily != 'undefined' ? '&artId='+that.data.vData.afamily : '';
-          let newRecord = that.inFamily ? that.data.pno+that.data.vData.afamily : that.data.pno;
+          let newRecord = typeof that.data.fieldType.afamily!='undefined' ? that.data.pno+that.data.vData.afamily : that.data.pno;
           app.aData[that.data.pno][newRecord] = that.data.vData;
           break;
       };
+      this.downModal();
       wx.navigateTo({ url: url});
     }
   }

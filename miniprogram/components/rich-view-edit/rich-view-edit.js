@@ -30,7 +30,7 @@ Component({
    * 组件自定义格式数组rich：大小h1~h6,强调s0~s7,对齐a0~a2,缩进i,颜色c#,背景b
    */
   lifetimes: {
-    attached():{
+    attached(){
       this.setData({
         rich_h: this.data.richStrle.substr(0,1),
         rich_s: this.data.richStrle.substr(1,1),
@@ -40,7 +40,8 @@ Component({
         rich_b: this.data.richStrle.substr(10)
       })
     }
-  }
+  },
+
   methods: {
     onImgTap(e) {
       global.richParses[this.data.parse_id].onImgTap(e)

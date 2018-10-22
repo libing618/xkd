@@ -16,13 +16,13 @@
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="page__hd">
-    <view class="page__title">{{sitem.uName}}</view>
+    <view class="page__title">{{vData.uName}}</view>
     <view class="close_icon" bindtap="downModal">×</view>
   </view>
   <view class="page__ac_spacing">
     <view class="drawer_attr_content">
       <block wx:for="{{fieldName}}" wx:key="index">
-        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:sitem[item],gnaem:item}}"/>
+        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:vData[item],gnaem:item}}"/>
       </block>
     </view>
   </view>
