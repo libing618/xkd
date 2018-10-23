@@ -5,11 +5,6 @@ Page({
   data: {
     navBarTitle: '编辑--',              //申请项目名称
     statusBar: app.sysinfo.statusBarHeight,
-    sPages: [{
-      pageName: 'editFields'
-    }],
-    selectd: -1,                       //详情项选中字段序号
-    enMenu: 'none',                  //‘插入、删除、替换’菜单栏关闭
     enIns: true,                  //插入grid菜单组关闭
     targetId: '0',              //流程申请表的ID
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
