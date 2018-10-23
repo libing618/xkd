@@ -23,11 +23,10 @@
       <button class="weui-btn" style="display:{{enMenu=='none' && uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fSave">提交</button>
       <button class="weui-btn" style="display:{{enMenu=='none' && targetId=='0' ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fStorage">保存</button>
       <button class="weui-btn" style="display:{{ enMenu }}" type="warn" size="mini" formType="submit" id="fdeldata">删除</button>
-      <button class="weui-btn" style="display:{{ enMenu }}" type="default" size="mini" formType="submit" id="fupdate">替换</button>
       <button class="weui-btn" style="display:{{ enMenu }}" type="primary" size="mini" formType="submit" id="fenins">插入</button>
     </view>
   </form>
   <view hidden="{{enIns}}">
-    <template is="i_insdata"></template>
+    <template is="m_insbottom"></template>
   </view>
 </view>

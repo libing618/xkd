@@ -41,13 +41,16 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}">
       <view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__{{item.t}}" id="ad-{{index}}" catchlongpress="i_eDetail">
-        <view wx:if="{{item.t<0}}">
-          <template is="{{item.t}}" data="{{c:item.c,n:index,editen:true}}"></template>
-          <input hidden="true" name="adc{{index}}" value="{{item.c}}"/>
+        <view class="slider-left-item" style="transform: translateX(-{{selectd==n ? translateX : 0}}px); transition: transform {{transitionTime / 1000}}s">
+          <view wx:if="{{item.t<0}}">
+            <template is="{{item.t}}" data="{{c:item.c,n:index,editen:true}}"></template>
+            <input hidden="true" name="adc{{index}}" value="{{item.c}}"/>
+          </view>
+          <view wx:if="{{item.t=='p'}}">
+              <textarea id="txid-{{index}}" name="ade{{index}}" auto-height="true" maxlength="-1" value="{{item.c.e}}" placeholder="点击此处输入正文"/>
+          </view>
         </view>
-        <view wx:if="{{item.t=='p'}}">
-            <textarea id="txid-{{index}}" name="ade{{index}}" auto-height="true" maxlength="-1" value="{{item.c.e}}" placeholder="点击此处输入正文"/>
-        </view>
+        <view class='slider-left-handle' style='transform: translateX({{item.type === 'del' ? translateXDel : translateXEdit}}px); transition: transform {{transitionTime / 1000}}s"' formType="submit" class='handle-delete'>删除</view>
       </view>
     </block>
   </view>
@@ -125,17 +128,6 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <inscan-edit name="{{gname}}" c="{{c}}" p="{{p}}"></inscan-edit>
 </template>
 
-<template name="i_insdata">
-  <view class="weui-footer_fixed-bottom weui-grids">
-    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
-      <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="i_insdata">
-        <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
-        <view class="weui-grid__label">{{item}}</view>
-      </view>
-    </block>
-  </view>
-</template>
-
 <template name="i_listsel">
   <picker id="ac-{{n}}" name="{{gname}}" mode="selector" value="{{c}}" range="{{aList}}" bindchange="i_listsel">
     <view  class="weui-cell">
@@ -144,7 +136,6 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
     </view>
   </picker>
 </template>
-
 
 <template name="i_mSU">
   <map-select-unit name="{{gname}}" value="{{c}}" p="{{p}}" indTypes="620406"></map-select-unit>
@@ -216,5 +207,27 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
     <view id="ac-{{n}}" bindtap="i_vidio">{{p}}(点此处更换视频)</view>
     <video src="{{c ? c : 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'}}" controls></video>
     <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
+  </view>
+</template>
+
+<template name="m_insbottom">
+  <view class="weui-footer_fixed-bottom weui-grids">
+    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
+      <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="insmenu">
+        <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
+        <view class="weui-grid__label">{{item}}</view>
+      </view>
+    </block>
+  </view>
+</template>
+
+<template name="m_insright">
+  <view class="weui-footer_fixed-bottom weui-grids">
+    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
+      <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="insmenu">
+        <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
+        <view class="weui-grid__label">{{item}}</view>
+      </view>
+    </block>
   </view>
 </template>

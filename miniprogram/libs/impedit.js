@@ -87,7 +87,7 @@ module.exports = {
   },
 
   i_pics: function (e) {                         //选择图片组
-    var that = this;
+    let that = this;
     let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
     wx.chooseImage({
       count: 9,                                     // 最多可以选择的图片张数，默认9
@@ -101,24 +101,42 @@ module.exports = {
   },
 
   i_eDetail: function (e) {                                 //内容可以插入和删除
-    var that = this;
-    that.setData({
+    this.setData({
       selectd: parseInt(e.currentTarget.id.substring(3)),      //选择文章内容的数组下标
-      enMenu: 'inline-block'
+      startX : e.currentTarget.x                 //touchstart记录起点
     })
   },
 
-  i_insdata: function (e) {                          //插入数据
-    this.farrData(e.currentTarget.id, 0);      //选择的菜单id;
+  m_touchmove: function (e) {                          //手指滑动过程
+    const x = e.detail.x
+    this.setData({
+      moveInstance: this.data.openWidth - x,    // 阈值，移动超过则显示菜单项，否则隐藏（一般为菜单宽的40%）
+      currentX: x
+    });
   },
 
-  farrData: function (sIndex, instif) {                          //详情插入或替换数据
-    var that = this;
-    var artArray = that.data.vData.details;       //详情的内容
-    let mgrids = ['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件'];
-    let sI = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
-    artArray.splice(that.data.selectd, instif, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
-    that.setData({ 'vData.details': artArray, enIns: true });
+  m_touchend: function (e) {                          //详情插入或替换数据
+    if (this.data.currentX === 0) {    // 如果松开手指的时候，已经被拖拽到最左边或者最右边，则不处理
+      this.setData({ open: true })
+      return
+    }
+    if (this.data.currentX === this.data.openWidth) {
+      this.setData({ open: false })
+      return
+    }
+
+    if (this.data.open && this.data.currentX > 0) {    // 如果当前菜单是打开的，只要往右移动的距离大于0就马上关闭菜单
+      this.setData({ open: false })
+      return
+    }
+    if (this.data.moveInstance < this.data.moveThreshold) {    // 如果当前菜单是关着的，只要往左移动超过阀值就马上打开菜单
+      this.setData({
+        open: false,
+        x: this.data.openWidth
+      })
+    } else {
+      this.setData({ open: true })
+    }
   },
 
   initFunc: function(cName,fieldName) {      //对数据录入或编辑的格式数组增加函数
@@ -206,11 +224,12 @@ module.exports = {
         } else { wx.showToast({ title: '此处禁止删除！' }) }
         break;
       case 'fenins':                   //允许显示插入菜单
-        that.setData({ enMenu: 'none', enIns: false })      //‘插入、删除、替换’菜单栏关闭
-        break;
-      case 'fupdate':                          //替换数据
-        that.setData({ enMenu: 'none' })
-        that.farrData(that.data.vData.details[that.data.selectd].t, 1);      //选择多媒体项目内容;
+        let artArray = that.data.vData.details;       //详情的内容
+        let sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;
+        let mgrids = ['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件'];
+        let sI = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
+        artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
+        that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭
         break;
       case 'fStorage':           //编辑内容不提交流程审批,在本机保存
         if (that.data.targetId == '0') {

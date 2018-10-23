@@ -6,32 +6,19 @@
     <form bindsubmit="fSubmit">
       <view class="page__bd_spacing" id="{{targetId}}">
         <block wx:for="{{fieldName}}" wx:key="index">
-          <movable-area class="slider-left-item" style="width:calc({{openWidth}}px + 750rpx);margin-left:-{{openWidth}}px;">
-            <movable-view class="slider-left-content"
-              damping="100"
-              x="{{x}}"
-              direction="horizontal"
-              bind:touchstart="handleTouchestart"
-              bind:touchend="handleTouchend"
-              bind:change="handleChange">
-              <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
-            </movable-view>
-            <view class='slider-left-handle'>
-              <view style='width:{{openWidth}}px' formType="submit" class='handle-delete'>删除</view>
-            </view>
-          </movable-area>
+          <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
         </block>
       </view>
       <view style="padding-bottom:100rpx;"></view>
       <view class="page__ft weui-footer_fixed-bottom" id="{{dObjectId}}">
         <button class="weui-btn" style="display:{{enMenu=='none' && uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fSave">提交</button>
         <button class="weui-btn" style="display:{{enMenu=='none' && targetId=='0' ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fStorage">保存</button>
-        <button class="weui-btn" style="display:{{ enMenu }}" type="default" size="mini" formType="submit" id="fupdate">替换</button>
+
         <button class="weui-btn" style="display:{{ enMenu }}" type="primary" size="mini" formType="submit" id="fenins">插入</button>
       </view>
     </form>
     <view hidden="{{enIns}}">
-      <template is="i_insdata"></template>
+      <template is="m_insright"></template>
     </view>
   </view>
 </view>
