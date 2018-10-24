@@ -220,7 +220,7 @@ module.exports = {
       case 'fdeldata':                                 //删除内容部分选中的字段
         if (that.data.selectd >= 0) {                         //内容部分容许删除
           that.data.vData.details.splice(that.data.selectd, 1);
-          that.setData({ 'vData.details': that.data.vData.details, enMenu: 'none' });
+          that.setData({ 'vData.details': that.data.vData.details });
         } else { wx.showToast({ title: '此处禁止删除！' }) }
         break;
       case 'fenins':                   //允许显示插入菜单

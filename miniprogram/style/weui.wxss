@@ -603,6 +603,20 @@
   padding: 0 .34em;
   font-size: 24rpx;
 }
+.weui-right_fixed {
+  position: fixed;
+  z-index:998;
+  background-color: rgba(109, 109, 109, 1);
+  background-size: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  hight:100%;
+  width: 40%;
+	flex-direction: row;
+	justify-content: space-around;
+}
 .weui-grids {
   text-align: center;
   overflow: hidden;

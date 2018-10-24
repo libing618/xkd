@@ -33,7 +33,7 @@ Component({
       switch (this.data.pno) {
         case 's_cargo':
           cargototal = app.cargoStock[this.data.sitem._id]
-          this.data.setData({
+          this.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),
             csupply: (cargototal.canSupply / cargototal.packages - 0.5).toFixed(0)
           });
@@ -58,7 +58,6 @@ Component({
     },
     fSave(){
 
-      }
     }
   }
 })

@@ -110,7 +110,7 @@ initData:function(fieldName,fieldType, aData) {        //单一表记录录入�
       } else {
         vData[fname] = aData[fname]
       };
-    };
+    });
   };
   return vData;
 },

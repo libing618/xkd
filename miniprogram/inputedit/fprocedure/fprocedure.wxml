@@ -4,6 +4,9 @@
   <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
   <view class="page__sub" id="model-{{pNo}}">
     <form bindsubmit="fSubmit">
+    <view hidden="{{enIns}}">
+      <template is="m_insright"></template>
+    </view>
       <view class="page__bd_spacing" id="{{targetId}}">
         <block wx:for="{{fieldName}}" wx:key="index">
           <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
@@ -11,14 +14,9 @@
       </view>
       <view style="padding-bottom:100rpx;"></view>
       <view class="page__ft weui-footer_fixed-bottom" id="{{dObjectId}}">
-        <button class="weui-btn" style="display:{{enMenu=='none' && uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fSave">提交</button>
-        <button class="weui-btn" style="display:{{enMenu=='none' && targetId=='0' ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fStorage">保存</button>
-
-        <button class="weui-btn" style="display:{{ enMenu }}" type="primary" size="mini" formType="submit" id="fenins">插入</button>
+        <button class="weui-btn" style="display:{{uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fSave">提交</button>
+        <button class="weui-btn" style="display:{{targetId=='0' ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fStorage">保存</button>
       </view>
     </form>
-    <view hidden="{{enIns}}">
-      <template is="m_insright"></template>
-    </view>
   </view>
 </view>

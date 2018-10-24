@@ -40,17 +40,17 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 <template name="i_eDetail">
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}">
-      <view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__{{item.t}}" id="ad-{{index}}" catchlongpress="i_eDetail">
-        <view class="slider-left-item" style="transform: translateX(-{{selectd==n ? translateX : 0}}px); transition: transform {{transitionTime / 1000}}s">
+      <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime / 1000}}s;" id="ad-{{index}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
+        <button class="weui-btn" style="display:{{ selectd==index : 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
+        <view class="weui-article__{{item.t}}" style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};">
           <view wx:if="{{item.t<0}}">
             <template is="{{item.t}}" data="{{c:item.c,n:index,editen:true}}"></template>
-            <input hidden="true" name="adc{{index}}" value="{{item.c}}"/>
           </view>
-          <view wx:if="{{item.t=='p'}}">
-              <textarea id="txid-{{index}}" name="ade{{index}}" auto-height="true" maxlength="-1" value="{{item.c.e}}" placeholder="点击此处输入正文"/>
+          <view wx:else>
+            <textarea id="txid-{{index}}" name="ade{{index}}" auto-height="true" maxlength="-1" value="{{item.c.e}}" placeholder="点击此处输入正文"/>
           </view>
         </view>
-        <view class='slider-left-handle' style='transform: translateX({{item.type === 'del' ? translateXDel : translateXEdit}}px); transition: transform {{transitionTime / 1000}}s"' formType="submit" class='handle-delete'>删除</view>
+        <button class="wslider-left-item" style="display:{{ selectd==index : 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
       </view>
     </block>
   </view>
@@ -222,7 +222,7 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="m_insright">
-  <view class="weui-footer_fixed-bottom weui-grids">
+  <view class="weui-right_fixed weui-grids">
     <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
       <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="insmenu">
         <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
