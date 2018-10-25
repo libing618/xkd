@@ -1,4 +1,5 @@
 //通讯录
+import indexClick from '../../model/util.js';
 const app=getApp();
 Page({
   data:{
@@ -9,7 +10,7 @@ Page({
   },
   onLoad:function(options){
     this.setData({vData:[app.roleData.uUnit,app.roleData.sUnit]});
-    this.indexClick = require('../../libs/util.js').indexClick;
+    this.indexClick = indexClick;
   },
   onReady:function(){
     // 页面渲染完成

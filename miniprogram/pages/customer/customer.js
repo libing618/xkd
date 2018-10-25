@@ -1,3 +1,4 @@
+import iMenu from '../../model/allmenu.js'
 const { cargoCount } = require('../../model/dataAnalysis.js');
 const { shareMessage } = require('../../model/initForm.js');
 
@@ -20,7 +21,7 @@ Page({
     this.setPage();
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
-      grids: require('../../libs/allmenu.js').iMenu(3,app.roleData.wmenu[3])
+      grids: iMenu(3,app.roleData.wmenu[3])
     })
   },
 

@@ -1,3 +1,4 @@
+import iMenu from '../../model/allmenu.js'
 const { cargoCount } = require('../../model/dataAnalysis.js');
 
 var app = getApp()
@@ -21,7 +22,7 @@ Page({
   },
 
   onReady:function(){
-    this.grids = require('../../libs/allmenu.js').iMenu(2,app.roleData.wmenu[2]);
+    this.grids = iMenu(2,app.roleData.wmenu[2]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
       grids: this.grids

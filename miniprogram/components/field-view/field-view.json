@@ -1,6 +1,4 @@
 {
   "component": true,
-  "usingComponents": {
-    "record-view": "components/record-view/record-view"
-  }
+  "usingComponents": {}
 }

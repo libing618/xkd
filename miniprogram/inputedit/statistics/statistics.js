@@ -1,7 +1,7 @@
 //订单统计
+import { formatTime,indexClick } from '../../model/util.js';
 const db = wx.cloud.database();
 const _ = db.command;
-const { formatTime,indexClick } = require('../../libs/util.js');
 const { checkRols } =  require('../../model/initForm');
 var app = getApp();
 

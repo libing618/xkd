@@ -1,6 +1,6 @@
 // 供货操作
+import { indexClick,binddata } from '../../model/util.js';
 const db = wx.cloud.database();
-const { indexClick,binddata } = require('../../libs/util.js');
 const { checkRols } = require('../../model/initForm.js');
 var app = getApp();
 Page ({

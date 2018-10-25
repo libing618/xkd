@@ -46,12 +46,28 @@
     ]
   },
   "usingComponents": {
-    "recycle-view": "components/recycle-view/recycle-view",
-    "thumbnail-edit": "components/thumbnail-edit/thumbnail-edit",
     "address-view-edit": "components/address-view-edit/address-view-edit",
+    "array-view-edit": "components/array-view-edit/array-view-edit",
+    "asset-type": "components/asset-type/asset-type",
+    "audio-view-edit": "components/audio-view-edit/audio-view-edit",
+    "content-edit": "components/content-edit/content-edit",
+    "date-view-edit": "components/date-view-edit/date-view-edit",
+    "field-view": "components/field-view/field-view",
+    "file-select": "components/file-select/file-select",
+    "goods-type": "components/goods-type/goods-type",
     "industry-type": "components/industry-type/industry-type",
+    "map-select-unit": "components/map-select-unit/map-select-unit",
+    "product-type": "components/product-type/product-type",
     "record-view": "components/record-view/record-view",
-    "map-select-unit": "components/map-select-unit/map-select-unit"
+    "recycle-dragsort": "components/recycle-dragsort/recycle-dragsort",
+    "recycle-select": "components/recycle-select/recycle-select",
+    "recycle-view": "components/recycle-view/recycle-view",
+    "rich-view-edit": "components/rich-view-edit/rich-view-edit",
+    "share-order": "components/share-order/share-order",
+    "switch-afamily": "components/switch-afamily/switch-afamily",
+    "thumbnail-edit": "components/thumbnail-edit/thumbnail-edit",
+    "time-view-edit": "components/time-view-edit/time-view-edit",
+    "video-view-edit": "components/video-view-edit/video-view-edit"
   },
   "subPackages": [
     {

@@ -1,6 +1,7 @@
+import iMenu from '../../model/allmenu.js'
+import tabClick from '../../model/util.js';
 const db = wx.cloud.database();
-const { loginAndMenu, shareMessage } = require('../../model/initForm') ;
-const { tabClick } = require('../../libs/util');
+const { loginAndMenu, shareMessage } = require('../../model/initForm');
 const { openWxLogin } = require('../../model/wxcloudcf');
 var app = getApp();
 
@@ -30,7 +31,7 @@ Page({
     });
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
-      that.data.grids = require('../../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
+      that.data.grids = iMenu(0,app.roleData.wmenu[0]);
       that.data.grids[0].mIcon = app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
       that.setData({
         unAuthorize: false,
@@ -50,7 +51,7 @@ Page({
     openWxLogin().then( mstate=> {
       app.roleData = mstate;
       app.logData.push([Date.now(), '用户授权' + JSON.stringify(app.sysinfo)]);                      //用户授权时间记入日志
-      let grids = require('../libs/allmenu.js').iMenu(0,app.roleData.wmenu[0]);
+      let grids = iMenu(0,app.roleData.wmenu[0]);
       grids[0].mIcon=app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
       that.setData({ unAuthorize: false, grids: grids })
     }).catch( console.error );

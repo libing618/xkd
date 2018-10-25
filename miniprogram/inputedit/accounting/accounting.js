@@ -1,7 +1,7 @@
 //帐务中心
-const db = wx.cloud.database();
-const { formatTime,indexClick } = require('../../libs/util.js');
+import { formatTime,indexClick } from '../../model/util.js';
 const { checkRols } =  require('../../model/initForm');
+const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp();
 

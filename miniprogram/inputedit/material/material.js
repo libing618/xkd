@@ -1,7 +1,7 @@
 //原材料
+import { indexClick,binddata } from '../../model/util.js';
 const db = wx.cloud.database();
 const _ = db.command;
-const { indexClick,binddata } = require('../../libs/util.js');
 const { checkRols } = require('../../model/initForm.js');
 var app = getApp()
 Page({

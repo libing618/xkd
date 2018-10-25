@@ -1,3 +1,4 @@
+import iMenu from '../../model/allmenu.js'
 const db = wx.cloud.database();
 var app = getApp();
 Page({
@@ -16,7 +17,7 @@ Page({
 
   onReady: function(){
     this.setPage();              //更新缓存以后有变化的数据
-    this.grids = require('../../libs/allmenu.js').iMenu(1,app.roleData.wmenu[1]);
+    this.grids = iMenu(1,app.roleData.wmenu[1]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
       wWidth: app.sysinfo.windowWidth,

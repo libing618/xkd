@@ -1,4 +1,5 @@
 //共享信息管理
+import hTabClick from '../../model/util.js';
 const db = wx.cloud.database();
 const { checkRols } = require('../../model/initForm');
 var app = getApp()
@@ -32,7 +33,7 @@ Page({
     };
   },
 
-  hTabClick: require('../../libs/util').hTabClick,
+  hTabClick: hTabClick,
 
   fRegisterShare: function({currentTarget:{id}}){
     var that = this;

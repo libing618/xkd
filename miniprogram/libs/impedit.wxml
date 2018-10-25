@@ -39,18 +39,13 @@ module.exports = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 
 <template name="i_eDetail">
   <view class="weui-article">
-    <block wx:for="{{c}}" wx:key="{{index}}">
-      <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime / 1000}}s;" id="ad-{{index}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
-        <button class="weui-btn" style="display:{{ selectd==index : 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
-        <view class="weui-article__{{item.t}}" style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};">
-          <view wx:if="{{item.t<0}}">
-            <template is="{{item.t}}" data="{{c:item.c,n:index,editen:true}}"></template>
-          </view>
-          <view wx:else>
-            <textarea id="txid-{{index}}" name="ade{{index}}" auto-height="true" maxlength="-1" value="{{item.c.e}}" placeholder="点击此处输入正文"/>
-          </view>
+    <block wx:for="{{c}}" wx:key="{{index}}" wx:for-index="n">
+      <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
+        <button class="weui-btn" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
+        <view class="weui-article__{{item.t}}" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
+          <template is="{{item.t}}" data="{{c:item.c,gname:'adc'+n,editen:true}}"></template>
         </view>
-        <button class="wslider-left-item" style="display:{{ selectd==index : 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
+        <button class="wslider-left-item" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
       </view>
     </block>
   </view>
