@@ -1,4 +1,4 @@
-import iMenu from '../../model/allmenu.js'
+import {iMenu} from '../../model/allmenu.js'
 const { cargoCount } = require('../../model/dataAnalysis.js');
 const { shareMessage } = require('../../model/initForm.js');
 

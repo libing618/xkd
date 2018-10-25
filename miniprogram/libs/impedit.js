@@ -302,7 +302,7 @@ module.exports = {
             let saveData = that.data.vData;
             for (let reqName in that.data.vData){       //多字段对象类型分解
               if ( that.data.fieldType[reqName].addFields.length>0) {
-                saveData[reqName] = that.data.vData[reqName]._id);
+                saveData[reqName] = that.data.vData[reqName]._id;
                 that.data.fieldType[reqName].addFields.forEach(aField=>{
                   saveData[fname+'_'+aField] = that.data.vData[fname][aField];
                 })

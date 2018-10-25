@@ -1,5 +1,5 @@
 //分销招募
-import hTabClick from '../../model/util.js';
+import {hTabClick} from '../../model/util.js';
 const db = wx.cloud.database();
 const { checkRols } =  require('../../model/initForm');
 

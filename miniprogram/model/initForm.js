@@ -22,9 +22,7 @@ function requestCallback(err, data) {
   } else { return data}
 };
 
-module.exports = {
-
-loginAndMenu: function (roleData) {
+export function loginAndMenu(roleData) {
   return new Promise((resolve, reject) => {
     wx.getSetting({
       success:(res)=> {
@@ -81,9 +79,9 @@ loginAndMenu: function (roleData) {
       });
     });
   }).catch((loginErr) => { reject('系统登录失败:' + JSON.stringify(loginErr) ) });
-},
+};
 
-checkRols: function(ouLine,user,ouPosition){  //要求的条线，用户数据，要求的岗位
+export function checkRols(ouLine,user,ouPosition){  //要求的条线，用户数据，要求的岗位
   if (user.line==8 && user.position==8){        //单位负责人
     return true;
   } else {
@@ -96,9 +94,9 @@ checkRols: function(ouLine,user,ouPosition){  //要求的条线，用户数据�
       return false
     }
   }
-},
+};
 
-initData:function(fieldName,fieldType, aData) {        //单一表记录录入或显示时数据初始化
+export function initData(fieldName,fieldType, aData) {        //单一表记录录入或显示时数据初始化
   let vData={},vDataKeys = Object.keys(aData);            //数据对象是否为空
   if (vDataKeys.length > 0){
     fieldName.forEach(fname=> {
@@ -113,17 +111,17 @@ initData:function(fieldName,fieldType, aData) {        //单一表记录录入�
     });
   };
   return vData;
-},
+};
 
-shareMessage: function () {
+export function shareMessage() {
   return {
     title: '侠客岛创业服务平台', // 分享标题
     desc: '扶贫济困，共享良品。', // 分享描述
     path: '/pages/manage/manage' // 分享路径
   }
-},
+};
 
-cosUploadFile: function(filePath){
+export function cosUploadFile(filePath){
   let Key = filePath.substr(filePath.lastIndexOf('/') + 1); // 这里指定上传的文件名
   cos.postObject({
     Bucket: 'lg-la2p7duw-1254249743',
@@ -132,5 +130,4 @@ cosUploadFile: function(filePath){
     FilePath: filePath,
     onProgress: function (info) { console.log(JSON.stringify(info)) }
   }, requestCallback);
-}
 }

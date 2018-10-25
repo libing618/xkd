@@ -1,4 +1,4 @@
-import formatTime from '../../model/util.js';
+import {formatTime} from '../../model/util.js';
 var modalBehavior = require('../utils/poplib.js');
 Component({
   behaviors: [modalBehavior],

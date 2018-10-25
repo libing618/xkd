@@ -1,7 +1,6 @@
-import iMenu from '../../model/allmenu.js'
-import tabClick from '../../model/util.js';
-const db = wx.cloud.database();
-const { loginAndMenu, shareMessage } = require('../../model/initForm');
+import {iMenu} from '../../model/allmenu.js';
+import {tabClick} from '../../model/util.js';
+import { loginAndMenu, shareMessage } from '../../model/initForm';
 const { openWxLogin } = require('../../model/wxcloudcf');
 var app = getApp();
 
@@ -31,12 +30,13 @@ Page({
     });
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
-      that.data.grids = iMenu(0,app.roleData.wmenu[0]);
-      that.data.grids[0].mIcon = app.roleData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
-      that.setData({
-        unAuthorize: false,
-        grids: that.data.grids
-      });
+      iMenu(0, rData.wmenu[0]).then(grids =>{
+        grids[0].mIcon = rData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
+        that.setData({
+          unAuthorize: false,
+          grids: grids
+        });
+      })
       if (app.roleData.user.line==9){ wx.hideTabBar() };
     }).catch(loginerr=>{
       app.logData.push([Date.now(),JSON.stringify(loginerr)]);

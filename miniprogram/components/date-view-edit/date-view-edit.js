@@ -1,13 +1,13 @@
-import formatTime from '../../model/util.js';
+import {formatTime} from '../../model/util.js';
 const today = new Date()
 const week = [
-  { value: '周日', class: 'weekend' },
-  { value: '周一', class: '' },
-  { value: '周二', class: '' },
-  { value: '周三', class: '' },
-  { value: '周四', class: '' },
-  { value: '周五', class: '' },
-  { value: '周六', class: 'weekend' }
+  { value: '周日', classed: 'weekend' },
+  { value: '周一', classed: '' },
+  { value: '周二', classed: '' },
+  { value: '周三', classed: '' },
+  { value: '周四', classed: '' },
+  { value: '周五', classed: '' },
+  { value: '周六', classed: 'weekend' }
 ];
 Component({
   behaviors: ['wx://form-field'],
@@ -34,7 +34,16 @@ Component({
     addGlobalClass: true
   },
   data: {
-    inclose: false
+    inclose: false,
+    currYear:2018,
+    currMonth:12,
+    emptyGrids:[],
+    days:[],
+    selected:[],
+    time:'',
+    dayInWeek:'',
+    dayInMonth:'',
+    week: week
   },
 
   lifetimes: {
@@ -127,22 +136,21 @@ Component({
         currYear += 1
         currMonth = 1
       }
-
-      const emptyGrids = this.calEmptyGrid(currYear, currMonth)
-      const days = this.calDays(currYear, currMonth)
-      this.setData({ currYear, currMonth, emptyGrids, days })
+      this.setData({
+        currYear:currYear,
+        currMonth:currMonth,
+        emptyGrids: this.calEmptyGrid(currYear, currMonth),
+        days: this.calDays(currYear, currMonth)
+      })
     },
 
     handleSelectDate: function(e) {
       let data = e.target.dataset.selected
-      const selected = [data[0], data[1], data[2]]
-      this.setData({ selected })
-
-      let days = this.calDays(data[0], data[1])
       this.setData({
+          selected: [data[0], data[1], data[2]],
         currYear: data[0],
         currMonth: data[1],
-        days: days,
+        days: this.calDays(data[0], data[1])
       })
     },
 
@@ -150,21 +158,24 @@ Component({
       let [year, month] = e.detail.value.split('-')
       year = parseInt(year)
       month = parseInt(month)
-      this.setData({ currYear: year, currMonth: month })
-      const emptyGrids = this.calEmptyGrid(year, month)
-      const days = this.calDays(year, month)
-      this.setData({ emptyGrids, days })
+      this.setData({
+        currYear: year,
+        currMonth: month,
+        emptyGrids: this.calEmptyGrid(year, month),
+        days: this.calDays(year, month)
+      })
     },
 
     handleTimePickerChange(e) {
-      const time = e.detail.value
-      this.setData({ time })
+      this.setData({ time: e.detail.value })
     },
 
     handleReset(e) {
-      this.setData({ selected: [], time: '' })
-      const days = this.calDays(this.data.currYear, this.data.currMonth)
-      this.setData({ days })
+      this.setData({
+        selected: [],
+        time: '',
+        days: this.calDays(this.data.currYear, this.data.currMonth)
+      })
     },
 
     init() {
@@ -176,12 +187,16 @@ Component({
       let hour = dateTime.getHours()
       let minute = dateTime.getMinutes()
       let second = dateTime.getSeconds();
-      const time = hour+':'+minute+':'+second;
-      const selected = [year, month, dayInMonth]
-      this.setData({ currYear: year, currMonth: month, dayInWeek, dayInMonth, week, time, selected })
-      const emptyGrids = this.calEmptyGrid(year, month)
-      const days = this.calDays(year, month)
-      this.setData({ emptyGrids, days })
+      this.setData({
+        currYear: year,
+        currMonth: month,
+        dayInWeek,
+        dayInMonth,
+        time:hour+':'+minute+':'+second,
+        selected:[year, month, dayInMonth],
+        emptyGrids: this.calEmptyGrid(year, month),
+        days: this.calDays(year, month)
+      })
     },
 
     handleChooseToday() {

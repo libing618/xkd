@@ -1,5 +1,5 @@
 //调整当日成品生产计划
-import hTabClick from '../../model/util.js';
+import {hTabClick} from '../../model/util.js';
 const db = wx.cloud.database();
 const _ = db.command;
 const { checkRols,shareMessage } =  require('../../model/initForm');

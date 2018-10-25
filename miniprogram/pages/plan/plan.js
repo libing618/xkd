@@ -1,4 +1,4 @@
-import iMenu from '../../model/allmenu.js'
+import {iMenu} from '../../model/allmenu.js'
 const db = wx.cloud.database();
 var app = getApp();
 Page({
