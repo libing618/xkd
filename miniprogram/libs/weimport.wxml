@@ -49,7 +49,7 @@
     <block wx:for="{{c}}" wx:key="{{index}}">
       <view class="weui-article__{{item.t}}" id="ad-{{index}}">
         <view wx:if="{{item.t<0}}">
-          <template is="{{item.t}}" data="{{...item.c}}"></template>
+          <template is="d{{item.t}}" data="{{...item.c}}"></template>
         </view>
         <view wx:if="{{item.c.e}}">{{item.c.e}}</view>
       </view>

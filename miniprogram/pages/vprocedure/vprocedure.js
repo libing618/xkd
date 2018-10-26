@@ -1,5 +1,5 @@
 // 浏览pages
-const {initData} = require('../../model/initForm');
+import {initData,shareMessage} from '../../model/initForm';
 var app=getApp()
 Page({
   data:{
@@ -39,6 +39,7 @@ Page({
         break;
     };
     wx.navigateTo({ url: url});
-  }
+  },
+  onShareAppMessage: shareMessage
 
 })

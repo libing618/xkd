@@ -23,22 +23,33 @@
     </navigator>
   </view>
 </template>
-
-<template name="-1">
-  <recycle-select name="ade{{n}}" value="{{c}}" csc="idrich" editen></recycle-select>
+<template name="dT">
+  <rich-view-edit name="ade{{n}}" value="{{c}}" type="T" editen></rich-view-edit>
 </template>
-<template name="-2">
-  <thumbnail-edit name="ade{{n}}" value="{{c}}" csc="img" editen></thumbnail-edit>
+<template name="dp">
+  <rich-view-edit name="ade{{n}}" value="{{c}}" type="p" editen></rich-view-edit>
 </template>
-<template name="-3">
-  <audio-view-edit name="ade{{n}}" value="{{c}}" editen></audio-view-edit>
+<template name="d-1">
+  <recycle-select name="ade{{n}}" value="{{c}}" csc="goods" editen></recycle-select>
 </template>
-<template name="-4">
-  <video-view-edit name="ade{{n}}" value="{{c}}" editen></video-view-edit>
+<template name="d-2">
+  <recycle-select name="ade{{n}}" value="{{c}}" csc="order" editen></recycle-select>
 </template>
-<template name="-5">
+<template name="d-3">
   <address-view-edit name="ade{{n}}" value="{{c}}" editen></address-view-edit>
 </template>
-<template name="-6">
+<template name="d-4">
+  <thumbnail-edit name="ade{{n}}" value="{{c}}" csc="img" editen></thumbnail-edit>
+</template>
+<template name="d-5">
+  <pics-view-edit name="ade{{n}}" value="{{c}}" editen></pics-view-edit>
+</template>
+<template name="d-6">
+  <audio-view-edit name="ade{{n}}" value="{{c}}" editen></audio-view-edit>
+</template>
+<template name="d-7">
+  <video-view-edit name="ade{{n}}" value="{{c}}" editen></video-view-edit>
+</template>
+<template name="d-8">
   <file-select name="ade{{n}}" value="{{c}}" editen></file-select>
 </template>

@@ -1,8 +1,8 @@
 //订单统计
 import { formatTime,indexClick } from '../../model/util.js';
+import {checkRols,shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
 const _ = db.command;
-const { checkRols } =  require('../../model/initForm');
 var app = getApp();
 
 Page({
@@ -51,6 +51,8 @@ Page({
 
   orderquery:function(e){
     this.sumOrders();
-  }
+  },
+
+  onShareAppMessage: shareMessage
 
 })

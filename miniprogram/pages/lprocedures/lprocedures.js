@@ -1,3 +1,4 @@
+import {shareMessage} from '../../model/initForm';
 var app = getApp()
 Page ({
   data: {
@@ -18,5 +19,5 @@ Page ({
     });
   },
 
-  onShareAppMessage: require('../../model/initForm').shareMessage
+  onShareAppMessage: shareMessage
 })

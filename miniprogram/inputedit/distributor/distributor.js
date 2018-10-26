@@ -1,8 +1,7 @@
 //分销招募
 import {hTabClick} from '../../model/util.js';
+import {checkRols,shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
-const { checkRols } =  require('../../model/initForm');
-
 var app = getApp()
 Page({
   data:{
@@ -49,5 +48,5 @@ Page({
     };
   },
   hTabClick:hTabClick,
-
+  onShareAppMessage: shareMessage
 })

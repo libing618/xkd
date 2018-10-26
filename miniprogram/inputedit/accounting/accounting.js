@@ -1,6 +1,6 @@
 //帐务中心
 import { formatTime,indexClick } from '../../model/util.js';
-const { checkRols } =  require('../../model/initForm');
+import {checkRols,shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp();
@@ -48,6 +48,6 @@ Page({
   orderquery:function(e){
     this.sumOrders();
   },
-  onShareAppMessage: require('../../model/initForm').shareMessage
+  onShareAppMessage: shareMessage
 
 })

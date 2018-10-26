@@ -1,8 +1,7 @@
 const db = wx.cloud.database();
 const _ = db.command;
 
-module.exports = {
-  openWxLogin: function () {              //解密unionid并进行注册
+exports function openWxLogin() {              //解密unionid并进行注册
     return new Promise((resolve, reject) => {
       wx.login({
         success: function (wxlogined) {
@@ -61,7 +60,7 @@ module.exports = {
     });
   },
 
-  getToken:function(){
+  exports function getToken(){
     return new Promise((resolve, reject) => {
       db.collection('accessToken').orderBy('accessOverTime', 'asc').limit(1).get().then(({ data }) => {
         if (Date.now() > data[0].accessOverTime) {
@@ -73,12 +72,10 @@ module.exports = {
     })
   },
 
-
-
-  fileUpload: function (cSavePath, filePath, fe) {
+  exports function fileUpload(cSavePath, filePath, fe) {
     return new Promise((resolve, reject) => {
       let extIndex = filePath.lastIndexOf(".");
-      let nameIndex =  filePath.lastIndexOf("\\");
+      let nameIndex = filePath.lastIndexOf("\\");
       let fileName = filePath.substring(nameIndex+1);
       wx.showLoading({title:'正在上传《'+fe+'》',mack:true})
       wx.cloud.uploadFile({
@@ -91,7 +88,7 @@ module.exports = {
         wx.hideLoading()
         wx.showToast({
           icon: 'none',
-          title: '上传失败'+e,
+          title: '上传失败'+e.errMsg,
         })
       })
     })

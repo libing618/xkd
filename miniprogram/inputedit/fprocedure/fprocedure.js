@@ -1,4 +1,5 @@
 // 通用的内容编辑pages
+import {initData} from '../../model/initForm';
 const wImpEdit = require('../../libs/impedit.js');
 var app = getApp()
 Page({
@@ -6,7 +7,6 @@ Page({
     navBarTitle: '编辑--',              //申请项目名称
     statusBar: app.sysinfo.statusBarHeight,
     selectd: -1,                       //详情项选中字段序号
-
     enIns: true,                  //插入grid菜单组关闭
     targetId: '0',              //流程申请表的ID
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
@@ -51,7 +51,7 @@ Page({
       fieldName.unshift("uName");
       fData.uName = {t:"h2", p:"名称" };
       if (typeof aaData == 'undefined') {
-        aaData = require('../../model/initForm').initData(fData,app.aData[ops.pNo][that.data.dObjectId])
+        aaData = initData(fData,app.aData[ops.pNo][that.data.dObjectId])
       }//require('../../test/goods0')[0]
       wImpEdit.initFunc(fieldName).forEach(functionName => {
         that[functionName] = wImpEdit[functionName];

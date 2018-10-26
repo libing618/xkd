@@ -1,4 +1,5 @@
 import {iMenu} from '../../model/allmenu.js'
+import {shareMessage} from '../../model/initForm';
 const { cargoCount } = require('../../model/dataAnalysis.js');
 
 var app = getApp()
@@ -33,5 +34,5 @@ Page({
     this.setPage();
   },
 
-  onShareAppMessage: require('../../model/initForm').shareMessage
+  onShareAppMessage: shareMessage
 })

@@ -1,7 +1,7 @@
 import {iMenu} from '../../model/allmenu.js';
 import {tabClick} from '../../model/util.js';
 import { loginAndMenu, shareMessage } from '../../model/initForm';
-const { openWxLogin } = require('../../model/wxcloudcf');
+import { openWxLogin } from '../../model/wxcloudcf';
 var app = getApp();
 
 Page({

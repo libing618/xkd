@@ -1,4 +1,6 @@
 //系统对话和聊天室模块
+import {checkRols} from '../../model/initForm';
+import { fileUpload } from '../../model/wxcloudcf';
 const db = wx.cloud.database();
 const conversationRole = {
   "推广通知":{participant:9,chairman:6},
@@ -6,8 +8,6 @@ const conversationRole = {
   "直播课堂":{participant:9,chairman:7},
   "客户服务":{participant:9,chairman:6}
 };
-const { checkRols } = require('../../model/initForm');
-const { fileUpload } = require('../../model/wxcloudcf');
 var app = getApp()
 Page({
   data:{
@@ -83,8 +83,8 @@ Page({
   sendMsg({ currentTarget:{id,dataset},detail:{value} }) {
     let that = this;
     return new Promise( (resolve, reject) => {
-      if (['-2','-3','-4','-6'].indexOf(that.data.mtype)>=0){
-        fileUpload('wechat', value.adc0.filepath).then((cres)=>{
+      if (Number(that.data.mtype)<p0){
+        fileUpload('wechat', value.adc0.filepath,value.adc0.e).then((cres)=>{
           resolve(...cres,value.adc0.e);
         }).catch(()=>{ reject('媒体文件保存错误！') });
       } else {

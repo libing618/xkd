@@ -1,5 +1,5 @@
+import {shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
-const { shareMessage } = require('../../model/initForm');
 var app = getApp()
 Page({
   data:{
@@ -193,6 +193,7 @@ Page({
         }
       }).catch(error=> { console.log(error) });                                     //打印错误日志
     }
-	}
+	},
+  onShareAppMessage: shareMessage
 
 })

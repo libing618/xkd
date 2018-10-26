@@ -1,4 +1,5 @@
 import {iMenu} from '../../model/allmenu.js'
+import {shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
 var app = getApp();
 Page({
@@ -29,5 +30,5 @@ Page({
     this.setPage()
   },
 
-  onShareAppMessage: require('../../model/initForm').shareMessage
+  onShareAppMessage: shareMessage
 })

@@ -1,5 +1,5 @@
 //共享信息管理
-const { checkRols } =  require('../../model/initForm');
+import {checkRols,shareMessage} from '../../model/initForm';
 var app = getApp()
 Page({
   data: {
@@ -12,5 +12,5 @@ Page({
   onLoad: function (options) {
     checkRols(0,app.roleData.user)     //负责人或综合条线员工
   },
-
+  onShareAppMessage: shareMessage
 })

@@ -1,3 +1,4 @@
+import { fileUpload } from '../../model/wxcloudcf';
 const db = wx.cloud.database();
 var app = getApp();
 
@@ -227,7 +228,7 @@ module.exports = {
         let artArray = that.data.vData.details;       //详情的内容
         let sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;
         let mgrids = ['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件'];
-        let sI = ['h', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
+        let sI = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
         artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
         that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭
         break;
@@ -266,14 +267,14 @@ module.exports = {
         break;
       case 'fSave':
         if (emptyField) {
-          wx.showToast({ title: '请检查下列未输入项目:'+emptyField , icon:'none',duration: 5000 })
+          wx.showToast({ title: '请检查未输入项目:'+emptyField , icon:'none',duration: 5000 })
         } else {
           sFilePath.then(sFileLists => {
-            let sFileArr = sFileLists.filter(sFile => { return sFile.fType < 2 });
+            let sFileArr = sFileLists.filter(sFile => { return sFile.fType < -2 });
             return new Promise((resolve, reject) => {
               if (sFileArr.length > 0) {
                 wx.showLoading({ title: '文件提交中' });
-                sFileArr.map(sFileStr => () => wx.cloud.uploadFile({ cloudPath:'editpath', filePath: sFileStr.fPath }).then(sfile => {
+                sFileArr.map(sFileStr => () => fileUpload( that.data.pNo, sFileStr.fPath,sFileStr.e }).then(sfile => {
                   if (sfile.statusCode == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
                   switch (sFileStr.fn) {
                     case 0:
@@ -324,7 +325,7 @@ module.exports = {
                 db.collection(that.data.pNo).add({data:saveData}).then(()=>{
                   wx.showToast({ title: '审批内容已发布', duration:2000 });
                 }).catch((error)=>{
-                  wx.showToast({ title: '审批内容发布出现错误'+error.error, icon:'none', duration: 2000 });
+                  wx.showToast({ title: '审批内容发布出现错误'+error.errMsg, icon:'none', duration: 2000 });
                 })
               } else {
                 db.collection('sengpi').add({        //创建审批流程

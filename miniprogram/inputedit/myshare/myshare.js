@@ -1,7 +1,7 @@
 //共享信息管理
 import {hTabClick} from '../../model/util.js';
+import {checkRols,shareMessage} from '../../model/initForm';
 const db = wx.cloud.database();
-const { checkRols } = require('../../model/initForm');
 var app = getApp()
 Page({
   data: {
@@ -44,6 +44,7 @@ Page({
       default:
         wx.navigateBack({ delta: 1 });
     }
-  }
+  },
+  onShareAppMessage: shareMessage
 
 })

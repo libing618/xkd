@@ -1,4 +1,5 @@
 //显示数据的关键要素
+import {initData} from '../../model/initForm';
 var app = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({
@@ -61,7 +62,7 @@ Component({
         this.setData({
           fieleName: app.fData[this.data.pno].pSuccess,
           fieldType: app.fData[this.data.pno].fieldType,
-          vData: require('../../model/initForm').initData(app.fData[this.data.pno].pSuccess, app.fData[this.data.pno].fieldType, this.data.sitem),
+          vData: initData(app.fData[this.data.pno].pSuccess, app.fData[this.data.pno].fieldType, this.data.sitem),
           enUpdate: this.data.sitem.unitId==app.roleData.uUnit._id && typeof app.fData[this.data.pno].suRoles!='undefined'
         });
         this.popModal()

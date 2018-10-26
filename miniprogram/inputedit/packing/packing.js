@@ -1,5 +1,5 @@
 // inputedit/packing.js
-var {cosUploadFile} = require('../../model/initForm');
+import {cosUploadFile} from '../../model/initForm';
 var app = getApp()
 Page({
   data: {
