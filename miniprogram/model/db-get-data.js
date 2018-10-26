@@ -2,7 +2,18 @@ const db = wx.cloud.database();
 const _ = db.command;
 const CLOUD_FILE_ROOT = require('../config').cloudFileRoot;
 let app = getApp();
-class getData {               //无条件查询
+function _mapResData(rData){           //处理查询到的数组
+  return iData = rData.map(aProc =>{
+    this.aData[aProc._id] = aProc;
+    return aProc._id
+  });
+};
+
+function  _getError(error) {
+  if (!app.netState) { wx.showToast({ title: '请检查网络！' }) }
+  app.logData.push([Date.now(), JSON.stringify(error)]);
+};
+export class getData {               //wxcloud查询
   constructor (dataName,afamily=0,filterId='updatedAtdesc',uId=app.roleData.uUnit._id) {
     let requirement,orderArr=['updatedAt','desc'];
     this.pNo = dataName;
@@ -66,7 +77,7 @@ class getData {               //无条件查询
       return new Promise((resolve, reject) => {
         this.dQuery.skip(this.mData.indArr.length).limit(20).get().then(({data}) => {
           if (data.length>0){
-            let addItemId = mapResData(data);
+            let addItemId = _mapResData(data);
             this.mData.indArr = this.mData.indArr.filter(indkey=>{ return addItemId.indexOf(indkey)>=0 })
             this.mData.indArr = this.mData.indArr.concat(addItemId)
             if (this.bufferData.length>0){            //原来有缓存数据
@@ -93,7 +104,7 @@ class getData {               //无条件查询
     return new Promise((resolve, reject) => {
       this.dQuery.limit(20).get().then(({data}) => {
         if (data.length>0){
-          let addItemId = mapResData(data);
+          let addItemId = _mapResData(data);
           if (this.mData.indArr.length>0){            //原来有缓存数据
             let buffTopAt=this.aData[this.mData.indArr[0]].updatedAt;
             let aPlace = addItemId.indexOf(this.mData.indArr[0]);
@@ -132,7 +143,7 @@ class getData {               //无条件查询
             if (notEnd.data.length>19) {
               return readAll();
             } else {
-              this.mData.indArr = mapResData(aProcedure);
+              this.mData.indArr = _mapResData(aProcedure);
               this.isEnd = true;
               resolve(this.mData.indArr);
             }
@@ -161,17 +172,4 @@ class getData {               //无条件查询
       });
     });
   }
-};
-function mapResData(rData){           //处理查询到的数组
-  return iData = rData.map(aProc =>{
-    this.aData[aProc._id] = aProc;
-    return aProc._id
-  });
-};
-
-function  _getError(error) {
-  if (!app.netState) { wx.showToast({ title: '请检查网络！' }) }
-  app.logData.push([Date.now(), JSON.stringify(error)]);
-};
-
-module.exports = getData
+}

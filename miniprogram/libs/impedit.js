@@ -1,4 +1,4 @@
-import { fileUpload } from '../../model/wxcloudcf';
+import { fileUpload } from '../model/wxcloudcf';
 const db = wx.cloud.database();
 var app = getApp();
 
@@ -140,17 +140,17 @@ module.exports = {
     }
   },
 
-  initFunc: function(cName,fieldName) {      //对数据录入或编辑的格式数组增加函数
+  initFunc: function(cName) {      //对数据录入或编辑的格式数组增加函数
     let funcArr = [];
-    for (let i = 0; i < fieldName.length; i++) {
-      if (app.fData[cName][fieldName[i]].csc) {
-        funcArr.push('f_' + app.fData[cName][fieldName[i]].itype);
+    app.fData[cName].pSuccess.forEach(fieldName=> {
+      if (app.fData[cName].fieldType[fieldName].csc) {
+        funcArr.push('f_' + app.fData[cName].fieldType[fieldName].itype);
       } else {
-        if (app.fData[cName][fieldName[i]].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
-          funcArr.push('i_' + app.fData[cName][fieldName[i]].t);
+        if (app.fData[cName].fieldType[fieldName].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
+          funcArr.push('i_' + app.fData[cName].fieldType[fieldName].t);
         };
       };
-    };
+    });
     return funcArr;
   },
 
@@ -274,7 +274,7 @@ module.exports = {
             return new Promise((resolve, reject) => {
               if (sFileArr.length > 0) {
                 wx.showLoading({ title: '文件提交中' });
-                sFileArr.map(sFileStr => () => fileUpload( that.data.pNo, sFileStr.fPath,sFileStr.e }).then(sfile => {
+                sFileArr.map(sFileStr => () => fileUpload( that.data.pNo, sFileStr.fPath,sFileStr.e ).then(sfile => {
                   if (sfile.statusCode == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
                   switch (sFileStr.fn) {
                     case 0:

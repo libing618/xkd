@@ -1,6 +1,6 @@
 import {iMenu} from '../../model/allmenu.js'
 import {shareMessage} from '../../model/initForm';
-const { cargoCount } = require('../../model/dataAnalysis.js');
+import { cargoCount } from '../../model/dataAnalysis.js';
 
 var app = getApp()
 Page({
