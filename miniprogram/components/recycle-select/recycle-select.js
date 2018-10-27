@@ -19,7 +19,7 @@ Component({
       type: Number,
       value: 4,
     },
-    c: {
+    value: {
       type: Object,
       value:{ _id: '0', sName: '点此处进行选择' }
     },
@@ -35,9 +35,9 @@ Component({
       type: String,
       value: 'updatedAtdesc'
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
 
@@ -50,7 +50,7 @@ Component({
   },
   lifetimes: {
     attached() {
-      if (this.data.c._id == '0') { this.selectid() }
+      if (this.data.editable == 2) { this.selectid() }
     },
     detached() {
       if (this.gData) {
@@ -111,7 +111,6 @@ Component({
     successid(e) {                  //选定返回
       if (this.data.clickedid!='0'){
         this.setData({
-          c: {_id:this.gData.aData[this.data.clickedid]._id,sName:this.gData.aData[this.data.clickedid].uName},
           value: {_id:this.gData.aData[this.data.clickedid]._id,sName:this.gData.aData[this.data.clickedid].uName}
         });
         this.downModal()

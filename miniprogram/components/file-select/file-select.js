@@ -7,13 +7,13 @@ Component({
       type: String,
       value: '文件',
     },
-    c: {
+    value: {
       type: String,
       value: '文件路径',
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
@@ -28,11 +28,11 @@ Component({
   },
   lifetimes:{
     attached(){
-      if (this.data.c){
-        let index = this.data.c.indexOf(".");
-        this.setData({fileType: this.data.c.substring(index+1)});
-      } else {
+      if (this.data.editable==2){
         this.modalSelectFile()
+      } else {
+        let index = this.data.value.indexOf(".");
+        this.setData({fileType: this.data.value.substring(index+1)});
       }
     }
   },
@@ -59,7 +59,7 @@ Component({
       })
     },
     fSelect({ currentTarget:{id,dataset} }) {                  //选定返回
-      this.setData({c:this.data.pageData[this.data.idClicked]});
+      this.setData({value:this.data.pageData[this.data.idClicked]});
       this.downModal();
     },
     fOpen({ currentTarget:{id,dataset} }) {                  //打开文件

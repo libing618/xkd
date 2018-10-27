@@ -5,8 +5,12 @@ Component({
       type: String,
       value: '时间',
     },
-    c: {
+    value: {
       type: Date,
+      value: 0
+    },
+    editable: {
+      type: Number,
       value: 0
     }
   },
@@ -19,7 +23,7 @@ Component({
 
   lifetimes: {
     attached() {
-      this.setData({inclose:this.data.c!=0})
+      this.setData({inclose:this.data.value!=0})
     }
   },
   methods: {
@@ -28,7 +32,6 @@ Component({
     },
     inputtime({ currentTarget:{id,dataset},detail:{value} }) {
       this.setData({                       //日期选择
-        c: value,
         value: value
       });
     }

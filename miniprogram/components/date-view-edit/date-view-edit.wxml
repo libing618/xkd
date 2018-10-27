@@ -1,7 +1,7 @@
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd">{{value}}</view>
-  <view wx:if="{{editen}}" class="weui-cell__ft"><icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
+  <view wx:if="{{editable}}" class="weui-cell__ft"><icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
 </view>
 <view hidden="{{inclose}}" class="weui-picker">
   <view class="date-display flex">

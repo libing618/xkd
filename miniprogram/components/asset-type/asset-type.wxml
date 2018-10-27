@@ -2,7 +2,7 @@
 <wxs src="assc.wxs" module="assclist" />
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd" bindtap="selclose">{{inclose ? c.sName : assv['a'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]] ]}} </view>
+  <view class="weui-cell__bd" bindtap="selclose">{{inclose ? value.sName : assv['a'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]] ]}} </view>
   <view hidden="{{inclose}}" class="weui-cell__ft">
     <button data-ca="{{assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{assv['s'+assclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" size="mini" bindtap="assetsel">确定</button>
   </view>

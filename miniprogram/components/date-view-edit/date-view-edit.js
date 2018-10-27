@@ -25,9 +25,9 @@ Component({
       value: '',
       observer: 'init'
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {

@@ -1,7 +1,7 @@
 <wxs src="goodstype.wxs" module="gslist" />
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd" bindtap="selclose">{{gslist.typevale[c ? c : gslist.typevale[gslist.droneId[osv[0]].slaveId[osv[1]]]].uName}} </view>
+  <view class="weui-cell__bd" bindtap="selclose">{{gslist.typevale[value ? value : gslist.typevale[gslist.droneId[osv[0]].slaveId[osv[1]]]].uName}} </view>
   <view hidden="{{inclose}}" class="weui-cell__ft">
     <button data-ca="{{ gslist.droneId[osv[0]].slaveId[osv[1]] }}" bindtap="goodssel" size="mini">确定</button>
   </view>

@@ -5,17 +5,17 @@ Component({
       type: Object,
       value: {},
     },
-    images: {
-      type: Array,
-      value: [],
+    value: {
+      type: String,
+      value: '',
     },
     richStyle: {
       type: String,
       value: '',
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
@@ -26,19 +26,19 @@ Component({
     imageWidths: {}
   },
 
-  /**
-   * 组件自定义格式数组rich：大小h1~h6,强调s0~s7,对齐a0~a2,缩进i,颜色c#,背景b
-   */
   lifetimes: {
     attached(){
-      this.setData({
-        rich_h: this.data.richStrle.substr(0,1),
-        rich_s: this.data.richStrle.substr(1,1),
-        rich_a: this.data.richStrle.substr(2,1),
-        rich_i: this.data.richStrle.substr(3,1),
-        rich_c: this.data.richStrle.substr(4,6),
-        rich_b: this.data.richStrle.substr(10)
-      })
+      if (this.data.value){
+        this.setData({
+          rich_h: this.data.richStrle.substr(0,1),
+          rich_s: this.data.richStrle.substr(1,1),
+          rich_a: this.data.richStrle.substr(2,1),
+          rich_i: this.data.richStrle.substr(3,1),
+          rich_c: this.data.richStrle.substr(4,6),
+          rich_b: this.data.richStrle.substr(10)
+        })
+      }
+
     }
   },
 

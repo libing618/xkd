@@ -33,7 +33,7 @@
 
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd" bindtap="selclose">{{inclose ? c.sName : we.pdv['s'+we.glist(indlist,aVl,2)] }}</view>
+  <view class="weui-cell__bd" bindtap="selclose">{{inclose ? value.uName : we.pdv['s'+we.glist(indlist,aVl,2)] }}</view>
   <view hidden="{{inclose}}" class="weui-cell__ft">
     <button data-ca="{{we.glist(indlist,aVl,2)}}" data-sa="{{we.pdv['s'+we.glist(indlist,aVl,2)]}}" size="mini" bindtap="productsel">确定</button>
   </view>

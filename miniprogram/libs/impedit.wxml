@@ -7,7 +7,7 @@ module.exports =
 module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </wxs>
 <template name="i_arrList">
-  <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editen="{{true}}"></array-view-edit>
+  <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editable="1"></array-view-edit>
 </template>
 
 <template name="i_ast">
@@ -19,7 +19,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_cit">
-  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}"></thumbnail-edit>
+  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable></thumbnail-edit>
 </template>
 
 <template name="i_dg">
@@ -34,7 +34,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_-3">
-  <address-view-edit c="{{c}}" p="{{p}}" editen="{{true}}"></address-view-edit>
+  <address-view-edit c="{{c}}" p="{{p}}" editable="{{true}}"></address-view-edit>
 </template>
 
 <template name="i_eDetail">
@@ -43,7 +43,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
       <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
         <button class="weui-btn" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
         <view class="weui-article__{{item.t}}" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
-          <template is="d{{item.t}}" data="{{c:item.c,n,editen:true}}"></template>
+          <template is="d{{item.t}}" data="{{c:item.c,n,editable:true}}"></template>
         </view>
         <button class="wslider-left-item" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
       </view>
@@ -112,7 +112,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_dVE">
-  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editen="{{true}}"></date-view-edit>
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="{{true}}"></date-view-edit>
 </template>
 
 <template name="i_iNd">
@@ -169,7 +169,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_tVE">
-  <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editen="{{true}}"></time-view-edit>
+  <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="{{true}}"></time-view-edit>
 </template>
 
 <template name="i_cargopackage">

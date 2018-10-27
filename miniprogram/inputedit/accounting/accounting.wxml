@@ -5,8 +5,8 @@
   <template is="p_navBar__back" data="{{statusBar,navBarTitle:'帐务中心'}}"/>
   <view class="page__hd weui-cells">
     <form bindsubmit="orderquery">
-    <date-view-edit name="sDate" value="{{c}}" p="开始时间" editen="{{true}}"></date-view-edit>
-    <date-view-edit name="eDate" value="{{c}}" p="结束时间" editen="{{true}}"></date-view-edit>
+    <date-view-edit name="sDate" value="{{c}}" p="开始时间" editable="1"></date-view-edit>
+    <date-view-edit name="eDate" value="{{c}}" p="结束时间" editable="1"></date-view-edit>
       <button class="weui-btn" formType="submit">查询该时间段交易</button>
     </form>
   </view>

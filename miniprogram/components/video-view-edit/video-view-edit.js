@@ -12,9 +12,9 @@ Component({
       type: String,
       value: '视频文件',
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
@@ -28,13 +28,14 @@ Component({
   lifetimes:{
     attached(){
       this.videoContext = wx.createVideoContext('myVideo');
+      if (this.data.editable==2){ this.choosevideo() }
     }
   },
   methods: {
-    choosevideo: function (e) {                         //选择视频文件
+    choosevideo: function () {                         //选择视频文件
       var that = this;
       return new Promise((resolve,reject)=>{
-        if (editen){
+        if (editable){
           wx.chooseVideo({
             sourceType: ['album', 'camera'],
             maxDuration: 60,

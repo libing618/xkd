@@ -23,9 +23,9 @@ Component({
         post: '010001'
       }
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
@@ -68,6 +68,10 @@ Component({
                     value: that.data.value,
                     region:[address_component.province,address_component.city,address_component.district]
                   });
+                  if (editable==2){
+                    that.setData({address1: address});
+                    that.popModal();                 //打开弹出页
+                  }
                 }
               });
             },
@@ -79,7 +83,7 @@ Component({
   },
   methods: {
     modalEditAddress: function ({ currentTarget:{id,dataset},detail:{value} }) {      //地址编辑弹出页
-      if (this.data.editen){
+      if (this.data.editable){
         this.setData({address1: this.data.value.adinfo});
         this.popModal();                 //打开弹出页
       }
@@ -89,7 +93,7 @@ Component({
       let that = this;
       wx.chooseLocation({
         success: function (res) {
-          if (that.data.editen){
+          if (that.data.editable){
             QQMapWX.reverseGeocoder({                    //解析地理位置
               location: { latitude: res.latitude, longitude: res.longitude },
               success: function ({ result: { ad_info, address_component,address } }) {

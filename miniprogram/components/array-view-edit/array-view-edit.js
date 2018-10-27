@@ -1,4 +1,3 @@
-// components/input-array/input-array.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
@@ -6,26 +5,26 @@ Component({
       type: String,
       value: '地址',
     },
-    c: {
+    value: {
       type: Array,
       value: []
     },
-    editen: {
-      type: Boolean,
-      value: false,
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
     addGlobalClass: true
   },
   data: {
-    inclouse: true,
+    inclose: true,
     iValue: '输入内容'
   },
 
   lifetimes: {
     attached() {
-      this.setData({inclose:this.data.c.code.length!=0})
+      this.setData({inclose:this.data.value.length!=0})
     }
   },
   methods: {
@@ -36,19 +35,17 @@ Component({
       this.setData({iValue: value});
     },
     seccessarr({ currentTarget:{id,dataset},detail:{value} }) {
-      this.data.c.push(dataset.add);
+      this.data.value.push(dataset.add);
       this.setData({
-        c: this.data.c,
-        value: this.data.c,
+        value: this.data.value,
         iValue: '输入内容'
       });
     },
     arrdel({ currentTarget:{id,dataset},detail:{value} }) {                //按显示名称进行删除
       let i = Number(id);
-      this.data.c.splice(i, 1);
+      this.data.value.splice(i, 1);
       this.setData({
-        c: this.data.c,
-        value: this.data.c
+        value: this.data.value
       })
     },
   }

@@ -6,25 +6,24 @@ Component({
       type: String,
       value: '地址',
     },
-    c: {
+    value: {
       type: Object,
-      value: {code: 0, sName: '点此处进行选择'}
-    },
-    inclose: {
-      type: Boolean,
-      value: false,
+      value: {_id: 0, uName: '点此处进行选择'}
     }
   },
   options: {
     addGlobalClass: true
   },
   data: {
+    inclose: true,
     aVl:[0,0,0]
   },
 
   lifetimes: {
     attached() {
-      this.setData({inclose:this.data.c.code!=0})
+      if (!value) {
+        this.setData({value:{_id: 0, uName: '点此处进行选择'}})
+      }
     }
   },
   methods: {
@@ -32,9 +31,8 @@ Component({
       this.setData({inclose: !this.data.inclose});
     },
     assetsel(e) {                         //数组选择类型
-      let vdSet = {inclose: true};      //数组下标
+      let vdSet = {inclose: true};      //选择后关闭选项框
       if (!this.data.inclose) {
-        vdSet.c = { code: e.currentTarget.dataset.ca, sName:e.currentTarget.dataset.sa };
         vdSet.value = { code: e.currentTarget.dataset.ca, sName:e.currentTarget.dataset.sa };
       }
       this.setData(vdSet);

@@ -6,9 +6,9 @@ Component({
       type: String,
       value: '地址',
     },
-    c: {
-      type: Object,
-      value: {code: [], sName: []}
+    value: {
+      type: String,
+      value: ''
     },
     inclose: {
       type: Boolean,
@@ -19,12 +19,15 @@ Component({
     addGlobalClass: true
   },
   data: {
+    inclose: true,
     osv:[0,0]
   },
 
   lifetimes: {
     attached() {
-      this.setData({inclose:this.data.c.code.length!=0})
+      if (!value) {
+        this.setData({value:''}})
+      }
     }
   },
   methods: {
@@ -34,7 +37,6 @@ Component({
     goodssel({ currentTarget:{id,dataset},detail:{value} }) {            //选择商品类型
       let vdSet = {inclose: true};                      //按确定ICON确认选择
       if (!this.data.inclose) {
-        vdSet.c = dataset.ca;
         vdSet.value = dataset.ca;
       }
       this.setData(vdSet);

@@ -1,4 +1,4 @@
-<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" id="{{c}}" bindtap="{{editen ? 'modalSelectFile' : 'fOpen'}}">
+<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" id="{{name}}" bindtap="{{editable ? 'modalSelectFile' : 'fOpen'}}">
   <view class="weui-media-box__hd_in-appmsg">
     <image class="weui-media-box__thumb" src="{{fileType}}.png" background-size="cover"></image>
   </view>
