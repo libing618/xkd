@@ -1,8 +1,14 @@
-<view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__{{item.t}}" id="ad-{{n}}">
-  <view class="weui-picker"  catchtap="chooseaudio">
-    <audio controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></audio>
-  </view>
-  <text >value.e</text>
+<view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__-5" id="ad-{{n}}">
+<view id="ac-{{n}}" bindtap="choosepics">
+  <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
+    <block wx:for="{{c}}"" wx:key="{{index}}">
+      <swiper-item>
+        <image src="{{item}}" class="swimage"></image>
+        <rich-view-edit
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
 </view>
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">

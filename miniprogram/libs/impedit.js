@@ -52,14 +52,14 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
   return cManagers
 };
 module.exports = {
-  f_number: function (e) {
+  i_number: function (e) {
     let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
     let vdSet = {};
     vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? 0 : parseInt(Number(e.detail.value));      //不能输入非数字,转换为整数
     this.setData(vdSet);
   },
 
-  f_digit: function (e) {
+  i_digit: function (e) {
     let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
     let vdSet = {};
     vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? '0.00' : parseFloat(Number(e.detail.value).toFixed(2));      //不能输入非数字,转换为浮点数保留两位小数
@@ -85,20 +85,6 @@ module.exports = {
     let reqset = {};
     reqset['vData.' + this.data.fieldName[n]] = Number(e.detail.value);
     this.setData(reqset)
-  },
-
-  i_pics: function (e) {                         //选择图片组
-    let that = this;
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
-    wx.chooseImage({
-      count: 9,                                     // 最多可以选择的图片张数，默认9
-      sizeType: ['compressed'],         // original 原图，compressed 压缩图，默认二者都有
-      sourceType: ['album', 'camera'],             // album 从相册选图，camera 使用相机，默认二者都有
-      success: function (restem) {                     // 返回选定照片的本地文件路径列表
-        that.setData(vdSet(that.data.fieldName[n], restem.tempFilePaths));
-      },
-      fail: function () { wx.showToast({ title: '选取照片失败！' }) }
-    })
   },
 
   i_eDetail: function (e) {                                 //内容可以插入和删除
@@ -143,12 +129,8 @@ module.exports = {
   initFunc: function(cName) {      //对数据录入或编辑的格式数组增加函数
     let funcArr = [];
     app.fData[cName].pSuccess.forEach(fieldName=> {
-      if (app.fData[cName].fieldType[fieldName].csc) {
-        funcArr.push('f_' + app.fData[cName].fieldType[fieldName].itype);
-      } else {
-        if (app.fData[cName].fieldType[fieldName].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
-          funcArr.push('i_' + app.fData[cName].fieldType[fieldName].t);
-        };
+      if (app.fData[cName].fieldType[fieldName].t.length > 3) {             //每个输入类型定义的字段长度大于3则存在对应处理过程
+        funcArr.push('i_' + app.fData[cName].fieldType[fieldName].t);
       };
     });
     return funcArr;

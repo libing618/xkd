@@ -19,22 +19,26 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_cit">
-  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable></thumbnail-edit>
+  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable="1"></thumbnail-edit>
 </template>
 
-<template name="i_dg">
+<template name="i_digit">
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__hd">
       <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
-      <input id="dg-{{n}}" name="{{gname}}" value="{{c}}" class="weui-input" type="{{itype ? itype : csc}}" bindblur="f_{{csc}}"/>
+      <input id="dg-{{n}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_digit"/>
     </view>
   </view>
 </template>
 
 <template name="i_-3">
-  <address-view-edit c="{{c}}" p="{{p}}" editable="{{true}}"></address-view-edit>
+  <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></address-view-edit>
+</template>
+
+<template name="i_-5">
+  <pics-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></pics-view-edit>
 </template>
 
 <template name="i_eDetail">
@@ -43,7 +47,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
       <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
         <button class="weui-btn" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
         <view class="weui-article__{{item.t}}" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
-          <template is="d{{item.t}}" data="{{c:item.c,n,editable:true}}"></template>
+          <template is="d{{item.t}}" data="{{c:item.c,n,editable:1}}"></template>
         </view>
         <button class="wslider-left-item" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
       </view>
@@ -112,7 +116,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_dVE">
-  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="{{true}}"></date-view-edit>
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></date-view-edit>
 </template>
 
 <template name="i_iNd">
@@ -136,6 +140,17 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <map-select-unit name="{{gname}}" value="{{c}}" p="{{p}}" indTypes="620406"></map-select-unit>
 </template>
 
+<template name="i_number">
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">{{p}}:</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input id="dg-{{n}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_number"/>
+    </view>
+  </view>
+</template>
+
 <template name="i_p">
   <view class="weui-cells__title">{{p}}</view>
   <view class="weui-cells weui-cells_after-title">
@@ -144,19 +159,6 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
         <textarea class="weui-textarea" name="{{gname}}" value="{{c}}" placeholder="请输入{{p}}" />
       </view>
     </view>
-  </view>
-</template>
-
-<template name="i_pics">
-  <view id="ac-{{n}}" bindtap="i_pics">
-    <view class="swtext">{{p}}:</view>
-    <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-      <block wx:for="{{c ? c : ['https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/790f500d14e467fe28e3.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/ff933806fce411614341.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/c4b4edf57363e801162c.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/4827cf0d996f80a86266.JPG','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/d5140a5a494b03139854.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/42e17b8efd6a01896496.JPG'] }}" wx:key="{{index}}">
-        <swiper-item>
-          <image src="{{item}}" class="swimage"></image>
-        </swiper-item>
-      </block>
-    </swiper>
   </view>
 </template>
 
@@ -169,7 +171,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_tVE">
-  <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="{{true}}"></time-view-edit>
+  <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></time-view-edit>
 </template>
 
 <template name="i_cargopackage">

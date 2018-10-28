@@ -79,7 +79,7 @@ module.exports = {
     "PARM_content":{p:'内容', t:"h4" },
     "PARM_additive":{p:'附加', t:"h4" },
     "PARM_attention":{p:'注意事项', t:"h4" },
-    "PARM_period":{p:'期限(天)', t:"dg",csc:"digit" },
+    "PARM_period":{p:'期限(天)', t:"digit" },
     "standard_code":{p:'执行标准', t:"h4" },
     "license_no":{p:'许可证号', t:"h4" }
   },
@@ -91,18 +91,18 @@ module.exports = {
 },
 "service":{
   "pName": "服务项目",
-  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","mCost","serName","serPhone"],
+  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","distribution","serName","serPhone"],
   "fieldType":{
     "serFamily":{p:'服务类型',  t:"pDt",  addFields:['uName']},
     "title":{p:'简介',t:"h4" },
     "thumbnail":{p:'图片简介',t:"cit",csc:"pic" },
     "address":{p:'服务地址', t: "-3",addFields:['aGeoPoint','adinfo','post'] },
     "priceClass":{p:'计价类型', t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
-    "priceMax":{p:'价格区间', t:"dg",csc:"digit" },
-    "price":{p:'价格', t:"dg",csc:"digit" },
-    "channel":{p:'渠道分成比例%',t:"dg",itype:"mCost"},
-    "extension":{p:'推广分成比例%',t:"dg",itype:"mCost"},
-    "mCost":{p:'销售管理总占比', t: "fg"},
+    "priceMax":{p:'价格区间', t:"digit" },
+    "price":{p:'价格', t:"digit" },
+    "channel":{p:'渠道分成比例%',t:"mCost"},
+    "extension":{p:'推广分成比例%',t:"mCost"},
+    "distribution":{p:'销售管理总占比', t: "mCost"},
     "serName":{p:'联系人姓名', t:"h4" },
     "serPhone":{p:'联系人电话', t:"h4" }
   },
@@ -124,7 +124,7 @@ module.exports = {
     "address":{p:'服务地址', t: "-3",addFields:['aGeoPoint','adinfo','post'] },
     "fcode":{p: '编号',t: "iSc" },
     "priceClass":{p:'计价类型', t: "h3" },
-    "price":{p:'价格', t:"dg",csc:"digit" },
+    "price":{p:'价格', t:"digit" },
     "serParty":{p:'服务方', t:"h4" },
     "serName":{p:'联系人姓名', t:"h4" },
     "serPhone":{p:'联系人电话', t:"h4" },
@@ -151,9 +151,9 @@ module.exports = {
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
     "product":{p:'内含物', t:"cId", csc:"recordQuantity" },
-    "retail_price":{p:'零售价', t:"dg",itype:"digit" },
-    "cargoStock":{p:'库存', t:"dg",itype:"number"},
-    "canSupply":{p:'可供销售', t:"dg",itype:"number"}
+    "retail_price":{p:'零售价', t:"digit" },
+    "cargoStock":{p:'库存', t:"number"},
+    "canSupply":{p:'可供销售', t:"number"}
   },
   "pBewrite": "产品条线提出服务设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -163,7 +163,7 @@ module.exports = {
 },
 "goods":{
   "pName": "商品",
-  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","mCost","details"],
+  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","distribution","details"],
   "fieldType":{
     "goodstype":{ p:'商品类别',t:"gSt" },
     "title":{p:'简介',t:"h3" },
@@ -171,11 +171,11 @@ module.exports = {
     "desc":{p:'描述',t:"p" },
     "specstype":{p:'供应类型', t:"listsel", aList:['单品','套餐']},
     "cargo":{p:'成品规格', t:"cId", csc:"recordQuantity" },
-    "pics":{p:'图片集',t:"pics"},
+    "pics":{p:'图片集',t:"-5"},
     "tvidio":{p:'视频简介',t: "vidio",csc:"vidio"},
-    "channel":{p:'渠道分成比例%',t:"dg",itype:"mCost"},
-    "extension":{p:'推广分成比例%',t:"dg",itype:"mCost"},
-    "mCost":{p:'销售管理总占比', t: "fg"},
+    "channel":{p:'渠道分成比例%',t:"mCost"},
+    "extension":{p:'推广分成比例%',t:"mCost"},
+    "distribution":{p:'销售管理总占比', t: "mCost"},
     "details":{p:'详情',t:"eDetail" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
@@ -191,10 +191,10 @@ module.exports = {
   "pSuccess": ["goods","base_price","base_amount","big_price","big_amount","start_date","end_date"],
   "fieldType":{
     "goods":{ p: '商品', t: "sId", addFields: ['uName', 'title', 'thumbnail'] },
-    "base_price":{p: '基础优惠价', t: "dg", csc: "digit" },
-    "base_amount":{p: '基础目标数量', t: "dg", csc: "number" },
-    "big_price":{p: '大额优惠价', t: "dg", csc: "digit" },
-    "big_amount":{p: '大额目标数量', t: "dg", csc: "number" },
+    "base_price":{p: '基础优惠价', t: "digit" },
+    "base_amount":{p: '基础目标数量', t: "number" },
+    "big_price":{p: '大额优惠价', t: "digit" },
+    "big_amount":{p: '大额目标数量', t: "number" },
     "start_date":{p: '活动开始日期', t: "dVE" },
     "end_date":{p: '活动截止日期', t: "dVE" }
   },
@@ -211,7 +211,7 @@ module.exports = {
     "title":{p:'材料简述',t:"p" },
     "dafamily":{p:'材料类型',t:"listsel", aList:['自产原料','外购原料','包装'] },
     "thumbnail":{p:'图片',t: "cit",csc:"pic" },
-    "rawStocks":{p:'原材料库存', t:"dg",csc:"number" }
+    "rawStocks":{p:'原材料库存', t:"number" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -229,7 +229,7 @@ module.exports = {
     "shopid":{ p: "商城", t:"sId", addFields:['uName'] },
     "user":{p:' 购买人', t:"sId", addFields:['uName'] },
     "ip":{p:'下单IP地址', t:"h3" },
-    "quantity":{p:'数量', t:"dg",csc:"number" },
+    "quantity":{p:'数量', t:"number" },
     "cargo":{p:'成品', t:"sId", addFields:['uName'] },
     "serFamily":{p:'送货类型', t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     "recaddress":{p:'收货地址', t:"sId", csc:"recAddress" },
@@ -237,11 +237,11 @@ module.exports = {
     "prepayId":{p:' 订单ID', t:"dVE" },
     "paidAt":{p:'下单时间', t:"dVE" },
     "confirmerArr":{p:'订单确认出库', t:"sAr", csc:"cOrderArray" },
-    "confirmTotal":{p:'订单确认出库数量', t:"dg",csc:"number" },
+    "confirmTotal":{p:'订单确认出库数量', t:"number" },
     "deliverArr":{p:'货运信息', t:"sAr", csc:"deliverArray" },
-    "deliverTotal":{p:'已发货数量',t:"dg",csc:"number" },
+    "deliverTotal":{p:'已发货数量',t:"number" },
     "receiptArr":{p:'收货信息', t:"sAr", csc:"cOrderArray" },
-    "receiptTotal":{p:'已收货数量', t:"dg",csc:"number" }
+    "receiptTotal":{p:'已收货数量', t:"number" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -274,7 +274,7 @@ module.exports = {
     "cargo":{p:'成品', t:"sId",addFields:['uName','title','thumbnail'] },
     "title":{p:'计划简述',t:"h3" },
     "thumbnail":{p:'图片',t: "cit",csc:"pic" },
-    "dOutput":{p:'计划产量', t:"dg",csc:"number" },
+    "dOutput":{p:'计划产量', t:"number" },
     "startDate":{p:'开始日期', t:"dVE",endif:false},
     "endDate":{p:'结束日期', t:"dVE",endif:false}
   },
@@ -294,8 +294,8 @@ module.exports = {
     "surface":{p:'外观', t:"h4" },
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
-    "whole_price":{p:'零售价', t:"dg",itype:"digit" },
-    "wholeStock":{p:'库存', t:"dg",itype:"number"},
+    "whole_price":{p:'零售价', t:"digit" },
+    "wholeStock":{p:'库存', t:"number"},
     "canwholesale":{p:'可供销售', t: "fg"}
   },
   "pBewrite": "产品条线提出服务设置或修改申请，由产品条线负责人进行审批。",

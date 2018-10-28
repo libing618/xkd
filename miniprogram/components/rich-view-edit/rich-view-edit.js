@@ -9,7 +9,7 @@ Component({
       type: String,
       value: '',
     },
-    richStyle: {
+    csc: {
       type: String,
       value: '',
     },
@@ -22,38 +22,54 @@ Component({
     addGlobalClass: true
   },
   data: {
-    parse_id: {},
-    imageWidths: {}
+    parse_id: '',
+    richStyle: '3110D9D9D9ECECEC',
+    richText: ''
   },
 
   lifetimes: {
     attached(){
+      let setRich = {};
       if (this.data.value){
-        this.setData({
-          rich_h: this.data.richStrle.substr(0,1),
-          rich_s: this.data.richStrle.substr(1,1),
-          rich_a: this.data.richStrle.substr(2,1),
-          rich_i: this.data.richStrle.substr(3,1),
-          rich_c: this.data.richStrle.substr(4,6),
-          rich_b: this.data.richStrle.substr(10)
-        })
-      }
-
+        let rStyle = this.data.value.substr(0,16);
+        setRich = this.richAnalysis(rStyle)
+        setRich.richStyle = rStyle;
+        setRich.richText = this.data.value.substr(16);
+      } else { setRich = this.richAnalysis(this.data.richStyle) }
+      this.setData(setRich)
     }
   },
 
   methods: {
-    onImgTap(e) {
-      global.richParses[this.data.parse_id].onImgTap(e)
+    richAnalysis(rStyle) {
+      return {
+        rich_h: rStyle.substr(0,1),
+        rich_s: rStyle.substr(1,1),
+        rich_a: rStyle.substr(2,1),
+        rich_i: rStyle.substr(3,1),
+        rich_c: rStyle.substr(4,6),
+        rich_b: rStyle.substr(10)
+      }
     },
 
-    onLinkTap(e) {
-      global.richParses[this.data.parse_id].onLinkTap(e)
+    styleGroup(){
+      return this.data.rich_h+this.data.rich_s+this.data.rich_a+this.data.rich_i+this.data.rich_c+this.data.rich_b
     },
 
-    onImgLoad(e) {
-      this.data.imageWidths[e.target.dataset.src] = e.detail.width + 'px'
-      this.setData({ imageWidths: this.data.imageWidths })
+    onInput({currentTarget:{id,dataset},detail:{value}}) {
+      this.setData({
+        richText: value,
+        value: this.data.richStyle+value
+      })
+    },
+
+    onStyle({currentTarget:{id,dataset},detail:{value}}) {
+      let setRich = {};
+      setRich[id] = value;
+      this.data[id] = value;
+      setRich.richStyle = this.styleGroup();
+      setRich.value = setRich.richStyle+this.data.richText;
+      this.setData(setRich)
     }
   }
 

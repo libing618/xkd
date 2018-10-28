@@ -25,7 +25,7 @@
   </view>
 </template>
 
-<template name="s_dg">
+<template name="s_digit">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
@@ -124,6 +124,13 @@
   <view class="weui-cell__hd">{{p}}:</view>
   <view class="weui-cell__bd">{{c.uName}}</view>
 </view>
+</template>
+
+<template name="s_number">
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c}}</view>
+  </view>
 </template>
 
 <template name="s_p">
