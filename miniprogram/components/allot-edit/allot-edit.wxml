@@ -6,9 +6,8 @@
     <view class="weui-cell__hd">
       <view class="weui-label">{{p}}:</view>
     </view>
-    <view class="weui-cell__bd">
-      <input id="{{name}}" name="{{name}}" value="{{c._id}}" class="weui-input" bindblur="i_digit"/>
-    </view>
+    <view class="weui-cell__bd">{{c._id}}</view>
+    <input id="{{name}}" name="{{name}}" value="{{c._id}}" hidden="{{true}}"/>
     <view class="weui-cell">加上8%店铺管理费和5%平台服务费，销售管理总占比为：{{distribution}}</view>
   </view>
 </view>

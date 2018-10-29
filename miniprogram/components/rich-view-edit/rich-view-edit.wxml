@@ -1,7 +1,7 @@
 <view wx:if="{{p}}" class="weui-cells__title">{{p}}</view>
 <view class="rich-parse-inline rich-h{{rich_h}} rich-s{{rich_s}} rich-a{{rich_a}}"
   style="margin-bottom: {{rich_i}}em;color: #{{rich_c}};background-color: #{{rich_b}}">
-  <view wx:if="{{csc=='T'}}"
+  <view wx:if="{{csc=='T'}}">
     <input disable="{{editable==0}}" name="{{gname}}" value="{{richText}}" id="{{richStyle}}" placeholder="请输入{{p}}" />
   </view>
   <view wx:else>

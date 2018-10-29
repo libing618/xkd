@@ -26,7 +26,7 @@ Component({
   lifetimes: {
     attached() {
       if (!value) {
-        this.setData({value:''}})
+        this.setData({value:''})
       }
     }
   },

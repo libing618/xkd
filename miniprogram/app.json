@@ -47,6 +47,7 @@
   },
   "usingComponents": {
     "address-view-edit": "components/address-view-edit/address-view-edit",
+    "allot-edit": "components/allot-edit/allot-edit",
     "array-view-edit": "components/array-view-edit/array-view-edit",
     "asset-type": "components/asset-type/asset-type",
     "audio-view-edit": "components/audio-view-edit/audio-view-edit",
@@ -57,6 +58,7 @@
     "goods-type": "components/goods-type/goods-type",
     "industry-type": "components/industry-type/industry-type",
     "map-select-unit": "components/map-select-unit/map-select-unit",
+    "pics-view-edit": "components/pics-view-edit/pics-view-edit",
     "product-type": "components/product-type/product-type",
     "record-view": "components/record-view/record-view",
     "recycle-dragsort": "components/recycle-dragsort/recycle-dragsort",

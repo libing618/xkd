@@ -1,10 +1,10 @@
 <view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__-5" id="ad-{{n}}">
 <view id="ac-{{n}}" bindtap="choosepics">
   <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-    <block wx:for="{{c}}"" wx:key="{{index}}">
+    <block wx:for="{{c}}" wx:key="{{index}}">
       <swiper-item>
         <image src="{{item}}" class="swimage"></image>
-        <rich-view-edit
+        <rich-view-edit name="pic{{index}}" value="{{item.e}}" csc="T" editable="0" />
       </swiper-item>
     </block>
   </swiper>

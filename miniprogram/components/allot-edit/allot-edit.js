@@ -26,33 +26,28 @@ Component({
 
   lifetimes:{
     attached: function(){
-
-      }
+      if (!this.data.c){ this.data.c = {channel:0,extension:0,_id:87} }
+      this.setData({
+        c: this.data.c,
+        distribution: this.data.c.channel+this.data.c.extension+13
+      })
+    }
   },
 
   methods: {
-    distry(value){
+    i_digit: function ({currentTarget:{id,dataset},detail:{value}}) {
       let inmcost = Number(value);
       if (isNaN(inmcost)){
         inmcost = 0;      //不能输入非数字
       } else {
         if (inmcost>29) { inmcost=29 };      //不能超过29%
       };
-      return  parseFloat(inmcost.toFixed(2));  //不能输入非数字,转换为浮点数保留两位小数
-    };
-
-    i_digit: function ({currentTarget:{id,dataset},detail:{value}}) {
-      let vdSet = {};
-      this.data[id] = distry(value)
-      this.setData(vdSet);
-    },
-
-    f_allot:function({currentTarget:{id,dataset},detail:{value}}){
-      let vdSet = {};
-
-      vdSet[id] = inmcost;
-      vdSet.distribution = 87 -inmcost- (this.data.channel ? this.data.channel : 0) - (this.data.extension ? this.data.extension :0);
-      this.setData( vdSet );
+      this.data.c[id] = parseFloat(inmcost.toFixed(2));  //不能输入非数字,转换为浮点数保留两位小数
+      this.data.c._id = 87 - this.data.c.channel- this.data.c.extension
+      this.setData({
+        c: this.data.c,
+        distribution: this.data.c.channel+this.data.c.extension+13
+      });
     }
   }
 })
