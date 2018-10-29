@@ -28,7 +28,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
       <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
-      <input id="dg-{{n}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_digit"/>
+      <input id="{{gname}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_digit"/>
     </view>
   </view>
 </template>
@@ -128,7 +128,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_listsel">
-  <picker id="ac-{{n}}" name="{{gname}}" mode="selector" value="{{c}}" range="{{aList}}" bindchange="i_listsel">
+  <picker id="{{gname}}" name="{{gname}}" mode="selector" value="{{c}}" range="{{aList}}" bindchange="i_listsel">
     <view  class="weui-cell">
       <view class="weui-cell__hd">{{p}}:</view>
       <view class="weui-cell__bd">{{c ? aList[c] : aList[0]}}</view>
@@ -146,13 +146,13 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
       <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
-      <input id="dg-{{n}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_number"/>
+      <input id="{{gname}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_number"/>
     </view>
   </view>
 </template>
 
 <template name="i_p">
-  <view class="weui-cells__title">{{p}}</view>
+
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell">
       <view class="weui-cell__bd">

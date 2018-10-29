@@ -1,0 +1,14 @@
+<import src="../../libs/impedit.wxml" />
+<view class="weui-cells">
+  <template is="i_digit" data="{{gname:'channel',p:'渠道分成比例%',c:c.channel}}"></template>
+  <template is="i_digit" data="{{gname:'extension',p:'推广分成比例%',c:c.extension}}"></template>
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+      <view class="weui-label">{{p}}:</view>
+    </view>
+    <view class="weui-cell__bd">
+      <input id="{{name}}" name="{{name}}" value="{{c._id}}" class="weui-input" bindblur="i_digit"/>
+    </view>
+    <view class="weui-cell">加上8%店铺管理费和5%平台服务费，销售管理总占比为：{{distribution}}</view>
+  </view>
+</view>

@@ -43,12 +43,12 @@ Component({
   methods: {
     richAnalysis(rStyle) {
       return {
-        rich_h: rStyle.substr(0,1),
-        rich_s: rStyle.substr(1,1),
-        rich_a: rStyle.substr(2,1),
-        rich_i: rStyle.substr(3,1),
-        rich_c: rStyle.substr(4,6),
-        rich_b: rStyle.substr(10)
+        rich_h: rStyle.substr(0,1),             //字体大小
+        rich_s: rStyle.substr(1,1),             //字体强调
+        rich_a: rStyle.substr(2,1),             //对齐
+        rich_i: rStyle.substr(3,1),             //左空格数
+        rich_c: rStyle.substr(4,6),             //字色
+        rich_b: rStyle.substr(10)               //背景色
       }
     },
 

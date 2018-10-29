@@ -52,38 +52,23 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
   return cManagers
 };
 module.exports = {
-  i_number: function (e) {
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
+  i_number: function({currentTarget:{id,dataset},detail:{value}}) {
     let vdSet = {};
-    vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? 0 : parseInt(Number(e.detail.value));      //不能输入非数字,转换为整数
+    vdSet['vData.' + id] = isNaN(Number(value)) ? 0 : parseInt(Number(value));      //不能输入非数字,转换为整数
     this.setData(vdSet);
   },
 
-  i_digit: function (e) {
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
+  i_digit: function ({currentTarget:{id,dataset},detail:{value}}) {
     let vdSet = {};
-    vdSet['vData.' + this.data.fieldName[n]] = isNaN(Number(e.detail.value)) ? '0.00' : parseFloat(Number(e.detail.value).toFixed(2));      //不能输入非数字,转换为浮点数保留两位小数
+    vdSet['vData.' + id] = isNaN(Number(value)) ? '0.00' : parseFloat(Number(value).toFixed(2));      //不能输入非数字,转换为浮点数保留两位小数
     this.setData(vdSet);
   },
 
-  f_mCost:function(e){
-    let n = parseInt(e.currentTarget.id.substring(3));      //数组下标
-    let inmcost = Number(e.detail.value);
-    let vdSet = {};
-    if (isNaN(inmcost)){
-      vdSet['vData.'+this.data.fieldName[n]] = 0;      //不能输入非数字
-    } else {
-      vdSet['vData.'+this.data.fieldName[n]] = inmcost>30 ? 30 : inmcost ;      //不能超过30%
-    }
-    this.data.vData[this.data.fieldName[n]] = isNaN(inmcost) ? 0 : (inmcost > 30 ? 30 : inmcost)
-    vdSet['vData.mCost'] = 87 - (this.data.vData.channel ? this.data.vData.channel : 0) - (this.data.vData.extension ? this.data.vData.extension :0);
-    this.setData( vdSet );
-  },
 
-  i_listsel: function (e) {                         //选择类型
-    let n = parseInt(e.currentTarget.id.substring(3))      //数组下标
+
+  i_listsel: function ({currentTarget:{id,dataset},detail:{value}}) {                         //选择类型
     let reqset = {};
-    reqset['vData.' + this.data.fieldName[n]] = Number(e.detail.value);
+    reqset['vData.' +id] = Number(value);
     this.setData(reqset)
   },
 

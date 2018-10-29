@@ -91,7 +91,7 @@ module.exports = {
 },
 "service":{
   "pName": "服务项目",
-  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","distribution","serName","serPhone"],
+  "pSuccess": ["serFamily","title","thumbnail","address","priceClass","priceMax","price","factory","serName","serPhone"],
   "fieldType":{
     "serFamily":{p:'服务类型',  t:"pDt",  addFields:['uName']},
     "title":{p:'简介',t:"h4" },
@@ -100,9 +100,9 @@ module.exports = {
     "priceClass":{p:'计价类型', t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
     "priceMax":{p:'价格区间', t:"digit" },
     "price":{p:'价格', t:"digit" },
-    "channel":{p:'渠道分成比例%',t:"mCost"},
-    "extension":{p:'推广分成比例%',t:"mCost"},
-    "distribution":{p:'销售管理总占比', t: "mCost"},
+    "channel":{p:'渠道分成比例%',t:"allot"},
+    "extension":{p:'推广分成比例%',t:"allot"},
+    "factory":{p:'电商服务费', t: "allot"},
     "serName":{p:'联系人姓名', t:"h4" },
     "serPhone":{p:'联系人电话', t:"h4" }
   },
@@ -163,7 +163,7 @@ module.exports = {
 },
 "goods":{
   "pName": "商品",
-  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","distribution","details"],
+  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","factory","details"],
   "fieldType":{
     "goodstype":{ p:'商品类别',t:"gSt" },
     "title":{p:'简介',t:"h3" },
@@ -173,9 +173,9 @@ module.exports = {
     "cargo":{p:'成品规格', t:"cId", csc:"recordQuantity" },
     "pics":{p:'图片集',t:"-5"},
     "tvidio":{p:'视频简介',t: "vidio",csc:"vidio"},
-    "channel":{p:'渠道分成比例%',t:"mCost"},
-    "extension":{p:'推广分成比例%',t:"mCost"},
-    "distribution":{p:'销售管理总占比', t: "mCost"},
+    "channel":{p:'渠道分成比例%',t:"allot"},
+    "extension":{p:'推广分成比例%',t:"allot"},
+    "factory":{p:'销售管理总占比', t: "allot"},
     "details":{p:'详情',t:"eDetail" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
