@@ -145,6 +145,7 @@
   bottom: 30rpx;
   top: 110rpx;
   height: 90%;
+  width: 710rpx;
   z-index: 700;
   border-radius: 10rpx;
   background: white;

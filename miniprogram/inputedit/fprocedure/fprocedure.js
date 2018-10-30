@@ -53,7 +53,7 @@ Page({
       if (typeof aaData == 'undefined') {
         aaData = initData(fData,app.aData[ops.pNo][that.data.dObjectId])
       }//require('../../test/goods0')[0]
-      wImpEdit.initFunc(fieldName).forEach(functionName => {
+      wImpEdit.initFunc(ops.pNo).forEach(functionName => {
         that[functionName] = wImpEdit[functionName];
         if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于3则存在对应处理过程
           let vDataKeys = Object.keys(aaData);            //数据对象是否为空

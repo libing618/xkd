@@ -29,7 +29,7 @@ Page({
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
         } else { that.data.vData=require('../../test/irole.js')};
         that.data.dObjectId = app.roleData.user.unit;
-        wImpEdit.initFunc(app.fData._Role.pSuccess).forEach(functionName => {
+        wImpEdit.initFunc('_Role').forEach(functionName => {
           that[functionName] = wImpEdit[functionName]
         });
         that.data.fieldName = app.fData._Role.pSuccess;

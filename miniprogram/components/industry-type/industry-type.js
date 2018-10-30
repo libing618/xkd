@@ -25,7 +25,7 @@ Component({
 
   lifetimes: {
     attached() {
-      if (!value) {
+      if (!this.data.value) {
         this.setData({value:{_id: [], uName: []}})
       }
     }

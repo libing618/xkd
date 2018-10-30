@@ -68,7 +68,7 @@ Component({
                     value: that.data.value,
                     region:[address_component.province,address_component.city,address_component.district]
                   });
-                  if (editable==2){
+                  if (that.data.editable==2){
                     that.setData({address1: address});
                     that.popModal();                 //打开弹出页
                   }
