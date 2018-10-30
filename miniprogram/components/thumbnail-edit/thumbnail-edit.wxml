@@ -7,8 +7,8 @@
 <view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
 <view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
   <view class="modal_title">
-    <button class='modal_sure_Btn'  bindtap='fSave'>确定缩放比例{{cScale}}</button>
-    <button class='modal_cancel_Btn' bindtap='downModal'>取消</button>
+    <view class='modal_sure_Btn' bindtap='fSave'>确定缩放比例{{cScale}}</view>
+    <view class='modal_cancel_Btn' bindtap='downModal'>取消</view>
   </view>
   <view class="close_icon" bindtap="downModal">×</view>
   <view class='modal_content'>

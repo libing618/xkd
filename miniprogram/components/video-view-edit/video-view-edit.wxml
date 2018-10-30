@@ -10,11 +10,12 @@
     <view class="page__title">{{p}}</view>
     <view class="close_icon" bindtap="downModal">×</view>
   </view>
-  <form bindsubmit="fSave">
-    <view class="page__bd">
-      <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
-      <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
-    </view>
-    <button class="weui-btn" formType="submit" size="mini">确定</button>
-  </form>
+  <view class="page__bd">
+    <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
+    <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+  </view>
+  <view class="page__ft weui-footer_fixed-bottom">
+    <view class="modal_sure_Btn" bindtap="fSave">确定</view>
+    <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
+  </view>
 </view>
