@@ -1,6 +1,6 @@
 //订单统计
-import { formatTime,indexClick } from '../../model/util.js';
-import {checkRols,shareMessage} from '../../model/initForm';
+import { formatTime,indexClick } from '../../modules/util.js';
+import {checkRols,shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp();

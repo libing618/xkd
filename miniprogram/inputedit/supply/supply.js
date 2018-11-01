@@ -1,6 +1,6 @@
 // 供货操作
-import { indexClick,binddata } from '../../model/util.js';
-import {checkRols,shareMessage} from '../../model/initForm';
+import { indexClick,binddata } from '../../modules/util.js';
+import {checkRols,shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 var app = getApp();
 Page ({

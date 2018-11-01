@@ -31,6 +31,8 @@ Component({
   },
 
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     xImage: 300,
     yImage: 225,
     cScale: 1,
@@ -72,6 +74,8 @@ Component({
                 let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
                 let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
                 that.setData({
+                  statusBar: sysinfo.statusBarHeight,
+                  windowHeight: sysinfo.windowHeight,
                   editimg:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
@@ -101,7 +105,7 @@ Component({
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.editimg,detail.x,detail.y,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
+      this.ctx.drawImage(this.data.editimg,detail.x-this.data.windowWidth*2/75,detail.y-this.data.statusBar-42,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,

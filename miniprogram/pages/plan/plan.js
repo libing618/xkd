@@ -1,5 +1,5 @@
-import {iMenu} from '../../model/allmenu.js'
-import {shareMessage} from '../../model/initForm';
+import {iMenu} from '../../modules/allmenu.js'
+import {shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 var app = getApp();
 Page({

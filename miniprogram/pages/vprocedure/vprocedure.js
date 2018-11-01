@@ -1,5 +1,5 @@
 // 浏览pages
-import {initData,shareMessage} from '../../model/initForm';
+import {initData,shareMessage} from '../../modules/initForm';
 var app=getApp()
 Page({
   data:{

@@ -1,6 +1,6 @@
 //原材料
-import { indexClick,binddata } from '../../model/util.js';
-import {checkRols,shareMessage} from '../../model/initForm';
+import { indexClick,binddata } from '../../modules/util.js';
+import {checkRols,shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 const _ = db.command;
 var app = getApp()

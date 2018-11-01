@@ -1,4 +1,4 @@
-import { fileUpload } from '../model/wxcloudcf';
+import { fileUpload } from '../modules/wxcloudcf';
 const db = wx.cloud.database();
 var app = getApp();
 

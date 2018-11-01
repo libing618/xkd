@@ -1,4 +1,4 @@
-import {getData} from '../../model/db-get-data'
+import {getData} from '../../modules/db-get-data'
 var app = getApp()
 let SHOW_SCREENS = app.sysinfo.itemtotal //最多显示条数
 const { transformRpx } = require('../utils/transformRpx');

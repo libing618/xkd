@@ -5,7 +5,6 @@
   position: relative;
   margin-top: 8rpx;
   background-color: white;
-
   font-size: 34rpx;
   border-radius:10rpx;
 }

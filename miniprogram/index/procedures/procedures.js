@@ -1,5 +1,5 @@
 //审批流程列表
-import {hTabClick} from '../../model/util.js';
+import {hTabClick} from '../../modules/util.js';
 const db = wx.cloud.database();
 var app = getApp();
 

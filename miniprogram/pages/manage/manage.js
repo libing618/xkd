@@ -1,7 +1,7 @@
-import {iMenu} from '../../model/allmenu.js';
-import {tabClick} from '../../model/util.js';
-import { loginAndMenu, shareMessage } from '../../model/initForm';
-import { openWxLogin } from '../../model/wxcloudcf';
+import {iMenu} from '../../modules/allmenu.js';
+import {tabClick} from '../../modules/util.js';
+import { loginAndMenu, shareMessage } from '../../modules/initForm';
+import { openWxLogin } from '../../modules/wxcloudcf';
 var app = getApp();
 
 Page({

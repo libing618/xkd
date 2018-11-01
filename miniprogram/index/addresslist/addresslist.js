@@ -1,5 +1,5 @@
 //通讯录
-import {indexClick} from '../../model/util.js';
+import {indexClick} from '../../modules/util.js';
 const app=getApp();
 Page({
   data:{

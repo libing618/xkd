@@ -128,9 +128,7 @@
 }
 .place_box {
   width: 100%;
-  height: 80%;
-  position: fixed;
-  top: 30rpx;
+  position: static;
   left: 0;
   background-color:#F9F9F9;
 }
@@ -150,9 +148,8 @@
 .modal_attr_box {
   overflow: scroll;
   position: fixed;
+  left: 20rpx;
   bottom: 30rpx;
-  top: 110rpx;
-  height: 90%;
   width: 710rpx;
   z-index: 700;
   border-radius: 10rpx;
@@ -162,11 +159,11 @@
 .modal_title{
   display: flex;
   text-align: center;
-  padding: 10rpx 0;
+  padding: 10rpx 20rpx;
   font-size: 30rpx;
 }
 .modal_content{
-  padding: 20rpx 30rpx;
+  padding: 10rpx 20rpx;
   font-size: 32rpx;
 }
 .modal_foot{

@@ -1,6 +1,6 @@
 //分销招募
-import {hTabClick} from '../../model/util.js';
-import {checkRols,shareMessage} from '../../model/initForm';
+import {hTabClick} from '../../modules/util.js';
+import {checkRols,shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 var app = getApp()
 Page({

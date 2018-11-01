@@ -1,6 +1,6 @@
-import {iMenu} from '../../model/allmenu.js'
-import {shareMessage} from '../../model/initForm';
-import { cargoCount } from '../../model/dataAnalysis.js';
+import {iMenu} from '../../modules/allmenu.js'
+import {shareMessage} from '../../modules/initForm';
+import { cargoCount } from '../../modules/dataAnalysis.js';
 
 var app = getApp()
 Page({

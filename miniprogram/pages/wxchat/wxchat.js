@@ -1,6 +1,6 @@
 //系统对话和聊天室模块
-import {checkRols} from '../../model/initForm';
-import { fileUpload } from '../../model/wxcloudcf';
+import {checkRols} from '../../modules/initForm';
+import { fileUpload } from '../../modules/wxcloudcf';
 const db = wx.cloud.database();
 const conversationRole = {
   "推广通知":{participant:9,chairman:6},

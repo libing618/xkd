@@ -1,5 +1,5 @@
 //货架管理
-import {checkRols} from '../../model/initForm';
+import {checkRols} from '../../modules/initForm';
 const db = wx.cloud.database();
 var app = getApp();
 

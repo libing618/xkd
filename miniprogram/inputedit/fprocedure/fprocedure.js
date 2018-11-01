@@ -1,5 +1,5 @@
 // 通用的内容编辑pages
-import {initData} from '../../model/initForm';
+import {initData} from '../../modules/initForm';
 const wImpEdit = require('../../libs/impedit.js');
 var app = getApp()
 Page({

@@ -2,7 +2,7 @@ App({
   roleData: require('globaldata.js').roleData,                 //读数据记录的缓存
   mData: require('globaldata.js').mData,
   aCount: require('globaldata.js').aCount,
-  fData: require('./model/procedureclass'),
+  fData: require('./modules/procedureclass'),
   aData:{},
   logData: [],
   procedures: {},              //读流程的缓存
@@ -26,7 +26,7 @@ App({
             traceUser: true
           })
         };
-        that.sysinfo.itemtotal = Number(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
+        that.sysinfo.itemtotal = Math.floor(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
       }
     });
     ['mData', 'roleaData','aCount', 'procedures'].forEach(dataName => {

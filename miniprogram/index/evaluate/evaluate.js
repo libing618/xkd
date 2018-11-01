@@ -1,5 +1,5 @@
 //客户评价及统计
-import {checkRols} from '../../model/initForm';
+import {checkRols} from '../../modules/initForm';
 var app = getApp();
 Page({
   data:{

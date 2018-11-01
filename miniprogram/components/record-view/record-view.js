@@ -1,5 +1,5 @@
 //显示数据的关键要素
-import {initData} from '../../model/initForm';
+import {initData} from '../../modules/initForm';
 var app = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({

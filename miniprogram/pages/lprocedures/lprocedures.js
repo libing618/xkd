@@ -1,4 +1,4 @@
-import {shareMessage} from '../../model/initForm';
+import {shareMessage} from '../../modules/initForm';
 var app = getApp()
 Page ({
   data: {

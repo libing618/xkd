@@ -1,4 +1,4 @@
-import {shareMessage} from '../../model/initForm';
+import {shareMessage} from '../../modules/initForm';
 const db = wx.cloud.database();
 var app = getApp()
 Page({

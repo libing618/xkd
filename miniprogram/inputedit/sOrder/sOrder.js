@@ -1,5 +1,5 @@
 //共享信息管理
-import {checkRols,shareMessage} from '../../model/initForm';
+import {checkRols,shareMessage} from '../../modules/initForm';
 var app = getApp()
 Page({
   data: {
