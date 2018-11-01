@@ -39,10 +39,10 @@
   <address-view-edit name="ade{{n}}" value="{{c}}" editable></address-view-edit>
 </template>
 <template name="d-4">
-  <thumbnail-edit name="ade{{n}}" value="{{c}}" csc="img" editable></thumbnail-edit>
+  <pics-view-edit name="ade{{n}}" value="{{c}}" editable></pics-view-edit>
 </template>
 <template name="d-5">
-  <pics-view-edit name="ade{{n}}" value="{{c}}" editable></pics-view-edit>
+  <thumbnail-view-edit name="ade{{n}}" value="{{c}}" csc="img" editable></thumbnail-view-edit>
 </template>
 <template name="d-6">
   <audio-view-edit name="ade{{n}}" value="{{c}}" editable></audio-view-edit>

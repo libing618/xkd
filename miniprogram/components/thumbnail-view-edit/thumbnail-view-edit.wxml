@@ -1,6 +1,5 @@
 <view id="{{name}}">
-<view wx:if="{{showModalBox}}">
-  <view class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;"></view>
+<view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
   <view class="modal_box" bindtap="downModal"></view>
   <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
     <view class="modal_title">

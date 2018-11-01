@@ -67,7 +67,7 @@
     "rich-view-edit": "components/rich-view-edit/rich-view-edit",
     "share-order": "components/share-order/share-order",
     "switch-afamily": "components/switch-afamily/switch-afamily",
-    "thumbnail-edit": "components/thumbnail-edit/thumbnail-edit",
+    "thumbnail-view-edit": "components/thumbnail-view-edit/thumbnail-view-edit",
     "time-view-edit": "components/time-view-edit/time-view-edit",
     "video-view-edit": "components/video-view-edit/video-view-edit"
   },

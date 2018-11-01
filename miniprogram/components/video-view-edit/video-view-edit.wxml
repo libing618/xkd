@@ -10,7 +10,7 @@
     <view class="page__title">{{p}}</view>
     <view class="close_icon" bindtap="downModal">×</view>
   </view>
-  <view class="page__bd">
+  <view class="page__bd weui-article__-4">
     <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
     <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
   </view>

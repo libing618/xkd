@@ -4,9 +4,25 @@
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
  </wxs>
- <template name="s_arrList">
-   <array-view-edit c="{{c}}" p="{{p}}"></array-view-edit>
- </template>
+<template name="s_-3">
+ <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></address-view-edit>
+</template>
+
+<template name="s_-4">
+ <pics-view-edit name="{{gname}}" value="{{c}}" editable="0"></pics-view-edit>
+</template>
+
+<template name="s_-5">
+ <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" editable="0"></thumbnail-view-edit>
+</template>
+
+<template name="s_-7">
+  <video-view-edit name="{{gname}}" value="{{c}}" editable="0"></video-view-edit>
+</template>
+
+<template name="s_arrList">
+ <array-view-edit c="{{c}}" p="{{p}}"></array-view-edit>
+</template>
 
 <template name="s_ast">
   <view class="weui-cell">
@@ -19,12 +35,6 @@
   <field-view pno="{{gname}}" c="{{c}}" p="{{p}}"></field-view>
 </template>
 
-<template name="s_cit">
-  <view class="weui-article__-2" id="ac-{{n}}">
-    <image src="{{c}}" style="width: 100%;" mode="aspectFit"></image>
-  </view>
-</template>
-
 <template name="s_digit">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
@@ -34,14 +44,6 @@
 
 <template name="s_dVE">
   <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"></date-view-edit>
-</template>
-
-<template name="s_-3">
-  <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c.address}}</view>
-  </view>
-  <map longitude="{{c.longitude}}" latitude="{{c.latitude}}" scale="28" show-location style="width: 100%; height: 300px;"></map>
 </template>
 
 <template name="s_eDetail">
@@ -139,16 +141,6 @@
 </view>
 </template>
 
-<template name="s_pics">
-  <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-    <block wx:for="{{c}}" wx:key="{{index}}">
-      <swiper-item>
-        <image src="{{item}}" class="swimage"></image>
-      </swiper-item>
-    </block>
-  </swiper>
-</template>
-
 <template name="s_pDt">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
@@ -177,13 +169,6 @@
         <view clase="weui-table_tr" class="weui-table_td {{i%2 ==0 ? 'weui-table_bw' : ''}}">item</view>
       </block>
     </view>
-  </view>
-</template>
-
-<template name="s_vidio">
-  <view class="weui-article__-4">{{p}}:</view>
-  <view class="weui-picker">
-    <video controls="{{true}}" src="{{c}}"></video>
   </view>
 </template>
 

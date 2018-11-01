@@ -1,15 +1,14 @@
 module.exports = {
-  "address": {
-    "code": 140105, 
-    "location:": {
+  "address": 140105, 
+  "address_post": "030001",
+    "address_aGeoPoint": {
       "longitude": 112.5648006,
       "latitude": 37.7951744
     },
-    "address": "山西省太原市小店区创意街N、P、Q座" },
+  "address_adinfo": "山西省太原市小店区创意街N、P、Q座" ,
   "nick": "山西乐农汇",
   "desc": "山西乐农汇",
-  "indType": {
-    "code": [
+  "indType": [
       10104,
       620406,
       10109,
@@ -19,7 +18,7 @@ module.exports = {
       131107,
       11601
     ],
-    "sName": [
+    "indType_uName": [
       "谷",
       "电商服务",
       "荞",
@@ -28,10 +27,10 @@ module.exports = {
       "果膏及类似制品",
       "焙、炒加工坚果及果仁",
       "水果（园林水果）"
-    ]
-  },
+    ],
+
 //  "uPhoto": "",
-  
+
   "title": "山西乐农汇",
  // "pPhoto": "",
  // "thumbnail": "",

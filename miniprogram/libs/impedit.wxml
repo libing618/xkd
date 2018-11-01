@@ -18,10 +18,6 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <content-edit name="{{gname}}" c="{{c}}" p="{{p}}"></content-edit>
 </template>
 
-<template name="i_cit">
-  <thumbnail-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable="1"></thumbnail-edit>
-</template>
-
 <template name="i_digit">
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__hd">
@@ -37,8 +33,12 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></address-view-edit>
 </template>
 
-<template name="i_-5">
+<template name="i_-4">
   <pics-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></pics-view-edit>
+</template>
+
+<template name="i_-5">
+  <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
 </template>
 
 <template name="i_eDetail">
@@ -152,7 +152,6 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 </template>
 
 <template name="i_p">
-
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell">
       <view class="weui-cell__bd">
@@ -199,17 +198,13 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   </view>
 </template>
 
-<template name="i_vidio">
-  <view class="weui-article__-4">
-    <view id="ac-{{n}}" bindtap="i_vidio">{{p}}(点此处更换视频)</view>
-    <video src="{{c ? c : 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'}}" controls></video>
-    <view hidden="true"><input name="{{gname}}" value="{{c}}"/></view>
-  </view>
+<template name="i_-7">
+  <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
 </template>
 
 <template name="m_insbottom">
   <view class="weui-footer_fixed-bottom weui-grids">
-    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
+    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片集', '图片', '音频', '视频', '文件']}}" wx:key="{{index}}">
       <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="insmenu">
         <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
         <view class="weui-grid__label">{{item}}</view>
@@ -220,7 +215,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 
 <template name="m_insright">
   <view class="weui-right_fixed weui-grids">
-    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件']}}" wx:key="{{index}}">
+    <block wx:for="{{['标题', '正文','产品', '订单','位置', '图片集', '图片', '音频', '视频', '文件']}}" wx:key="{{index}}">
       <view class="weui-grid" id="{{mid[index]}}" hover-class="weui-grid_active" bindtap="insmenu">
         <image class="weui-grid__icon" src="../../images/{{index}}.png"></image>
         <view class="weui-grid__label">{{item}}</view>

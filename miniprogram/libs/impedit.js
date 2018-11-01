@@ -142,18 +142,18 @@ module.exports = {
         switch (nField.t) {
           case 'eDetail':
             for (let a = 0; a < that.data.vData[nField.gname].length; a++) {
-              if (['-2', '-3', '-4', '-6'].indexOf(that.data.vData[nField.gname][a].t) >= 0) {     //该字段正文的内容为媒体
+              if (Number(that.data.vData[nField.gname][a].t) < -4) {     //该字段正文的内容为媒体
                 filePaths.push({ na: [nField.gname, a], fPath: that.data.vData[nField.gname][a].c.filepath, fType: 2, fn: 2 });
               }
             }
             break;
-          case 'pics':
+          case '-4':
             for (let b = 0; b < that.data.vData[nField.gname].length; b++) {     //该字段为图片组
               filePaths.push({ na: [nField.gname, b], fPath: that.data.vData[nField.gname][b], fType: 2, fn: 1 });
             }
             break;
           default:
-            if (['pic', 'audio', 'vidio', 'file'].indexOf(nField.csc) >= 0) {            //该字段为媒体
+            if (Number(nField.t) < -4) {            //该字段为媒体
               filePaths.push({ na: [nField.gname, -1], fPath: that.data.vData[nField.gname].filepath, fType: 2, fn: 0 });
             }
             break;
@@ -194,7 +194,7 @@ module.exports = {
       case 'fenins':                   //允许显示插入菜单
         let artArray = that.data.vData.details;       //详情的内容
         let sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;
-        let mgrids = ['标题', '正文','产品', '订单','位置', '图片', '图片集', '音频', '视频', '文件'];
+        let mgrids = ['标题', '正文','产品', '订单','位置', '图片集', '图片', '音频', '视频', '文件'];
         let sI = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
         artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
         that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭

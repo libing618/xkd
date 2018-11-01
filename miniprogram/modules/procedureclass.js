@@ -16,12 +16,12 @@ module.exports = {
     "nick":{p:'单位简称',t:"h2" },
     "title":{p:'单位简介', t:"h3"},
     "desc":{p: '单位描述', t: "p"},
-    "thumbnail":{p: '图片简介', t:"cit",csc:"base64" },
+    "thumbnail":{p: '图片简介', t:"-5",csc:"base64" },
     "address":{ p: '常用地址', t: "-3",addFields:['aGeoPoint','adinfo','post']},
     "sUnit":{p: '服务单位', t: "mSU" },
     "licenseNumber":{p:'社会信用代码', t: "h3" },
-    "pPhoto":{p:'申请人手持身份证的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
-    "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"cit",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
+    "pPhoto":{p:'申请人手持身份证的照片',t:"-5",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
+    "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"-5",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
   },
   "puRoles": [],
   "pBewrite": "单位负责人提出岗位和单位设置或修改申请，提交单位或个人身份证明文件的照片，由电子商务服务公司进行审批。",
@@ -36,7 +36,7 @@ module.exports = {
   "pSuccess": ["title","thumbnail","desc","details"],
   "fieldType":{
     "title":{t:"h2", p:"标题" },
-    "thumbnail":{p: '上传用于缩略图的图片',t: "cit",csc:"pic" },
+    "thumbnail":{p: '上传用于缩略图的图片',t: "-5",csc:"pic" },
     "desc":{t:"p", p:"摘要" },
     "details":{p:'详情',t:"eDetail" }
   },
@@ -58,7 +58,7 @@ module.exports = {
     "title":{p:'固定资产简介',t:"h3" },
     "desc":{p:'固定资产描述',t:"p" },
     "address":{p: '详细地址', t: "-3",addFields:['aGeoPoint','adinfo','post']},
-    "thumbnail":{p: '图片简介',t: "cit",csc:"pic" },
+    "thumbnail":{p: '图片简介',t: "-5",csc:"pic" },
     "fcode":{p: '编号',t: "iSc" },
     "_Role":{p:'管理方', t:"sId", addFields:['uName','title','thumbnail'] }
   },
@@ -74,7 +74,7 @@ module.exports = {
   "fieldType":{
     "protype":{p:'产品类别',t:"pDt",addFields:['uName'] },
     "title":{p:'简介',t:"h4" },
-    "thumbnail":{p:'图片简介',t:"cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t:"-5",csc:"pic" },
     "address":{p:'出产地址', t: "-3",addFields:['aGeoPoint','adinfo','post'] },
     "PARM_content":{p:'内容', t:"h4" },
     "PARM_additive":{p:'附加', t:"h4" },
@@ -95,7 +95,7 @@ module.exports = {
   "fieldType":{
     "serFamily":{p:'服务类型',  t:"pDt",  addFields:['uName']},
     "title":{p:'简介',t:"h4" },
-    "thumbnail":{p:'图片简介',t:"cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t:"-5",csc:"pic" },
     "address":{p:'服务地址', t: "-3",addFields:['aGeoPoint','adinfo','post'] },
     "priceClass":{p:'计价类型', t:"listsel", aList:['每30分钟','每次','每千克','每千米'] },
     "priceMax":{p:'价格区间', t:"digit" },
@@ -118,7 +118,7 @@ module.exports = {
   "pSuccess": ["title","thumbnail","service","asset","address","fcode","priceClass","price","serParty","serName","serPhone","manageParty","manageName","managePhone","startTime","endTime"],
   "fieldType":{
     "title":{p:'简介',t:"h4" },
-    "thumbnail":{p:'图片简介',t:"cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t:"-5",csc:"pic" },
     "service":{p:'服务', t:"sId", addFields:['uName','title','thumbnail'] },
     "asset":{p:'固定资产', t:"sId", addFields:['uName','title','thumbnail'] },
     "address":{p:'服务地址', t: "-3",addFields:['aGeoPoint','adinfo','post'] },
@@ -145,7 +145,7 @@ module.exports = {
   "pSuccess": ["title","thumbnail","serFamily","surface","size","weight","product","retail_price","cargoStock","canSupply"],
   "fieldType":{
     "title":{p:'成品简介',t:"h4" },
-    "thumbnail":{p:'图片简介',t: "cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t: "-5",csc:"pic" },
     "serFamily":{p:'送货类型', t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     "surface":{p:'外观', t:"h4" },
     "size":{p:'尺寸', t:"h4" },
@@ -163,16 +163,16 @@ module.exports = {
 },
 "goods":{
   "pName": "商品",
-  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","tvidio","factory","details"],
+  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","video","factory","details"],
   "fieldType":{
     "goodstype":{ p:'商品类别',t:"gSt" },
     "title":{p:'简介',t:"h3" },
-    "thumbnail":{p:'图片简介',t:"cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t:"-5",csc:"pic" },
     "desc":{p:'描述',t:"p" },
     "specstype":{p:'供应类型', t:"listsel", aList:['单品','套餐']},
     "cargo":{p:'成品规格', t:"cId", csc:"recordQuantity" },
-    "pics":{p:'图片集',t:"-5"},
-    "tvidio":{p:'视频简介',t: "vidio",csc:"vidio"},
+    "pics":{p:'图片集',t:"-4"},
+    "video":{p:'视频简介',t:"-7"},
     "channel":{p:'渠道分成比例%',t:"allot"},
     "extension":{p:'推广分成比例%',t:"allot"},
     "factory":{p:'销售管理总占比', t: "allot"},
@@ -210,7 +210,7 @@ module.exports = {
   "fieldType":{
     "title":{p:'材料简述',t:"p" },
     "dafamily":{p:'材料类型',t:"listsel", aList:['自产原料','外购原料','包装'] },
-    "thumbnail":{p:'图片',t: "cit",csc:"pic" },
+    "thumbnail":{p:'图片',t: "-5",csc:"pic" },
     "rawStocks":{p:'原材料库存', t:"number" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
@@ -273,7 +273,7 @@ module.exports = {
   "fieldType":{
     "cargo":{p:'成品', t:"sId",addFields:['uName','title','thumbnail'] },
     "title":{p:'计划简述',t:"h3" },
-    "thumbnail":{p:'图片',t: "cit",csc:"pic" },
+    "thumbnail":{p:'图片',t: "-5",csc:"pic" },
     "dOutput":{p:'计划产量', t:"number" },
     "startDate":{p:'开始日期', t:"dVE",endif:false},
     "endDate":{p:'结束日期', t:"dVE",endif:false}
@@ -290,7 +290,7 @@ module.exports = {
   "fieldType":{
     "product":{p:'产品', t:"sId", addFields:['uName','title','thumbnail'] },
     "title":{p:'批发品简介',t:"h4" },
-    "thumbnail":{p:'图片简介',t: "cit",csc:"pic" },
+    "thumbnail":{p:'图片简介',t: "-5",csc:"pic" },
     "surface":{p:'外观', t:"h4" },
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
@@ -310,7 +310,7 @@ module.exports = {
   "pSuccess": ["material","thumbnail","_Role","_User"],
   "fieldType":{
     "material":{p:'原料(包装)', t:"sId",addFields:['uName','title','thumbnail'] },
-    "thumbnail":{p: '图片', t: "cit",csc:"pic" },
+    "thumbnail":{p: '图片', t: "-5",csc:"pic" },
     "_Role":{p: '供货商', t: "h3", e: '单位名称' },
     "_User":{p: '签收人', t: "h3", e: '签收人名称' }
   },
@@ -329,7 +329,7 @@ module.exports = {
   "pSuccess": ["cargo","thumbnail","_Role","_User"],
   "fieldType":{
     "cargo":{p:'成品',t:"sId",addFields:['uName','title','thumbnail'] },
-    "thumbnail":{p: '图片', t: "cit",csc:"pic" },
+    "thumbnail":{p: '图片', t: "-5",csc:"pic" },
     "_Role":{p: '加工商', t: "h3", e: '单位名称' },
     "_User":{p: '签收人', t: "h3", e: '签收人名称' }
   },
@@ -348,7 +348,7 @@ module.exports = {
   "pSuccess": ["cargo","thumbnail","_Role","_User"],
   "fieldType":{
     "cargo":{p:'成品',t:"sId",addFields:['uName','title','thumbnail'] },
-    "thumbnail":{p: '图片', t: "cit",csc:"pic" },
+    "thumbnail":{p: '图片', t: "-5",csc:"pic" },
     "_Role":{p: '物流商', t: "h3", e: '单位名称' },
     "_User":{p: '签收人', t: "h3", e: '签收人名称' }
   },
