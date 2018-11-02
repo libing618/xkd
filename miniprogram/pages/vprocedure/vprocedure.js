@@ -17,7 +17,7 @@ Page({
     var that = this ;
     that.data.pNo = options.pNo;
     that.inFamily = (typeof app.fData[that.data.pNo].afamily != 'undefined');
-    that.data.vData = initData(app.fData[that.data.pNo].pSuccess,app.aData[that.data.pNo][options.artId]);
+    that.data.vData = initData(app.fData[that.data.pNo].pSuccess,app.fData[that.data.pNo].fieldType,app.aData[that.data.pNo][options.artId]);
     that.data.fieldName = app.fData[this.data.pno].pSuccess;
     that.data.fieldType=app.fData[this.data.pno].fieldType;
     that.data.navBarTitle = app.aData[that.data.pNo][options.artId].uName;

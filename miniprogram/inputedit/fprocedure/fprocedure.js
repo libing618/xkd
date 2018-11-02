@@ -18,7 +18,7 @@ Page({
   },
   onLoad: function (options) {        //传入参数为tgId或pNo/artId,不得为空
     var that = this;
-    let aaData;
+    let aaData={};
     that.data.uEV = (app.roleData.user.line!=9);            //用户已通过单位和职位审核
     return new Promise((resolve, reject) => {
       if (typeof options.tgId == 'string') {                   //传入参数含审批流程ID，则为编辑审批中的数据
@@ -50,9 +50,7 @@ Page({
       let fieldType = app.fData[ops.pNo].fieldType;
       fieldName.unshift("uName");
       fData.uName = {t:"h2", p:"名称" };
-      if (typeof aaData == 'undefined') {
-        aaData = initData(fData,app.aData[ops.pNo][that.data.dObjectId])
-      }//require('../../test/goods0')[0]
+      aaData = initData(fieldName,fieldType,aaData);    //require('../../test/goods0')[0]
       wImpEdit.initFunc(ops.pNo).forEach(functionName => {
         that[functionName] = wImpEdit[functionName];
         if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于3则存在对应处理过程

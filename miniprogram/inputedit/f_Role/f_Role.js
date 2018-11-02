@@ -1,4 +1,5 @@
 //单位信息编辑
+import {initData} from '../../modules/initForm';
 const db = wx.cloud.database();
 const wImpEdit = require('../../libs/impedit');
 var app = getApp()
@@ -25,9 +26,9 @@ Page({
         dProcedure: '_Role'
       }).orderBy('updatedAt','desc').limit(1).get().then(({data}) =>{
         if (data.length==1) {
-          that.data.vData = wImpEdit.initData(app.fData._Role.pSuccess,app.fData._Role.fieldType,data[0].dObject);
+          that.data.vData = initData(app.fData._Role.pSuccess,app.fData._Role.fieldType,data[0].dObject);
           that.data.unEdit = data[0].cInstance > 0 && data[0].cInstance < data[0].cManagers.length;        //流程起点或已结束才能提交
-        } else { that.data.vData=require('../../test/irole.js')};
+        } else { that.data.vData=initData(app.fData._Role.pSuccess,app.fData._Role.fieldType,require('../../test/irole.js')) };
         that.data.dObjectId = app.roleData.user.unit;
         wImpEdit.initFunc('_Role').forEach(functionName => {
           that[functionName] = wImpEdit[functionName]

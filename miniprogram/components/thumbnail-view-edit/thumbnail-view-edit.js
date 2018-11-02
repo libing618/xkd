@@ -69,7 +69,7 @@ Component({
               if (res.width<300 || res.height<225){
                 wx.showToast({ title: '照片尺寸太小！' })
               } else {
-                let xMaxScall = sysinfo.windowWidth/res.width;
+                let xMaxScall = sysinfo.windowWidth*71/(75*res.width);
                 let yMaxScall = (sysinfo.windowHeight-260)/res.height;
                 let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
                 let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
@@ -79,7 +79,8 @@ Component({
                   editimg:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
-                  cScale: imageScall.toFixed(3),
+                  imageScall: imageScall,
+                  cScale: 1,
                   xOff: 300*imageScall,
                   yOff: 225*imageScall,
                   x:0,
@@ -87,7 +88,7 @@ Component({
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
-                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
+                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300*imageScall, 225*imageScall, 0, 0, 300, 225);
                 that.ctx.draw();
               };
             }
@@ -98,14 +99,14 @@ Component({
     },
     onScale({ currentTarget: { id, dataset }, detail }){
       this.setData({
-        scScale: detail.scale
+        cScale: Number(detail.scale.toFixed(3))
       });
       this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.editimg,detail.x-this.data.windowWidth*2/75,detail.y-this.data.statusBar-42,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
+      this.ctx.drawImage(this.data.editimg, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,

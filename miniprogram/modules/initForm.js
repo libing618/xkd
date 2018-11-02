@@ -13,7 +13,7 @@ var cos = new COS({
     callback(authorization);
   }
 });
-var app = getApp();
+
 function requestCallback(err, data) {
   if (err && err.error) {
     wx.showModal({title: '上传文件', content: '请求失败：' + err.error.Message + '；状态码：' + err.statusCode, showCancel: false});
