@@ -7,7 +7,7 @@
 <view id="{{name}}">
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd weui-cell__flex">
+  <view class="weui-cell__bd">
     <view wx:for="{{value.uName}}" wx:key="{{index}}">
       <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
     </view>

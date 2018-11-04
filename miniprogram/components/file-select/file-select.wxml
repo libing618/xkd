@@ -1,33 +1,38 @@
-<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" id="{{name}}" bindtap="{{editable ? 'modalSelectFile' : 'fOpen'}}">
-  <view class="weui-media-box__hd_in-appmsg">
-    <image class="weui-media-box__thumb" src="{{fileType}}.png" background-size="cover"></image>
-  </view>
-  <view class="weui-media-box__bd_in-appmsg">
-    <view class="weui-media-box__title">{{c}}</view>
-  </view>
-</view>
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__title">选择{{p}}</view>
-  <view class="close_icon" bindtap="downModal">×</view>
-  <view class="page__hd">
-  <view class="weui-tab__panel">
-    <block wx:for="{{tPage}}" wx:key="{{index}}">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{item}}" bindtap="fClick">
-        <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{pageData[item].fType}}.png" background-size="cover"></image>
-        </view>
-        <view class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{item}}</view>
-          <view class="weui-media-box__desc">保存时间：{{pageData[item].cTime}}   大小：{{pageData[item].fLen}}Kb</view>
+<view id="{{name}}">
+  <view class="weui-label">{{p}}</view>
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="modal_box" bindtap="downModal"></view>
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+      <view class="page__title">选择{{p}}</view>
+      <view class="close_icon" bindtap="downModal">×</view>
+      <view class="page__hd">
+        <view class="weui-tab__panel">
+          <block wx:for="{{tPage}}" wx:key="{{index}}">
+            <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{item}}" bindtap="fClick">
+              <view class="weui-media-box__hd_in-appmsg">
+                <image class="weui-media-box__thumb" src="{{pageData[item].fType}}.png" background-size="cover"></image>
+              </view>
+              <view class="weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item}}</view>
+                <view class="weui-media-box__desc">保存时间：{{pageData[item].cTime}}   大小：{{pageData[item].fLen}}Kb</view>
+              </view>
+            </view>
+            <view wx:if="{{idClicked==item}}" id="{{item}}" bingtap="fOpen">>打开</view>
+          </block>
         </view>
       </view>
-      <view wx:if="{{idClicked==item}}" id="{{item}}" bingtap="fOpen">>打开</view>
-    </block>
+      <view style="padding-bottom:100rpx;"></view>
+      <view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
+        <button class="weui-btn" type="primary" bindtap="fSelect">选定{{idClicked}}</button>
+      </view>
+    </view>
   </view>
+  <view wx:else class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindtap="{{editable ? 'modalSelectFile' : 'fOpen'}}">
+    <view class="weui-media-box__hd_in-appmsg">
+      <image class="weui-media-box__thumb" src="{{fileType}}.png" background-size="cover"></image>
+    </view>
+    <view class="weui-media-box__bd_in-appmsg">
+      <view class="weui-media-box__title">{{c}}</view>
+    </view>
   </view>
-  <view style="padding-bottom:100rpx;"></view>
-</view>
-<view wx:if="{{idClicked!=='0'}}" class="page__ft weui-footer_fixed-bottom">
-  <button class="weui-btn" type="primary" bindtap="fSelect">选定{{idClicked}}</button>
 </view>

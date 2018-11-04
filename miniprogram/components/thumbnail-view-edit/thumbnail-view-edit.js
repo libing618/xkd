@@ -88,7 +88,7 @@ Component({
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
-                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300*imageScall, 225*imageScall, 0, 0, 300, 225);
+                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
                 that.ctx.draw();
               };
             }
@@ -99,14 +99,16 @@ Component({
     },
     onScale({ currentTarget: { id, dataset }, detail }){
       this.setData({
-        cScale: Number(detail.scale.toFixed(3))
+        cScale: Number(detail.scale.toFixed(3)),
+        xOff: this.data.xOff * detail.scale,
+        yOff: this.data.yOff * detail.scale
       });
-      this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*this.data.xOff, detail.scale*this.data.yOff,0,0, 300, 225);
+      this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*300,detail.scale*225,0,0, 300, 225);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.editimg, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*this.data.xOff, cScale*this.data.yOff,0,0, 300, 225);
+      this.ctx.drawImage(this.data.editimg, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*300, cScale*225,0,0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,

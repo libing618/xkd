@@ -1,33 +1,37 @@
-<view class="modal_box" bindtap="downModal"></view>
-
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__title">服务预约(每次一元,保留半小时)</view>
-  <view class="close_icon" id="fBack" bindtap="downModal">×</view>
-  <view class="page__ac_spacing">
-    <view class="drawer_attr_content">
-      <block wx:for="{{fieldName}}" wx:key="index">
-        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:pageData[targetId][item],gname:item}}"/>
-      </block>
+<view id="{{name}}">
+  <view class="weui-label">{{p}}</view>
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="modal_box" bindtap="downModal"></view>
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+      <view class="page__title">服务预约(每次一元,保留半小时)</view>
+      <view class="close_icon" bindtap="downModal">×</view>
+      <view class="page__ac_spacing">
+        <view class="drawer_attr_content">
+          <block wx:for="{{fieldName}}" wx:key="index">
+            <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:pageData[targetId][item],gname:item}}"/>
+          </block>
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__hd">预约时间:</view>
+        <input class="weui-cell__bd" name="ordertime" value="{{c}}"/>
+        <view class="weui-cell__ft">
+          <picker mode="date" value="{{c}}" start="2015-09-01" id="pa-{{n}}" bindchange="shareOrder">
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="weui-label">预计数量:</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input name="orderquantity" value="{{c}}" class="weui-input" placeholder="请输入{{p}}" />
+        </view>
+      </view>
+      <view class="page__ft weui-footer_fixed-bottom">
+        <view class="modal_sure_Btn" bindtap="fSave">确定</view>
+        <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
+      </view>
     </view>
-  </view>
-  <view class="weui-cell">
-    <view class="weui-cell__hd">预约时间:</view>
-    <input class="weui-cell__bd" name="ordertime" value="{{c}}"/>
-    <view class="weui-cell__ft">
-      <picker mode="date" value="{{c}}" start="2015-09-01" id="pa-{{n}}" bindchange="shareOrder">
-      </picker>
-    </view>
-  </view>
-  <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__hd">
-        <view class="weui-label">预计数量:</view>
-    </view>
-    <view class="weui-cell__bd">
-      <input name="orderquantity" value="{{c}}" class="weui-input" placeholder="请输入{{p}}" />
-    </view>
-  </view>
-  <view class="page__ft weui-footer_fixed-bottom">
-    <view class="modal_sure_Btn" bindtap="fSave">确定</view>
-    <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
   </view>
 </view>

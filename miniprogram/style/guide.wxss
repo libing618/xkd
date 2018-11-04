@@ -91,6 +91,223 @@
 	margin-left: 10rpx;
   font-size: 34rpx;
 }
+.weui-right_fixed {
+  position: fixed;
+  z-index:998;
+  background-color: rgba(109, 109, 109, 1);
+  background-size: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  hight:100%;
+  width: 40%;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.weui-table {
+  border: 0px solid darkgray;
+}
+.weui-table_tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 3rem;
+  align-items: center;
+}
+.weui-table_td {
+  width:40%;
+  justify-content: center;
+  text-align: center;
+}
+.weui-table_bw {
+  background: snow;
+}
+.weui-table_bg {
+  background: #E6F3F9;
+}
+.weui-table_th {
+  width: 40%;
+  justify-content: center;
+  background: #3366FF;
+  color: #fff;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+}
+
+.weui-thumb {
+  margin-right: 5px;
+  vertical-align: middle;
+  width:200rpx;
+  height: 200rpx;
+}
+
+.weui-hover{
+  background: #CCCCCC;
+  color: #fff;
+}
+.weui-footer__center{
+  position: fixed;
+  margin: 0 auto;
+  bottom: 0px;
+  width: 100%;
+}
+.weui-canvas{
+  margin: 0 auto;
+  width: 300 px;
+  height: 225 px;
+}
+.swiper_box {
+  width: 100%;
+  height: 340rpx;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.swimage {
+  height: 300rpx;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.swtext {
+  text-align: center;
+  margin: -10rpx 0;
+  position: relative;
+  padding: 5rpx 20rpx 20rpx 10rpx;
+  font-size: 24rpx;
+  color: #656565;
+}
+
+.weui-picker{
+  width:100%;
+  left:0;
+  bottom:0;
+  background: #F5F5F5;
+  border: 4rpx solid #ccc;
+  border-radius: 10rpx;
+}
+.weui-picker__hd{
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:flex;
+  padding:10rpx 20rpx;
+  background-color:#fff;
+  position:relative;
+  text-align:center;
+  font-size:30rpx;
+}
+.weui-picker__hd:after{
+  content:" ";
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;
+  height:1px;
+  border-bottom:1px solid #E5E5E5;
+  color:#E5E5E5;
+  -webkit-transform-origin:0 100%;
+          transform-origin:0 100%;
+  -webkit-transform:scaleY(0.5);
+          transform:scaleY(0.5);
+}
+.weui-picker__bd{
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:flex;
+  position:relative;
+  background-color:#fff;
+  height:500rpx;
+  overflow:hidden;
+}
+.weui-picker__group{
+  -webkit-box-flex:1;
+  -webkit-flex:1;
+          flex:1;
+  position:relative;
+  height:100%;
+}
+.weui-picker__view{
+  width:100%;
+  height:380rpx;
+}
+.weui-picker__mask{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  margin:0 auto;
+  z-index:3;
+  background:-webkit-linear-gradient(top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6)), -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6));
+  background:linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6)), linear-gradient(0deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6));
+  background-position:top, bottom;
+  background-size:100% 200rpx;
+  background-repeat:no-repeat;
+  -webkit-transform:translateZ(0);
+          transform:translateZ(0);
+}
+.weui-picker__indicator{
+  width:100%;
+  height:68rpx;
+  position:absolute;
+  left:0;
+  top:200rpx;
+  z-index:3;
+}
+.weui-picker__indicator:before{
+  content:" ";
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  height:1px;
+  border-top:1px solid #E5E5E5;
+  color:#E5E5E5;
+  -webkit-transform-origin:0 0;
+          transform-origin:0 0;
+  -webkit-transform:scaleY(0.5);
+          transform:scaleY(0.5);
+}
+.weui-picker__indicator:after{
+  content:" ";
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;
+  height:1px;
+  border-bottom:1px solid #E5E5E5;
+  color:#E5E5E5;
+  -webkit-transform-origin:0 100%;
+          transform-origin:0 100%;
+  -webkit-transform:scaleY(0.5);
+          transform:scaleY(0.5);
+}
+.weui-picker__content{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+}
+.weui-picker__item{
+  padding:0;
+  height:68rpx;
+  line-height:68rpx;
+  text-align:center;
+  color:#000;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.weui-picker__item_disabled{
+  color:#999999;
+}
+.weui-map-box{
+  box-sizing: border-box;
+  padding-top: 16rpx;
+}
 .chat-box__left {
   padding-top: 20rpx;
   display: -webkit-box;

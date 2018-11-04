@@ -1,24 +1,27 @@
-<view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__-5" id="ad-{{n}}">
-<view id="ac-{{n}}" bindtap="choosepics">
-  <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-    <block wx:for="{{c}}" wx:key="{{index}}">
-      <swiper-item>
-        <image src="{{item}}" class="swimage"></image>
-        <rich-view-edit name="pic{{index}}" value="{{item.e}}" csc="T" editable="0" />
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
-</view>
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__hd">
-    <view class="page__title">{{p}}</view>
-    <view class="close_icon" bindtap="downModal">×</view>
+<view id="{{name}}">
+  <view class="weui-label">{{p}}</view>
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="modal_box" bindtap="downModal"></view>
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+      <view class="page__hd">
+        <view class="page__title">{{p}}</view>
+        <view class="close_icon" bindtap="downModal">×</view>
+      </view>
+      <view class="page__bd">
+        <audio controls="{{true}}" id="myAudio" src="{{audsrc}}"></audio>
+        <rich-view-edit name="e" value="{{value.e}}" csc="T"/>
+      </view>
+      <button class="weui-btn" bindtap="fSave" size="mini">确定</button>
+    </view>
   </view>
-  <view class="page__bd">
-    <audio controls="{{true}}" id="myAudio" src="{{audsrc}}"></audio>
-    <rich-view-edit name="e" value="{{value.e}}" csc="T"/>
+  <view wx:else bindtap="choosepics">
+    <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
+      <block wx:for="{{c}}" wx:key="{{index}}">
+        <swiper-item>
+          <image src="{{item}}" class="swimage"></image>
+          <rich-view-edit name="pic{{index}}" value="{{item.e}}" csc="T" editable="0" />
+        </swiper-item>
+      </block>
+    </swiper>
   </view>
-  <button class="weui-btn" bindtap="fSave" size="mini">确定</button>
 </view>

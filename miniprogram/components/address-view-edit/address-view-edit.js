@@ -1,8 +1,7 @@
-// components/edit-address/edit-address.js
 const db = wx.cloud.database();
 var modalBehavior = require('../utils/poplib.js')
 const qqmap_wx = require('../utils/qqmap-wx-jssdk.min.js');   //微信地图
-var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
+const sysinfo = getApp().sysinfo;
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
@@ -32,6 +31,12 @@ Component({
     addGlobalClass: true
   },
 
+  data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
+    address1:''
+  },
+
   lifetimes:{
     attached(){
       let that = this;
@@ -55,28 +60,18 @@ Component({
         })
       }).then((vifAuth) => {
         if (vifAuth) {
-          wx.getLocation({
-            type: 'wgs84',
-            success(res) {
-              QQMapWX.reverseGeocoder({
-                location: { latitude: res.latitude, longitude: res.longitude },
-                success: function ({ result: { ad_info, address_component,address } }) {
-                  that.data.value.adinfo = address;
-                  that.data.value.aGeoPoint = [res.longitude,res.latitude];
-                  that.data.value._id = ad_info.adcode;
-                  that.setData({
-                    value: that.data.value,
-                    region:[address_component.province,address_component.city,address_component.district]
-                  });
-                  if (that.data.editable==2){
-                    that.setData({address1: address});
-                    that.popModal();                 //打开弹出页
-                  }
+          if (!that.data.value && that.data.editable){
+            wx.getLocation({
+              type: 'gcj02',
+              success(res) {
+                that.buildAdd([res.latitude,res.longitude]);
+                if (that.data.editable==2){
+                  that.popModal();                 //打开弹出页
                 }
-              });
-            },
-            fail() { wx.navigateBack({ delta: 1 }) }
-          })
+              },
+              fail() { wx.navigateBack({ delta: 1 }) }
+            })
+          }
         } else {wx.navigateBack({ delta: 1 }) }
       });
     }
@@ -93,22 +88,29 @@ Component({
       let that = this;
       wx.chooseLocation({
         success: function (res) {
-          if (that.data.editable){
-            QQMapWX.reverseGeocoder({                    //解析地理位置
-              location: { latitude: res.latitude, longitude: res.longitude },
-              success: function ({ result: { ad_info, address_component,address } }) {
-                that.data.value.adinfo = address;
-                that.data.value.aGeoPoint = [res.longitude,res.latitude];
-                that.data.value._id = ad_info.adcode;
-                that.setData({
-                  value: that.data.value,
-                  region:[address_component.province,address_component.city,address_component.district]
-                });
-              }
-            });
+          if (that.data.editable) {
+            this.buildAdd([res.latitude, res.longitude])
           };
         }
       })
+    },
+
+    buildAdd: function ([latitude, longitude]) {                         //地理位置解析
+      let that = this;
+      let QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
+      QQMapWX.reverseGeocoder({                    //解析地理位置
+        location: { latitude: latitude, longitude: longitude },
+        success: function ({ result: { ad_info, address_component, address } }) {
+          that.data.value.adinfo = address;
+          that.data.value.aGeoPoint = [res.longitude, res.latitude];
+          that.data.value._id = ad_info.adcode;
+          that.setData({
+            address1: address,
+            value: that.data.value,
+            region: [address_component.province, address_component.city, address_component.district]
+          });
+        }
+      });
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
@@ -117,7 +119,7 @@ Component({
       this.downModal();
     },
 
-    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,post} }){              //选择行政区划
+    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,post} }){      //选择行政区划
       let that = this;
       that.data.value.post = post;
       that.data.value._id = code;

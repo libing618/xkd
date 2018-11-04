@@ -1,10 +1,8 @@
-// components/map-select-unit/map=select-unit.js
 var modalBehavior = require('../utils/poplib.js');
 const db = wx.cloud.database();
 const _ = db.command;
-var app = getApp();
-const qqmap_wx = require('../utils/qqmap-wx-jssdk.min.js');   //微信地图
-var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
+const {sysinfo,fData,roleData} = getApp()
+
 Component({
   behaviors: [modalBehavior],
   properties: {
@@ -34,19 +32,21 @@ Component({
   },
 
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     location: { latitude: 23, longitude: 113 },
+    Height: sysinfo.windowHeight-300,
+    scale: 16,
+    sId: 0,
+    markers:[],
+    unitArray: [],
+    selIndtypes:[]
   },
   methods: {
     mapSelectUnit: function (e) {      //地图选择单位弹出页
       let that = this;
       let newPage={
-        Height: app.sysinfo.windowHeight-300,
-        scale: 16,
-        sId: 0,
-        markers:[],
-        unitArray: [],
-        reqProIsSuperior: typeof that.data.indTypes == 'number',
-        selIndtypes:[]
+        reqProIsSuperior: typeof that.data.indTypes == 'number'
       };
       if ( newPage.reqProIsSuperior ) {
         newPage.selIndtypes.push(that.data.indTypes);
@@ -100,7 +100,7 @@ Component({
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
-        app.roleData.sUnit._id = this.data.sId;
+        roleData.sUnit._id = this.data.sId;
         this.setData({value:this.data.unitArray[this.data.sId]._id});
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})

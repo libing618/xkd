@@ -1,7 +1,29 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
 <view class="weui-cell">{{p}}:</view>
-<view class="weui-cells">
+<view class="weui-label" bindtap='modalEditAddress'>{{p}}:{{value.adinfo}}</view>
+<view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+  <view class="modal_box" bindtap="downModal"></view>
+  <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="page__hd">
+      <view class="page__title">{{sitem.uName}}</view>
+      <view class="close_icon" bindtap="downModal">×</view>
+    </view>
+    <view class="page__ac_spacing">
+      <view class="drawer_attr_content">
+        <block wx:for="{{fieldName}}" wx:key="index">
+          <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:sfield[item],gname:item}}"/>
+        </block>
+        <view wx:if="{{name=='cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
+      </view>
+    </view>
+    <view style="padding-bottom:100rpx;"></view>
+    <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
+      <button bindtap="downModal">我知道了</button>
+    </view>
+  </view>
+</view>
+<view wx:else class="weui-cells">
   <block wx:for="{{sfield}}" wx:key="{{index}}" wx:for-item="objarr">
     <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active" id="{{objarr._id}}" data-pNo="{{gname}}" bingtap="clickfield">
       <view class="weui-media-box__hd_in-appmsg">
@@ -17,24 +39,4 @@
       </view>
     </view>
   </block>
-</view>
-
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__hd">
-    <view class="page__title">{{sitem.uName}}</view>
-    <view class="close_icon" bindtap="downModal">×</view>
-  </view>
-  <view class="page__ac_spacing">
-    <view class="drawer_attr_content">
-      <block wx:for="{{fieldName}}" wx:key="index">
-        <template is="s_{{fieldType[item].t}}" data="{{...fieldType[item], c:sfield[item],gname:item}}"/>
-      </block>
-      <view wx:if="{{name=='cargo'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
-    </view>
-  </view>
-  <view style="padding-bottom:100rpx;"></view>
-  <view wx:if="{{showModalBox}}" class="page__ft weui-footer_fixed-bottom">
-    <button bindtap="downModal">我知道了</button>
-  </view>
 </view>

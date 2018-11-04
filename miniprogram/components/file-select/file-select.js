@@ -1,7 +1,8 @@
 import {formatTime} from '../../modules/util.js';
+const {sysinfo} = getApp();
 var modalBehavior = require('../utils/poplib.js');
 Component({
-  behaviors: [modalBehavior],
+  behaviors: [modalBehavior,'wx://form-field'],
   properties: {
     p: {
       type: String,
@@ -21,10 +22,10 @@ Component({
   },
 
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     idClicked: '0',
-    fileType: '',
-    animationData: {},
-    showModalBox: false
+    fileType: ''
   },
   lifetimes:{
     attached(){

@@ -4,7 +4,7 @@
 </wxs>
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd weui-cell__flex">
+  <view class="weui-cell__bd">
     <view wx:for="{{value}}" wx:key="{{index}}">
       <view class="weui-cell_link" id="{{index}}" bindtap="arrdel">{{ item }}{{mDot(index,value)}}</view>
     </view>

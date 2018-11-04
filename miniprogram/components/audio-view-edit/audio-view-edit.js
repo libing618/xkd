@@ -1,3 +1,4 @@
+const sysinfo = getApp().sysinfo;
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
@@ -21,9 +22,9 @@ Component({
     addGlobalClass: true
   },
   data: {
-    audsrc: '',
-    animationData: {},
-    showModalBox: false
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
+    audsrc: ''
   },
   lifetimes:{
     attached(){

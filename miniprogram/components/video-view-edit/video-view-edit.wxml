@@ -1,21 +1,26 @@
-<view style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-article__{{item.t}}" id="ad-{{n}}">
-  <view class="weui-picker"  catchtap="choosevideo">
-    <video controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></video>
+<view id="{{name}}">
+  <view class="weui-label">{{p}}</view>
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="modal_box" bindtap="downModal"></view>
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+      <view class="page__hd">
+        <view class="page__title">{{p}}</view>
+        <view class="close_icon" bindtap="downModal">×</view>
+      </view>
+      <view class="page__bd weui-msg">
+        <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
+        <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+      </view>
+      <view class="page__ft weui-footer_fixed-bottom">
+        <view class="modal_sure_Btn" bindtap="fSave">确定</view>
+        <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
+      </view>
+    </view>
   </view>
-  <text >value.e</text>
-</view>
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__hd">
-    <view class="page__title">{{p}}</view>
-    <view class="close_icon" bindtap="downModal">×</view>
-  </view>
-  <view class="page__bd weui-article__-4">
-    <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
-    <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
-  </view>
-  <view class="page__ft weui-footer_fixed-bottom">
-    <view class="modal_sure_Btn" bindtap="fSave">确定</view>
-    <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
+  <view wx:else style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-msg">
+    <view class="weui-picker"  catchtap="choosevideo">
+      <video controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></video>
+    </view>
+    <text >value.e</text>
   </view>
 </view>

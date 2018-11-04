@@ -46,7 +46,7 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
     <block wx:for="{{c}}" wx:key="{{index}}" wx:for-index="n">
       <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
         <button class="weui-btn" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
-        <view class="weui-article__{{item.t}}" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
+        <view class="weui-msg" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
           <template is="d{{item.t}}" data="{{c:item.c,n,editable:1}}"></template>
         </view>
         <button class="wslider-left-item" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>

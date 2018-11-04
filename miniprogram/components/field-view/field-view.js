@@ -1,4 +1,4 @@
-var app = getApp()
+const {sysinfo,fData,cargoStock} = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior],
@@ -22,6 +22,8 @@ Component({
   },
 
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     fieldName: [],
     fieldType: {}
   },
@@ -30,12 +32,12 @@ Component({
     clickfield({ currentTarget:{id,dataset},detail:{value} }){            //字段内容查看弹出页
       if (this.data.clickid==this.data.sitem._id){
         this.setData({
-          fieldName: app.fData[this.data.pno].pSuccess,
-          fieldType: app.fData[this.data.pno].fieldType
+          fieldName: fData[this.data.pno].pSuccess,
+          fieldType: fData[this.data.pno].fieldType
         });
         this.popModal();
         if (this.data.name=='goods') {
-          cargototal = app.cargoStock[this.data.sfield[id]._id]
+          cargototal = cargoStock[this.data.sfield[id]._id]
           this.data.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),
             csupply: (cargototal.canSupply / this.data.sfield[id].packages - 0.5).toFixed(0)

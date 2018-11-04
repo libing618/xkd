@@ -1,3 +1,4 @@
+const {sysinfo} = getApp()
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
@@ -5,7 +6,7 @@ Component({
     value: {
       type: Object,
       value: {
-        _id:require('../../config.js').placeaudio      //占位音频文件
+        _id:require('../../config.js').placepics      //占位文件
       }
     },
     p: {
@@ -21,14 +22,14 @@ Component({
     addGlobalClass: true
   },
   data: {
-    audsrc: '',
-    animationData: {},
-    showModalBox: false
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
+    audsrc: ''
   },
   lifetimes:{
     attached(){
       if (this.data.value) {
-        value:['https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/790f500d14e467fe28e3.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/ff933806fce411614341.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/c4b4edf57363e801162c.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/4827cf0d996f80a86266.JPG','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/d5140a5a494b03139854.jpg','https://e3sl2viw1q4ta7me-10007535.file.myqcloud.com/42e17b8efd6a01896496.JPG']
+        this.setData({value: {_id:require('../../config.js').placepics} })
       };
       if (this.data.editable==2){ this.choosepics() }
     }

@@ -1,6 +1,6 @@
 import {getData} from '../../modules/db-get-data'
-var app = getApp()
-let SHOW_SCREENS = app.sysinfo.itemtotal //最多显示条数
+const {sysinfo} = getApp();
+let SHOW_SCREENS = sysinfo.itemtotal //最多显示条数
 const { transformRpx } = require('../utils/transformRpx');
 var modalBehavior = require('../utils/poplib.js')
 Component({
@@ -43,9 +43,11 @@ Component({
 
   data: {
     pNo: '',
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     mPage: [],
     pageData: {},
-    height: app.sysinfo.windowHeight,
+    height: sysinfo.windowHeight,
     clickedid: '0'
   },
   lifetimes: {

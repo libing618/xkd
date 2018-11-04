@@ -1,6 +1,4 @@
-// components/share-order/share-order.js
-var app = getApp()
-var sysinfo = app.sysinfo;
+const {sysinfo,fData,cargoStock} = getApp();
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior],
@@ -24,6 +22,8 @@ Component({
   },
 
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
     fieldName: [],
     fieldType: {}
   },
@@ -32,7 +32,7 @@ Component({
     attached: function(){
       switch (this.data.pno) {
         case 's_cargo':
-          cargototal = app.cargoStock[this.data.sitem._id]
+          cargototal = cargoStock[this.data.sitem._id]
           this.setData({
             scale: ((cargototal.payment + cargototal.delivering + cargototal.delivered) / cargototal.packages).toFixed(0),
             csupply: (cargototal.canSupply / cargototal.packages - 0.5).toFixed(0)
@@ -47,8 +47,8 @@ Component({
     shareOrder(){
       if (this.data.clickid==this.data.sitem._id){
         this.setData({
-          fieldName: app.fData[this.data.pno].pSuccess,
-          fieldType: app.fData[this.data.pno].fieldType
+          fieldName: fData[this.data.pno].pSuccess,
+          fieldType: fData[this.data.pno].fieldType
         });
         this.popModal()
       } else {

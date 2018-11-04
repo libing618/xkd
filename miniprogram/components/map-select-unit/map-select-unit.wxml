@@ -1,37 +1,40 @@
 <import src="../../libs/weimport.wxml" />
 <view id="{{name}}">
-<view class="weui-cell weui-cell_input" bindtap="mapSelectUnit">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd">{{c.sName}}</view>
-</view>
-<view class="modal_box" bindtap="downModal" wx:if="{{showModalBox}}"></view>
-<view animation="{{animationData}}" class="modal_attr_box" wx:if="{{showModalBox}}">
-  <view class="page__title" bindtap="fSave">选择{{unitArray[sId].uName}}</view>
-  <view class="close_icon" bindtap="downModal">×</view>
-  <view class="weui-map-box">
-    <map
-      id="mapSelect"
-      style="width: 100%; height: 300px;"
-      longitude="{{longitude}}"
-      latitude="{{latitude}}"
-      markers="{{markers}}"
-      bindmarkertap="mapMarker"
-      bindregionchange="moveLocation"
-      show-location="{{true}}"
-    ></map>
-  </view>
-  <view class="page__bd">
-    <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-      <view class="weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb" src="{{unitArray[sId].thumbnail}}" background-size="cover"></image>
+  <view class="weui-label">{{p}}</view>
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view class="modal_box" bindtap="downModal"></view>
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+      <view class="page__title" bindtap="fSave">选择{{unitArray[sId].uName}}</view>
+      <view class="close_icon" bindtap="downModal">×</view>
+      <view class="weui-map-box">
+        <map
+          id="mapSelect"
+          style="width: 100%; height: 300px;"
+          longitude="{{longitude}}"
+          latitude="{{latitude}}"
+          markers="{{markers}}"
+          bindmarkertap="mapMarker"
+          bindregionchange="moveLocation"
+          show-location="{{true}}"
+        ></map>
       </view>
-      <view class="weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{unitArray[sId].uName}}</view>
-        <view class="weui-media-box__desc">{{unitArray[sId].title}}</view>
+      <view class="page__bd">
+        <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
+          <view class="weui-media-box__hd_in-appmsg">
+            <image class="weui-media-box__thumb" src="{{unitArray[sId].thumbnail}}" background-size="cover"></image>
+          </view>
+          <view class="weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{unitArray[sId].uName}}</view>
+            <view class="weui-media-box__desc">{{unitArray[sId].title}}</view>
+          </view>
+        </view>
+        <template is="s_iNd" data="{{p:'主营业务',c:unitArray[sId].indType}}" />
+        <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
       </view>
     </view>
-    <template is="s_iNd" data="{{p:'主营业务',c:unitArray[sId].indType}}" />
-    <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
   </view>
-</view>
+  <view wx:else class="weui-cell weui-cell_input" bindtap="mapSelectUnit">
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{c.uName}}</view>
+  </view>
 </view>
