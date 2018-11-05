@@ -410,6 +410,11 @@
 .pm-mini_btn{
   margin-right: 10rpx;
 }
+.pm-row__flex {
+  display:flex;
+  flex-flow: row wrap;
+}
+
 .close_icon {
   width: 25rpx;
   height: 25rpx;

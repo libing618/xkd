@@ -7,7 +7,9 @@ icon {
 	margin-top: 1.17647059em;
 	background-color: #fff;
 	line-height: 1.41176471;
-	font-size: 34rpx
+	font-size: 28rpx;
+  margin-bottom: 18rpx;
+  border-radius: 12rpx
 }
 
 .weui-cells:before {

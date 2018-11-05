@@ -31,9 +31,9 @@
         </picker-view-column>
     </picker-view>
   </view>
-  <view class="weui-cell">
+  <view class="weui-cell pm-row__flex">
     <view wx:for="{{value.uName}}" wx:key="{{index}}">
-      <view class="weui-flex__item" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
+      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
     </view>
   </view>
 </view>
