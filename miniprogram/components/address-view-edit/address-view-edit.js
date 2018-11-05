@@ -89,7 +89,7 @@ Component({
       wx.chooseLocation({
         success: function (res) {
           if (that.data.editable) {
-            this.buildAdd([res.latitude, res.longitude])
+            that.buildAdd([res.latitude, res.longitude])
           };
         }
       })
@@ -102,7 +102,7 @@ Component({
         location: { latitude: latitude, longitude: longitude },
         success: function ({ result: { ad_info, address_component, address } }) {
           that.data.value.adinfo = address;
-          that.data.value.aGeoPoint = [res.longitude, res.latitude];
+          that.data.value.aGeoPoint = [latitude,longitude];
           that.data.value._id = ad_info.adcode;
           that.setData({
             address1: address,

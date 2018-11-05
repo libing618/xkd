@@ -10,8 +10,6 @@ Page({
     enIns: true,                  //插入grid菜单组关闭
     targetId: '0',              //流程申请表的ID
     dObjectId: '0',             //已建数据的ID作为修改标志，0则为新建
-    showModalBox: false,
-    animationData: {},              //弹出动画
     vData: {},
     fieldType: {},
     fieldName: []

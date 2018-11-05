@@ -1,6 +1,6 @@
 <import src="../../libs/weimport.wxml" />
 <view id="{{name}}">
-  <view class="weui-label">{{p}}</view>
+  <view class="weui-cells__tips">{{p}}</view>
   <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
     <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
@@ -33,8 +33,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="weui-cell weui-cell_input" bindtap="mapSelectUnit">
-    <view class="weui-cell__hd">{{p}}:</view>
-    <view class="weui-cell__bd">{{c.uName}}</view>
-  </view>
+  <view wx:else class="weui-cell weui-cell_input" bindtap="mapSelectUnit">{{c.uName}}</view>
 </view>

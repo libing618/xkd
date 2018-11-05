@@ -1046,7 +1046,6 @@ icon {
 	display: -webkit-flex;
 	display: flex;
 	position: absolute;
-	z-index: 500;
 	top: 0;
 	width: 100%;
 	border-bottom: 1rpx solid #ccc
@@ -1058,9 +1057,9 @@ icon {
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	flex: 1;
-	padding: 26rpx 0;
+	padding: 26rpx 0 10rpx;
 	text-align: center;
-	font-size: 0
+	font-size: 16px
 }
 
 .weui-navbar__item.weui-bar__item_on {
@@ -1072,7 +1071,6 @@ icon {
 	content: " ";
 	left: 0;
 	bottom: 0;
-	width: 6em;
 	height: 6rpx;
 	background-color: #1aad19;
 	-webkit-transition: -webkit-transform .3s;
@@ -1083,7 +1081,7 @@ icon {
 
 .weui-navbar__title {
 	display: inline-block;
-	font-size: 30rpx;
+	font-size: 32rpx;
 	max-width: 8em;
 	width: auto;
 	overflow: hidden;

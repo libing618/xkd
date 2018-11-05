@@ -19,7 +19,7 @@ Component({
     addGlobalClass: true
   },
   data: {
-    inclose: false,
+    inclose: true,
     aVl:[0,0,0]
   },
 

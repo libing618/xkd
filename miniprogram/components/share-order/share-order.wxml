@@ -29,8 +29,8 @@
         </view>
       </view>
       <view class="page__ft weui-footer_fixed-bottom">
-        <view class="modal_sure_Btn" bindtap="fSave">确定</view>
-        <view class="modal_cancel_Btn" bindtap="downModal">返回</view>
+        <view class="pm-sure_btn" bindtap="fSave">确定</view>
+        <view class="pm-cancel_btn" bindtap="downModal">返回</view>
       </view>
     </view>
   </view>

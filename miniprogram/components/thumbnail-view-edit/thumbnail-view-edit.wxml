@@ -1,10 +1,11 @@
 <view id="{{name}}">
+  <view hidden="{{editable==0}}" class="weui-cells__tips">{{p}}:</view>
   <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
     <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
       <view class="modal_title">
-        <view class='modal_sure_Btn' bindtap='fSave'>确定</view>
-        <view class='modal_cancel_Btn' bindtap='downModal'>取消</view>
+        <view class='pm-sure_btn' bindtap='fSave'>确定</view>
+        <view class='pm-cancel_btn' bindtap='downModal'>取消</view>
       </view>
       <view class="close_icon" bindtap="downModal">×</view>
       <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
@@ -19,7 +20,6 @@
     </view>
   </view>
   <view wx:else class="weui-msg" bindtap="i_thumbnail">
-    <view hidden="{{editable==0}}">{{p}}:</view>
     <image src="{{csc=='img'? value.fileId : value}}" style="width: 100%;" mode="aspectFit"></image>
   </view>
 </view>

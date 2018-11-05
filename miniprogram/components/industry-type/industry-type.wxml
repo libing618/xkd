@@ -4,32 +4,36 @@
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
-<view id="{{name}}">
-<view class="weui-cell">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd">
-    <view wx:for="{{value.uName}}" wx:key="{{index}}">
-      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
+<view class="weui-cells__title" id="{{name}}">
+  <view class="weui-cell weui-cell_input weui-cell_vcode">
+    <view class="weui-cell__hd">
+      <view class="weui-label">{{p}}:</view>
+    </view>
+    <view class="weui-cell__ft">
+      <icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/>
     </view>
   </view>
-  <view class="weui-cell__ft"><icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/></view>
-</view>
-<view hidden="{{inclose}}" class="weui-picker">
-<view class="weui-cell">
-  <view class="weui-cell__hd">选择类型：</view>
-  <view class="weui-cell__bd">{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]] }}</view>
-  <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" bindtap="industrysel" size="mini">确定</button></view>
-</view>
-  <picker-view class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="itemsel">
-      <picker-view-column>
-          <view wx:for="{{apdclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-      </picker-view-column>
-      <picker-view-column>
-          <view wx:for="{{apdclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
-      </picker-view-column>
-      <picker-view-column>
-          <view wx:for="{{apdclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
-      </picker-view-column>
-  </picker-view>
-</view>
+  <view hidden="{{inclose}}" class="weui-picker">
+    <view class="weui-cell">
+      <view class="weui-cell__hd">选择类型：</view>
+      <view class="weui-cell__bd">{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]] }}</view>
+      <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{apdv['s'+apdclist[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" bindtap="industrysel" size="mini">确定</button></view>
+    </view>
+    <picker-view class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="itemsel">
+        <picker-view-column>
+            <view wx:for="{{apdclist}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+        </picker-view-column>
+        <picker-view-column>
+            <view wx:for="{{apdclist[aVl[0]].st}}" wx:key="{{index}}" style="line-height: 36rpx">{{item.n}}</view>
+        </picker-view-column>
+        <picker-view-column>
+            <view wx:for="{{apdclist[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
+        </picker-view-column>
+    </picker-view>
+  </view>
+  <view class="weui-cell">
+    <view wx:for="{{value.uName}}" wx:key="{{index}}">
+      <view class="weui-flex__item" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
+    </view>
+  </view>
 </view>

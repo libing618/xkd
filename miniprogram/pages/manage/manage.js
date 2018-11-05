@@ -8,7 +8,7 @@ Page({
   data: {
     autoplay: true,
     pNo: 'articles',                       //文章类信息
-    fLength:3,
+    fLength: 4,                       //nav文字数
     pageCk:1,
     tabs: ["品牌建设", "政策扶持", "我的商圈"]
   },
@@ -22,7 +22,7 @@ Page({
     app.aData.articles = require('../../test/articles').artdata;
     that.setData({
       statusBar: app.sysinfo.statusBarHeight,
-      wWidth: app.sysinfo.windowWidth,
+      wWidth: app.sysinfo.windowWidth / 3,                      //每个nav宽度
       mSwiper: app.mData.articles0,
       mPage: [app.mData.articles1, app.mData.articles2, app.mData.articles3],
       pageData: app.aData.articles,

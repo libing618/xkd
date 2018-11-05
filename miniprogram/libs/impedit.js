@@ -64,8 +64,6 @@ module.exports = {
     this.setData(vdSet);
   },
 
-
-
   i_listsel: function ({currentTarget:{id,dataset},detail:{value}}) {                         //选择类型
     let reqset = {};
     reqset['vData.' +id] = Number(value);
@@ -123,6 +121,7 @@ module.exports = {
 
   fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
     var that = this;
+    if (id=='fBack') { wx.navigateBack({ delta: 1 }) }
     if (that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)) {
       for (let i = 0; i < that.data.vData.details.length; i++) {
         that.data.vData.details[i].e = value['ade' + i];

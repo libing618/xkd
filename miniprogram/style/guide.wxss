@@ -144,6 +144,16 @@
   height: 200rpx;
 }
 
+.weui-navbar_box {
+	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+  width: 100%;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center
+}
 .weui-hover{
   background: #CCCCCC;
   color: #fff;
@@ -383,21 +393,23 @@
   padding: 10rpx 20rpx;
   font-size: 32rpx;
 }
-.modal_foot{
+.pm-btn_box{
   display: flex;
   text-align: center;
   border-top: 1rpx solid #DDD;
   line-height: 2.5;
 }
-.modal_cancel_Btn{
+.pm-cancel_btn{
   flex: 1;
 }
-.modal_sure_Btn{
+.pm-sure_btn{
   flex: 1;
   color: #60D048;
   border-left: 1rpx solid #DDD;
 }
-
+.pm-mini_btn{
+  margin-right: 10rpx;
+}
 .close_icon {
   width: 25rpx;
   height: 25rpx;

@@ -90,7 +90,7 @@ export function checkRols(ouLine,user,ouPosition){  //要求的条线，用户�
       return true;
     } else {
       wx.showToast({ title: '权限不足请检查', duration: 2500 });
-      setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);;
+      setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
       return false
     }
   }

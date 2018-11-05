@@ -21,7 +21,7 @@
 </template>
 
 <template name="s_arrList">
- <array-view-edit c="{{c}}" p="{{p}}"></array-view-edit>
+  <array-view-edit c="{{c}}" p="{{p}}"></array-view-edit>
 </template>
 
 <template name="s_ast">
@@ -216,14 +216,16 @@
 </template>
 
 <template name="tabsCk">
+<view class="weui-navbar_box">
   <view class="weui-navbar">
     <block wx:for="{{tabs}}" wx:key="{{index}}">
       <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
         <view class="weui-navbar__title">{{item}}</view>
       </view>
     </block>
+    <view class="weui-navbar__slider" style="width: {{fLength}}em;transform: translateX({{(pageCk+0.5)*wWidth-fLength*8}}px); -webkit-transform: translateX({{(pageCk+0.5)*wWidth-fLength*8}}px)"></view>
   </view>
-  <view class="weui-navbar__slider" style="left:{{375/fLength-72}}rpx;transform: translateX({{(pageCk+0.5)*wWidth/fLength-39}}px); -webkit-transform: translateX({{(pageCk+0.5)*wWidth/fLength-39}}px)"></view>
+</view>
 </template>
 
 <template name="tabPanel">

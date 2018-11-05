@@ -5,13 +5,13 @@
   <view hidden="{{showModal}}" class="page__sub" id="model-{{pNo}}">
     <form bindsubmit="fSubmit">
       <view class="page__bd_spacing" id="{{targetId}}">
-        <view class="weui-cells" wx:for="{{fieldName}}" wx:key="index">
+        <view wx:for="{{fieldName}}" wx:key="index" class="weui-cells weui-cells_after-title">
           <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
         </view>
       </view>
-      <view style="padding-bottom:100rpx;"></view>
       <view hidden="{{unEdit}}" class="page__ft" id="{{dObjectId}}">
-        <button class="weui-btn" id="fSave" formType="submit">提交</button>
+        <button class="weui-btn pm-mini_btn" id="fSave" type="primary" size="mini" formType="submit">提交</button>
+        <button class="weui-btn pm-mini_btn" type="warn" size="mini" id="fBack" bindtap="fSubmit">退出</button>
       </view>
     </form>
   </view>

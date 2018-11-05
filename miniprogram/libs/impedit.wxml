@@ -41,6 +41,10 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
 </template>
 
+<template name="i_-7">
+  <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
+</template>
+
 <template name="i_eDetail">
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}" wx:for-index="n">
@@ -153,10 +157,9 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 
 <template name="i_p">
   <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell">
-      <view class="weui-cell__bd">
-        <textarea class="weui-textarea" name="{{gname}}" value="{{c}}" placeholder="请输入{{p}}" />
-      </view>
+    <view class="weui-cells__tips">{{p}}:</view>
+    <view class="weui-cells__title">
+      <textarea class="weui-textarea" name="{{gname}}" value="{{c}}" placeholder="请输入{{p}}" />
     </view>
   </view>
 </template>
@@ -196,10 +199,6 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
     </view>
     <view class="weui-cell__hd weui-cell_link" id="lj-{{n}}" data-id="{{index}}" bindtap="i_cargopackage">{{item.uName}}</view>
   </view>
-</template>
-
-<template name="i_-7">
-  <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
 </template>
 
 <template name="m_insbottom">
