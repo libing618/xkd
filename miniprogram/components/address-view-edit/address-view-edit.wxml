@@ -1,5 +1,5 @@
 <view id="{{name}}">
-<view class="weui-cells__tips" bindtap='modalEditAddress'>{{p}}:{{value.adinfo}}</view>
+<view class="weui-cells__tips" bindtap='modalEditAddress'>{{p}}:{{value._id}}</view>
 <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
   <view class="modal_box" bindtap="downModal"></view>
   <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
@@ -45,9 +45,8 @@
   <view class="weui-map-box">
     <map
       style="width: 100%; height: 300px;"
-      latitude="{{value.aGeoPoint[1]}}"
-      longitude="{{value.aGeoPoint[0]}}"
-      covers="{{covers}}"
+      latitude="{{latitude}}"
+      longitude="{{longitude}}"
       show-location
     ></map>
   </view>

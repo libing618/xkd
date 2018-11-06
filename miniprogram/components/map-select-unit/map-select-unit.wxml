@@ -33,5 +33,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="weui-cell weui-cell_input" bindtap="mapSelectUnit">{{c.uName}}</view>
+  <view wx:else class="weui-cell weui-cell_input" bindtap="mapSelectUnit">{{value.uName}}</view>
 </view>

@@ -1,6 +1,9 @@
 var sysinfo = getApp().sysinfo
 module.exports = Behavior({
   data: {
+    statusBar: sysinfo.statusBarHeight,
+    windowHeight: sysinfo.windowHeight,
+    Height: sysinfo.windowHeight-300,
     animationData: {},
     showModalBox: false
   },

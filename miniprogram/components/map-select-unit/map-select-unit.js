@@ -1,101 +1,81 @@
 var modalBehavior = require('../utils/poplib.js');
 const db = wx.cloud.database();
 const _ = db.command;
-const {sysinfo,fData,roleData} = getApp()
+const {fData,roleData} = getApp()
+var mapBahavior = require('../utils/mapAnalysis.js');   //位置授权及解析
 
 Component({
-  behaviors: [modalBehavior],
+  behaviors: [modalBehavior,mapBahavior,'wx://form-field'],
   properties: {
     p: {
       type: String,
-      value: '地址',
+      value: '服务单位',
     },
-    value: {
-      type: String,
-      value: '请输入地址',
-    },
-    name: {
-      type: String,
-      value: 'thumbnail',
-    },
-    indTypes: {
-      type: Number,
-      value: 620406
-    },
-    code: {
-      type: Number,
-      value: 11000,
-    }
+    value: Object,
+    name: String,
+    indTypes: Number
   },
   options: {
     addGlobalClass: true
   },
 
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
-    location: { latitude: 23, longitude: 113 },
-    Height: sysinfo.windowHeight-300,
     scale: 16,
     sId: 0,
     markers:[],
     unitArray: [],
     selIndtypes:[]
   },
+
+  lifetimes: {
+    attached() {
+      if (!this.data.value) {
+       this.setData({
+         value:{_id:'0',uName:'点此进入地图进行选择'},
+         indTypes: 620406
+        })
+      }
+    }
+  },
+
   methods: {
     mapSelectUnit: function (e) {      //地图选择单位弹出页
       let that = this;
       let newPage={
-        reqProIsSuperior: typeof that.data.indTypes == 'number'
+        reqProIsSuperior: typeof that.data.indTypes == 'number',
       };
       if ( newPage.reqProIsSuperior ) {
-        newPage.selIndtypes.push(that.data.indTypes);
+        newPage.selIndtypes = [that.data.indTypes];
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
       } else {newPage.selIndtypes=that.data.indTypes}
-      wx.getLocation({
-        type: 'gcj02',//'wgs84',
-        success: function(res){
-          let points = [{ latitude: res.latitude, longitude: res.longitude }]
-          db.collection('_Role').where({'indType.code': _.in(that.data.indTypes)}).get().then( ({data})=> {
+      that.authorizeLocation([]).then(aGeoPoint =>{
+        that.buildAdd(aGeoPoint).then(addGroup=>{
+          let province_code = Math.floor(addGroup.code/10000);     //省级行政区划代码
+          db.collection('_Role').where({
+            'indType': _.in(that.data.indTypes),
+            'address_code': _.lt((province_code+1)*10000).and(_.gte(province_code*10000))
+          }).get().then( ({data})=>{
             if (data.length>0) {
-              let resJSON,badd,inInd;
-              data.forEach((resJSON,i)=>{
-                inInd = false;     //先假设单位的类型不在查找范围内
-                newPage.selIndtypes.forEach(indType=>{
-                  if (resJSON.indType.code.indexOf(indType) >= 0) { inInd = true }
-                })
-                if (inInd) {
-                  newPage.markers.push({
-                    id:i,
-                    latitude:resJSON.aGeoPoint.latitude,
-                    longitude:resJSON.aGeoPoint.longitude,
-                    title:resJSON.nick,
-                    iconPath: resJSON.afamily < 3 ? '/images/icon-personal.png' : '/images/icon-company.png',   //单位是个人还是企业
-                  });
-                  badd = new AV.GeoPoint(resJSON.aGeoPoint);
-                  resJSON.distance = parseInt(badd.kilometersTo() * 1000 +0.5);
-                  newPage.unitArray.push( resJSON );
-                  points.push({ latitude: resJSON.aGeoPoint.latitude, longitude: resJSON.aGeoPoint.longitude})
-                }
-              });
-              newPage.latitude = res.latitude;
-              newPage.longitude = res.longitude;
-              newPage.circles = [{
-                  latitude: res.latitude,
-                  longitude: res.longitude,
+              that.calDistance(aGeoPoint,data).then(({markers,unitArray,points})=>{
+                newPage.markers = markers;
+                newPage.unitArray = unitArray;
+                newPage.circles = [{
+                  latitude: aGeoPoint[0],
+                  longitude: aGeoPoint[1],
                   color: '#FF0000DD',
                   fillColor: '#7cb5ec88',
                   radius: 3000,
                   strokeWidth: 1
                 }];
-              that.setData(newPage);
-              that.popModal();
-              that.mapCtx = wx.createMapContext('mapSelect',that);
-              that.mapCtx.includePoints({points});
+                that.setData(newPage);
+                that.popModal();
+                that.mapCtx = wx.createMapContext('mapSelect',that);
+                that.mapCtx.includePoints({points});
+              })
             } else { wx.showToast({ title: '未发现合适单位' }) }
-          }).catch( console.error );
-        }
-      });
+          })
+        });
+      }).catch( console.error );
     },
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据

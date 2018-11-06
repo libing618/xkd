@@ -1,9 +1,9 @@
 const db = wx.cloud.database();
 var modalBehavior = require('../utils/poplib.js')
-const qqmap_wx = require('../utils/qqmap-wx-jssdk.min.js');   //微信地图
-const sysinfo = getApp().sysinfo;
+var mapBahavior = require('../utils/mapAnalysis.js');   //位置授权及解析
+
 Component({
-  behaviors: [modalBehavior,'wx://form-field'],
+  behaviors: [modalBehavior,mapBahavior,'wx://form-field'],
   properties: {
     p: {
       type: String,
@@ -16,10 +16,9 @@ Component({
     value: {
       type: Object,
       value: {
-        adinfo:'请输入地址',
+        _id:'请输入地址',
         aGeoPoint:[113, 23],
-        _id: 110000,
-        post: '010001'
+        code: 110000
       }
     },
     editable: {
@@ -32,54 +31,41 @@ Component({
   },
 
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
     address1:''
   },
 
   lifetimes:{
     attached(){
       let that = this;
-      return new Promise((resolve, reject) => {
-        wx.getSetting({
-          success(res) {
-            if (res.authSetting['scope.userLocation']) {                   //用户已经同意小程序使用用户地理位置
-              resolve(true)
-            } else {
-              wx.authorize({
-                scope: 'scope.userLocation',
-                success() { resolve(true) },
-                fail() {
-                  wx.showToast({ title: '请授权使用位置', duration: 2500, icon: 'loading' });
-                  setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
-                  reject();
-                }
-              })
-            };
-          }
-        })
-      }).then((vifAuth) => {
-        if (vifAuth) {
-          if (!that.data.value && that.data.editable){
-            wx.getLocation({
-              type: 'gcj02',
-              success(res) {
-                that.buildAdd([res.latitude,res.longitude]);
-                if (that.data.editable==2){
-                  that.popModal();                 //打开弹出页
-                }
-              },
-              fail() { wx.navigateBack({ delta: 1 }) }
-            })
-          }
-        } else {wx.navigateBack({ delta: 1 }) }
+      let location=[],noAdd=true;
+      if (that.data.value) {
+        noAdd = false;
+        if(Object.keys(that.data.value).indexOf('aGeoPoint')>=0){
+          location = that.data.value.aGeoPoint;
+        }
+      }
+      that.authorizeLocation(location).then(aGeoPoint => {
+        if (that.data.editable && noAdd){
+          that.buildAdd(aGeoPoint).then(addGroup=>{
+            that.setData({
+              address1: addGroup.address,
+              'value._id': addGroup.address,
+              'value.code': addGroup.code,
+              'value.aGeoPoint': aGeoPoint,
+              region: addGroup.region
+            });
+          });
+        };
+        if (that.data.editable==2){
+          that.popModal();                 //打开弹出页
+        }
       });
     }
   },
   methods: {
     modalEditAddress: function ({ currentTarget:{id,dataset},detail:{value} }) {      //地址编辑弹出页
       if (this.data.editable){
-        this.setData({address1: this.data.value.adinfo});
+        this.setData({address1: this.data.value._id});
         this.popModal();                 //打开弹出页
       }
     },
@@ -89,41 +75,30 @@ Component({
       wx.chooseLocation({
         success: function (res) {
           if (that.data.editable) {
-            that.buildAdd([res.latitude, res.longitude])
+            that.buildAdd([res.latitude, res.longitude]).then(addGroup=>{
+              that.setData({
+                address1: addGroup.address,
+                'value._id': addGroup.address,
+                'value.code': addGroup.code,
+                'value.aGeoPoint': [res.latitude, res.longitude],
+                region: addGroup.region
+              });
+            })
           };
         }
       })
     },
 
-    buildAdd: function ([latitude, longitude]) {                         //地理位置解析
-      let that = this;
-      let QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
-      QQMapWX.reverseGeocoder({                    //解析地理位置
-        location: { latitude: latitude, longitude: longitude },
-        success: function ({ result: { ad_info, address_component, address } }) {
-          that.data.value.adinfo = address;
-          that.data.value.aGeoPoint = [latitude,longitude];
-          that.data.value._id = ad_info.adcode;
-          that.setData({
-            address1: address,
-            value: that.data.value,
-            region: [address_component.province, address_component.city, address_component.district]
-          });
-        }
-      });
-    },
-
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
-      this.data.value.adinfo = this.data.address1
+      this.data.value._id = this.data.address1
       this.setData({ value: this.data.value });
       this.downModal();
     },
 
-    faddclass: function({ currentTarget:{id,dataset},detail:{value,code,post} }){      //选择行政区划
+    faddclass: function({ currentTarget:{id,dataset},detail:{value,code} }){      //选择行政区划
       let that = this;
-      that.data.value.post = post;
-      that.data.value._id = code;
-      that.data.value.adinfo = region[0]+region[1]+region[2];
+      that.data.value.code = code;
+      that.data.value._id = region[0]+region[1]+region[2];
       that.setData({
         address1: region[0]+region[1]+region[2],
         value: that.data.value

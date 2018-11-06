@@ -17,7 +17,7 @@ module.exports = {
     "title":{p:'单位简介', t:"h3"},
     "desc":{p: '单位描述', t: "p"},
     "thumbnail":{p: '图片简介', t:"-5",csc:"base64" },
-    "address":{ p: '常用地址', t: "-3",addFields:['aGeoPoint','adinfo','post']},
+    "address":{ p: '常用地址', t: "-3",addFields:['aGeoPoint','code']},
     "sUnit":{p: '服务单位', t: "mSU" },
     "licenseNumber":{p:'社会信用代码', t: "h3" },
     "pPhoto":{p:'申请人手持身份证的照片',t:"-5",csc:"base64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
