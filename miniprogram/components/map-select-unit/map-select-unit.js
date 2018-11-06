@@ -48,7 +48,7 @@ Component({
         newPage.selIndtypes = [that.data.indTypes];
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
       } else {newPage.selIndtypes=that.data.indTypes}
-      that.authorizeLocation([]).then(aGeoPoint =>{
+      that.authorizeLocation(false).then(aGeoPoint =>{
         that.buildAdd(aGeoPoint).then(addGroup=>{
           let province_code = Math.floor(addGroup.code/10000);     //省级行政区划代码
           db.collection('_Role').where({
@@ -60,8 +60,8 @@ Component({
                 newPage.markers = markers;
                 newPage.unitArray = unitArray;
                 newPage.circles = [{
-                  latitude: aGeoPoint[0],
-                  longitude: aGeoPoint[1],
+                  latitude: aGeoPoint.latitude,
+                  longitude: aGeoPoint.longitude,
                   color: '#FF0000DD',
                   fillColor: '#7cb5ec88',
                   radius: 3000,
@@ -81,7 +81,7 @@ Component({
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
         roleData.sUnit._id = this.data.sId;
-        this.setData({value:this.data.unitArray[this.data.sId]._id});
+        this.setData({ value: { _id: this.data.unitArray[this.data.sId]._id, uName: his.data.unitArray[this.data.sId].uName} });
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})
       };

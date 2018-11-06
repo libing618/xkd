@@ -1,3 +1,4 @@
+const db = wx.cloud.database();
 const qqmap_wx = require('qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 module.exports = Behavior({
@@ -28,14 +29,14 @@ module.exports = Behavior({
             wx.getLocation({
               type: 'gcj02',
               success(res) {
-                resolve([res.latitude,res.longitude])
+                resolve(db.Geo.Point(res.longitude,res.latitude))
               },
               fail() { reject('获取位置失败'); }
             })
           } else {
             that.setData({
-              latitude: location[0],
-              longitude: location[1]
+              latitude: location.latitude,
+              longitude: location.longitude
             });
             resolve(location)
           }
@@ -46,15 +47,15 @@ module.exports = Behavior({
       });
     },
 
-    buildAdd: function ([latitude, longitude]) {                         //地理位置解析
+    buildAdd: function (aGeoPoint) {                         //地理位置解析
       let that = this;
       return new Promise((resolve, reject) => {
         QQMapWX.reverseGeocoder({                    //解析地理位置
-          location: { latitude: latitude, longitude: longitude },
+          location: { latitude: aGeoPoint.latitude, longitude: aGeoPoint.longitude },
           success: function ({ result: { ad_info, address_component, address } }) {
             that.setData({
-              latitude: latitude,
-              longitude: longitude
+              latitude: aGeoPoint.latitude,
+              longitude: aGeoPoint.longitude
             });
             resolve({
               address: address,
@@ -66,19 +67,19 @@ module.exports = Behavior({
       });
     },
 
-    calDistance: function ([latitude, longitude],unitArray) {                         //地理位置解析
+    calDistance: function (aGeoPoint,unitArray) {                         //地理位置解析
       let that = this;
       return new Promise((resolve, reject) => {
         let points = [],markers = []
         unitArray.forEach((resJSON,i)=>{
           markers.push({
             id:i,
-            latitude:resJSON.aGeoPoint[0],
-            longitude:resJSON.aGeoPoint[1],
+            latitude:resJSON.aGeoPoint.latitude,
+            longitude:resJSON.aGeoPoint.longitude,
             title:resJSON.nick,
             iconPath: resJSON.afamily < 3 ? '/images/icon-personal.png' : '/images/icon-company.png',   //单位是个人还是企业
           });
-          points.push({ latitude: resJSON.aGeoPoint[0], longitude: resJSON.aGeoPoint[1]})
+          points.push({ latitude: resJSON.aGeoPoint.latitude, longitude: resJSON.aGeoPoint.longitude})
         })
         QQMapWX.calculateDistance({                    //计算地理位置的距离
           from: { latitude: latitude, longitude: longitude },
@@ -87,7 +88,7 @@ module.exports = Behavior({
             if (elements.length>0){
               elements.forEach(({from,to,distance})=>{
                 unitArray.forEach((ui,i)=>{
-                  if (ui.aGeoPoint[0]==to.lat && ui.aGeoPoint[1]==to.lng){
+                  if (ui.aGeoPoint.latitude==to.lat && ui.aGeoPoint.longitude==to.lng){
                     unitArray[i].distance = distance
                   }
                 })

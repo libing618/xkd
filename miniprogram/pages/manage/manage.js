@@ -36,7 +36,7 @@ Page({
           unAuthorize: false,
           grids: grids
         });
-      })
+      });
       if (app.roleData.user.line==9){ wx.hideTabBar() };
     }).catch(loginerr=>{
       app.logData.push([Date.now(),JSON.stringify(loginerr)]);

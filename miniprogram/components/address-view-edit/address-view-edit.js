@@ -75,12 +75,12 @@ Component({
       wx.chooseLocation({
         success: function (res) {
           if (that.data.editable) {
-            that.buildAdd([res.latitude, res.longitude]).then(addGroup=>{
+            that.buildAdd(db.Geo.Point(res.longitude,res.latitude)).then(addGroup=>{
               that.setData({
                 address1: addGroup.address,
                 'value._id': addGroup.address,
                 'value.code': addGroup.code,
-                'value.aGeoPoint': [res.latitude, res.longitude],
+                'value.aGeoPoint': db.Geo.Point(res.longitude,res.latitude),
                 region: addGroup.region
               });
             })

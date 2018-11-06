@@ -1,6 +1,6 @@
 module.exports = {
   "address_code": 140105,
-  "address_aGeoPoint": [112.5648006, 37.7951744],
+  "address_aGeoPoint": {longitude:112.5648006, latitude:37.7951744},
   "address": "山西省太原市小店区创意街N、P、Q座" ,
   "nick": "山西乐农汇",
   "desc": "山西乐农汇",
