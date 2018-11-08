@@ -563,7 +563,7 @@ icon {
 }
 
 .weui-msg {
-	padding-top: 72rpx;
+	padding-top: 20rpx;
 	text-align: center
 }
 

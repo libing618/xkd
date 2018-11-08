@@ -25,20 +25,20 @@ module.exports = Behavior({
         })
       }).then(() => {
         return new Promise((resolve, reject) => {
-          if (location.length==0){
-            wx.getLocation({
-              type: 'gcj02',
-              success(res) {
-                resolve(db.Geo.Point(res.longitude,res.latitude))
-              },
-              fail() { reject('获取位置失败'); }
-            })
-          } else {
+          if (location){
             that.setData({
               latitude: location.latitude,
               longitude: location.longitude
             });
             resolve(location)
+          } else {
+            wx.getLocation({
+              type: 'gcj02',
+              success(res) {
+                resolve(db.Geo.Point(res.longitude, res.latitude))
+              },
+              fail() { reject('获取位置失败'); }
+            })
           }
         })
       }).catch(err=>{
@@ -74,26 +74,26 @@ module.exports = Behavior({
         unitArray.forEach((resJSON,i)=>{
           markers.push({
             id:i,
-            latitude:resJSON.aGeoPoint.latitude,
-            longitude:resJSON.aGeoPoint.longitude,
+            latitude: resJSON.address_aGeoPoint.latitude,
+            longitude: resJSON.address_aGeoPoint.longitude,
             title:resJSON.nick,
             iconPath: resJSON.afamily < 3 ? '/images/icon-personal.png' : '/images/icon-company.png',   //单位是个人还是企业
           });
-          points.push({ latitude: resJSON.aGeoPoint.latitude, longitude: resJSON.aGeoPoint.longitude})
+          points.push({ latitude: resJSON.address_aGeoPoint.latitude, longitude: resJSON.address_aGeoPoint.longitude})
         })
         QQMapWX.calculateDistance({                    //计算地理位置的距离
-          from: { latitude: latitude, longitude: longitude },
-          to: points,
+          "from": { latitude: aGeoPoint.latitude, longitude: aGeoPoint.longitude },
+          "to": points,
           success: function ({ result: { elements } }) {
             if (elements.length>0){
               elements.forEach(({from,to,distance})=>{
                 unitArray.forEach((ui,i)=>{
-                  if (ui.aGeoPoint.latitude==to.lat && ui.aGeoPoint.longitude==to.lng){
+                  if (ui.address_aGeoPoint.latitude == to.lat && ui.address_aGeoPoint.longitude==to.lng){
                     unitArray[i].distance = distance
                   }
                 })
               })
-              points.unshift({latitude: latitude, longitude: longitude})
+              points.unshift({ latitude: aGeoPoint.latitude, longitude: aGeoPoint.longitude})
               resolve({markers,unitArray,points});
             }
           }

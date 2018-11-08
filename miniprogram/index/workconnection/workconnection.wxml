@@ -21,7 +21,7 @@
             <image class="weui-grid__icon" src="../../images/Multimedia.png"></image>
           </view>
           <view class="weui-cell__bd">
-            <template is="d{{icont.e}} data="{{...icont,editable:0}}" />
+            <template is="d{{icont.e}}" data="{{...icont,editable:0}}" />
           </view>
           <view class="weui-cell__ft">
             <button class="weui-btn" formType="submit">＞</button>

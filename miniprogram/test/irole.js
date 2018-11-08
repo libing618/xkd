@@ -2,8 +2,8 @@ module.exports = {
   "address_code": 140105,
   "address_aGeoPoint": {longitude:112.5648006, latitude:37.7951744},
   "address": "山西省太原市小店区创意街N、P、Q座" ,
-  "nick": "山西乐农汇",
-  "desc": "山西乐农汇",
+  "nick": "山西零用钱",
+  "desc": "山西零用钱电子商务有限公司是一家高科技企业",
   "indType": [
       10104,
       620406,
@@ -27,7 +27,7 @@ module.exports = {
 
 //  "uPhoto": "",
 
-  "title": "山西乐农汇",
+  "title": "山西零用钱电子商务公司",
  // "pPhoto": "",
  // "thumbnail": "",
   "afamily": 3,
