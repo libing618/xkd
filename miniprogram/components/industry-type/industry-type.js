@@ -1,4 +1,3 @@
-// inputedit/industry-type/industry-type.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
@@ -12,7 +11,7 @@ Component({
     },
     value: {
       type: Object,
-      value: {_id: [], uName: []}
+      value: {_id: '', uName: []}
     }
   },
   options: {
@@ -26,7 +25,10 @@ Component({
   lifetimes: {
     attached() {
       if (!this.data.value) {
-        this.setData({value:{_id: [], uName: []}})
+        this.setData({
+          value_id: [],
+          value:{_id: '', uName: []}
+        })
       }
     }
   },
@@ -38,8 +40,9 @@ Component({
       let vdSet = {inclose: true};                      //按确定ICON确认选择
       if (!this.data.inclose) {
         let cvalue = this.data.value;
-        cvalue._id.push(Number(e.currentTarget.dataset.ca));
         cvalue.uName.push(e.currentTarget.dataset.sa);
+        vdSet.value_id = this.data.value_id.push(e.currentTarget.dataset.ca);
+        cvalue._id = vdSet.value_id.join(',');
         vdSet.value = { _id: cvalue._id, uName:cvalue.uName };
       }
       this.setData(vdSet);
@@ -52,11 +55,11 @@ Component({
     },
     selectdel({ currentTarget:{id,dataset},detail:{value} }) {      //按显示类型名称进行删除
       let i = Number(dataset.id);
-      this.data.value._id.splice(i, 1);
-      this.data.value.uName.splice(i, 1);
+      let vId = this.data.value_id.splice(i, 1);
       this.setData({
-        value: this.data.value
-      })
+        value_id: vId,
+        value: {_id: vId.join(',') , uName: this.data.value.uName.splice(i, 1)}
+      });
     }
   }
 })

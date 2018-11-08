@@ -13,7 +13,7 @@ Component({
     },
     value: Object,
     name: String,
-    indTypes: Number
+    indTypes: String
   },
   options: {
     addGlobalClass: true
@@ -42,21 +42,23 @@ Component({
     mapSelectUnit: function (e) {      //地图选择单位弹出页
       let that = this;
       let newPage={
-        reqProIsSuperior: typeof that.data.indTypes == 'number',
+        reqProIsSuperior: typeof that.data.indTypes == 'undefined'
       };
       if ( newPage.reqProIsSuperior ) {
-        newPage.selIndtypes = [that.data.indTypes];
+        newPage.selIndtypes=['620406'];
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
-      } else {newPage.selIndtypes=that.data.indTypes}
+      } else {newPage.selIndtypes=that.data.indTypes.split(',')}
       that.authorizeLocation(false).then(aGeoPoint =>{
         that.buildAdd(aGeoPoint).then(addGroup=>{
           let province_code = Math.floor(addGroup.code/10000);     //省级行政区划代码
           db.collection('_Role').where(
-            _.or([{
-            indType_sty: db.RegExp({ regexp: '620406' })},
-            { indType_sty: db.RegExp({ regexp: '620403' })}]),
-            {'address_code': _.lt((province_code+1)*10000).and(_.gte(province_code*10000))
-          }).get().then( ({data})=>{
+            _.or(
+              newPage.selIndtypes.map(indtype=>{
+                retrun { indType: db.RegExp({ regexp: indtype }) }
+              })
+            ),
+            { 'address_code': _.lt((province_code+1)*10000).and(_.gte(province_code*10000)) }
+          ).get().then( ({data})=>{
             if (data.length>0) {
               that.calDistance(aGeoPoint,data).then(({markers,unitArray,points})=>{
                 newPage.markers = markers;
