@@ -1,12 +1,12 @@
 //单位（机构类）组织架构管理
+import { checkRols } from '../../modules/initForm';
 const db = wx.cloud.database();
-var app = getApp()          //设置组织架构
+const {roleData,sysinfo} = getApp()          //设置组织架构
 Page({
 	data:{
-    userRolName: '',
 		uUnitUsers: {},
-		navBarTitle: app.roleData.uUnit.nick+'的组织架构',      //将页面标题设置成单位名称
-		statusBar: app.sysinfo.statusBarHeight,
+		navBarTitle: roleData.uUnit.nick+'的组织架构',      //将页面标题设置成单位名称
+		statusBar: sysinfo.statusBarHeight,
 		mRols: [
 			['办公','产品','营销','客服'],
 			['负责人','部门管理','员工']
@@ -21,21 +21,21 @@ Page({
 
   onLoad: function () {
     var that = this;
-    if (app.roleData.user.mobilePhoneNumber!='0' && app.roleData.user.unit!='0') {			// 当前用户已注册且已有单位
-      if (app.roleData.uUnit.afamily<3) {
+    if (checkRols(9, roleData.user)) {			// 当前用户是单位负责人
+      if (roleData.uUnit.afamily<3) {
         wx.showToast({ title: '非机构类单位,没有下级员工设置。', duration: 7500 })
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
       } else {
-				db.collection('_Role').doc(app.roleData.user.unit).get().then(unitInfo => {
-          if (app.roleData.uUnit._id == app.roleData.user._id) {                //创建人读取单位所有员工信息
+				db.collection('_Role').doc(roleData.user.unit).get().then(unitInfo => {
+          if (roleData.uUnit._id == roleData.user._id) {                //创建人读取单位所有员工信息
             that.setData({ applyUser: applyUser });
             let crole = {};
-            app.roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
+            roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
             that.setData({
               crole: crole,
-              uUnitUsers: app.roleData.uUnit.unitUsers
+              uUnitUsers: roleData.uUnit.unitUsers
             })
-            wx.cloud.callFunction({ name: 'process', data: { pModel:'_User', dObjectId:app.roleData.user.unit, processState:5}}).then(({result}) => {
+            wx.cloud.callFunction({ name: 'process', data: { pModel:'_User', dObjectId:roleData.user.unit, processState:5}}).then(({result}) => {
               if (result.length > 0) {
                 that.setData({ reqstate: 1, reqUsers: result });
               }
@@ -47,9 +47,6 @@ Page({
       wx.showToast({ title: '没有注册用户或申请单位,请在个人信息菜单注册。', duration: 7500 })
       wx.navigateBack({ delta: 1 })                // 回退前1 页面
     };
-    that.setData({
-			userRolName: app.roleData.user.userRolName
-		})
   },
 
 	fSpicker: function(e) {                         //选择岗位和条线
@@ -59,40 +56,40 @@ Page({
 
 	fManageRole: function(e) {                         //点击解职、调岗操作
     var that = this;
-		let unitRole = new AV.Role(app.roleData.uUnit.name);
+		let unitRole = new AV.Role(roleData.uUnit.name);
 		let rN = Number(e.currentTarget.dataset.id), muRole = 'sessionuser';
 		return new Promise((resolve, reject) => {
-			var uId = app.roleData.uUnit.unitUsers[rn]._id;
+			var uId = roleData.uUnit.unitUsers[rn]._id;
       if (e.currentTarget.id=='mr_0') {               //解职
         unitRole.getUsers().remove(uId);
-				app.roleData.uUnit.unitUsers.splice(rN,1);
+				roleData.uUnit.unitUsers.splice(rN,1);
       } else {                                     //调岗
 				that.data.crole[uId] = true;
 	    	that.setData({ crole: that.data.crole });
-				app.roleData.uUnit.unitUsers[rN].userRolName = (app.roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.')+that.data.cmRole[0]+'.'+ that.data.cmRole[1] ;
-				muRole = app.roleData.uUnit.unitUsers[rN].userRolName;
+				roleData.uUnit.unitUsers[rN].userRolName = (roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.')+that.data.cmRole[0]+'.'+ that.data.cmRole[1] ;
+				muRole = roleData.uUnit.unitUsers[rN].userRolName;
 			};
-			unitRole.set('unitUsers',app.roleData.uUnit.unitUsers);
+			unitRole.set('unitUsers',roleData.uUnit.unitUsers);
 			unitRole.save().then((muser) => { resolve(muRole); })
 		}).then((uSetRole)=>{
 			wx.cloud.callFunction({name:'process', data:{}} ).then( ()=>{
-				that.setData({ uUnitUsers: app.roleData.uUnit.unitUsers });
+				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
 			})
     }).catch(console.error())
 	},
 
 	fManageApply: function(rn){
 		var that = this;
-		let unitRole = new AV.Role(app.roleData.uUnit.name);
+		let unitRole = new AV.Role(roleData.uUnit.name);
 		let rN = Number(e.currentTarget.dataset.id);
 		return new Promise((resolve, reject) => {
 			var uId = that.data.applyUser[rN].userId;
       if (e.currentTarget.id=='mr_2') {                          //同意
-					let auRole = (app.roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.') + that.data.applyUser[rN].rRolArray[0]+'.'+that.data.applyUser[rn].rRolArray[1]
-					app.roleData.uUnit.unitUsers.push({"_id":uId, "userRolName":auRole, 'uName':that.data.applyUser[rn].uName, 'avatarUrl':that.data.applyUser[rn].avatarUrl,'nickName':that.data.applyUser[rn].nickName})
-					that.setData({ uUnitUsers: app.roleData.uUnit.unitUsers });
+					let auRole = (roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.') + that.data.applyUser[rN].rRolArray[0]+'.'+that.data.applyUser[rn].rRolArray[1]
+					roleData.uUnit.unitUsers.push({"_id":uId, "userRolName":auRole, 'uName':that.data.applyUser[rn].uName, 'avatarUrl':that.data.applyUser[rn].avatarUrl,'nickName':that.data.applyUser[rn].nickName})
+					that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
 					unitRole.getUsers().add(uId);
-					unitRole.set('unitUsers',app.roleData.uUnit.unitUsers);
+					unitRole.set('unitUsers',roleData.uUnit.unitUsers);
           unitRole.save().then((adduser) => { resolve(auRole) })
       } else {             //拒绝
 				resolve('sessionuser');
@@ -118,25 +115,5 @@ Page({
 	mColumnChange: function (e) {
 		this.data.cmRole[e.detail.column] = e.detail.value;
     this.setData({ cmRole: this.data.cmRole })
-  },
-
-	fApply: function (e) {
-		if (this.data.reqstate==1){
-			wx.showToast({title: '岗位申请等待审批。',duration: 3500});
-		} else {
-			this.aUser.set('rRolArray',this.data.reqrole );
-			let mReqUnit = new AV.Role(app.roleData.uUnit.name);
-			let mReqACL = new AV.ACL();
-			mReqACL.setPublicReadAccess(false);
-			mReqACL.setPublicWriteAccess(false);
-			mReqACL.setRoleWriteAccess(mReqUnit,true);
-			mReqACL.setRoleReadAccess(mReqUnit,true);
-			mReqACL.setReadAccess(app.roleData.user._id,true)
-			this.aUser.setACL(mReqACL);
-	    this.aUser.save().then((suser)=>{
-				wx.showToast({title: '岗位申请已提交,请等待审批。',duration: 3500});
-			}).catch(console.error())
-		};
-		wx.navigateBack({ delta: 1 })
   }
 })

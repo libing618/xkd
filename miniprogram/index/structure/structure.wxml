@@ -55,7 +55,4 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{ userRolName=='sessionuser' }}">
-    <button bindtap="fApply" id="req-{{reqstate}}">{{reqstate==0 ? '申请岗位' : '返回(岗位申请等待审批)'}}</button>
-  </view>
 </view>

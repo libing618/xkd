@@ -54,7 +54,7 @@ Component({
           db.collection('_Role').where(
             _.or(
               newPage.selIndtypes.map(indtype=>{
-                retrun { indType: db.RegExp({ regexp: indtype }) }
+                return { indType: db.RegExp({ regexp: indtype }) }
               })
             ),
             { 'address_code': _.lt((province_code+1)*10000).and(_.gte(province_code*10000)) }
