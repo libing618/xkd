@@ -18,6 +18,7 @@ Component({
     addGlobalClass: true
   },
   data: {
+    vale_id:[],
     inclose: true,
     aVl:[0,0,0]
   },
@@ -26,8 +27,11 @@ Component({
     attached() {
       if (!this.data.value) {
         this.setData({
-          value_id: [],
           value:{_id: '', uName: []}
+        })
+      } else {
+        this.setData({
+          value_id: this.data.value._id.split(',')
         })
       }
     }
@@ -55,10 +59,11 @@ Component({
     },
     selectdel({ currentTarget:{id,dataset},detail:{value} }) {      //按显示类型名称进行删除
       let i = Number(dataset.id);
-      let vId = this.data.value_id.splice(i, 1);
+      this.data.value_id.splice(i, 1);
+      this.data.value.uName.splice(i, 1);
       this.setData({
-        value_id: vId,
-        value: {_id: vId.join(',') , uName: this.data.value.uName.splice(i, 1)}
+        value_id: this.data.value_id,
+        value: { _id: this.data.value_id.join(',') , uName: this.data.value.uName}
       });
     }
   }

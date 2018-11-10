@@ -57,24 +57,24 @@ Page({
           that.m_touchmove = wImpEdit.m_touchmove;
           if (vDataKeys.length == 0){
             aaData.eDetail = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
-              { t: "h", c:{e: "大标题" ,r:"2110D9D9D9ECECEC"}},
-              { t: "p", c:{e: "正文简介" ,r:"3002D9D9D9ECECEC"}},
-              { t: "h", c:{e: "中标题" ,r:"3110D9D9D9ECECEC"}},
-              { t: "p", c:{e: "正文" ,r:"3002D9D9D9ECECEC"}},
-              { t: "h", c:{e: "1、小标题" ,r:"4110D9D9D9ECECEC"}},
-              { t: "p", c:{e: "图片文章混排说明" ,r:"4002D9D9D9ECECEC"}},
-              { t: "-4", c: {filepath:'http://ac-trce3aqb.clouddn.com/eb90b6ebd3ef72609afc.png', e: "图片内容说明",r:"4010D9D9D9ECECEC"} },
-              { t: "p", c:{e: "正文" ,r:"4002D9D9D9ECECEC"}},
-              { t: "h", c:{e: "2、小标题" ,r:"4110D9D9D9ECECEC"}},
-              { t: "p", c:{e: "音频文章混排" ,r:"4002D9D9D9ECECEC"}},
-              { t: "-6", c: {filepath:"https://i.y.qq.com/v8/playsong.html?songid=108407446&source=yqq", e: "录音内容说明",r:"4010D9D9D9ECECEC"} },
-              { t: "p", c:{e: "正文" ,r:"4002D9D9D9ECECEC"}},
-              { t: "h", c:{e: "3、小标题" ,r:"4110D9D9D9ECECEC"}},
-              { t: "p", c:{e: "视频文章混排" ,r:"4002D9D9D9ECECEC"}},
-              { t: "-7", c: {filepath:"https://v.qq.com/x/page/f05269wf11h.html?ptag=2_5.9.0.13560_copy", e: "视频内容说明",r:"4010D9D9D9ECECEC"} },
-              { t: "p", c:{e: "正文" ,r:"4002D9D9D9ECECEC"}},
-              { t: "p", c:{e: "章节结尾" ,r:"4002D9D9D9ECECEC"}},
-              { t: "p", c:{e: "文章结尾" ,r:"4002D9D9D9ECECEC"}}
+              { t: "T", c:"2110D9D9D9ECECEC大标题"},
+              { t: "p", c:"3002D9D9D9ECECEC正文简介"},
+              { t: "T", c:"3110D9D9D9ECECEC中标题"},
+              { t: "p", c:"3002D9D9D9ECECEC正文"},
+              { t: "T", c:"4110D9D9D9ECECEC1、小标题"},
+              { t: "p", c:"4002D9D9D9ECECEC图片文章混排"},
+              { t: "-4", c:"4010D9D9D9ECECEC图片内容.png"},
+              { t: "p", c:"4002D9D9D9ECECEC正文"},
+              { t: "T", c:"4110D9D9D9ECECEC2、小标题"},
+              { t: "p", c:"4002D9D9D9ECECEC音频文章混排"},
+              { t: "-6", c:"4010D9D9D9ECECEC录音内容说明",r:""} },
+              { t: "p", c:"4002D9D9D9ECECEC正文"},
+              { t: "T", c:"4110D9D9D9ECECEC3、小标题"},
+              { t: "p", c:"4002D9D9D9ECECEC视频文章混排"},
+              { t: "-7", c:"4010D9D9D9ECECEC视频内容说明"},
+              { t: "p", c:"4002D9D9D9ECECEC正文"},
+              { t: "p", c:"4002D9D9D9ECECEC章节结尾"},
+              { t: "p", c:"4002D9D9D9ECECEC文章结尾"}
             ]
           }
         }

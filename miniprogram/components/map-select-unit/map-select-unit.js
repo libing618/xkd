@@ -92,14 +92,14 @@ Component({
       this.downModal()
     },
 
-    mapMarker({ currentTarget:{id,dataset},detail:{value},markerId }){      //点击merkers气泡
+    mapMarker({ markerId }){      //点击merkers气泡
       this.setData({sId: markerId});
     },
     moveLocation({type}){                 //移动点击
       let that = this;
       switch (type){
         case 'begin':
-          that.mapCtx.moveToLocation();
+  //        that.mapCtx.moveToLocation();
           break;
         case 'end':
           that.mapCtx.getCenterLocation({

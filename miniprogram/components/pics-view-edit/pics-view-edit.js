@@ -1,14 +1,11 @@
-const {sysinfo} = getApp()
+const placeFiles = require('../../config.js').placepics;
+const cloudPath = require('../../config.js').cloudFileRoot+'/pics/'
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
-    value: {
-      type: Object,
-      value: {
-        _id:require('../../config.js').placepics      //占位文件
-      }
-    },
+    value: Array,
+    name: String,
     p: {
       type: String,
       value: '单频文件',
@@ -22,15 +19,33 @@ Component({
     addGlobalClass: true
   },
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
-    audsrc: ''
+    explain: [],
+    replacefile: false,
+    filepaths: placeFiles
   },
   lifetimes:{
     attached(){
-      if (this.data.value) {
-        this.setData({value: {_id:require('../../config.js').placepics} })
-      };
+      if (typeof this.data.value == 'undefined') {
+        this.setData({ explain: placeFile.map(()=>{return '图片集说明'}) })
+      } else {
+        if (typeof fileName[0] == 'string'){
+          let explains = [],extIndex;
+          let filePaths = this.data.value.map(fileName=>{
+            extIndex = fileName.lastIndexOf('.');
+            explains.push(fileName.substring(0,extIndex));
+            return cloudPath+fileName
+          }
+          this.setData({
+            filepaths: filePaths,
+            explain: explains
+          })
+        } else {
+          this.setData({
+            filepaths: this.data.value.f,
+            explain: this.data.value.e
+          })
+        }
+      }
       if (this.data.editable==2){ this.choosepics() }
     }
   },
@@ -49,15 +64,18 @@ Component({
             fail: function () { wx.showToast({ title: '选取照片失败！' }) }
           });
         } else { resolve(value._id ? value._id : value.filepath) }
-      }).then(audsrc=>{
-        that.setData({picssrc:picssrc});
+      }).then(picssrc=>{
+        that.setData({
+          filepaths: picssrc,
+          replacefile: true
+        });
         that.popModal();
       }).catch(console.error)
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       this.setData({
-        value: {filepath:this.data.audsrc,e:value.explain}
+        value: {f:this.data.filepaths,e:this.data.explain}
       });
       this.downModal()
     }

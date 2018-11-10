@@ -8,18 +8,27 @@
         <view class="close_icon" bindtap="downModal">×</view>
       </view>
       <view class="page__bd">
-        <audio controls="{{true}}" id="myAudio" src="{{audsrc}}"></audio>
-        <rich-view-edit name="e" value="{{value.e}}" csc="T"/>
+        <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
+          <block wx:for="{{filepaths}}" wx:key="{{index}}">
+            <swiper-item>
+              <image src="{{item}}" class="swimage"></image>
+              <rich-view-edit name="{{name}}-e{{index}}" value="{{explain[index]}}" csc="e" editable="1"/>
+            </swiper-item>
+          </block>
+        </swiper>
       </view>
-      <button class="weui-btn" bindtap="fSave" size="mini">确定</button>
+      <view class="page__ft weui-footer_fixed-bottom">
+        <view wx:if="{{replacefile}}" class="pm-sure_btn" bindtap="fSave">确定</view>
+        <view class="pm-cancel_btn" bindtap="downModal">返回</view>
+      </view>
     </view>
   </view>
   <view wx:else bindtap="choosepics">
     <swiper class="swiper_box" indicator-dots="{{false}}" autoplay="{{true}}">
-      <block wx:for="{{c}}" wx:key="{{index}}">
+      <block wx:for="{{filepaths}}" wx:key="{{index}}">
         <swiper-item>
           <image src="{{item}}" class="swimage"></image>
-          <rich-view-edit name="pic{{index}}" value="{{item.e}}" csc="T" editable="0" />
+          <rich-view-edit name="{{name}}-e{{index}}" value="{{explain[index]}}" csc="e" editable="0"/>
         </swiper-item>
       </block>
     </swiper>

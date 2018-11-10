@@ -1,14 +1,9 @@
-const sysinfo = getApp().sysinfo;
-var modalBehavior = require('../utils/poplib.js')
+var modalBehavior = require('../utils/poplib.js');
+const placeFile = require('../../config.js').placevideo;      //占位视频文件
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
-    value: {
-      type: Object,
-      value: {
-        _id:require('../../config.js').placevideo      //占位视频文件
-      }
-    },
+    value: String,
     p: {
       type: String,
       value: '视频文件',
@@ -22,13 +17,15 @@ Component({
     addGlobalClass: true
   },
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
-    vdsrc: ''
+    explain: '视频文件说明',
+    placefile: placeFile,
+    filepath: placeFile
   },
   lifetimes:{
     attached(){
-      this.videoContext = wx.createVideoContext('myVideo');
+      this.fileNameAnaly(this.data.value,'/video/').then(()=>{
+        this.videoContext = wx.createVideoContext('myVideo')
+      });
       if (this.data.editable==2){ this.choosevideo() }
     }
   },
@@ -48,14 +45,14 @@ Component({
           });
         } else { resolve(value._id ? value._id : value.filepath) }
       }).then(vdsrc=>{
-        that.setData({vdsrc:vdsrc});
+        that.setData({filepath:vdsrc});
         that.popModal();
       }).catch(console.error)
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       this.setData({
-        value: {filepath:this.data.vdsrc,e:value.explain}
+        value: {f:this.data.filepath,e:this.data.explain}
       });
       this.downModal()
     }

@@ -24,32 +24,32 @@
   </view>
 </template>
 <template name="dT">
-  <rich-view-edit name="ade{{n}}" value="{{c}}" type="T" editable></rich-view-edit>
+  <rich-view-edit name="adc{{n}}" value="{{c}}" type="T" editable></rich-view-edit>
 </template>
 <template name="dp">
-  <rich-view-edit name="ade{{n}}" value="{{c}}" type="p" editable></rich-view-edit>
+  <rich-view-edit name="adc{{n}}" value="{{c}}" type="p" editable></rich-view-edit>
 </template>
 <template name="d-1">
-  <recycle-select name="ade{{n}}" value="{{c}}" csc="goods" editable></recycle-select>
+  <recycle-select name="adc{{n}}" value="{{c}}" csc="goods" editable></recycle-select>
 </template>
 <template name="d-2">
-  <recycle-select name="ade{{n}}" value="{{c}}" csc="order" editable></recycle-select>
+  <recycle-select name="adc{{n}}" value="{{c}}" csc="order" editable></recycle-select>
 </template>
 <template name="d-3">
-  <address-view-edit name="ade{{n}}" value="{{c}}" editable></address-view-edit>
+  <address-view-edit name="adc{{n}}" value="{{c}}" editable></address-view-edit>
 </template>
 <template name="d-4">
-  <pics-view-edit name="ade{{n}}" value="{{c}}" editable></pics-view-edit>
+  <pics-view-edit name="adc{{n}}" value="{{c}}" editable></pics-view-edit>
 </template>
 <template name="d-5">
-  <thumbnail-view-edit name="ade{{n}}" value="{{c}}" csc="img" editable></thumbnail-view-edit>
+  <thumbnail-view-edit name="adc{{n}}" value="{{c}}" csc="img" editable></thumbnail-view-edit>
 </template>
 <template name="d-6">
-  <audio-view-edit name="ade{{n}}" value="{{c}}" editable></audio-view-edit>
+  <audio-view-edit name="adc{{n}}" value="{{c}}" editable></audio-view-edit>
 </template>
 <template name="d-7">
-  <video-view-edit name="ade{{n}}" value="{{c}}" editable></video-view-edit>
+  <video-view-edit name="adc{{n}}" value="{{c}}" editable></video-view-edit>
 </template>
 <template name="d-8">
-  <file-select name="ade{{n}}" value="{{c}}" editable></file-select>
+  <file-select name="adc{{n}}" value="{{c}}" editable></file-select>
 </template>

@@ -79,6 +79,7 @@ module.exports = Behavior({
             title:resJSON.nick,
             iconPath: resJSON.afamily < 3 ? '/images/icon-personal.png' : '/images/icon-company.png',   //单位是个人还是企业
           });
+          unitArray[i].indType = {_id:resJSON.indType,uName:resJSON.indType_uName}
           points.push({ latitude: resJSON.address_aGeoPoint.latitude, longitude: resJSON.address_aGeoPoint.longitude})
         })
         QQMapWX.calculateDistance({                    //计算地理位置的距离

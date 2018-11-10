@@ -2,7 +2,7 @@
 <wxs src="../components/goods-type/goodstype.wxs" module="gslist" />
 <wxs module="mDot">
   module.exports =
-    function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
+    function(cArray){ return cArray.join('、') }
  </wxs>
 <template name="s_-3">
  <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></address-view-edit>
@@ -101,9 +101,7 @@
 <template name="s_iNd">
 <view class="weui-cell">
   <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd weui-flex">
-    <view wx:for="{{c.uName}}" wx:key="{{index}}">{{item}}{{mDot(index,c.uName)}}</view>
-  </view>
+  <view class="weui-cell__bd weui-flex">{{mDot(c.uName)}}</view>
 </view>
 </template>
 

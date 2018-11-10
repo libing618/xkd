@@ -8,18 +8,18 @@
         <view class="close_icon" bindtap="downModal">×</view>
       </view>
       <view class="page__bd weui-msg">
-        <video controls="{{true}}" id="myVideo" src="{{imgsrc}}"></video>
-        <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+        <video controls="{{true}}" id="myVideo" src="{{filepath}}"></video>
+        <rich-view-edit name="{{name}}-e" value="{{explain}}" csc="e" editable="1"/>
       </view>
       <view class="page__ft weui-footer_fixed-bottom">
-        <view class="pm-sure_btn" bindtap="fSave">确定</view>
+        <view wx:if="{{filepath!==placefile}}" class="pm-sure_btn" bindtap="fSave">确定</view>
         <view class="pm-cancel_btn" bindtap="downModal">返回</view>
       </view>
     </view>
   </view>
   <view wx:else style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-msg">
     <view class="weui-picker"  catchtap="choosevideo">
-      <video controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></video>
+      <rich-view-edit name="{{name}}-e" value="{{explain}}" csc="e" editable="0"/>
     </view>
     <text >value.e</text>
   </view>

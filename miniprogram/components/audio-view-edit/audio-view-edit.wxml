@@ -7,19 +7,19 @@
         <view class="close_icon" bindtap="downModal">×</view>
       </view>
       <view class="page__bd">
-        <audio controls="{{true}}" id="myAudio" src="{{audsrc}}"></audio>
-        <rich-view-edit name="e" value="{{value.e}}" csc="T"/>
+        <audio controls="{{true}}" id="myAudio" src="{{filepath}}"></audio>
+        <rich-view-edit name="{{name}}-e" value="{{explain}}" csc="e" editable="1"/>
       </view>
       <view class="page__ft weui-footer_fixed-bottom">
-        <view class="pm-sure_btn" bindtap="fSave">确定</view>
+        <view wx:if="{{filepath!==placefile}}" class="pm-sure_btn" bindtap="fSave">确定</view>
         <view class="pm-cancel_btn" bindtap="downModal">返回</view>
       </view>
     </view>
   </view>
   <view wx:else style="background-color:{{selectd==index ? '#999999' : '#F8F8F8'}};" class="weui-msg}" id="ad-{{n}}">
     <view class="weui-picker" catchtap="chooseaudio">
-      <audio controls="{{true}}" src="{{value._id ? value._id : value.filepath}}"></audio>
+      <audio controls="{{true}}" src="{{filepath}}"></audio>
     </view>
-    <text >value.e</text>
+    <rich-view-edit name="{{name}}-e" value="{{explain}}" csc="e" editable="0"/>
   </view>
 </view>

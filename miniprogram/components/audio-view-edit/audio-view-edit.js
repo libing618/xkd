@@ -1,14 +1,10 @@
-const sysinfo = getApp().sysinfo;
+const placeFile = require('../../config.js').placeaudio      //占位音频文件
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
-    value: {
-      type: Object,
-      value: {
-        _id:require('../../config.js').placeaudio      //占位音频文件
-      }
-    },
+    name: String,
+    value: String,
     p: {
       type: String,
       value: '单频文件',
@@ -22,13 +18,15 @@ Component({
     addGlobalClass: true
   },
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
-    audsrc: ''
+    explain: '单频文件说明',
+    placefile: placeFile,
+    filepath: placeFile
   },
   lifetimes:{
     attached(){
-      this.videoContext = wx.createVideoContext('myAudio');
+      this.fileNameAnaly(this.data.value,'/audio/').then(()=>{
+        this.videoContext = wx.createVideoContext('myAudio');
+      });
       if (this.data.editable==2){ this.chooseaudio() }
     }
   },
@@ -49,14 +47,14 @@ Component({
           });
         } else { resolve(value._id ? value._id : value.filepath) }
       }).then(audsrc=>{
-        that.setData({audsrc:audsrc});
+        that.setData({filepath:audsrc});
         that.popModal();
       }).catch(console.error)
     },
 
     fSave: function({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       this.setData({
-        value: {filepath:this.data.audsrc,e:value.explain}
+        value: {f:this.data.filepath,e:this.data.explain}
       });
       this.downModal()
     }

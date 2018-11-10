@@ -120,22 +120,21 @@ module.exports = {
   },
 
   fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
-    var that = this;
+    let that = this;
     if (id=='fBack') { wx.navigateBack({ delta: 1 }) }
     if (that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)) {
       for (let i = 0; i < that.data.vData.details.length; i++) {
-        that.data.vData.details[i].e = value['ade' + i];
         that.data.vData.details[i].c = value['adc' + i];
       };
     };
-    var emptyField = '';                   //检查是否有字段输入为空
+    let emptyField = '';                   //检查是否有字段输入为空
     that.data.fieldName.forEach(reqName=>{
       if (reqName in value){ that.data.vData[reqName]=value[reqName]; }
       if (typeof that.data.vData[reqName]=='undefined'){
         emptyField += '《' + that.data.fieldType[reqName].p + '》';
-      }
+      } else {console.log(reqName,'=',that.data.vData)}
     });
-    var sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
+    let sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
       let filePaths = [];
       that.data.fieldName.forEach(nField => {
         switch (nField.t) {

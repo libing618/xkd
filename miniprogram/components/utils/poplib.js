@@ -8,6 +8,27 @@ module.exports = Behavior({
     showModalBox: false
   },
   methods: {
+    fileNameAnaly(fileName){
+      return new Promise((resolve,reject)=>{
+        switch (typeof fileName) {
+          case 'string':
+            let extIndex = fileName.lastIndexOf('.');
+            this.setData({
+              filepath: require('../../config.js').cloudFileRoot+pathName+fileName,
+              explain: fileName.substring(0,extIndex)
+            },resolve(true))
+            break;
+          case 'object':
+            this.setData({
+              filepath: fileName.f,
+              explain: fileName.e
+            },resolve(true))
+            break;
+          default:
+            resolve(true);
+        }
+      })
+    }
     popModal() {
       if (typeof animation == 'undefined') {
         var animation = wx.createAnimation({      //遮罩层

@@ -146,7 +146,7 @@ Component({
           wx.canvasToTempFilePath({
             canvasId: 'cei',
             success: function(resTem){
-              that.setData({ value: {filepath:resTem.tempFilePath, e:value.explain } });
+              that.setData({ value: {filepath:resTem.tempFilePath, e:this.data.explain } });
               that.downModal();
             }
           },that);
