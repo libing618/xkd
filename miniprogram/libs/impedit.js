@@ -132,7 +132,7 @@ module.exports = {
       if (reqName in value){ that.data.vData[reqName]=value[reqName]; }
       if (typeof that.data.vData[reqName]=='undefined'){
         emptyField += '《' + that.data.fieldType[reqName].p + '》';
-      } else {console.log(reqName,'=',that.data.vData)}
+      } else { console.log(reqName, '=', that.data.vData[reqName])}
     });
     let sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
       let filePaths = [];

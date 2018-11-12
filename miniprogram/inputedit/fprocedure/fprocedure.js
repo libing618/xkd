@@ -67,7 +67,7 @@ Page({
               { t: "p", c:"4002D9D9D9ECECEC正文"},
               { t: "T", c:"4110D9D9D9ECECEC2、小标题"},
               { t: "p", c:"4002D9D9D9ECECEC音频文章混排"},
-              { t: "-6", c:"4010D9D9D9ECECEC录音内容说明",r:""} },
+              { t: "-6", c:"4010D9D9D9ECECEC录音内容说明"},
               { t: "p", c:"4002D9D9D9ECECEC正文"},
               { t: "T", c:"4110D9D9D9ECECEC3、小标题"},
               { t: "p", c:"4002D9D9D9ECECEC视频文章混排"},

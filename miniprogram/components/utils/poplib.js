@@ -28,7 +28,7 @@ module.exports = Behavior({
             resolve(true);
         }
       })
-    }
+    },
     popModal() {
       if (typeof animation == 'undefined') {
         var animation = wx.createAnimation({      //遮罩层

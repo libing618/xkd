@@ -1,4 +1,6 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "rich-view-edit": "../rich-view-edit/rich-view-edit"
+  }
 }

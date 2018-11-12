@@ -38,7 +38,7 @@ export function openWxLogin() {              //解密unionid并进行注册
                     }).then(_id => {
                       roleData.user._id = _id;
                       roleData.wmenu = [            //用户刚注册时的基础菜单
-                        [100, 102, 107, 108, 109, 110, 111, 114],
+                        [100, 107, 108, 109, 110, 111, 114],
                         [200, 201, 202, 203, 204],
                         [308],
                         [401]

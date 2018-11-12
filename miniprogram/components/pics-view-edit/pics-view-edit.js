@@ -34,7 +34,7 @@ Component({
             extIndex = fileName.lastIndexOf('.');
             explains.push(fileName.substring(0,extIndex));
             return cloudPath+fileName
-          }
+          });
           this.setData({
             filepaths: filePaths,
             explain: explains

@@ -41,15 +41,17 @@ Component({
       this.setData({inclose: !this.data.inclose});
     },
     industrysel(e) {                         //选择行业类型
-      let vdSet = {inclose: true};                      //按确定ICON确认选择
       if (!this.data.inclose) {
         let cvalue = this.data.value;
         cvalue.uName.push(e.currentTarget.dataset.sa);
-        vdSet.value_id = this.data.value_id.push(e.currentTarget.dataset.ca);
-        cvalue._id = vdSet.value_id.join(',');
-        vdSet.value = { _id: cvalue._id, uName:cvalue.uName };
+        this.data.value_id.push(e.currentTarget.dataset.ca);
+        cvalue._id = this.data.value_id.join(',');
+        this.setData({
+          value_id: this.data.value_id,
+          value: { _id: cvalue._id, uName: cvalue.uName }
+        });
       }
-      this.setData(vdSet);
+      
     },
     itemsel({ currentTarget:{id,dataset},detail:{value} }) {
       if (this.data.aVl[0] == value[0]) {
