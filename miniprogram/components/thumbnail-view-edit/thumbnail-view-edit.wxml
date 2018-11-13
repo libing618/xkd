@@ -9,7 +9,7 @@
       </view>
       <view class="close_icon" bindtap="downModal">×</view>
       <movable-area style="width:{{xImage}}px;height:{{yImage}}px">
-        <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{editimg}}"></image>
+        <image  style="width:{{xImage}}px; height:{{yImage}}px;" mode="scaleToFit" src="{{filepath}}"></image>
         <movable-view style="height: {{yOff}}px; background-color: rgba(0,0,0,0.6); width: {{xOff}}px;" direction="all" bindchange="onChange" bindscale="onScale" scale-value="{{cScale}}">
         </movable-view>
       </movable-area>
@@ -20,6 +20,6 @@
     </view>
   </view>
   <view wx:else class="weui-msg" bindtap="i_thumbnail">
-    <image src="{{csc=='img'? value.fileId : value}}" style="width: 100%;" mode="aspectFit"></image>
+    <image src="{{filepath}}" style="width: 100%;" mode="aspectFit"></image>
   </view>
 </view>

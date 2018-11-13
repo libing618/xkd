@@ -1,4 +1,5 @@
 //缩略图编辑
+const placeFile = require('../../config.js').placeimg     //占位图像文件
 const sysinfo = getApp().sysinfo;
 var modalBehavior = require('../utils/poplib.js')
 Component({
@@ -20,7 +21,7 @@ Component({
       type: String,
       observer(newVal){
         if (typeof newVal=='undefined'){
-          value = require('../../config.js').placeimg     //占位图像文件
+          this.setData({ filepath: placeFile });
         }
       }
 
@@ -40,19 +41,16 @@ Component({
     yOff: 225,
     x: 0,
     y: 0,
-    editimg:''
+    filepath:''
   },
 
   lifetimes:{
     attached(){
       if (this.data.value){
-        if (this.data.csc == 'img') {
-          this.setData({ value: value._id ? value._id : value.filepath })
-        }
-      } else {
-        this.setData({ value: require('../../config.js').placeimg})
-      }
-
+        if (this.data.csc == 'base64'){
+          this.setData({ filepath: this.data.value })
+        } else {this.fileNameAnaly(this.data.value,this.data.csc)}
+      } else { this.setData({filepath:placeFile}) };
     }
   },
   methods: {
@@ -76,7 +74,7 @@ Component({
                 that.setData({
                   statusBar: sysinfo.statusBarHeight,
                   windowHeight: sysinfo.windowHeight,
-                  editimg:restem.tempFilePaths[0],
+                  filepath:restem.tempFilePaths[0],
                   xImage: res.width*imageScall,
                   yImage: res.height*imageScall,
                   imageScall: imageScall,
@@ -103,12 +101,12 @@ Component({
         xOff: this.data.xOff * detail.scale,
         yOff: this.data.yOff * detail.scale
       });
-      this.ctx.drawImage(this.data.editimg, this.data.x, this.data.y,detail.scale*300,detail.scale*225,0,0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y,detail.scale*300,detail.scale*225,0,0, 300, 225);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.editimg, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*300, cScale*225,0,0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*300, cScale*225,0,0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,
@@ -146,7 +144,7 @@ Component({
           wx.canvasToTempFilePath({
             canvasId: 'cei',
             success: function(resTem){
-              that.setData({ value: {filepath:resTem.tempFilePath, e:this.data.explain } });
+              that.setData({ value: {f:resTem.tempFilePath, e:this.data.explain } });
               that.downModal();
             }
           },that);
