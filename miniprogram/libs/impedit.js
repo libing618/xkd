@@ -138,21 +138,26 @@ module.exports = {
       let filePaths = [];
       that.data.fieldName.forEach(nField => {
         switch (nField.t) {
-          case 'eDetail':
-            for (let a = 0; a < that.data.vData[nField.gname].length; a++) {
-              if (Number(that.data.vData[nField.gname][a].t) < -4) {     //该字段正文的内容为媒体
-                filePaths.push({ na: [nField.gname, a], fPath: that.data.vData[nField.gname][a].c.filepath, fType: 2, fn: 2 });
+          case 'eDetail':     //该字段正文的内容为媒体
+            for (let a = 0; a < that.data.vData[nField].length; a++) {
+              if (Number(that.data.vData[nField][a].t) < -4) {
+                filePaths.push({ na: [nField, a], fPath: that.data.vData[nField][a].c.f, fType: 2, fn: 2 });
               }
             }
             break;
-          case '-4':
-            for (let b = 0; b < that.data.vData[nField.gname].length; b++) {     //该字段为图片组
-              filePaths.push({ na: [nField.gname, b], fPath: that.data.vData[nField.gname][b], fType: 2, fn: 1 });
+          case '-4':     //该字段为图片组
+            for (let b = 0; b < that.data.vData[nField].length; b++) {
+              filePaths.push({ na: [nField, b], fPath: that.data.vData[nField][b], fType: 2, fn: 1 });
+            }
+            break;
+          case '-5':     //该字段为图片
+            for (let b = 0; b < that.data.vData[nField].length; b++) {
+              filePaths.push({ na: [nField, b], fPath: that.data.vData[nField][b], fType: 2, fn: 1 });
             }
             break;
           default:
-            if (Number(nField.t) < -4) {            //该字段为媒体
-              filePaths.push({ na: [nField.gname, -1], fPath: that.data.vData[nField.gname].filepath, fType: 2, fn: 0 });
+            if (Number(nField.t) < -5) {            //该字段为媒体
+              filePaths.push({ na: [nField, -1], fPath: that.data.vData[nField].f, fType: 2, fn: 0 });
             }
             break;
         }
@@ -194,7 +199,7 @@ module.exports = {
         let sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;
         let mgrids = ['标题', '正文','产品', '订单','位置', '图片集', '图片', '音频', '视频', '文件'];
         let sI = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
-        artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', filepath: ''} });
+        artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', f: ''} });
         that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭
         break;
       case 'fStorage':           //编辑内容不提交流程审批,在本机保存
@@ -215,7 +220,7 @@ module.exports = {
                           that.data.vData[tFileStr.na[0]][tFileStr.na[1]] = res2.savedFilePath;
                           break;
                         case 2:
-                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]].c.filepath = res2.savedFilePath;
+                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]].c.f = res2.savedFilePath;
                           break;
                       }
                       resolve(res2.savedFilePath)
