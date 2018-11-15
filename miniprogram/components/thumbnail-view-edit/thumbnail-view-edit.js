@@ -17,15 +17,7 @@ Component({
       type: String,
       value: 'thumbnail',
     },
-    value: {
-      type: String,
-      observer(newVal){
-        if (typeof newVal=='undefined'){
-          this.setData({ filepath: placeFile });
-        }
-      }
-
-    }
+    value: String
   },
   options: {
     addGlobalClass: true
@@ -50,7 +42,7 @@ Component({
         if (this.data.csc == 'base64'){
           this.setData({ filepath: this.data.value })
         } else {this.fileNameAnaly(this.data.value,this.data.csc)}
-      } else { this.setData({filepath:placeFile}) };
+      } else {this.setData({filepath:placeFile})}
     }
   },
   methods: {
