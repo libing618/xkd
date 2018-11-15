@@ -122,71 +122,42 @@ module.exports = {
   fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
     let that = this;
     if (id=='fBack') { wx.navigateBack({ delta: 1 }) }
-    if (that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)) {
-      for (let i = 0; i < that.data.vData.details.length; i++) {
+    let sFilePath = [],         //媒体文件归类
+    let existDetails = that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)
+    function mType(typeClass,eventName){
+      if (typeClass < -3) {            //该form组件为文件类型
+        switch (typeClass) {
+          case -4:                   //该组件为图片组
+            for (let b = 0; b < value[eventName].length; b++) {
+              sFilePath.push({ na: eventName, fPath: value[eventName].f[b], fn: b});
+            };
+            break;
+          case -9:                   //该组件为无说明图片
+            sFilePath.push({ na: eventName, fPath: value[eventName], fn: -2});
+            break;
+          default:
+            sFilePath.push({ na: eventName, fPath: value[eventName].f, fn: -1});
+            break;
+        }
+      }
+    };
+
+    if (existDetails) {
+      for (let i = 0; i < that.data.vData.details.length; i++) {     //有附件字段正文的内容为媒体
+        mType(Number(that.data.vData.details[i].t),'adc' + i);
         that.data.vData.details[i].c = value['adc' + i];
       };
     };
     let emptyField = '';                   //检查是否有字段输入为空
-    that.data.fieldName.forEach(reqName=>{
-      if (reqName in value){ that.data.vData[reqName]=value[reqName]; }
-      if (typeof that.data.vData[reqName]=='undefined'){
-        emptyField += '《' + that.data.fieldType[reqName].p + '》';
-      } else { console.log(reqName, '=', that.data.vData[reqName])}
+    that.data.fieldName.forEach(fName=>{
+      if (fName in value){ that.data.vData[fName]=value[fName]; }
+      if (typeof that.data.vData[fName]=='undefined'){
+        emptyField += '《' + that.data.fieldType[fName].p + '》';
+      } else {
+        mType(Number(that.data.fieldType[fName].t), fName);
+      }
     });
-    let sFilePath = new Promise(function (resolve, reject) {         //本地媒体文件归类
-      let filePaths = [];
-      that.data.fieldName.forEach(nField => {
-        switch (nField.t) {
-          case 'eDetail':     //该字段正文的内容为媒体
-            for (let a = 0; a < that.data.vData[nField].length; a++) {
-              if (Number(that.data.vData[nField][a].t) < -4) {
-                filePaths.push({ na: [nField, a], fPath: that.data.vData[nField][a].c.f, fType: 2, fn: 2 });
-              }
-            }
-            break;
-          case '-4':     //该字段为图片组
-            for (let b = 0; b < that.data.vData[nField].length; b++) {
-              filePaths.push({ na: [nField, b], fPath: that.data.vData[nField][b], fType: 2, fn: 1 });
-            }
-            break;
-          case '-5':     //该字段为图片
-            for (let b = 0; b < that.data.vData[nField].length; b++) {
-              filePaths.push({ na: [nField, b], fPath: that.data.vData[nField][b], fType: 2, fn: 1 });
-            }
-            break;
-          default:
-            if (Number(nField.t) < -5) {            //该字段为媒体
-              filePaths.push({ na: [nField, -1], fPath: that.data.vData[nField].f, fType: 2, fn: 0 });
-            }
-            break;
-        }
-      });
-      wx.getSavedFileList({
-        success: function (res) {
-          let saveFileList = res.fileList.map(fList => { return fList.filePath });
-          let saveFiles = filePaths.map(sfPath => {
-            return new Promise((resolve, reject) => {
-              if (saveFileList.indexOf(sfPath.fPath) >= 0) {
-                sfPath.fType = 1;
-                resolve(sfPath);
-              } else {
-                wx.getFileInfo({
-                  filePath: sfPath.fPath,
-                  success: function () {
-                    sfPath.fType = 0;
-                    resolve(sfPath);
-                  },
-                  fail: () => { resolve(sfPath) }
-                })
-              }
-            });
-          });
-          Promise.all(saveFiles).then((sFileList) => { resolve(sFileList) });
-        },
-        fail: function () { resolve([]) }
-      });
-    });
+
     switch (target.id) {
       case 'fdeldata':                                 //删除内容部分选中的字段
         if (that.data.selectd >= 0) {                         //内容部分容许删除
@@ -202,37 +173,55 @@ module.exports = {
         artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', f: ''} });
         that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭
         break;
-      case 'fStorage':           //编辑内容不提交流程审批,在本机保存
+      case 'fStorage':           //新建文件编辑内容不提交流程审批,在本机保存
         if (that.data.targetId == '0') {
-          sFilePath.then(fileArr => {
-            let tFileArr = fileArr.filter(function (tFile) { return tFile.fType == 0 });
-            if (tFileArr.length > 0) {
-              let sFileArr = tFileArr.map((tFileStr) => {
-                return new Promise((resolve, reject) => {
-                  wx.saveFile({
-                    tempFilePath: tFileStr.fPath,
-                    success: function (res2) {
-                      switch (tFileStr.fn) {
-                        case 0:
-                          that.data.vData[tFileStr.na[0]] = res2.savedFilePath;
-                          break;
-                        case 1:
-                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]] = res2.savedFilePath;
-                          break;
-                        case 2:
-                          that.data.vData[tFileStr.na[0]][tFileStr.na[1]].c.f = res2.savedFilePath;
-                          break;
-                      }
-                      resolve(res2.savedFilePath)
-                    }
-                  })
-                })
+          if (sFilePath.length>0){
+            return new Promise((resolve,reject)=>{
+              wx.getSavedFileList({
+                success: function (res) {
+                  resolve ( res.fileList.map(fList => { return fList.filePath }) );
+                },
+                fail: function () { resolve([]) }
               });
-              Promise.all(sFileArr).then(() => {
-                app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData;
-              }).catch(console.error);
-            } else { app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData; }
-          });
+            }).then( saveFileList =>{
+              let saveFiles = sFilePath.map(sfPath => {
+                return new Promise((resolve, reject) => {
+                  if (saveFileList.indexOf(sfPath.fPath) >= 0) {
+                    resolve(sfPath);
+                  } else {
+                    wx.getFileInfo({
+                      filePath: sfPath.fPath,
+                      success: function () {
+                        resolve(sfPath);
+                      },
+                      fail: () => {
+                        wx.saveFile({
+                          tempFilePath: sfPath.fPath,
+                          success: function (res2) {
+                            switch (sfPath.fn) {
+                              case -2:
+                                value[sfPath.na] = res2.savedFilePath;
+                                break;
+                              case -1:
+                                value[sfPath.na].f = res2.savedFilePath;
+                                break;
+                              default:
+                                value[sfPath.na].f[sfPath.fn].f = res2.savedFilePath;
+                                break;
+                            }
+                            resolve(res2.savedFilePath)
+                          }
+                        })
+                      }
+                    })
+                  }
+                });
+              });
+              return Promise.all(saveFiles)
+            }).then((sFileList) => {
+              app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData;
+            }).catch(console.error);
+          } else { app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData; }
         }
         break;
       case 'fSave':
@@ -271,20 +260,20 @@ module.exports = {
             })
           }).then((sFiles) => {
             let saveData = that.data.vData;
-            for (let reqName in that.data.vData){       //多字段对象类型分解
-              if ( that.data.fieldType[reqName].addFields.length>0) {
-                saveData[reqName] = that.data.vData[reqName]._id;
-                that.data.fieldType[reqName].addFields.forEach(aField=>{
+            for (let fName in that.data.vData){       //多字段对象类型分解
+              if ( that.data.fieldType[fName].addFields.length>0) {
+                saveData[fName] = that.data.vData[fName]._id;
+                that.data.fieldType[fName].addFields.forEach(aField=>{
                   saveData[fname+'_'+aField] = that.data.vData[fname][aField];
                 })
               }
             }
             for (let saveName in saveData){
               if (that.data.fieldType[saveName].t=='tVE') {
-                that.data.vData[reqName] = Number(that.data.vData[reqName].replace(':',''))
+                that.data.vData[fName] = Number(that.data.vData[fName].replace(':',''))
               };
               if ( ['fg','dg','listsel'].indexOf(that.data.fieldType.saveName.t)>=0 ) {       //数字类型定义
-                that.data.vData[reqName] = Number(that.data.vData[reqName]);
+                that.data.vData[fName] = Number(that.data.vData[fName]);
               }
             }
             if (that.data.targetId == '0') {                    //新建流程的提交
