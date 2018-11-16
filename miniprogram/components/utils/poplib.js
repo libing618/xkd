@@ -8,25 +8,28 @@ module.exports = Behavior({
     showModalBox: false
   },
   methods: {
-    fileNameAnaly(fileName){
+    fileNameAnaly(fileName,pathName){
       return new Promise((resolve,reject)=>{
-        switch (typeof fileName) {
-          case 'string':
-            let extIndex = fileName.lastIndexOf('.');
-            this.setData({
-              filepath: require('../../config.js').cloudFileRoot+pathName+fileName,
-              explain: fileName.substring(0,extIndex)
-            },resolve(true))
-            break;
-          case 'object':
-            this.setData({
-              filepath: fileName.f,
-              explain: fileName.e
-            },resolve(true))
-            break;
-          default:
-            resolve(true);
+        let fs = wx.getFileSystemManager();
+        let stringFileName = ();
+        let sFile={filepath: fileName},fName=fileName;
+        if (typeof fileName=='object') {
+          sFile.explain = fileName.e;
+          fName = fileName.f;
+          sFile.filepath = fName
         }
+        fs.access({
+          path: fName,
+          success: ({errMsg})=> {
+            if (errMsg=='fail'){
+              sFile.filepath = require('../../config.js').cloudFileRoot+pathName+fName;
+            };
+            this.setData(sFile,resolve(true))
+          },
+          fail: ()=>{
+            this.setData(sFile,resolve(true))
+          }
+        })
       })
     },
     popModal() {
