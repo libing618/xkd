@@ -29,27 +29,30 @@
 <template name="dp">
   <rich-view-edit name="adc{{n}}" value="{{c}}" type="p" editable></rich-view-edit>
 </template>
-<template name="d-1">
+<template name="dsg">
   <recycle-select name="adc{{n}}" value="{{c}}" csc="goods" editable></recycle-select>
 </template>
-<template name="d-2">
+<template name="dso">
   <recycle-select name="adc{{n}}" value="{{c}}" csc="order" editable></recycle-select>
 </template>
-<template name="d-3">
+<template name="dGeo">
   <address-view-edit name="adc{{n}}" value="{{c}}" editable></address-view-edit>
 </template>
-<template name="d-4">
+<template name="d-1">
   <pics-view-edit name="adc{{n}}" value="{{c}}" editable></pics-view-edit>
 </template>
-<template name="d-5">
-  <thumbnail-view-edit name="adc{{n}}" value="{{c}}" csc="img" editable></thumbnail-view-edit>
+<template name="d-2">
+  <thumbnail-view-edit name="adc{{n}}" value="{{c}}" csc="pic" editable></thumbnail-view-edit>
 </template>
-<template name="d-6">
+<template name="d-3">
   <audio-view-edit name="adc{{n}}" value="{{c}}" editable></audio-view-edit>
 </template>
-<template name="d-7">
+<template name="d-4">
   <video-view-edit name="adc{{n}}" value="{{c}}" editable></video-view-edit>
 </template>
-<template name="d-8">
+<template name="d-5">
   <file-select name="adc{{n}}" value="{{c}}" editable></file-select>
+</template>
+<template name="d-6">
+  <thumbnail-view-edit name="adc{{n}}" value="{{c}}" csc="img" editable></thumbnail-view-edit>
 </template>

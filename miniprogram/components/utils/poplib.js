@@ -11,18 +11,17 @@ module.exports = Behavior({
     fileNameAnaly(fileName,pathName){
       return new Promise((resolve,reject)=>{
         let fs = wx.getFileSystemManager();
-        let stringFileName = ();
-        let sFile={filepath: fileName},fName=fileName;
+        let sFile={filepath: fileName};
         if (typeof fileName=='object') {
           sFile.explain = fileName.e;
-          fName = fileName.f;
-          sFile.filepath = fName
+          sFile.filepath  = fileName.f;
         }
         fs.access({
           path: fName,
-          success: ({errMsg})=> {
-            if (errMsg=='fail'){
-              sFile.filepath = require('../../config.js').cloudFileRoot+pathName+fName;
+          success: (res)=> {
+            console.log(res)
+            if (res.errMsg=='fail'){
+              sFile.filepath = require('../../config.js').cloudFileRoot+pathName+sFile.filepath ;
             };
             this.setData(sFile,resolve(true))
           },

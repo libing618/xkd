@@ -121,43 +121,12 @@ module.exports = {
 
   fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
     let that = this;
-    if (id=='fBack') { wx.navigateBack({ delta: 1 }) }
-    let sFilePath = [],         //媒体文件归类
-    let existDetails = that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details)
-    function mType(typeClass,eventName){
-      if (typeClass < -3) {            //该form组件为文件类型
-        switch (typeClass) {
-          case -4:                   //该组件为图片组
-            for (let b = 0; b < value[eventName].length; b++) {
-              sFilePath.push({ na: eventName, fPath: value[eventName].f[b], fn: b});
-            };
-            break;
-          case -9:                   //该组件为无说明图片
-            sFilePath.push({ na: eventName, fPath: value[eventName], fn: -2});
-            break;
-          default:
-            sFilePath.push({ na: eventName, fPath: value[eventName].f, fn: -1});
-            break;
-        }
-      }
-    };
-
+    let existDetails = ( that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details) );
     if (existDetails) {
       for (let i = 0; i < that.data.vData.details.length; i++) {     //有附件字段正文的内容为媒体
-        mType(Number(that.data.vData.details[i].t),'adc' + i);
-        that.data.vData.details[i].c = value['adc' + i];
+        that.data.vData.details[i] = value['adc' + i];
       };
     };
-    let emptyField = '';                   //检查是否有字段输入为空
-    that.data.fieldName.forEach(fName=>{
-      if (fName in value){ that.data.vData[fName]=value[fName]; }
-      if (typeof that.data.vData[fName]=='undefined'){
-        emptyField += '《' + that.data.fieldType[fName].p + '》';
-      } else {
-        mType(Number(that.data.fieldType[fName].t), fName);
-      }
-    });
-
     switch (target.id) {
       case 'fdeldata':                                 //删除内容部分选中的字段
         if (that.data.selectd >= 0) {                         //内容部分容许删除
@@ -169,152 +138,205 @@ module.exports = {
         let artArray = that.data.vData.details;       //详情的内容
         let sIndex = parseInt(e.currentTarget.dataset.n);      //选择的菜单id;
         let mgrids = ['标题', '正文','产品', '订单','位置', '图片集', '图片', '音频', '视频', '文件'];
-        let sI = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8' ].indexOf(sIndex);
+        let sI = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5' ].indexOf(sIndex);
         artArray.splice(that.data.selectd, 0, { t: sIndex, c:{e: '点击此处输入' + mgrids[sI] + '的说明', f: ''} });
         that.setData({ 'vData.details': artArray, enIns: false })      //‘插入’菜单栏关闭
         break;
-      case 'fStorage':           //新建文件编辑内容不提交流程审批,在本机保存
-        if (that.data.targetId == '0') {
-          if (sFilePath.length>0){
-            return new Promise((resolve,reject)=>{
-              wx.getSavedFileList({
-                success: function (res) {
-                  resolve ( res.fileList.map(fList => { return fList.filePath }) );
-                },
-                fail: function () { resolve([]) }
-              });
-            }).then( saveFileList =>{
-              let saveFiles = sFilePath.map(sfPath => {
-                return new Promise((resolve, reject) => {
-                  if (saveFileList.indexOf(sfPath.fPath) >= 0) {
-                    resolve(sfPath);
-                  } else {
-                    wx.getFileInfo({
-                      filePath: sfPath.fPath,
-                      success: function () {
-                        resolve(sfPath);
-                      },
-                      fail: () => {
-                        wx.saveFile({
-                          tempFilePath: sfPath.fPath,
-                          success: function (res2) {
-                            switch (sfPath.fn) {
-                              case -2:
-                                value[sfPath.na] = res2.savedFilePath;
-                                break;
-                              case -1:
-                                value[sfPath.na].f = res2.savedFilePath;
-                                break;
-                              default:
-                                value[sfPath.na].f[sfPath.fn].f = res2.savedFilePath;
-                                break;
-                            }
-                            resolve(res2.savedFilePath)
-                          }
-                        })
-                      }
-                    })
+      case 'fBack':
+       wx.navigateBack({ delta: 1 });
+       break;
+      default:
+        let sFilePath = [];         //媒体文件归类
+        return new Promise((resolve,reject)=>{
+          wx.getSavedFileList({
+            success: function (res) {
+              resolve ( res.fileList.map(fList => { return fList.filePath }) );
+            },
+            fail: function () { resolve([]) }
+          });
+        }).then( saveFileList =>{
+          function mType(typeClass,eventName){
+            return new Promise((resolve, reject) => {
+              if (saveFileList.indexOf(value[eventName]) >= 0) {            //该form组件为文件类型
+                resolve(2);
+              } else {
+                wx.getFileInfo({
+                  filePath: value[eventName],
+                  success: function () {
+                    resolve(1);
+                  },
+                  fail: () => {
+                    resolve(0);
                   }
                 });
+              }
+            }).then(fStart=>{
+              return new Promise((resolve, reject) => {
+                if (fStart){
+                  switch (typeClass) {
+                    case -1:                   //该组件为图片组
+                      for (let b = 0; b < value[eventName].length; b++) {
+                        sFilePath.push({ na: eventName, fPath: value[eventName].f[b], fn: b,fs:fStart});
+                      };
+                      break;
+                    case -6:                   //该组件为无说明图片
+                      sFilePath.push({ na: eventName, fPath: value[eventName], fn: -2,fs:fStart});
+                      break;
+                    default:
+                      sFilePath.push({ na: eventName, fPath: value[eventName].f, fn: -1,fs:fStart});
+                      break;
+                  }
+                  resolve(true)
+                } else {
+                  resolve(false)
+                }
+              })
+            }).catch(console.error)
+          };
+          let nft,fileProm=[];
+          if (existDetails) {     //有附件字段正文的内容为媒体
+            for (let i = 0; i < that.data.vData.details.length; i++) {
+              nft = Number(that.data.vData.details[i].t);
+              if (nft<0){
+                fileProm.push(mType(nft,'adc' + i));
+              }
+            };
+          };
+          let emptyField = '';                   //检查是否有字段输入为空
+          that.data.fieldName.forEach(fName=>{
+            if (fName in value){ that.data.vData[fName]=value[fName]; }
+            if (typeof that.data.vData[fName]=='undefined'){
+              emptyField += '《' + that.data.fieldType[fName].p + '》';
+            } else {
+              nft = Number(that.data.fieldType[fName].t);
+              if (nft<0){
+                fileProm.push(mType(nft,fName));
+              };
+            }
+          });
+          return new Promise.all(fileProm)
+        }).then(()=>{
+          if (target.id=='fStorage' && that.data.targetId == '0') {           //新建文件编辑内容不提交流程审批,在本机保存
+            let storageFile = sFilePath.filter(sFile => { return sFile.fs==1 });
+            if (storageFile.length>0){
+              let saveFiles = storageFile.map(sfPath => {
+                return new Promise((resolve, reject) => {
+                  wx.saveFile({
+                    tempFilePath: sfPath.fPath,
+                    success: function (res2) {
+                      switch (sfPath.fn) {
+                        case -2:
+                          value[sfPath.na] = res2.savedFilePath;
+                          break;
+                        case -1:
+                          value[sfPath.na].f = res2.savedFilePath;
+                          break;
+                        default:
+                          value[sfPath.na].f[sfPath.fn] = res2.savedFilePath;
+                          break;
+                      }
+                      if (substr(sfPath.na,0,3)=='adc'){
+                        that.data.vData.details[Number(substr(sfPath.na,3))].c = value[sfPath.na]
+                      } else { that.data.vData[sfPath.na] = value[sfPath.na]}
+                      resolve(res2.savedFilePath)
+                    }
+                  })
+                })
               });
               return Promise.all(saveFiles)
             }).then((sFileList) => {
               app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData;
             }).catch(console.error);
-          } else { app.aData[that.data.pNo][that.data.dObjectId] = that.data.vData; }
-        }
-        break;
-      case 'fSave':
-        if (emptyField) {
-          wx.showToast({ title: '请检查未输入项目:'+emptyField , icon:'none',duration: 5000 })
-        } else {
-          sFilePath.then(sFileLists => {
-            let sFileArr = sFileLists.filter(sFile => { return sFile.fType < -2 });
-            return new Promise((resolve, reject) => {
-              if (sFileArr.length > 0) {
-                wx.showLoading({ title: '文件提交中' });
-                sFileArr.map(sFileStr => () => fileUpload( that.data.pNo, sFileStr.fPath,sFileStr.e ).then(sfile => {
-                  if (sfile.statusCode == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
-                  switch (sFileStr.fn) {
-                    case 0:
-                      that.data.vData[sFileStr.na[0]] = sfile.fileID;
-                      break;
-                    case 1:
-                      that.data.vData[sFileStr.na[0]][sFileStr.na[1]] = sfile.fileID;
-                      break;
-                    case 2:
-                      that.data.vData[sFileStr.na[0]][sFileStr.na[1]].c = sfile.fileID;
-                      break;
-                    default:
-                      break;
-                  }
-                })
-                ).reduce(
-                  (m, p) => m.then(v => Promise.all([...v, p()])),
-                  Promise.resolve([])
-                ).then(files => {
-                  wx.hideLoading();
-                  resolve(files);
-                }).catch(console.error)
-              } else { resolve('no files save') };
-            })
-          }).then((sFiles) => {
-            let saveData = that.data.vData;
-            for (let fName in that.data.vData){       //多字段对象类型分解
-              if ( that.data.fieldType[fName].addFields.length>0) {
-                saveData[fName] = that.data.vData[fName]._id;
-                that.data.fieldType[fName].addFields.forEach(aField=>{
-                  saveData[fname+'_'+aField] = that.data.vData[fname][aField];
-                })
-              }
-            }
-            for (let saveName in saveData){
-              if (that.data.fieldType[saveName].t=='tVE') {
-                that.data.vData[fName] = Number(that.data.vData[fName].replace(':',''))
-              };
-              if ( ['fg','dg','listsel'].indexOf(that.data.fieldType.saveName.t)>=0 ) {       //数字类型定义
-                that.data.vData[fName] = Number(that.data.vData[fName]);
-              }
-            }
-            if (that.data.targetId == '0') {                    //新建流程的提交
-              let cManagers = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
-              if (cManagers.length==1){                  //流程无后续审批人
-                saveData.unitId = app.roleData.uUnit._id;
-                saveData.unitName = app.roleData.uUnit.uName;
-                db.collection(that.data.pNo).add({data:saveData}).then(()=>{
-                  wx.showToast({ title: '审批内容已发布', duration:2000 });
-                }).catch((error)=>{
-                  wx.showToast({ title: '审批内容发布出现错误'+error.errMsg, icon:'none', duration: 2000 });
-                })
-              } else {
-                db.collection('sengpi').add({        //创建审批流程
-                  data:{
-                    dProcedure: that.data.pNo,                //流程
-                    processState: 0,                //流程处理结果0为提交
-                    processUser: [app.roleData.user._id],       //流程处理人ID
-                    unitName: app.roleData.uUnit.uName,                 //申请单位
-                    sponsorName: app.roleData.user.uName,         //申请人
-                    unitId: app.roleData.uUnit._id,        //申请单位的ID
-                    dIdear: [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }],       //流程处理意见
-                    cManagers: cManagers,             //单位条线岗位数组
-                    cInstance: 1,                     //下一处理节点
-                    cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位
-                    dObject: saveData            //流程审批内容
-                  }
-                }).then(() => {
-                  wx.showToast({ title: '流程已提交,请查询审批结果。', icon:'none',duration: 2000 }) // 保存成功
-                }).catch(wx.showToast({ title: '提交保存失败!', icon:'loading',duration: 2000 })) // 保存失败
-              }
+          } else if(target.id=='fSave'){
+            if (emptyField) {
+              wx.showToast({ title: '请检查未输入项目:'+emptyField , icon:'none',duration: 5000 })
             } else {
-              app.procedures[that.data.targetId].dObject = saveData;
-              app.logData.push([Date.now(),that.data.targetId+'修改内容：'+JSON.stringify(saveData)]);
-            }
-            }).catch(error => {
-              app.logData.push([Date.now(), '编辑提交发生错误:' + JSON.stringify(error)]);
-            });
-          setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
+              return new Promise((resolve, reject) => {
+                let saveFiles = sFilePath.filter(sFile => { return sFile.fs>0 });
+                if (saveFiles.length > 0) {
+                  wx.showLoading({ title: '文件提交中' });
+                  saveFiles.map(sFileStr => () => fileUpload( that.data.pNo, sFileStr.fPath,sFileStr.e ).then(sfile => {
+                    if (sfile.statusCode == 1) { wx.removeSavedFile({ filePath: sFileStr.fPath }) };      //删除本机保存的文件
+                    switch (sFileStr.fn) {
+                      case 0:
+                        that.data.vData[sFileStr.na[0]] = sfile.fileID;
+                        break;
+                      case 1:
+                        that.data.vData[sFileStr.na[0]][sFileStr.na[1]] = sfile.fileID;
+                        break;
+                      case 2:
+                        that.data.vData[sFileStr.na[0]][sFileStr.na[1]].c = sfile.fileID;
+                        break;
+                      default:
+                        break;
+                    }
+                  })
+                  ).reduce(
+                    (m, p) => m.then(v => Promise.all([...v, p()])),
+                    Promise.resolve([])
+                  ).then(files => {
+                    wx.hideLoading();
+                    resolve(files);
+                  }).catch(console.error)
+                } else { resolve('no files save') };
+              }).then(() => {
+                let saveData = that.data.vData;
+                for (let fName in that.data.vData){       //多字段对象类型分解
+                  if ( that.data.fieldType[fName].addFields.length>0) {
+                    saveData[fName] = that.data.vData[fName]._id;
+                    that.data.fieldType[fName].addFields.forEach(aField=>{
+                      saveData[fname+'_'+aField] = that.data.vData[fname][aField];
+                    })
+                  }
+                }
+                for (let saveName in saveData){
+                  if (that.data.fieldType[saveName].t=='tVE') {
+                    that.data.vData[fName] = Number(that.data.vData[fName].replace(':',''))
+                  };
+                  if ( ['fg','dg','listsel'].indexOf(that.data.fieldType.saveName.t)>=0 ) {       //数字类型定义
+                    that.data.vData[fName] = Number(that.data.vData[fName]);
+                  }
+                }
+                if (that.data.targetId == '0') {                    //新建流程的提交
+                  let cManagers = setRole(app.fData[that.data.pNo].puRoles,app.fData[that.data.pNo].suRoles);
+                  if (cManagers.length==1){                  //流程无后续审批人
+                    saveData.unitId = app.roleData.uUnit._id;
+                    saveData.unitName = app.roleData.uUnit.uName;
+                    db.collection(that.data.pNo).add({data:saveData}).then(()=>{
+                      wx.showToast({ title: '审批内容已发布', duration:2000 });
+                    }).catch((error)=>{
+                      wx.showToast({ title: '审批内容发布出现错误'+error.errMsg, icon:'none', duration: 2000 });
+                    })
+                  } else {
+                    db.collection('sengpi').add({        //创建审批流程
+                      data:{
+                        dProcedure: that.data.pNo,                //流程
+                        processState: 0,                //流程处理结果0为提交
+                        processUser: [app.roleData.user._id],       //流程处理人ID
+                        unitName: app.roleData.uUnit.uName,                 //申请单位
+                        sponsorName: app.roleData.user.uName,         //申请人
+                        unitId: app.roleData.uUnit._id,        //申请单位的ID
+                        dIdear: [{ un: app.roleData.user.uName, dt: new Date(), di: '提交流程', dIdear: '发起审批流程' }],       //流程处理意见
+                        cManagers: cManagers,             //单位条线岗位数组
+                        cInstance: 1,                     //下一处理节点
+                        cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位
+                        dObject: saveData            //流程审批内容
+                      }
+                    }).then(() => {
+                      wx.showToast({ title: '流程已提交,请查询审批结果。', icon:'none',duration: 2000 }) // 保存成功
+                    }).catch(wx.showToast({ title: '提交保存失败!', icon:'loading',duration: 2000 })) // 保存失败
+                  }
+                } else {
+                  app.procedures[that.data.targetId].dObject = saveData;
+                  app.logData.push([Date.now(),that.data.targetId+'修改内容：'+JSON.stringify(saveData)]);
+                }
+              }).catch(error => {
+                app.logData.push([Date.now(), '编辑提交发生错误:' + JSON.stringify(error)]);
+              });
+            setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
+          }
         }
-        break;
-    };
+      })
+    });
   }
 }

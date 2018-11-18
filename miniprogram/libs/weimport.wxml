@@ -4,20 +4,28 @@
   module.exports =
     function(cArray){ return cArray.join('、') }
  </wxs>
-<template name="s_-3">
- <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></address-view-edit>
-</template>
-
-<template name="s_-4">
+<template name="s_-1">
  <pics-view-edit name="{{gname}}" value="{{c}}" editable="0"></pics-view-edit>
 </template>
 
-<template name="s_-5">
- <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" editable="0"></thumbnail-view-edit>
+<template name="s_-2">
+  <thumbnail-view-edit name="{{gname}}" csc="pic" value="{{c}}" editable="0"></thumbnail-view-edit>
 </template>
 
-<template name="s_-7">
+<template name="s_-3">
+  <audio-view-edit name="{{gname}}" value="{{c}}" editable="0"></audio-view-edit>
+</template>
+
+<template name="s_-4">
   <video-view-edit name="{{gname}}" value="{{c}}" editable="0"></video-view-edit>
+</template>
+
+<template name="s_-5">
+  <file-select name="{{gname}}" value="{{c}}" editable="0"></file-select>
+</template>
+
+<template name="s_-6">
+  <thumbnail-view-edit name="{{gname}}" csc="img" value="{{c}}" editable="0"></thumbnail-view-edit>
 </template>
 
 <template name="s_arrList">
@@ -59,6 +67,10 @@
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
   </view>
+</template>
+
+<template name="s_Geo">
+ <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></address-view-edit>
 </template>
 
 <template name="s_gSt">
@@ -151,6 +163,10 @@
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c.uName}}</view>
   </view>
+</template>
+
+<template name="s_t64">
+  <thumbnail-view-edit name="{{gname}}" csc="base64" value="{{c}}" editable="0"></thumbnail-view-edit>
 </template>
 
 <template name="s_tVE">

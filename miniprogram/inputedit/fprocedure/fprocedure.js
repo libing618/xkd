@@ -57,24 +57,24 @@ Page({
           that.m_touchmove = wImpEdit.m_touchmove;
           if (vDataKeys.length == 0){
             aaData.eDetail = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
-              { t: "T", c:"2110D9D9D9ECECEC大标题"},
-              { t: "p", c:"3002D9D9D9ECECEC正文简介"},
-              { t: "T", c:"3110D9D9D9ECECEC中标题"},
-              { t: "p", c:"3002D9D9D9ECECEC正文"},
-              { t: "T", c:"4110D9D9D9ECECEC1、小标题"},
-              { t: "p", c:"4002D9D9D9ECECEC图片文章混排"},
-              { t: "-4", c:"4010D9D9D9ECECEC图片内容.png"},
-              { t: "p", c:"4002D9D9D9ECECEC正文"},
-              { t: "T", c:"4110D9D9D9ECECEC2、小标题"},
-              { t: "p", c:"4002D9D9D9ECECEC音频文章混排"},
-              { t: "-6", c:"4010D9D9D9ECECEC录音内容说明"},
-              { t: "p", c:"4002D9D9D9ECECEC正文"},
-              { t: "T", c:"4110D9D9D9ECECEC3、小标题"},
-              { t: "p", c:"4002D9D9D9ECECEC视频文章混排"},
-              { t: "-7", c:"4010D9D9D9ECECEC视频内容说明"},
-              { t: "p", c:"4002D9D9D9ECECEC正文"},
-              { t: "p", c:"4002D9D9D9ECECEC章节结尾"},
-              { t: "p", c:"4002D9D9D9ECECEC文章结尾"}
+              { t: "T", e:"2110D9D9D9ECECEC大标题"},
+              { t: "p", e:"3002D9D9D9ECECEC正文简介"},
+              { t: "T", e:"3110D9D9D9ECECEC中标题"},
+              { t: "p", e:"3002D9D9D9ECECEC正文"},
+              { t: "T", e:"4110D9D9D9ECECEC1、小标题"},
+              { t: "p", e:"4002D9D9D9ECECEC图片文章混排"},
+              { t: "-1", e:"4010D9D9D9ECECEC图片内容.png"},
+              { t: "p", e:"4002D9D9D9ECECEC正文"},
+              { t: "T", e:"4110D9D9D9ECECEC2、小标题"},
+              { t: "p", e:"4002D9D9D9ECECEC音频文章混排"},
+              { t: "-3", e:"4010D9D9D9ECECEC录音内容说明"},
+              { t: "p", e:"4002D9D9D9ECECEC正文"},
+              { t: "T", e:"4110D9D9D9ECECEC3、小标题"},
+              { t: "p", e:"4002D9D9D9ECECEC视频文章混排"},
+              { t: "-4", e:"4010D9D9D9ECECEC视频内容说明"},
+              { t: "p", e:"4002D9D9D9ECECEC正文"},
+              { t: "p", e:"4002D9D9D9ECECEC章节结尾"},
+              { t: "p", e:"4002D9D9D9ECECEC文章结尾"}
             ]
           }
         }

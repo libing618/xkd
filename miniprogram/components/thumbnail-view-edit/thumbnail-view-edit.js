@@ -42,7 +42,7 @@ Component({
         if (this.data.csc == 'base64'){
           this.setData({ filepath: this.data.value })
         } else {this.fileNameAnaly(this.data.value,this.data.csc)}
-      } else {this.setData({filepath:placeFile})}
+      }// else {this.setData({filepath:placeFile})}
     }
   },
   methods: {

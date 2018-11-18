@@ -4,8 +4,32 @@ module.exports =
   function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
 <wxs module="mid">
-module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
+module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </wxs>
+<template name="i_-1">
+  <pics-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></pics-view-edit>
+</template>
+
+<template name="i_-2">
+  <thumbnail-view-edit name="{{gname}}" csc="pic" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
+</template>
+
+<template name="i_-3">
+  <audio-view-edit name="{{gname}}" value="{{c}}" editable="1"></audio-view-edit>
+</template>
+
+<template name="i_-4">
+  <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
+</template>
+
+<template name="i_-5">
+  <file-select name="{{gname}}" value="{{c}}" editable="1"></file-select>
+</template>
+
+<template name="i_-6">
+  <thumbnail-view-edit name="{{gname}}" csc="img" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
+</template>
+
 <template name="i_arrList">
   <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editable="1"></array-view-edit>
 </template>
@@ -29,29 +53,13 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
   </view>
 </template>
 
-<template name="i_-3">
-  <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></address-view-edit>
-</template>
-
-<template name="i_-4">
-  <pics-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></pics-view-edit>
-</template>
-
-<template name="i_-5">
-  <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
-</template>
-
-<template name="i_-7">
-  <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
-</template>
-
 <template name="i_eDetail">
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}" wx:for-index="n">
       <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
         <button class="weui-btn" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fdeldata">删除</button>
         <view class="weui-msg" style="background-color:{{selectd==n ? '#999999' : '#F8F8F8'}};">
-          <template is="d{{item.t}}" data="{{c:item.c,n,editable:1}}"></template>
+          <template is="d{{item.t}}" data="{{c:item,n,editable:1}}"></template>
         </view>
         <button class="wslider-left-item" style="display:{{ selectd==n ? 'flex' : 'none' }}" formType="submit" id="fenins">插入</button>
       </view>
@@ -69,6 +77,10 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
       <input hidden="{{true}}" name="{{gname}}" value="{{c}}"/>
     </view>
   </view>
+</template>
+
+<template name="i_Geo">
+  <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></address-view-edit>
 </template>
 
 <template name="i_gSt">
@@ -174,6 +186,10 @@ module.exports = ['T', 'p','-1','-2', '-3', '-4', '-5', '-6', '-7','-8']
 
 <template name="i_tVE">
   <time-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></time-view-edit>
+</template>
+
+<template name="i_t64">
+  <thumbnail-view-edit name="{{gname}}" csc="base64" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
 </template>
 
 <template name="i_cargopackage">
