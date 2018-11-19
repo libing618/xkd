@@ -74,16 +74,15 @@ export function getToken(){
 
 export function fileUpload(cSavePath, filePath, fe) {
   return new Promise((resolve, reject) => {
-    let extIndex = filePath.lastIndexOf(".");
     let nameIndex = filePath.lastIndexOf("\\");
     let fileName = filePath.substring(nameIndex+1);
     wx.showLoading({title:'正在上传《'+fe+'》',mack:true})
     wx.cloud.uploadFile({
-      cloudPath: cSavePath+'\\'+fileName,
+      cloudPath: 'f'+cSavePath+'\\'+fileName,
       filePath: filePath
     }).then( res => {
       wx.hideLoading()
-      resolve({_id:fileID,fileExt:filePath.substring(extIndex+1)})
+      resolve(fileName)
     }).catch(e => {
       wx.hideLoading()
       wx.showToast({
