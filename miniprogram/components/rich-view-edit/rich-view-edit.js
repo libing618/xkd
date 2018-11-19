@@ -1,15 +1,11 @@
 Component({
   behaviors: ['wx://form-field'],
   properties: {
-    item: {
+    value: {
       type: Object,
       value: {},
     },
-    value: {
-      type: String,
-      value: '',
-    },
-    csc: {
+    name: {
       type: String,
       value: '',
     },
@@ -23,19 +19,22 @@ Component({
   },
   data: {
     parse_id: '',
-    richStyle: '3110D9D9D9ECECEC',
-    richText: ''
+    richStyle
   },
 
   lifetimes: {
     attached(){
       let setRich = {};
       if (this.data.value){
-        let rStyle = this.data.value.substr(0,16);
         setRich = this.richAnalysis(rStyle)
-        setRich.richStyle = rStyle;
-        setRich.richText = this.data.value.substr(16);
-      } else { setRich = this.richAnalysis(this.data.richStyle) }
+      } else {
+        setRich = this.richAnalysis(this.data.richStyle)
+        setRich.value = {
+          t: 're'
+          r: '3110D9D9D9ECECEC',
+          e: ''
+        }
+      }
       this.setData(setRich)
     }
   },
@@ -56,19 +55,17 @@ Component({
       return this.data.rich_h+this.data.rich_s+this.data.rich_a+this.data.rich_i+this.data.rich_c+this.data.rich_b
     },
 
-    onInput({currentTarget:{id,dataset},detail:{value}}) {
-      this.setData({
-        richText: value,
-        value: this.data.richStyle+value
-      })
-    },
+    // onInput({currentTarget:{id,dataset},detail:{value}}) {
+    //   this.setData({
+    //     richText: value,
+    //     value: this.data.richStyle+value
+    //   })
+    // },
 
     onStyle({currentTarget:{id,dataset},detail:{value}}) {
       let setRich = {};
       setRich[id] = value;
-      this.data[id] = value;
-      setRich.richStyle = this.styleGroup();
-      setRich.value = setRich.richStyle+this.data.richText;
+      setRich.value.r = this.styleGroup();
       this.setData(setRich)
     }
   }

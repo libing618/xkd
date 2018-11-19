@@ -57,7 +57,7 @@
 <template name="s_eDetail">
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}">
-      <template is="d{{item.t}}" data="{{...item.c}}"></template>
+      <template is="d{{item.t}}" data="{{...item}}"></template>
     </block>
   </view>
 </template>
@@ -184,76 +184,4 @@
       </block>
     </view>
   </view>
-</template>
-
-<template name="ownConversation">
-<view class="chat-box__right" hover="true" hover-class="weui-cell_active">
-  <view class="chat-box__bd">
-    <view class="weui-media-box__title">{{wtext}}</view>
-    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
-      <template is="{{mtype}}" data="{{c: wcontent}}" />
-    </view>
-  </view>
-  <view class="chat-box__hd">
-    <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
-    <view>uName</view>
-  </view>
-</view>
-</template>
-
-<template name="personConversation">
-<view class="chat-box__left" hover="true" hover-class="weui-cell_active">
-  <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
-    <view class="chat-box__hd">
-      <image class="weui-media-box__thumb" src="{{avatarUrl}}" background-size="cover"></image>
-      <view>uName</view>
-    </view>
-  </navigator>
-  <view class="chat-box__bd">
-    <view class="weui-media-box__title">{{wtext}}</view>
-    <view wx:if="{{wcontent}}" class="weui-media-box__desc">
-      <template is="{{mtype}}" data="{{c: wcontent}}" />
-    </view>
-  </view>
-</view>
-</template>
-
-<template name="showgrids">
-<view class="weui-grids">
-  <block wx:for="{{grids}}" wx:key="{{index}}">
-    <navigator url="{{item.tourl}}" class="weui-grid" hover-class="weui-grid_active">
-      <image class="weui-grid__icon" src="{{item.mIcon}}" />
-      <view class="weui-grid__label">{{item.mName}}</view>
-    </navigator>
-  </block>
-</view>
-</template>
-
-<template name="tabsCk">
-<view class="weui-navbar_box">
-  <view class="weui-navbar">
-    <block wx:for="{{tabs}}" wx:key="{{index}}">
-      <view id="{{index}}" class="weui-navbar__item {{ pageCk==index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-        <view class="weui-navbar__title">{{item}}</view>
-      </view>
-    </block>
-    <view class="weui-navbar__slider" style="width: {{fLength}}em;transform: translateX({{(pageCk+0.5)*wWidth-fLength*8}}px); -webkit-transform: translateX({{(pageCk+0.5)*wWidth-fLength*8}}px)"></view>
-  </view>
-</view>
-</template>
-
-<template name="tabPanel">
-  <block wx:for="{{tPage}}" wx:key="{{index}}">
-    <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{item}}">
-      <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-        <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{pageData[item].thumbnail}}" background-size="cover"></image>
-        </view>
-        <view class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{pageData[item].uName}}</view>
-          <view class="weui-media-box__desc">{{pageData[item].title}}</view>
-        </view>
-      </view>
-    </navigator>
-  </block>
 </template>

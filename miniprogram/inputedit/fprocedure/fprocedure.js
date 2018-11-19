@@ -57,24 +57,24 @@ Page({
           that.m_touchmove = wImpEdit.m_touchmove;
           if (vDataKeys.length == 0){
             aaData.eDetail = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
-              { t: "T", e:"2110D9D9D9ECECEC大标题"},
-              { t: "p", e:"3002D9D9D9ECECEC正文简介"},
-              { t: "T", e:"3110D9D9D9ECECEC中标题"},
-              { t: "p", e:"3002D9D9D9ECECEC正文"},
-              { t: "T", e:"4110D9D9D9ECECEC1、小标题"},
-              { t: "p", e:"4002D9D9D9ECECEC图片文章混排"},
-              { t: "-1", e:"4010D9D9D9ECECEC图片内容.png"},
-              { t: "p", e:"4002D9D9D9ECECEC正文"},
-              { t: "T", e:"4110D9D9D9ECECEC2、小标题"},
-              { t: "p", e:"4002D9D9D9ECECEC音频文章混排"},
-              { t: "-3", e:"4010D9D9D9ECECEC录音内容说明"},
-              { t: "p", e:"4002D9D9D9ECECEC正文"},
-              { t: "T", e:"4110D9D9D9ECECEC3、小标题"},
-              { t: "p", e:"4002D9D9D9ECECEC视频文章混排"},
-              { t: "-4", e:"4010D9D9D9ECECEC视频内容说明"},
-              { t: "p", e:"4002D9D9D9ECECEC正文"},
-              { t: "p", e:"4002D9D9D9ECECEC章节结尾"},
-              { t: "p", e:"4002D9D9D9ECECEC文章结尾"}
+              { t: "rT", e:"大标题",r:"2110D9D9D9ECECEC"},
+              { t: "re", e:"正文简介",r:"3002D9D9D9ECECEC"},
+              { t: "rT", e:"中标题",r:"3110D9D9D9ECECEC"},
+              { t: "re", e:"正文",r:"3002D9D9D9ECECEC"},
+              { t: "rT", e:"1、小标题",r:"4110D9D9D9ECECEC"},
+              { t: "re", e:"图片文章混排",r:"4002D9D9D9ECECEC"},
+              { t: "-1", e:"图片内容.png",r:"4010D9D9D9ECECEC"},
+              { t: "re", e:"正文",r:"4002D9D9D9ECECEC"},
+              { t: "rT", e:"2、小标题",r:"4110D9D9D9ECECEC"},
+              { t: "re", e:"音频文章混排",r:"4002D9D9D9ECECEC"},
+              { t: "-3", e:"录音内容说明",r:"4010D9D9D9ECECEC"},
+              { t: "re", e:"正文",r:"4002D9D9D9ECECEC"},
+              { t: "rT", e:"3、小标题",r:"4110D9D9D9ECECEC"},
+              { t: "re", e:"视频文章混排",r:"4002D9D9D9ECECEC"},
+              { t: "-4", e:"视频内容说明",r:"4010D9D9D9ECECEC"},
+              { t: "re", e:"正文",r:"4002D9D9D9ECECEC"},
+              { t: "re", e:"章节结尾",r:"4002D9D9D9ECECEC"},
+              { t: "re", e:"文章结尾",r:"4002D9D9D9ECECEC"}
             ]
           }
         }

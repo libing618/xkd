@@ -23,11 +23,11 @@
     </navigator>
   </view>
 </template>
-<template name="dT">
+<template name="drT">
   <rich-view-edit name="adc{{n}}" value="{{c}}" type="T" editable></rich-view-edit>
 </template>
-<template name="dp">
-  <rich-view-edit name="adc{{n}}" value="{{c}}" type="p" editable></rich-view-edit>
+<template name="dre">
+  <rich-view-edit name="adc{{n}}" value="{{c}}" type="e" editable></rich-view-edit>
 </template>
 <template name="dsg">
   <recycle-select name="adc{{n}}" value="{{c}}" csc="goods" editable></recycle-select>
