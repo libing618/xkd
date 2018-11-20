@@ -7,7 +7,7 @@ Component({
     value: String,
     p: {
       type: String,
-      value: '单频文件',
+      value: '音频文件',
     },
     editable: {
       type: Number,
@@ -18,7 +18,7 @@ Component({
     addGlobalClass: true
   },
   data: {
-    explain: '单频文件说明',
+    explain: '音频文件说明',
     placefile: placeFile,
     filepath: placeFile
   },

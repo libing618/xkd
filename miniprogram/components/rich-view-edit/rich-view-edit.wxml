@@ -1,11 +1,13 @@
+<view id="{{name}}">
 <view wx:if="{{p}}" class="weui-cells__title">{{p}}</view>
 <view class="rich-parse-inline rich-h{{rich_h}} rich-s{{rich_s}} rich-a{{rich_a}}"
   style="margin-bottom: {{rich_i}}em;color: #{{rich_c}};background-color: #{{rich_b}}">
   <view wx:if="{{value.t=='rT'}}">
-    <input disable="{{editable==0}}" name="{{name}}.e" value="{{value.e}}" id="{{richStyle}}" placeholder="请输入{{p}}" />
+    <input disable="{{editable==0}}" name="{{name}}.e" value="{{value.e}}" placeholder="请输入{{p}}" />
   </view>
   <view wx:else>
-    <textarea disable="{{editable==0}}" name="{{name}}.e" value="{{value.e}}" id="{{richStyle}}" placeholder="请输入{{p}}" />
+    <textarea disable="{{editable==0}}" name="{{name}}.e" value="{{value.e}}" placeholder="请输入{{p}}" />
   </view>
   <input hidden="{{true}}" name="{{name}}.r" value="{{value.r}}" />
+</view>
 </view>
