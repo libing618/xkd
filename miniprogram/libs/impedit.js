@@ -155,7 +155,6 @@ module.exports = {
             fail: function () { resolve([]) }
           });
         }).then(saveFileList => {                   //检查媒体文件
-          console.log(saveFileList.length)
           function mType(typeClass,eventName){
             return new Promise((resolve, reject) => {
               if (saveFileList.indexOf(value[eventName]) >= 0) {
@@ -285,21 +284,21 @@ module.exports = {
             for (let fName in that.data.vData) {       //多字段对象类型分解
               if (that.data.fieldType[fName].addFields) {
                 saveData[fName] = that.data.vData[fName]._id;
-                that.data.fieldType[fName].addFields.forEach(aField => {
-                  saveData[fName + '_' + aField] = that.data.vData[fName][aField];
-                })
                 switch (that.data.fieldType[fName].t) {
-                  case expression:
-
+                  case 'Geo':
+                    saveData[fName+'_aGeoPoint'] = that.data.vData[fName].aGeoPoint;
+                    saveData[fName+'_code'] = Number(that.data.vData[fName].code);
                     break;
                   default:
-
+                    that.data.fieldType[fName].addFields.forEach(aField => {
+                      saveData[fName + '_' + aField] = that.data.vData[fName][aField];
+                    })
                 }
               };
               if (that.data.fieldType[fName].t == 'tVE') {
                 saveData[fName] = new Date(that.data.vData[fName])
               };
-              if (['integer', 'digit', 'listsel'].includes(that.data.fieldType[saveName].t)) {       //数字类型定义
+              if (['integer', 'digit', 'listsel'].includes(that.data.fieldType[fName].t)) {       //数字类型定义
                 saveData[fName] = Number(that.data.vData[fName]);
               }
             }
@@ -308,6 +307,7 @@ module.exports = {
               if (cManagers.length == 1) {                  //流程无后续审批人
                 saveData.unitId = app.roleData.uUnit._id;
                 saveData.unitName = app.roleData.uUnit.uName;
+                saveData.updatedAt = db.serverDate();
                 db.collection(that.data.pNo).add({ data: saveData }).then(() => {
                   wx.showToast({ title: '审批内容已发布', duration: 2000 });
                 }).catch((error) => {
@@ -326,6 +326,7 @@ module.exports = {
                     cManagers: cManagers,             //单位条线岗位数组
                     cInstance: 1,                     //下一处理节点
                     cFlowStep: cManagers[1],              //下一流程审批人单位条线岗位
+                    updatedAt: db.serverDate(),
                     dObject: saveData            //流程审批内容
                   }
                 }).then(() => {

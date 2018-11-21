@@ -100,10 +100,10 @@ export function initData(fieldName,fieldType, aData) {        //单一表记录�
   let vData={},vDataKeys = Object.keys(aData);            //数据对象是否为空
   if (vDataKeys.length > 0){
     fieldName.forEach(fname=> {
-      if (fieldType[fname].addFields) {                    //多字段组合显示或修改
+      if (fieldType[fname].addFields && aData[fname]) {                    //多字段组合显示或修改
         vData[fname] = {_id:aData[fname]}
         fieldType[fname].addFields.forEach(aField=>{
-          vData[fname][aField] = aData[fname+'_'+aField];
+          if (aData[fname + '_' + aField]){vData[fname][aField] = aData[fname+'_'+aField]};
         })
       } else {
         vData[fname] = aData[fname]

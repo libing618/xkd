@@ -123,7 +123,7 @@ Component({
             }
           },that);
           break;
-        case 'pic':
+        case 'img':
           wx.canvasToTempFilePath({
             canvasId: 'cei',
             success: function(resTem){
@@ -132,7 +132,7 @@ Component({
             }
           },that);
           break;
-        default:
+        default:                   //pic
           wx.canvasToTempFilePath({
             canvasId: 'cei',
             success: function(resTem){
