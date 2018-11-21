@@ -4,7 +4,7 @@
 //gSt对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
 //t:"cId"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idname数组选择，存储gname对应数据表选择的ID值，显示选择对应的uName
-//csc对应关系:t:"dg"为数据型,csc的digit代表2位小数点浮点数，number则为整数型
+//数据型对应关系:t的digit代表2位小数点浮点数，integer则为整数型
 //address包括三个字段地址、地理位置"aGeoPoint"、行政编码"address_code"
 module.exports = {
 "_Role":{
@@ -18,7 +18,7 @@ module.exports = {
     "desc":{p: '单位描述', t: "p"},
     "thumbnail":{p: '图片简介', t:"t64" },
     "address":{ p: '常用地址', t: "Geo",addFields:['aGeoPoint','code']},
-    "sUnit":{p: '服务单位', t: "mSU" },
+    "sUnit": { p: '服务单位', t: "mSU", addFields: ['uName']},
     "licenseNumber":{p:'社会信用代码', t: "h3" },
     "pPhoto":{p:'申请人手持身份证的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
     "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
@@ -152,8 +152,8 @@ module.exports = {
     "weight":{p:'重量', t:"h4" },
     "product":{p:'内含物', t:"cId", csc:"recordQuantity" },
     "retail_price":{p:'零售价', t:"digit" },
-    "cargoStock":{p:'库存', t:"number"},
-    "canSupply":{p:'可供销售', t:"number"}
+    "cargoStock":{p:'库存', t:"integer"},
+    "canSupply":{p:'可供销售', t:"integer"}
   },
   "pBewrite": "产品条线提出服务设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -192,9 +192,9 @@ module.exports = {
   "fieldType":{
     "goods":{ p: '商品', t: "sId", addFields: ['uName', 'title', 'thumbnail'] },
     "base_price":{p: '基础优惠价', t: "digit" },
-    "base_amount":{p: '基础目标数量', t: "number" },
+    "base_amount":{p: '基础目标数量', t: "integer" },
     "big_price":{p: '大额优惠价', t: "digit" },
-    "big_amount":{p: '大额目标数量', t: "number" },
+    "big_amount":{p: '大额目标数量', t: "integer" },
     "start_date":{p: '活动开始日期', t: "dVE" },
     "end_date":{p: '活动截止日期', t: "dVE" }
   },
@@ -211,7 +211,7 @@ module.exports = {
     "title":{p:'材料简述',t:"p" },
     "dafamily":{p:'材料类型',t:"listsel", aList:['自产原料','外购原料','包装'] },
     "thumbnail":{p:'图片',t:"-6" },
-    "rawStocks":{p:'原材料库存', t:"number" }
+    "rawStocks":{p:'原材料库存', t:"integer" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -229,7 +229,7 @@ module.exports = {
     "shopid":{ p: "商城", t:"sId", addFields:['uName'] },
     "user":{p:' 购买人', t:"sId", addFields:['uName'] },
     "ip":{p:'下单IP地址', t:"h3" },
-    "quantity":{p:'数量', t:"number" },
+    "quantity":{p:'数量', t:"integer" },
     "cargo":{p:'成品', t:"sId", addFields:['uName'] },
     "serFamily":{p:'送货类型', t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     "recaddress":{p:'收货地址', t:"sId", csc:"recAddress" },
@@ -237,11 +237,11 @@ module.exports = {
     "prepayId":{p:' 订单ID', t:"dVE" },
     "paidAt":{p:'下单时间', t:"dVE" },
     "confirmerArr":{p:'订单确认出库', t:"sAr", csc:"cOrderArray" },
-    "confirmTotal":{p:'订单确认出库数量', t:"number" },
+    "confirmTotal":{p:'订单确认出库数量', t:"integer" },
     "deliverArr":{p:'货运信息', t:"sAr", csc:"deliverArray" },
-    "deliverTotal":{p:'已发货数量',t:"number" },
+    "deliverTotal":{p:'已发货数量',t:"integer" },
     "receiptArr":{p:'收货信息', t:"sAr", csc:"cOrderArray" },
-    "receiptTotal":{p:'已收货数量', t:"number" }
+    "receiptTotal":{p:'已收货数量', t:"integer" }
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -257,7 +257,7 @@ module.exports = {
     "src_account":{p:"资产转出帐户",t:"sId"},
     "dst_account":{p:"资产转入帐户",t:"sId"},
     "asset_type":{p:"资产类型",t:"sId"},
-    "amount":{p:"转让份额",t:"dg"},
+    "amount":{p:"转让份额",t:"integer"},
     "sign_in_date":{p:"要求签收时间",t:"dVE"}
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
@@ -274,7 +274,7 @@ module.exports = {
     "cargo":{p:'成品', t:"sId",addFields:['uName','title','thumbnail'] },
     "title":{p:'计划简述',t:"h3" },
     "thumbnail":{p:'图片',t:"-6" },
-    "dOutput":{p:'计划产量', t:"number" },
+    "dOutput":{p:'计划产量', t:"integer" },
     "startDate":{p:'开始日期', t:"dVE",endif:false},
     "endDate":{p:'结束日期', t:"dVE",endif:false}
   },
@@ -295,8 +295,8 @@ module.exports = {
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
     "whole_price":{p:'零售价', t:"digit" },
-    "wholeStock":{p:'库存', t:"number"},
-    "canwholesale":{p:'可供销售', t: "fg"}
+    "wholeStock":{p:'库存', t:"integer"},
+    "canwholesale":{p:'可供销售',t:'integer'}
   },
   "pBewrite": "产品条线提出服务设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [

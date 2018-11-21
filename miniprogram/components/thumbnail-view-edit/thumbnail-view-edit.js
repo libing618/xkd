@@ -93,12 +93,12 @@ Component({
         xOff: this.data.xOff * detail.scale,
         yOff: this.data.yOff * detail.scale
       });
-      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y,detail.scale*300,detail.scale*225,0,0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y, detail.scale * 300, detail.scale * 225, 0, 0, 300, 225);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.filepath, detail.x / this.data.imageScall, detail.y/this.data.imageScall,cScale*300, cScale*225,0,0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, detail.x / this.data.imageScall, detail.y / this.data.imageScall, cScale * 300, cScale * 225, 0, 0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,

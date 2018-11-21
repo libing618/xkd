@@ -156,13 +156,13 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
   <map-select-unit name="{{gname}}" value="{{c}}" p="{{p}}"></map-select-unit>
 </template>
 
-<template name="i_number">
+<template name="i_integer">
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__hd">
       <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
-      <input id="{{gname}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_number"/>
+      <input id="{{gname}}" name="{{gname}}" value="{{c}}" class="weui-input" bindblur="i_integer"/>
     </view>
   </view>
 </template>

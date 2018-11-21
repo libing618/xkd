@@ -52,7 +52,7 @@ function setRole(puRoles,suRoles){      //流程审批权限列表
   return cManagers
 };
 module.exports = {
-  i_number: function({currentTarget:{id,dataset},detail:{value}}) {
+  i_integer: function({currentTarget:{id,dataset},detail:{value}}) {
     let vdSet = {};
     vdSet['vData.' + id] = isNaN(Number(value)) ? 0 : parseInt(Number(value));      //不能输入非数字,转换为整数
     this.setData(vdSet);
@@ -155,6 +155,7 @@ module.exports = {
             fail: function () { resolve([]) }
           });
         }).then(saveFileList => {                   //检查媒体文件
+          console.log(saveFileList.length)
           function mType(typeClass,eventName){
             return new Promise((resolve, reject) => {
               if (saveFileList.indexOf(value[eventName]) >= 0) {
@@ -223,6 +224,7 @@ module.exports = {
                 };
               }
             });
+            console.log(emptyField, fileProm.length)
             if (fileProm.length>0){
               Promise.all(fileProm).then(()=>{
                 function mergeFileField(sfPath,savedFilePath){
@@ -254,12 +256,12 @@ module.exports = {
                         })
                       })
                     });
-                    Promise.all(saveFiles).then(() => { resolve('storage file in user data path') }).catch(console.error);
-                  } else {resolve('all file is storage')}
+                    Promise.all(saveFiles).then(() => { resolve(emptyField) }).catch(console.error);      //临时文件已暂存
+                  } else { resolve(emptyField)}            //所有文件均已保存
                 } else if(target.id=='fSave'){
                   if (emptyField) {
                     wx.showToast({ title: '请检查未输入项目:'+emptyField , icon:'none',duration: 5000 })
-                    resolve('appear empty field')
+                    resolve(emptyField)            //有空的字段
                   } else {
                     let uploadFiles = sFilePath.filter(sFile => { return sFile.fs>0 });
                     if (uploadFiles.length > 0) {            //将本地文件上传
@@ -270,30 +272,35 @@ module.exports = {
                       ).reduce(
                         (m, p) => m.then(v => Promise.all([...v, p()])),
                         Promise.resolve([])
-                      ).then(()=>{resolve('upload file')})
-                    } else { resolve('no files upload') };
+                      ).then(() => { resolve(emptyField) })            //所有文件均已上传
+                    } else { resolve(emptyField) };            //没有需要上传的文件
                   }
                 }
               })
-            } else { resolve('no files save') }
+            } else { resolve(emptyField) }            //没有需要上传或保存的文件
           });
-        }).then(() => {
+          }).then(emptyField => {
           if (!emptyField && target.id == 'fSave'){
             let saveData = that.data.vData;
             for (let fName in that.data.vData) {       //多字段对象类型分解
-              if (that.data.fieldType[fName].addFields.length > 0) {
+              if (that.data.fieldType[fName].addFields) {
                 saveData[fName] = that.data.vData[fName]._id;
                 that.data.fieldType[fName].addFields.forEach(aField => {
-                  saveData[fname + '_' + aField] = that.data.vData[fname][aField];
+                  saveData[fName + '_' + aField] = that.data.vData[fName][aField];
                 })
-              }
-            }
-            for (let saveName in saveData) {
-              if (that.data.fieldType[saveName].t == 'tVE') {
-                that.data.vData[fName] = Number(that.data.vData[fName].replace(':', ''))
+                switch (that.data.fieldType[fName].t) {
+                  case expression:
+
+                    break;
+                  default:
+
+                }
               };
-              if (['fg', 'dg', 'listsel'].indexOf(that.data.fieldType.saveName.t) >= 0) {       //数字类型定义
-                that.data.vData[fName] = Number(that.data.vData[fName]);
+              if (that.data.fieldType[fName].t == 'tVE') {
+                saveData[fName] = new Date(that.data.vData[fName])
+              };
+              if (['integer', 'digit', 'listsel'].includes(that.data.fieldType[saveName].t)) {       //数字类型定义
+                saveData[fName] = Number(that.data.vData[fName]);
               }
             }
             if (that.data.targetId == '0') {                    //新建流程的提交
@@ -334,6 +341,7 @@ module.exports = {
           }
         }).catch(error => {
           app.logData.push([Date.now(), '编辑提交发生错误:' + JSON.stringify(error)]);
+          console.log(Date.now(), '编辑提交发生错误:' ,error);
         });
         setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000);
         break;

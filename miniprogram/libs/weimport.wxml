@@ -138,7 +138,7 @@
 </view>
 </template>
 
-<template name="s_number">
+<template name="s_integer">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:</view>
     <view class="weui-cell__bd">{{c}}</view>
