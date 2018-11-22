@@ -40,7 +40,7 @@ Component({
       let location=[],noAdd=true;
       if (that.data.value) {
         noAdd = false;
-        if(Object.keys(that.data.value).indexOf('aGeoPoint')>=0){
+        if('aGeoPoint' in that.data.value){
           location = that.data.value.aGeoPoint;
         }
       }

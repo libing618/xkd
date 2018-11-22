@@ -295,7 +295,7 @@ module.exports = {
                     })
                 }
               };
-              if (that.data.fieldType[fName].t == 'tVE') {
+              if (['tVE', 'dVe'].includes(that.data.fieldType[fName].t)) {
                 saveData[fName] = new Date(that.data.vData[fName])
               };
               if (['integer', 'digit', 'listsel'].includes(that.data.fieldType[fName].t)) {       //数字类型定义

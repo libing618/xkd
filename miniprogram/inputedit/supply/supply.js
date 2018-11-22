@@ -91,7 +91,7 @@ Page ({
     let cargoId = e.currentTarget.id;
     let confimate = that.data.quantity[cargoId];
     let subIds = Object.keys(e.detail.value);
-    let subSuppli = subIds.map(subKey=>{return that.data.pageData[subKey.substring(7)]})
+    let subSuppli = subIds.map(subKey=>{return that.data.pageData[subKey.substr(7)]})
     let setSingle = [];               //定义成品对象的库存数据
     that.cargoPlans[cargoId].set({
       'cargoStock':that.cargoPlans[cargoId].cargoStock-confimate,

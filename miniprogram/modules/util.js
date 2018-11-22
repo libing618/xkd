@@ -45,7 +45,12 @@ export function indexRecordFamily(requery,indexField,aFamilyLength) {           
     resolve({indexList,aData}) ;
   }).catch( error=> {reject(error)} );
 }
-
+export function noEmptyObject(obj){
+  for (let k in obj){
+    return true;
+  }
+  return false;
+}
 export function fetchRecord(requery,indexField,sumField) {                     //同步云端数据到本机
   return new Promise((resolve, reject) => {
     let aData = {}, mData = {}, indexList = [], aPlace = -1, iField, iSum = {}, mChecked = {};

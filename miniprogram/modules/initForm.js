@@ -1,3 +1,4 @@
+import {noEmptyObject} from '../../modules/util';
 const db = wx.cloud.database();
 const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5');
@@ -97,8 +98,8 @@ export function checkRols(ouLine,user,ouPosition){  //要求的条线，用户�
 };
 
 export function initData(fieldName,fieldType, aData) {        //单一表记录录入或显示时数据初始化
-  let vData={},vDataKeys = Object.keys(aData);            //数据对象是否为空
-  if (vDataKeys.length > 0){
+  let vData={};
+  if (noEmptyObject(aData)){            //数据对象是否为空
     fieldName.forEach(fname=> {
       if (fieldType[fname].addFields && aData[fname]) {                    //多字段组合显示或修改
         vData[fname] = {_id:aData[fname]}

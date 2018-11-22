@@ -1,5 +1,6 @@
 // 通用的内容编辑pages
 import {initData} from '../../modules/initForm';
+import {noEmptyObject} from '../../modules/util';
 const wImpEdit = require('../../libs/impedit.js');
 var app = getApp()
 Page({
@@ -52,10 +53,9 @@ Page({
       wImpEdit.initFunc(ops.pNo).forEach(functionName => {
         that[functionName] = wImpEdit[functionName];
         if (functionName == 'i_eDetail') {             //每个输入类型定义的字段长度大于3则存在对应处理过程
-          let vDataKeys = Object.keys(aaData);            //数据对象是否为空
           that.m_touchend = wImpEdit.m_touchend;
           that.m_touchmove = wImpEdit.m_touchmove;
-          if (vDataKeys.length == 0){
+          if (! noEmptyObject(aaData)){            //数据对象是否为空
             aaData.eDetail = [                     //内容部分定义：t为类型,e为文字或说明,c为媒体文件地址或内容
               { t: "rT", e:"大标题",r:"2110D9D9D9ECECEC"},
               { t: "re", e:"正文简介",r:"3002D9D9D9ECECEC"},

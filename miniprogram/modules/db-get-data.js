@@ -56,8 +56,7 @@ export class getData {               //wxcloud查询
         success: function (res) {
           if (res.data) {
             this.aData = res.data;
-            let dataKeys = Object.keys(this.aData);
-            this.mData.indArr = this.mData.indArr.filter(indkey=>{ return dataKeys.indexOf(indkey)>=0 })
+            this.mData.indArr = this.mData.indArr.filter(indkey=>{ return indkey in this.aData })
             resolve(this.mData.indArr)
           } else {
             resolve([])
