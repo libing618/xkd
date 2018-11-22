@@ -1,4 +1,4 @@
-import {noEmptyObject} from '../../modules/util';
+import {noEmptyObject} from './util';
 const db = wx.cloud.database();
 const { openWxLogin } = require('wxcloudcf');
 const COS = require('../libs/cos-wx-sdk-v5');
