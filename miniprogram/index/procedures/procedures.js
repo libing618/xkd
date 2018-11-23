@@ -7,10 +7,10 @@ var app = getApp();
 Page({
   data:{
     pClassName: {},
-    wWidth: app.sysinfo.windowWidth,
     statusBar: app.sysinfo.statusBarHeight,
     ht: {
       navTabs: ['待我审', '我已审', '已发布'],
+      wWidth: app.sysinfo.windowWidth-120,
       fLength: 3,
       pageCk: 0
     },

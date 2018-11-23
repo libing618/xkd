@@ -26,7 +26,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
   function userRole(){           //获取用户数据
     db.collection('_User').where({
       _openid: userInfo.openId
-    }).get().then({data} => {
+    }).get().then(({data}) => {
       let user = data[0];
       if (user.unit == '0' || user.line==9) {
         reject({errMsg:'用户没有审批权限'})
