@@ -13,7 +13,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
           data: {                   //负责人的ID与单位ID相同
             line: sLine,
             position: sPosition,
-            updatedAt: db.serverData()
+            updatedAt: db.serverDate()
           }
         }).then(() => {
           resolve(true)
@@ -24,19 +24,21 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
     }).catch(error=>{reject(error)});
   };
   function userRole(){           //获取用户数据
-    db.collection('_User').where({
-      _openid: userInfo.openId
-    }).get().then(({data}) => {
-      let user = data[0];
-      if (user.unit == '0' || user.line==9) {
-        reject({errMsg:'用户没有审批权限'})
-      } else {
-        user.processRole = user.uUnit+user.line+user.position;
-        resolve(user)
-      };
+    return new Promise((resolve, reject) => {
+      db.collection('_User').where({
+        _openid: userInfo.openId
+      }).get().then(({data}) => {
+        let user = data[0];
+        if (user.unit == '0' || user.line==9) {
+          reject({errMsg:'用户没有审批权限'})
+        } else {
+          user.processRole = user.unit+user.line+user.position;
+          resolve(user)
+        };
+      })
     }).catch (error=> { reject(error) });
   }
-  sData.updatedAt = db.serverData();
+  sData.updatedAt = db.serverDate();
   return new Promise((resolve, reject) => {
     switch (processState) {
       case 0:                    //查询待用户批的流程
@@ -59,7 +61,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
       case 1:                    //查询待用户处理过未发布的流程
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
-            processUser: user._id,    //已处理人ID
+            processUser: db.RegExp({regexp:user._id}),    //已处理人ID
             processState: 1,
             updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
           })
@@ -77,7 +79,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
       case 2:                    //查询用户岗位可阅读和审批过的已发布流程
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
-            processUser: user._id,    //已处理人ID
+            processUser: db.RegExp({regexp:user._id}),    //已处理人ID
             processState: 2,
             updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
           })

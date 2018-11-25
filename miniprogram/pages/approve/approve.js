@@ -106,6 +106,7 @@ Page({
         let uIdear = that.data.aValue.dIdear;
         uIdear.unshift({ un: app.roleData.user.uName, dt: new Date(), di:that.data.uIdearArray[that.data.cResult] , dIdear:e.detail.value.dIdear })
         cApproval.dIdear = uIdear;       //流程处理意见
+        cApproval.processUser = that.data.processUser+','+app.roleData.user._id;
         wx.cloud.callFunction({
           name: 'process',
           data: {

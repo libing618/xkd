@@ -39,7 +39,7 @@
         <view class="navigationBar__title">{{item}}</view>
       </view>
     </block>
-    <view class="weui-navbar__slider" style="top:32px;width: {{fLength}}em;transform: translateX({{(pageCk+0.5)*320-fLength*16}}rpx); -webkit-transform: translateX({{(pageCk+0.5)*320-fLength*16}}rpx)"></view>
+    <view class="weui-navbar__slider" style="top:32px;left: 70rpx;width: {{fLength}}em;transform: translateX({{(pageCk+0.5)*tWidth-twwHalf}}px); -webkit-transform: translateX({{(pageCk+0.5)*tWidth-twwHalf}}px)"></view>
   </view>
 </view>
 <view style="padding-top:{{statusBar+42}}px;"></view>

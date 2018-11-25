@@ -9,14 +9,15 @@ export function hTabClick(e) {                                //点击头部tab
   this.setData({
     "ht.pageCk": Number(e.currentTarget.id)
   });
-}
+};
 
 export function tabClick(e) {                                //点击tab
-  app.mData['pCk'+this.data.pNo] = Number(e.currentTarget.id)
+  app.mData['pCk'+this.data.pNo] = Number(e.currentTarget.id);
+  console.log(e.currentTarget.id)
   this.setData({
     pageCk: app.mData['pCk'+this.data.pNo]               //点击序号切换
   });
-}
+};
 
 export function indexRecordFamily(requery,indexField,aFamilyLength) {             //按索引字段和类型整理已读数据
   return new Promise((resolve, reject) => {
@@ -44,13 +45,15 @@ export function indexRecordFamily(requery,indexField,aFamilyLength) {           
     })
     resolve({indexList,aData}) ;
   }).catch( error=> {reject(error)} );
-}
+};
+
 export function noEmptyObject(obj){
   for (let k in obj){
     return true;
   }
   return false;
-}
+};
+
 export function fetchRecord(requery,indexField,sumField) {                     //同步云端数据到本机
   return new Promise((resolve, reject) => {
     let aData = {}, mData = {}, indexList = [], aPlace = -1, iField, iSum = {}, mChecked = {};
@@ -69,7 +72,7 @@ export function fetchRecord(requery,indexField,sumField) {                     /
     });
     resolve({indexList:indexList,pageData:aData,quantity:iSum,mCheck:mChecked}) ;
   }).catch( error=> {reject(error)} );
-}
+};
 
 export function binddata(subscription, initialStats, onChange){
   let stats = [...initialStats]
@@ -95,17 +98,17 @@ export function binddata(subscription, initialStats, onChange){
   subscription.off('leave', remove)
   subscription.off('delete', remove)
   }
-}
+};
 
 export function indexClick(e){                           //选择打开的索引数组本身id
   this.setData({ iClicked: e.currentTarget.id });
-}
+};
 
 export function mClick(e) {                      //点击mClick
   let pSet = {};
   pSet['mChecked['+e.currentTarget.id+']'] = !this.data.mClicked[e.currentTarget.id];
   this.setData(pSet)
-}
+};
 
 export function familySel(pNo){              //数据表有分类控制的返回分类长度和选择记录
   let psData = {};
@@ -115,7 +118,7 @@ export function familySel(pNo){              //数据表有分类控制的返回
     psData.tabs = app.fData[pNo].afamily;
   };
   return psData;
-}
+};
 
 export function formatTime(date=new Date(),isDay=false) {
   date = new Date(date)

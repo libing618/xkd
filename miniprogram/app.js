@@ -27,6 +27,7 @@ App({
           })
         };
         that.sysinfo.itemtotal = Math.floor(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
+        that.sysinfo.rpxTopx = res.windowWidth/750;
       }
     });
     ['mData', 'roleaData','aCount', 'procedures'].forEach(dataName => {

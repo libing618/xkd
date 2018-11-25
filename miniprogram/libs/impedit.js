@@ -318,7 +318,7 @@ module.exports = {
                   data: {
                     dProcedure: that.data.pNo,                //流程
                     processState: 0,                //流程处理结果0为提交
-                    processUser: [app.roleData.user._id],       //流程处理人ID
+                    processUser: app.roleData.user._id,       //流程处理人ID字符串
                     unitName: app.roleData.uUnit.uName,                 //申请单位
                     sponsorName: app.roleData.user.uName,         //申请人
                     unitId: app.roleData.uUnit._id,        //申请单位的ID
