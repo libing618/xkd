@@ -1,9 +1,6 @@
 <import src="../../libs/wepage.wxml" />
 <view class="page">
-  <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
-  <view class="page__hd">
-    <view class="page__title"> 岗位选择</view>
-  </view>
+  <template is="p_navBar__headTab" data="{{statusBar,...ht}}"/>
   <view class="page__bd">
     <picker-view indicator-style="height: 60rpx;" style="width: 100%; height: 300rpx;" value="{{reqrole}}" bindchange="fSpicker">
       <picker-view-column>
@@ -14,7 +11,7 @@
       </picker-view-column>
     </picker-view>
   </view>
-  <view wx:if="{{ userIsAdmin }}">
+  <view wx:if="{{ht.pageCk==0}}">
     <block wx:for="{{uUnitUsers}}" wx:key="{{index}}">
       <view wx:if="{{item.line==reqrole[0] && item.position==reqrole[1]}}" class="weui-cell">
         <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
@@ -34,6 +31,8 @@
         </view>
       </view>
     </block>
+  </view>
+  <view wx:else>
     <view wx:if="{{applyUser}}">
       <view class="page__hd">
         <view class="page__title"> 岗位申请：</view>

@@ -5,7 +5,13 @@ const {roleData,sysinfo} = getApp()          //设置组织架构
 Page({
 	data:{
 		uUnitUsers: {},
-		navBarTitle: roleData.uUnit.nick+'的组织架构',      //将页面标题设置成单位名称
+		ht: {
+      navTabs: ['员工表', '申请人'],
+      tWidth: 470 * app.sysinfo.rpxTopx / 2,   //每个tab宽度470rpx÷3
+      fLength: 2,
+      twwHalf: 48 * app.sysinfo.rpxTopx,   //每个tab字体宽度一半32rpx*3÷2
+      pageCk: 0
+    },
 		statusBar: sysinfo.statusBarHeight,
 		mRols: [
 			['办公','产品','营销','客服'],
@@ -60,24 +66,48 @@ Page({
 
 	fManageRole: function(e) {                         //点击解职、调岗操作
     var that = this;
-		let rN = Number(e.currentTarget.dataset.id), muRole = 'sessionuser';
+		let rN = Number(e.currentTarget.dataset.id);
 		return new Promise((resolve, reject) => {
-			var uId = roleData.uUnit.unitUsers[rn]._id;
-      if (e.currentTarget.id=='mr_0') {               //解职
-				roleData.uUnit.unitUsers.splice(rN,1);
-      } else {                                     //调岗
-				that.data.crole[uId] = true;
-	    	that.setData({ crole: that.data.crole });
-				roleData.uUnit.unitUsers[rN].line = that.data.mrrole[0];
-				roleData.uUnit.unitUsers[rN].position =that.data.mrrole[1];
+			var uId = roleData.uUnit.unitUsers[rN]._id;
+			switch (e.currentTarget.id) {
+				case 'mr_0':               //解职
+					roleData.uUnit.unitUsers.splice(rN,1);
+					break;
+				case 'mr_1':               //调岗
+					that.data.crole[uId] = true;
+					that.setData({ crole: that.data.crole });
+					roleData.uUnit.unitUsers[rN].line = that.data.mrrole[0];
+					roleData.uUnit.unitUsers[rN].position =that.data.mrrole[1];
+					break;
+				case 'mr_2':                  //入职
+					roleData.uUnit.unitUsers.push({
+						"_id":that.data.applyUser[rN]._id,
+						"line": that.data.mrrole[0],
+						"position": that.data.mrrole[1],
+						'uName':that.data.applyUser[rn].uName,
+						'avatarUrl':that.data.applyUser[rn].avatarUrl,
+						'nickName':that.data.applyUser[rn].nickName
+					})
+					break;
+				default:             //拒绝
+					resolve(true);
 			};
 			db.collection('_Role').doc(roleData.user.unit).update({
 				data:{'unitUsers':roleData.uUnit.unitUsers}
-			}).then((muser) => { resolve(muRole); })
-		}).then((uSetRole)=>{
+			}).then(() => { resolve(e.currentTarget.id=='mr_0'); })
+		}).then(mr0=>{
 			wx.cloud.callFunction({
 				name:'process',
-				data: { pModel:'_User', dObjectId:, processOperate:4}
+				data: {
+					pModel:'_User',
+					dObjectId: uId,
+					sData:{
+						line: mr0 ? 9 : that.data.mrrole[0],
+						position: mr0 ? 7 : that.data.mrrole[1],
+						unit: mr0 ? '0' : roleData.user.unit
+					}
+					processOperate:4
+				}
 			}).then( ()=>{
 				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
 			})
@@ -88,33 +118,20 @@ Page({
 		var that = this;
 		let rN = Number(e.currentTarget.dataset.id);
 		return new Promise((resolve, reject) => {
-			var uId = ;
-      if (e.currentTarget.id=='mr_2') {                          //同意
-					roleData.uUnit.unitUsers.push({
-						"_id":that.data.applyUser[rN]._id,
-						"line": that.data.mrrole[0],
-						"position": that.data.mrrole[1],
-						'uName':that.data.applyUser[rn].uName,
-						'avatarUrl':that.data.applyUser[rn].avatarUrl,
-						'nickName':that.data.applyUser[rn].nickName
-					})
-					that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
-					unitRole.set('unitUsers',roleData.uUnit.unitUsers);
-          unitRole.save().then((adduser) => { resolve(auRole) })
-      } else {             //拒绝
-				resolve('sessionuser');
+      if (e.currentTarget.id==
+
+				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
+				db.collection('_Role').doc(roleData.user.unit).update({
+					data:{'unitUsers':roleData.uUnit.unitUsers}
+				}).then(() => { resolve(false); })
+      } else {
 			};
 		}).then((uSetRole)=>{
-			that.giveRole(uId , uSetRole).then( ()=>{
-				AV.Object.createWithoutData('reqUnit',that.data.applyUser[rN]._id).destroy().then(()=>{
-					that.data.applyUser[rn].splice(rN,1);
-					that.setData({applyUser:that.data.applyUser});
-				})
-			})
+
     }).catch(console.error)
 	},
 
-	fChangeRole: function(e){                  //打开调岗选择
+	fChangeRole: function(e){                  //打开岗位选择
     this.data.crole[e.currentTarget.dataset.id] = !this.data.crole[e.currentTarget.dataset.id];
     this.setData({ crole: this.data.crole })
 	},

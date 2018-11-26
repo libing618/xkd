@@ -10,7 +10,7 @@ Page({
     statusBar: app.sysinfo.statusBarHeight,
     ht: {
       navTabs: ['待我审', '我已审', '已发布'],
-      tWidth: 470 * app.sysinfo.rpxTopx / 3,   //每个tab宽度470rpx÷2
+      tWidth: 470 * app.sysinfo.rpxTopx / 3,   //每个tab宽度470rpx÷3
       fLength: 3,
       twwHalf: 48 * app.sysinfo.rpxTopx,   //每个tab字体宽度一半32rpx*3÷2
       pageCk: 0
