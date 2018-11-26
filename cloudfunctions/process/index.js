@@ -5,7 +5,7 @@ cloud.init()
 const db = cloud.database();
 const _ = db.command;
 // 云函数入口函数
-exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, context) => {
+exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, context) => {
   function setRole(userId,sLine,sPosition) {
     return new Promise((resolve, reject) => {
       if (pModel=='_Role'){
@@ -40,7 +40,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
   }
   sData.updatedAt = db.serverDate();
   return new Promise((resolve, reject) => {
-    switch (processState) {
+    switch (processOperate) {
       case 0:                    //查询待用户批的流程
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
@@ -104,7 +104,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processState }, cont
           delete sData.uPhoto;     //删除证件照
           delete sData.pPhoto;     //删除申请人照
           sData.unitUsers.forEach((unitUser,i)=>{
-            if(unitUser.userId==dObjectId){ sData.unitUsers[i].line=9}
+            if(unitUser.userId==dObjectId){ sData.unitUsers[i].line=8 }
           })
         }
         db.collection(pModel).doc(dObjectId).update({ data: sData }).then(pEnd => {

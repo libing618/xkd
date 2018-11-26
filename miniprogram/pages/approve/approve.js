@@ -83,9 +83,9 @@ Page({
           }
           return new Promise((resolve, reject) => {
             if (that.data.aValue.dObjectId=='0') {       //新建数据
-              resolve( db.collection(that.data.pModel).add({data:sData}) );
+              resolve( db.collection(that.data.pModel).add({data:scData.sData}) );
             } else {       //修改数据
-              scData.processState = 4
+              scData.processOperate = 4
               resolve( wx.cloud.callFunction({ name:'process', data:scData }) )
             };
           }).then((sd)=>{
@@ -113,7 +113,7 @@ Page({
             pModel: 'sengpi',
             dObjectId: that.data.aValue._id,
             sData: cApproval,
-            processState: 3
+            processOperate: 3
           }
         }).then(function () {
           wx.showToast({ title: '流程已提交,请查询结果。', duration: 2000 }) // 保存成功

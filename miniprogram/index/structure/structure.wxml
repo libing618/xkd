@@ -16,7 +16,7 @@
   </view>
   <view wx:if="{{ userIsAdmin }}">
     <block wx:for="{{uUnitUsers}}" wx:key="{{index}}">
-      <view wx:if="{{item.line==mRols[0] && item.position==mRols[1]}}" class="weui-cell">
+      <view wx:if="{{item.line==reqrole[0] && item.position==reqrole[1]}}" class="weui-cell">
         <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image class="weui-media-box__thumb" src="{{item.avatarUrl}}" background-size="cover"></image>
@@ -25,7 +25,7 @@
             <view class="weui-media-box__title">{{item.uName}}(呢称：{{item.nickName}})</view>
             <button id="mr_0" data-id="{{index}}" style="display:inline-block" size="mini" bindtap="fManageRole">解职</button>
             <button id="mr_c" data-id="{{item._id}}" style="display:inline-block" size="mini" bindtap="fChangeRole">调岗</button>
-            <picker disabled="{{crole[item._id]}}" mode="multiSelector" bindchange="rChange" bindcolumnchange="mColumnChange" value="{{mIndex}}" range="{{mRols}}">
+            <picker disabled="{{crole[item._id]}}" mode="multiSelector" bindchange="rChange" bindcolumnchange="mColumnChange" value="{{mrrole}}" range="{{mRols}}">
               <button id="mr_1" data-id="{{index}}" bindtap="fManageRole">
                 选择调整为：{{mRols[0][mrrole[0]]}}，{{mRols[1][mrrole[1]]}}
               </button>
@@ -46,7 +46,7 @@
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{item.uName}}(呢称：{{item.nickName}})</view>
-              <view class="weui-media-box__desc">申请 {{mRols[0][item.rRolArray[0]]}} 条线 {{mRols[1][item.rRolArray[1]]}} 岗位</view>
+              <view class="weui-media-box__desc">分配 {{mRols[0][item.rRolArray[0]]}} 条线 {{mRols[1][item.rRolArray[1]]}} 岗位</view>
               <button id="mr_2" data-id="{{index}}" style="display:inline-block" size="mini" bindtap="fManageApply">同意</button>
               <button id="mr_3" data-id="{{index}}" style="display:inline-block" size="mini" bindtap="fManageApply">拒绝</button>
             </view>

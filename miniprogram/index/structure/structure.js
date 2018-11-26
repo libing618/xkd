@@ -13,7 +13,7 @@ Page({
 		],
 		crole: {},
 		applyUser: [],
-		cmRole:[0,0],
+		mrrole:[0,0],
 		reqrole: [0,0],
     reqstate: 0
 	},
@@ -28,16 +28,20 @@ Page({
       } else {
 				db.collection('_Role').doc(roleData.user.unit).get().then(unitInfo => {
           if (roleData.uUnit._id == roleData.user._id) {                //创建人读取单位所有员工信息
-            that.setData({ applyUser: applyUser });
             let crole = {};
-            roleData.uUnit.unitUsers.map((cuser) => { return crole[cuser._id] = true });
+            roleData.uUnit.unitUsers.forEach(cuser => {
+							crole[cuser._id] = true
+						});
             that.setData({
               crole: crole,
               uUnitUsers: roleData.uUnit.unitUsers
             })
-            wx.cloud.callFunction({ name: 'process', data: { pModel:'_User', dObjectId:roleData.user.unit, processState:5}}).then(({result}) => {
+            wx.cloud.callFunction({
+							name: 'process',
+							data: { pModel:'_User', dObjectId:roleData.user.unit, processOperate:5}
+						}).then(({result}) => {
               if (result.length > 0) {
-                that.setData({ reqstate: 1, reqUsers: result });
+                that.setData({ reqstate: 1, applyUser: result });
               }
             }).catch(console.error())
           }
@@ -56,23 +60,25 @@ Page({
 
 	fManageRole: function(e) {                         //点击解职、调岗操作
     var that = this;
-		let unitRole = new AV.Role(roleData.uUnit.name);
 		let rN = Number(e.currentTarget.dataset.id), muRole = 'sessionuser';
 		return new Promise((resolve, reject) => {
 			var uId = roleData.uUnit.unitUsers[rn]._id;
       if (e.currentTarget.id=='mr_0') {               //解职
-        unitRole.getUsers().remove(uId);
 				roleData.uUnit.unitUsers.splice(rN,1);
       } else {                                     //调岗
 				that.data.crole[uId] = true;
 	    	that.setData({ crole: that.data.crole });
-				roleData.uUnit.unitUsers[rN].userRolName = (roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.')+that.data.cmRole[0]+'.'+ that.data.cmRole[1] ;
-				muRole = roleData.uUnit.unitUsers[rN].userRolName;
+				roleData.uUnit.unitUsers[rN].line = that.data.mrrole[0];
+				roleData.uUnit.unitUsers[rN].position =that.data.mrrole[1];
 			};
-			unitRole.set('unitUsers',roleData.uUnit.unitUsers);
-			unitRole.save().then((muser) => { resolve(muRole); })
+			db.collection('_Role').doc(roleData.user.unit).update({
+				data:{'unitUsers':roleData.uUnit.unitUsers}
+			}).then((muser) => { resolve(muRole); })
 		}).then((uSetRole)=>{
-			wx.cloud.callFunction({name:'process', data:{}} ).then( ()=>{
+			wx.cloud.callFunction({
+				name:'process',
+				data: { pModel:'_User', dObjectId:, processOperate:4}
+			}).then( ()=>{
 				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
 			})
     }).catch(console.error())
@@ -80,15 +86,19 @@ Page({
 
 	fManageApply: function(rn){
 		var that = this;
-		let unitRole = new AV.Role(roleData.uUnit.name);
 		let rN = Number(e.currentTarget.dataset.id);
 		return new Promise((resolve, reject) => {
-			var uId = that.data.applyUser[rN].userId;
+			var uId = ;
       if (e.currentTarget.id=='mr_2') {                          //同意
-					let auRole = (roleData.uUnit.indType.indexOf(620406)>=0 ? 'bu.' : 'au.') + that.data.applyUser[rN].rRolArray[0]+'.'+that.data.applyUser[rn].rRolArray[1]
-					roleData.uUnit.unitUsers.push({"_id":uId, "userRolName":auRole, 'uName':that.data.applyUser[rn].uName, 'avatarUrl':that.data.applyUser[rn].avatarUrl,'nickName':that.data.applyUser[rn].nickName})
+					roleData.uUnit.unitUsers.push({
+						"_id":that.data.applyUser[rN]._id,
+						"line": that.data.mrrole[0],
+						"position": that.data.mrrole[1],
+						'uName':that.data.applyUser[rn].uName,
+						'avatarUrl':that.data.applyUser[rn].avatarUrl,
+						'nickName':that.data.applyUser[rn].nickName
+					})
 					that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
-					unitRole.getUsers().add(uId);
 					unitRole.set('unitUsers',roleData.uUnit.unitUsers);
           unitRole.save().then((adduser) => { resolve(auRole) })
       } else {             //拒绝
@@ -113,7 +123,7 @@ Page({
   },
 
 	mColumnChange: function (e) {
-		this.data.cmRole[e.detail.column] = e.detail.value;
-    this.setData({ cmRole: this.data.cmRole })
+		this.data.mrrole[e.detail.column] = e.detail.value;
+    this.setData({ mrrole: this.data.mrrole })
   }
 })

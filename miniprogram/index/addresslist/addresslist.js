@@ -6,6 +6,8 @@ Page({
     vData:[],
     statusBar: app.sysinfo.statusBarHeight,
     navBarTitle: app.roleData.uUnit.nick+'的通讯录',
+    lines:['办公','产品','营销','客服'],
+    position:['负责人','部门管理','员工'],
     iClicked: '0'
   },
   onLoad:function(options){

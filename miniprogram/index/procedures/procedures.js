@@ -63,7 +63,7 @@ Page({
          rDate: nProcess==3 ? app.mData.proceduresAt[app.mData.proceduresCk] : app.mData.processingAt[nProcess],
          isDown: isDown ? 'asc' : 'desc'
        },
-       processState: nProcess    //类型(0待我审,1处理中,2已结束)
+       processOperate: nProcess    //类型(0待我审,1处理中,2已结束)
       }
     }).then(({result}) => {
       let lena = result.records.length ;
