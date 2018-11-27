@@ -45,7 +45,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
             cFlowStep: user.processRole,
-            updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
+            updatedAt: sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0])
           })
           reqProcess.count().then(qCount=>{
             if (qCount.total>0){

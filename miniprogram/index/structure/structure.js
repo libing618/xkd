@@ -7,9 +7,9 @@ Page({
 		uUnitUsers: {},
 		ht: {
       navTabs: ['员工表', '申请人'],
-      tWidth: 470 * app.sysinfo.rpxTopx / 2,   //每个tab宽度470rpx÷3
+      tWidth: 470 * sysinfo.rpxTopx / 2,   //每个tab宽度470rpx÷3
       fLength: 2,
-      twwHalf: 48 * app.sysinfo.rpxTopx,   //每个tab字体宽度一半32rpx*3÷2
+      twwHalf: 48 * sysinfo.rpxTopx,   //每个tab字体宽度一半32rpx*3÷2
       pageCk: 0
     },
 		statusBar: sysinfo.statusBarHeight,
@@ -67,21 +67,24 @@ Page({
 	fManageRole: function(e) {                         //点击解职、调岗操作
     var that = this;
 		let rN = Number(e.currentTarget.dataset.id);
+		let uId;
 		return new Promise((resolve, reject) => {
-			var uId = roleData.uUnit.unitUsers[rN]._id;
 			switch (e.currentTarget.id) {
 				case 'mr_0':               //解职
+					uId = roleData.uUnit.unitUsers[rN]._id;
 					roleData.uUnit.unitUsers.splice(rN,1);
 					break;
 				case 'mr_1':               //调岗
+					uId = roleData.uUnit.unitUsers[rN]._id;
 					that.data.crole[uId] = true;
 					that.setData({ crole: that.data.crole });
 					roleData.uUnit.unitUsers[rN].line = that.data.mrrole[0];
 					roleData.uUnit.unitUsers[rN].position =that.data.mrrole[1];
 					break;
 				case 'mr_2':                  //入职
+					uId = that.data.applyUser[rN]._id;
 					roleData.uUnit.unitUsers.push({
-						"_id":that.data.applyUser[rN]._id,
+						"_id": uId,
 						"line": that.data.mrrole[0],
 						"position": that.data.mrrole[1],
 						'uName':that.data.applyUser[rn].uName,
@@ -90,6 +93,7 @@ Page({
 					})
 					break;
 				default:             //拒绝
+					uId = that.data.applyUser[rN]._id;
 					resolve(true);
 			};
 			db.collection('_Role').doc(roleData.user.unit).update({
@@ -105,30 +109,13 @@ Page({
 						line: mr0 ? 9 : that.data.mrrole[0],
 						position: mr0 ? 7 : that.data.mrrole[1],
 						unit: mr0 ? '0' : roleData.user.unit
-					}
+					},
 					processOperate:4
 				}
 			}).then( ()=>{
 				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
 			})
     }).catch(console.error())
-	},
-
-	fManageApply: function(rn){
-		var that = this;
-		let rN = Number(e.currentTarget.dataset.id);
-		return new Promise((resolve, reject) => {
-      if (e.currentTarget.id==
-
-				that.setData({ uUnitUsers: roleData.uUnit.unitUsers });
-				db.collection('_Role').doc(roleData.user.unit).update({
-					data:{'unitUsers':roleData.uUnit.unitUsers}
-				}).then(() => { resolve(false); })
-      } else {
-			};
-		}).then((uSetRole)=>{
-
-    }).catch(console.error)
 	},
 
 	fChangeRole: function(e){                  //打开岗位选择

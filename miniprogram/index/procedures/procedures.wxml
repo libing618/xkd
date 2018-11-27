@@ -5,7 +5,7 @@
   <template is="p_navBar__headTab" data="{{statusBar,...ht}}"/>
 
   <view class="page__bd weui-tab__panel">
-    <view wx:if="{{ht.pageCk==3}}">
+    <view wx:if="{{ht.pageCk==2}}">
       <block wx:for="{{pClassName}}" wx:key="{{index}}" wx:for-item="ac" wx:for-index="j" class="weui-cells">
         <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac.id}}" bindtap="anClick">
           <template is="{{ anClicked==ac.id ? 'selecticon1' : 'selecticon2'}}" />

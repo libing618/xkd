@@ -30,7 +30,6 @@ Page({
         app.mData.proceduresAt[procedure]=[new Date(0),new Date(0)];
       }
     };
-
     this.setData({
       pClassName: this.data.pClassName,
       indexPage: app.mData.prodessing,
@@ -53,17 +52,17 @@ Page({
     this.setData({ anClicked: app.mData.proceduresCk });
   },
 
-  updatepending: function(isDown,nProcess){   //更新数据(true上拉刷新，false下拉刷新)
+  updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
     wx.cloud.callFunction({
       name:'process',
       data:{
        sData:{
          pName: app.mData.proceduresCk,
-         rDate: nProcess==3 ? app.mData.proceduresAt[app.mData.proceduresCk] : app.mData.processingAt[nProcess],
+         rDate: app.mData.processingAt[that.data.ht.pageCk],
          isDown: isDown ? 'asc' : 'desc'
        },
-       processOperate: nProcess    //类型(0待我审,1处理中,2已结束)
+       processOperate: that.data.ht.pageCk    //类型(0待我审,1处理中,2已结束)
       }
     }).then(({result}) => {
       let lena = result.records.length ;
@@ -100,14 +99,14 @@ Page({
    },
 
   onShow: function() {
-    this.updatepending(true,this.data.ht.pageCk);
+    this.updatepending(true);
   },
   onPullDownRefresh: function () {
-    this.updatepending(true,this.data.ht.pageCk);
+    this.updatepending(true);
   },
 
   onReachBottom: function () {
-    this.updatepending(false,this.data.ht.pageCk);
+    this.updatepending(false);
   },
 
   onShareAppMessage: shareMessage
