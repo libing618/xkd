@@ -16,7 +16,8 @@ Page({
       pageCk: 0
     },
     pageData: {},
-    indexPage: [[],[],[]],
+    pAt:[[new Date(0),new Date(0)],[new Date(0),new Date(0)]],
+    indexPage: [[],[]],
     anClicked: app.mData.proceduresCk
   },
 
@@ -54,25 +55,35 @@ Page({
 
   updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
+    let pck = that.data.ht.pageCk
     wx.cloud.callFunction({
       name:'process',
       data:{
        sData:{
          pName: app.mData.proceduresCk,
-         rDate: app.mData.processingAt[that.data.ht.pageCk],
+         rDate: pck==2 ? app.mData.processingAt[app.mData.proceduresCk] : that.data.pAt[pck],
          isDown: isDown ? 'asc' : 'desc'
        },
-       processOperate: that.data.ht.pageCk    //类型(0待我审,1处理中,2已结束)
+       processOperate: pck    //类型(0待我审,1处理中,2已结束)
       }
     }).then(({result}) => {
       let lena = result.records.length ;
       if (lena>0){
         let aprove = {},uSetData = {}, aPlace = -1;
         if (isDown) {                     //下拉刷新
-          app.mData.processingAt[1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
-          app.mData.processingAt[0] = result.records[0].updatedAt;                 //更新本地最后更新时间
+          if (pck==2){
+            app.mData.processingAt[app.mData.proceduresCk][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
+            app.mData.processingAt[app.mData.proceduresCk][0] = result.records[0].updatedAt;                 //更新本地最后更新时间
+          } else {
+            that.data.pAt[pck][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
+            that.data.pAt[pck][0] = result.records[0].updatedAt;                 //更新本地最后更新时间
+          }
         } else {
-          app.mData.processingAt[0] = result.records[lena - 1].updatedAt;          //更新本地最后更新时间
+          if (pck==2){
+            app.mData.processingAt[app.mData.proceduresCk][0] = result.records[lena - 1].updatedAt;          //更新本地最后更新时间
+          } else {
+            that.data.pAt[pck][0] = result.records[lena - 1].updatedAt;
+          }
         };
         result.records.forEach( aprove =>{              //dProcedure为审批流程的序号
           if (isDown) {                               //ats为各类审批流程的ID数组
