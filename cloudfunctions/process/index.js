@@ -43,13 +43,15 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
     switch (processOperate) {
       case 0:                    //查询待用户批的流程
         userRole().then(user=>{
-          let reqProcess = db.collection('sengpi').where({
+          db.collection('sengpi').where({
             cFlowStep: user.processRole,
-            updatedAt: sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0])
-          })
-          reqProcess.count().then(qCount=>{
+            processState: _.lt(2)
+          }).count().then(qCount=>{
             if (qCount.total>0){
-              reqProcess.orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
+              db.collection('sengpi').where({
+                cFlowStep: user.processRole,
+                updatedAt: sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0])
+              }).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
                 resolve({total:qCount.total,records:data})
               })
             } else {
@@ -80,6 +82,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
         userRole().then(user=>{
           let reqProcess = db.collection('sengpi').where({
             processUser: db.RegExp({regexp:user._id}),    //已处理人ID
+            dProcedure: pModel,
             processState: 2,
             updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
           })

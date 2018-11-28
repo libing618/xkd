@@ -55,55 +55,58 @@ Page({
 
   updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
-    let pck = that.data.ht.pageCk
+    let pck = that.data.ht.pageCk;
     wx.cloud.callFunction({
       name:'process',
       data:{
-       sData:{
-         pName: app.mData.proceduresCk,
-         rDate: pck==2 ? app.mData.processingAt[app.mData.proceduresCk] : that.data.pAt[pck],
-         isDown: isDown ? 'asc' : 'desc'
-       },
-       processOperate: pck    //类型(0待我审,1处理中,2已结束)
+        pModel: app.mData.proceduresCk,
+        sData:{
+          rDate: pck==2 ? app.mData.processingAt[app.mData.proceduresCk] : that.data.pAt[pck],
+          isDown: isDown ? 'asc' : 'desc'
+        },
+        processOperate: pck    //类型(0待我审,1处理中,2已结束)
       }
     }).then(({result}) => {
       let lena = result.records.length ;
       if (lena>0){
-        let aprove = {},uSetData = {}, aPlace = -1;
+        let aprove = {},uSetData = {pAt:that.data.pAt}, aPlace = -1;
         if (isDown) {                     //下拉刷新
           if (pck==2){
             app.mData.processingAt[app.mData.proceduresCk][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
             app.mData.processingAt[app.mData.proceduresCk][0] = result.records[0].updatedAt;                 //更新本地最后更新时间
           } else {
-            that.data.pAt[pck][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
-            that.data.pAt[pck][0] = result.records[0].updatedAt;                 //更新本地最后更新时间
+            uSetData.pAt[pck][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间
+            uSetData.pAt[pck][0] = result.records[0].updatedAt;                 //更新本地最后更新时间
           }
         } else {
           if (pck==2){
             app.mData.processingAt[app.mData.proceduresCk][0] = result.records[lena - 1].updatedAt;          //更新本地最后更新时间
           } else {
-            that.data.pAt[pck][0] = result.records[lena - 1].updatedAt;
+            uSetData.pAt[pck][0] = result.records[lena - 1].updatedAt;
           }
         };
-        result.records.forEach( aprove =>{              //dProcedure为审批流程的序号
-          if (isDown) {                               //ats为各类审批流程的ID数组
-            aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove._id)
-            if (aPlace >= 0) { app.mData.procedures[aprove.dProcedure].splice(aPlace, 1) }           //删除本地的重复记录列表
-            app.mData.procedures[aprove.dProcedure].unshift(aprove._id);                   //按流程类别加到管理数组中
+        result.records.forEach( aprove =>{              //dProcedure为审批流程的表名
+          if (aprove.processState==2 ){                   //已发布
+            if (isDown) {                               //各类审批流程的ID数组
+              aPlace = app.mData.procedures[aprove.dProcedure].indexOf(aprove._id)
+              if (aPlace >= 0) { app.mData.procedures[aprove.dProcedure].splice(aPlace, 1) }           //删除本地的重复记录列表
+              app.mData.procedures[aprove.dProcedure].unshift(aprove._id);                   //按流程类别加到管理数组中
+            } else {
+              app.mData.procedures[aprove.dProcedure].push(aprove._id);                   //按流程类别加到管理数组中
+            };
           } else {
-            app.mData.procedures[aprove.dProcedure].push(aprove._id);                   //按流程类别加到管理数组中
-          };
-          if (aprove.cInstance==aprove.cManagers.length ){   //最后一个节点
-            aprove.apState = 2;                 //将流程状态标注为‘已结束’
-          } else {
-            if (aprove.cFlowStep.indexOf(app.roleData.user._id)>=0) {
-              aprove.apState = 0;                 //将流程状态标注为‘待我审’
-            } else {aprove.apState =1}                 //将流程状态标注为‘已处理’
+            if (isDown) {                               //审批流程的ID数组
+              aPlace = app.processing[pck].indexOf(aprove._id)
+              if (aPlace >= 0) { app.procedures[pck].splice(aPlace, 1) }           //删除本地的重复记录列表
+              app.processing[pck].unshift(aprove._id);                   //按流程类别加到管理数组中
+            } else {
+              app.processing[pck].push(aprove._id);                   //按流程类别加到管理数组中
+            };
           }
           app.procedures[aprove._id] = aprove;            //pageData是ID为KEY的JSON格式的审批流程数据
           uSetData['pageData.'+aprove._id] = aprove;                  //增加页面中的新收到数据
         });
-        uSetData.indexPage = app.mData.processing;
+        uSetData.indexPage = app.processing;
         that.setData( uSetData );
       }
      }).catch( console.error );
