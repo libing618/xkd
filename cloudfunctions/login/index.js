@@ -4,14 +4,14 @@ const db = cloud.database()
 const _ = db.command
 const mRole = require('roleMenu');
 //loginState为0、第一次授权，1、已授权，2、读手机号，3、重新登录获得session_key
-exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context) => {
-  const appid = userInfo.appId;     //微信小程序appid
+exports.main = async ({ code, encryptedData, iv,loginState }, context) => {
+  const {OPENID,APPID,UNIONID} = cloud.getWxContext;     //微信小程序APPID
   const secret = process.env.secret;     //微信小程序secret
   function reqSession(rcode){
     return new Promise((resolve, reject) => {
       if (rcode=='sessionOk'){
-        db.collection('miniProgramSession').doc(userInfo.openId).get().then(sk => {
-          resolve(sk.data.sessionKey)
+        db.collection('miniProgramSession').doc(OPENID).get().then(({data}) => {
+          resolve(data.sessionKey)
         }).catch(err => { resolve(false)})
       } else {
         resolve(false)
@@ -22,14 +22,14 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
           resolve(sessionOk)
         } else {
           var requestWx = require('request');
-          var wxurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + appid + '&secret=' + secret + '&js_code=' + rcode + '&grant_type=authorization_code';
+          var wxurl = 'https://api.weixin.qq.com/sns/jscode2session?APPID=' + APPID + '&secret=' + secret + '&js_code=' + rcode + '&grant_type=authorization_code';
           requestWx({ url: wxurl, header: { 'content-type': 'application/json' }, }, function (err, res, body) {
             if (!err) {
               var wxLoginInfo = JSON.parse(body);
               var wxsk = String(wxLoginInfo.session_key);
-              db.collection('miniProgramSession').doc(userInfo.openId).get().then(({ data }) => {
+              db.collection('miniProgramSession').doc(OPENID).get().then(({ data }) => {
                 if (data) {
-                  db.collection('miniProgramSession').doc(userInfo.openId).update({
+                  db.collection('miniProgramSession').doc(OPENID).update({
                     data: {
                       sessionKey: wxsk
                     }
@@ -40,7 +40,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
               }).catch( serr=> {
                 db.collection('miniProgramSession').add({
                   data: {
-                    _id: userInfo.openId,
+                    _id: OPENID,
                     sessionKey: wxsk
                   }
                 }).then(() => {
@@ -68,7 +68,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
         var decoded = decipher.update(ecData, 'binary', 'utf8');
         decoded = decoded + decipher.final('utf8');
         decoded = JSON.parse(decoded);
-        if (decoded.watermark.appid == appid) {
+        if (decoded.watermark.appid == APPID) {
           resolve(decoded);
         } else {
           reject('解密后appid不一致');
@@ -89,7 +89,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
         break;
       case 1:
         db.collection('_User').where({
-          _openid: userInfo.openId
+          _openid: OPENID
         })
         .get()
         .then(user => {
@@ -121,7 +121,7 @@ exports.main = async ({ userInfo, code, encryptedData, iv,loginState }, context)
         reqSession(code).then(wxsk=>{
           deWxCode(wxsk).then(dewxcoded=>{
             db.collection('_User').where({
-              _openid: userInfo.openId
+              _openid: OPENID
             }).update({                         //设置并保存手机号
               data:{
                 mobilePhoneNumber: dewxcoded.phoneNumber,

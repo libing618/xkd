@@ -5,7 +5,8 @@ cloud.init()
 const db = cloud.database();
 const _ = db.command;
 // 云函数入口函数
-exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, context) => {
+exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => {
+  const {OPENID,APPID,UNIONID} = cloud.getWxContext;
   function setRole(userId,sLine,sPosition) {
     return new Promise((resolve, reject) => {
       if (pModel=='_Role'){
@@ -26,7 +27,7 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
   function userRole(){           //获取用户数据
     return new Promise((resolve, reject) => {
       db.collection('_User').where({
-        _openid: userInfo.openId
+        _openid: OPENID
       }).get().then(({data}) => {
         let user = data[0];
         if (user.unit == '0' || user.line==9) {
@@ -43,15 +44,14 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
     switch (processOperate) {
       case 0:                    //查询待用户批的流程
         userRole().then(user=>{
-          db.collection('sengpi').where({
+          let terms = {
             cFlowStep: user.processRole,
             processState: _.lt(2)
-          }).count().then(qCount=>{
+          }
+          db.collection('sengpi').where(terms).count().then(qCount=>{
             if (qCount.total>0){
-              db.collection('sengpi').where({
-                cFlowStep: user.processRole,
-                updatedAt: sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0])
-              }).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
+              terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
+              db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
                 resolve({total:qCount.total,records:data})
               })
             } else {
@@ -62,14 +62,15 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
         break;
       case 1:                    //查询待用户处理过未发布的流程
         userRole().then(user=>{
-          let reqProcess = db.collection('sengpi').where({
+          let terms = {
             processUser: db.RegExp({regexp:user._id}),    //已处理人ID
-            processState: 1,
-            updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
-          })
-          reqProcess.count().then(qCount=>{
+            cFlowStep: _.neq(user.processRole),
+            processState: 1
+          }
+          db.collection('sengpi').where(terms).count().then(qCount=>{
             if (qCount.total>0){
-              reqProcess.orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
+              terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
+              db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
                 resolve({total:qCount.total,records:data})
               })
             } else {
@@ -80,15 +81,15 @@ exports.main = async ({ userInfo, pModel, dObjectId, sData, processOperate }, co
         break;
       case 2:                    //查询用户岗位可阅读和审批过的已发布流程
         userRole().then(user=>{
-          let reqProcess = db.collection('sengpi').where({
+          let terms = {
             processUser: db.RegExp({regexp:user._id}),    //已处理人ID
-            dProcedure: pModel,
             processState: 2,
-            updatedAt: sData.isDown=='asc' ? _.gt(sData.rDate[1]) : _.lt(sData.rDate[0])
-          })
-          reqProcess.count().then(qCount=>{
+          };
+          db.collection('sengpi').where(terms).count().then(qCount=>{
             if (qCount.total>0){
-              reqProcess.orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
+              terms.dProcedure = pModel;
+              terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
+              db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
                 resolve({total:qCount.total,records:data})
               })
             } else {
