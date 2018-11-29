@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "gettoken",
+      "type": "timer",
+      "config": "0 18 */2 * * * *"
+    }
+  ]
+}

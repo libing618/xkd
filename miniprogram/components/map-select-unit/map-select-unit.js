@@ -1,7 +1,6 @@
 var modalBehavior = require('../utils/poplib.js');
 const db = wx.cloud.database();
 const _ = db.command;
-const {fData,roleData} = getApp()
 var mapBahavior = require('../utils/mapAnalysis.js');   //位置授权及解析
 
 Component({
@@ -84,7 +83,8 @@ Component({
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
-        roleData.sUnit._id = this.data.sId;
+        let app = getApp()
+        app.roleData.sUnit._id = this.data.sId;
         this.setData({ value: { _id: this.data.unitArray[this.data.sId]._id, uName: this.data.unitArray[this.data.sId].uName} });
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})

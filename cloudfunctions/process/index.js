@@ -6,7 +6,7 @@ const db = cloud.database();
 const _ = db.command;
 // 云函数入口函数
 exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => {
-  const {OPENID,APPID,UNIONID} = cloud.getWxContext;
+  const {OPENID,APPID,UNIONID} = cloud.getWXContext();
   function setRole(userId,sLine,sPosition) {
     return new Promise((resolve, reject) => {
       if (pModel=='_Role'){
