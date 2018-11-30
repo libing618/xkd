@@ -1,4 +1,3 @@
-<import src="../../libs/weimport.wxml" />
 <view id="{{name}}">
   <view class="weui-cells__tips">{{p}}</view>
   <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
@@ -28,7 +27,7 @@
             <view class="weui-media-box__desc">{{unitArray[sId].title}}</view>
           </view>
         </view>
-        <template is="s_iNd" data="{{p:'主营业务',c:unitArray[sId].indType}}" />
+        <view>主营业务:{{unitArray[sId].indType.uName}}</view>
         <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
       </view>
     </view>

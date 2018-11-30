@@ -48,6 +48,7 @@ Component({
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
       };
       that.authorizeLocation(false).then(aGeoPoint =>{
+        console.log(aGeoPoint)
         that.buildAdd(aGeoPoint).then(addGroup=>{
           let province_code = Math.floor(addGroup.code/10000);     //省级行政区划代码
           db.collection('_Role').where(
@@ -83,8 +84,8 @@ Component({
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
-        let app = getApp()
-        app.roleData.sUnit._id = this.data.sId;
+        let app = getApp();
+        app.roleData.sUnit._id = this.data.unitArray[this.data.sId]._id;
         this.setData({ value: { _id: this.data.unitArray[this.data.sId]._id, uName: this.data.unitArray[this.data.sId].uName} });
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})

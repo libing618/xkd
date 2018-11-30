@@ -15,6 +15,8 @@ Page({
       twwHalf: 48 * app.sysinfo.rpxTopx,   //每个tab字体宽度一半32rpx*3÷2
       pageCk: 0
     },
+    tabExplain: ['需要您审批', '在他人审批过程中', '可供查阅'],
+    pTotal: [0,0,0],
     pageData: {},
     pAt:[[new Date(0),new Date(0)],[new Date(0),new Date(0)]],
     indexPage: [[],[]],
@@ -51,11 +53,11 @@ Page({
   anClick: function(e){                           //选择审批流程类型
     app.mData.proceduresCk = e.currentTarget.id;
     this.setData({ anClicked: app.mData.proceduresCk });
+    this.updatepending(true)
   },
 
-  updatepending: function(isDown){   //更新数据(true上拉刷新，false下拉刷新)
+  updatepending: function(isDown, pck = that.data.ht.pageCk){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
-    let pck = that.data.ht.pageCk;
     wx.cloud.callFunction({
       name:'process',
       data:{

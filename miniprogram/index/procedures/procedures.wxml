@@ -3,7 +3,7 @@
 <import src="../../libs/wepage.wxml" />
 <view class="page">
   <template is="p_navBar__headTab" data="{{statusBar,...ht}}"/>
-
+  <view class="page__hd">共有{{pTotal[ht.pageCk]}}个流程{{tabExplain[ht.pageCk]}}（下划刷新）</view>
   <view class="page__bd weui-tab__panel">
     <view wx:if="{{ht.pageCk==2}}">
       <block wx:for="{{pClassName}}" wx:key="{{index}}" wx:for-item="ac" wx:for-index="j" class="weui-cells">
