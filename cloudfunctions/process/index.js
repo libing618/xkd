@@ -38,7 +38,18 @@ exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => 
         };
       })
     }).catch (error=> { reject(error) });
-  }
+  };
+  function countTotal(terms){           //获取符合条件数据条数
+    return new Promise((resolve, reject) => {
+      if (sData.isDown=='asc'){
+        db.collection('sengpi').where(terms).count().then(cTotal=>{
+          resolve(cTotal.total)
+        })
+      } else {
+        resolve(sData.lastTotal)
+      };
+    }).catch (error=> { reject(error) });
+  };
   sData.updatedAt = db.serverDate();
   return new Promise((resolve, reject) => {
     switch (processOperate) {
@@ -48,11 +59,11 @@ exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => 
             cFlowStep: user.processRole,
             processState: _.lt(2)
           }
-          db.collection('sengpi').where(terms).count().then(qCount=>{
-            if (qCount.total>0){
+          countTotal(terms).then(qCount=>{
+            if (qCount>0){
               terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
               db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
-                resolve({total:qCount.total,records:data})
+                resolve({total:qCount,records:data})
               })
             } else {
               resolve({total:0,records:[]})
@@ -67,11 +78,11 @@ exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => 
             cFlowStep: _.neq(user.processRole),
             processState: 1
           }
-          db.collection('sengpi').where(terms).count().then(qCount=>{
-            if (qCount.total>0){
+          countTotal(terms).then(qCount=>{
+            if (qCount>0){
               terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
               db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
-                resolve({total:qCount.total,records:data})
+                resolve({total:qCount,records:data})
               })
             } else {
               resolve({total:0,records:[]})
@@ -85,12 +96,12 @@ exports.main = async ({ pModel, dObjectId, sData, processOperate }, context) => 
             processUser: db.RegExp({regexp:user._id}),    //已处理人ID
             processState: 2,
           };
-          db.collection('sengpi').where(terms).count().then(qCount=>{
-            if (qCount.total>0){
+          countTotal(terms)then(qCount=>{
+            if (qCount>0){
               terms.dProcedure = pModel;
               terms.updatedAt = sData.isDown=='asc' ? _.gt(new Date(sData.rDate[1])) : _.lt(sData.rDate[0]);
               db.collection('sengpi').where(terms).orderBy('updatedAt',sData.isDown).limit(20).get().then(({data}) => {
-                resolve({total:qCount.total,records:data})
+                resolve({total:qCount,records:data})
               })
             } else {
               resolve({total:0,records:[]})

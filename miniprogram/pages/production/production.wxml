@@ -11,7 +11,7 @@
   <view class="weui-panel weui-panel_access">
     <block wx:for="{{mPage}}" wx:key="{{index}}" wx:for-item="ac">
       <view class="weui-media-box weui-media-box_small-appmsg">
-        <navigator url="/pages/vprocedure/vprocedure?pNo={{pNo}}&artId={{ac}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+        <navigator url="/pluginPage/vprocedure/vprocedure?pNo={{pNo}}&artId={{ac}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image class="weui-media-box__thumb" src="{{pageData[ac].thumbnail}}" background-size="cover"></image>
           </view>

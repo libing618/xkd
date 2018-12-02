@@ -338,7 +338,7 @@ module.exports = {
                 wx.showToast({ title: '单位设置出现问题，流程无法提交,请检查。', icon: 'none', duration: 2000 }) // 保存成功
               }
             } else {
-              app.procedures[that.data.targetId].dObject = saveData;
+              app.pData[that.data.targetId].dObject = saveData;
               app.logData.push([Date.now(), that.data.targetId + '修改内容：' + JSON.stringify(saveData)]);
             };
           } else {

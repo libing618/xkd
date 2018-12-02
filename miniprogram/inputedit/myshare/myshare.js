@@ -21,13 +21,13 @@ Page({
     var that = this;
     if (checkRols(1,app.roleData.user)) {       //检查用户权限
       app.fData.share.afamily.forEach((afamily,i)=>{
-        app.mData.share[app.roleData.uUnit._id][i].forEach(ufod=>{
+        app.aIndex.share[app.roleData.uUnit._id][i].forEach(ufod=>{
           pageData[ufod] = {uName:app.aData.share[ufod].uName,thumbnail:app.aData.share[ufod].thumbnail};
           pageData[ufod].title = pageSuccess[1].p+app.aData.unfinishedorder[ufod].amount +'/'+ pageSuccess[2].p+app.aData.unfinishedorder[ufod].amount;
         })
       })
       that.setData({
-        cPage: app.mData.share[app.roleData.uUnit._id],
+        cPage: app.aIndex.share[app.roleData.uUnit._id],
         pageData: pageData
       });
     };

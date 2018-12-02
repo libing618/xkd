@@ -30,7 +30,7 @@ Page({
 
   onLoad:function(options){
     var that = this;
-    if (checkRols(9,app.roleData.user)) {
+    if (checkRols(8,app.roleData.user)) {
       db.collection('distributor').where({unitId:app.roleData.uUnit._id}).orderBy('updatedAt','asc').get().then(channel=>{
         if (channel) {
           let fc;

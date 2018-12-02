@@ -85,7 +85,7 @@ Component({
       if (!this._isValid()) {    // 如果还没有初始化, 不做任何事情
         return
       }
-      let spData = {mPage: this.gData.mData.indArr}
+      let spData = {mPage: this.gData.aIndex.indArr}
       addItem.forEach(mId=>{ spData['pageData.'+mId]=this.gData.aData[mId] });
       this.setData({spData})
     },
@@ -95,11 +95,11 @@ Component({
       });
       this.gData = new getData(this.data.name, this.data.afamily, this.data.filterId)
       this.gData.gStorage().then(()=> {
-        if (this.gData.mData.indArr.length>0){
+        if (this.gData.aIndex.indArr.length>0){
           let aData = {};
-          this.gData.mData.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
+          this.gData.aIndex.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
           this.setData({
-            mPage: this.gData.mData.indArr,
+            mPage: this.gData.aIndex.indArr,
             pageData: aData
           });
           this.gData.upData().then(topItem=>{

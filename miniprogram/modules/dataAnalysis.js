@@ -82,7 +82,7 @@ export function aDataSum(yearMons,className,sumField,idArr){
     yearMons.forEach(ym=>{
       monSum[ym] = fieldSum
     });
-    idArr = idArr ? idArr : app.mData[className][app.roleData.user._id];
+    idArr = idArr ? idArr : app.aIndex[className][app.roleData.user._id];
     if (idArr) {
       let dYearMon;
       idArr.forEach(mId => {

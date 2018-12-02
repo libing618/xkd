@@ -27,7 +27,7 @@ Page({
 
   onLoad: function () {
     var that = this;
-    if (checkRols(9, roleData.user)) {			// 当前用户是单位负责人
+    if (checkRols(8, roleData.user)) {			// 当前用户是单位负责人
       if (roleData.uUnit.afamily<3) {
         wx.showToast({ title: '非机构类单位,没有下级员工设置。', duration: 7500 })
         wx.navigateBack({ delta: 1 })                // 回退前1 页面
@@ -54,7 +54,7 @@ Page({
         })
       };
     } else {
-      wx.showToast({ title: '没有注册用户或申请单位,请在个人信息菜单注册。', duration: 7500 })
+      wx.showToast({ title: '没有注册用户或申请单位,请在个人信息菜单注册。', icon:'none',duration: 7500 })
       wx.navigateBack({ delta: 1 })                // 回退前1 页面
     };
   },

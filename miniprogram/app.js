@@ -1,11 +1,12 @@
 App({
   roleData: require('globaldata.js').roleData,                 //读数据记录的缓存
-  mData: require('globaldata.js').mData,
+  aIndex: require('globaldata.js').aIndex,
+  pIndex: require('globaldata.js').pIndex,
   aCount: require('globaldata.js').aCount,
   fData: require('./modules/procedureclass'),
-  aData:{},
+  aData: {},
+  pData: {},
   logData: [],
-  procedures: {},              //读流程的缓存
 
   onLaunch: function () {
     var that = this;
@@ -30,7 +31,7 @@ App({
         that.sysinfo.rpxTopx = res.windowWidth/750;
       }
     });
-    ['mData', 'roleaData','aCount', 'procedures'].forEach(dataName => {
+    ['aIndex', 'aData','roleaData','aCount','pIndex'].forEach(dataName => {
       wx.getStorage({
         key: dataName,
         success: function (res) {
@@ -64,13 +65,14 @@ App({
       success: function (res) {
         if (res.currentSize > (res.limitSize - 512)) {          //如缓存占用大于限制容量减512kb，将大数据量的缓存移除。
           wx.removeStorage({ key: "aData" });
-          wx.removeStorage({key:"mData"});
-          wx.removeStorage({key:"procedures"});
+          wx.removeStorage({key:"aIndex"});
+          wx.removeStorage({key:"pData"});
+          wx.removeStorage({key:"pIndex"});
         } else {
           wx.setStorage({ key: 'roleData', data: that.roleData });
-          wx.setStorage({key:"mData", data:that.mData});
+          wx.setStorage({key:"aIndex", data:that.aIndex});
           wx.setStorage({ key: 'aCount', data: that.aCount });
-          wx.setStorage({key:"procedures", data:that.procedures});
+          wx.setStorage({key:"pIndex", data:that.pIndex});
         }
       }
     });

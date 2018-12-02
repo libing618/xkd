@@ -5,7 +5,7 @@ Page({
 	pageData: {},
     fLength: 3,
     tabs: ['','今日工作',''],
-    pageCk: app.mData.prodesign,
+    pageCk: app.aIndex.prodesign,
     wWidth: app.sysinfo.windowWidth
   },
   onLoad:function(options){

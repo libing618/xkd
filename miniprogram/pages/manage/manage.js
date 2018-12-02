@@ -1,7 +1,8 @@
 import {iMenu} from '../../modules/allmenu.js';
-import {tabClick} from '../../modules/util.js';
+import {tabClick,addViewData} from '../../modules/util.js';
 import { loginAndMenu, shareMessage } from '../../modules/initForm';
 import { openWxLogin } from '../../modules/wxcloudcf';
+import {getData} from '../../modules/db-get-data';
 var app = getApp();
 
 Page({
@@ -15,19 +16,19 @@ Page({
 
   onLoad: function () {
     var that = this;
-    app.mData.articles0 = require('../../test/articles').articles0;
-    app.mData.articles1 = require('../../test/articles').articles1;
-    app.mData.articles2 = require('../../test/articles').articles2;
-    app.mData.articles3 = require('../../test/articles').articles3;
-    app.aData.articles = require('../../test/articles').artdata;
+    app.aIndex.banner = require('../../test/articles').banner;
+    app.aIndex.articles = require('../../test/articles').articles;
+    Object.assign(app.aData, require('../../test/articles').artdata);
     that.setData({
       statusBar: app.sysinfo.statusBarHeight,
       wWidth: app.sysinfo.windowWidth / 3,                      //每个nav宽度
-      mSwiper: app.mData.articles0,
-      mPage: [app.mData.articles1, app.mData.articles2, app.mData.articles3],
-      pageData: app.aData.articles,
-      pageCk: app.mData.pCkarticles
+      mSwiper: app.aIndex.banner,
+      mPage: app.aIndex.articles,
+      pageData: app.aData,
+      pageCk: app.aIndex.pCkarticles
     });
+    that.banner = new getData('banner');
+    that.articles = new getData('articles',that.data.pageCk);
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       iMenu(0, rData.wmenu[0]).then(grids =>{

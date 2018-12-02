@@ -7,7 +7,7 @@ Page({
     mPage: [],
     pNo: 'goods',                       //商品信息
     pageData: {},
-    grids: []
+    grids: iMenu(1,app.roleData.wmenu[1])
   },
 
   setPage: function(){
@@ -18,11 +18,9 @@ Page({
 
   onReady: function(){
     this.setPage();              //更新缓存以后有变化的数据
-    this.grids = iMenu(1,app.roleData.wmenu[1]);
     this.setData({
       statusBar: app.sysinfo.statusBarHeight,
-      wWidth: app.sysinfo.windowWidth,
-      grids: this.grids
+      wWidth: app.sysinfo.windowWidth
     })
   },
 

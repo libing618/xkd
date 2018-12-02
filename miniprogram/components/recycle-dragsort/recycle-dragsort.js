@@ -62,11 +62,11 @@ Component({
       });
       this.gData = new getData(this.data.dataname, this.data.afamily, this.data.filterId)
       this.gData.gStorage().then(()=> {
-        if (this.gData.mData.indArr.length>0){
+        if (this.gData.aIndex.indArr.length>0){
           let aData = {};
-          this.gData.mData.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
+          this.gData.aIndex.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
           this.setData({
-            mPage: this.gData.mData.indArr,
+            mPage: this.gData.aIndex.indArr,
             pageData: aData
           });
           this.gData.upData().then(topItem=>{
@@ -110,7 +110,7 @@ methods: {
     if (!this._isValid()) {    // 如果还没有初始化, 不做任何事情
       return
     }
-    let spData = {mPage: this.gData.mData.indArr}
+    let spData = {mPage: this.gData.aIndex.indArr}
     addItem.forEach(mId=>{ spData['pageData.'+mId]=this.gData.aData[mId] });
     this.setData({spData})
   },
@@ -168,8 +168,8 @@ methods: {
           y:event.changedTouches[0].pageY,
       }
       console.log("firstTouchPosition:",firstTouchPosition);
-      var domData = this.getPositionDomByXY(firstTouchPosition);
-      console.log("domData:",domData);
+      var doaIndex = this.getPositionDomByXY(firstTouchPosition);
+      console.log("doaIndex:",doaIndex);
 
       //movable-area滑块位置处理
       var movableX = 0;
@@ -180,11 +180,11 @@ methods: {
               x:movableX,
               y:movableY,
               className:"",
-              data:domData
+              data:doaIndex
           }
       })
 
-      var secCode = domData.sDtSecCode;
+      var secCode = doaIndex.sDtSecCode;
       var secInfo = this.getOptionInfo(secCode);
       secInfo.selectPosition =  event.changedTouches[0].clientY;
       secInfo.selectClass = "dragSelected";

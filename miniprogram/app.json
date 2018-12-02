@@ -5,10 +5,8 @@
     "pages/production/production",
     "pages/customer/customer",
     "pages/signup/signup",
-    "pages/vprocedure/vprocedure",
-    "pages/lprocedures/lprocedures",
-    "pages/wxchat/wxchat",
-    "pages/approve/approve"
+
+    "pages/wxchat/wxchat"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -73,10 +71,19 @@
   },
   "subPackages": [
     {
+      "root": "pluginPage",
+      "pages": [
+        "approve/approve",
+        "procedures/procedures",
+        "vprocedure/vprocedure",
+        "lprocedures/lprocedures",
+        "fprocedure/fprocedure"
+      ]
+    },
+    {
       "root": "index",
       "pages": [
         "structure/structure",
-        "procedures/procedures",
         "rcustomer/rcustomer",
         "addresslist/addresslist",
         "workconnection/workconnection",
@@ -104,7 +111,6 @@
         "distribution/distribution",
         "packing/packing",
         "sOrder/sOrder",
-        "fprocedure/fprocedure",
         "supply/supply"
       ]
     }

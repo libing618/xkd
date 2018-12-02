@@ -12,16 +12,15 @@ export function hTabClick(e) {                                //点击头部tab
 };
 
 export function tabClick(e) {                                //点击tab
-  app.mData['pCk'+this.data.pNo] = Number(e.currentTarget.id);
-  console.log(e.currentTarget.id)
+  app.aIndex['pCk'+this.data.pNo] = Number(e.currentTarget.id);
   this.setData({
-    pageCk: app.mData['pCk'+this.data.pNo]               //点击序号切换
+    pageCk: app.aIndex['pCk'+this.data.pNo]               //点击序号切换
   });
 };
 
 export function indexRecordFamily(requery,indexField,aFamilyLength) {             //按索引字段和类型整理已读数据
   return new Promise((resolve, reject) => {
-    let aData = {}, indexList = new Array(aFamilyLength), aPlace = -1, iField, aFamily, fieldFamily, mData = {};
+    let aData = {}, indexList = new Array(aFamilyLength), aPlace = -1, iField, aFamily, fieldFamily, aIndex = {};
     indexList.fill([]);
     requery.forEach(onedata => {
       aData[onedata.id] = onedata;
@@ -30,17 +29,17 @@ export function indexRecordFamily(requery,indexField,aFamilyLength) {           
       fieldFamily = iField+''+aFamily;
       if (indexList[aFamily].indexOf(iField)<0) {
         indexList[aFamily].push(iField);
-        mData[fieldFamily] = {
+        aIndex[fieldFamily] = {
           uName:onedata.get('uName'),
           indexFieldId:[onedata.id]
         };                   //分类ID数组增加对应ID
       } else {
-        mData[fieldFamily].indexFieldId.push(onedata.id);
+        aIndex[fieldFamily].indexFieldId.push(onedata.id);
       };
     });
     let cPage = indexList.map((tId,family)=>{
       return tId.map(fi=>{
-        return { indexId: fi, uName: mData[fi + family].uName,iCount:mData[fi+family].indexFieldId.length}
+        return { indexId: fi, uName: aIndex[fi + family].uName,iCount:aIndex[fi+family].indexFieldId.length}
       })
     })
     resolve({indexList,aData}) ;
@@ -54,19 +53,25 @@ export function noEmptyObject(obj){
   return false;
 };
 
+export function addViewData(addItem,indArr) {
+  let spData = {mPage: indArr}
+  addItem.forEach(mId=>{ spData['pageData.'+mId]=app.aData[mId] });
+  this.setData(spData)
+};
+
 export function fetchRecord(requery,indexField,sumField) {                     //同步云端数据到本机
   return new Promise((resolve, reject) => {
-    let aData = {}, mData = {}, indexList = [], aPlace = -1, iField, iSum = {}, mChecked = {};
+    let aData = {}, aIndex = {}, indexList = [], aPlace = -1, iField, iSum = {}, mChecked = {};
     arp.forEach(onedata => {
       aData[onedata.id] = onedata;
       iField = onedata.get(indexField);                  //索引字段读数据数
       if (indexList.indexOf(iField<0)) {
         indexList.push(iField);
-        mData[iField] = [onedata.id];                   //分类ID数组增加对应ID
+        aIndex[iField] = [onedata.id];                   //分类ID数组增加对应ID
         iSum[iField] = onedata.get(sumField);
       } else {
         iSum[iField] += onedata.get(sumField);
-        mData[iField].push(onedata.id);
+        aIndex[iField].push(onedata.id);
       };
       mChecked[onedata.id] = true;
     });
@@ -114,7 +119,7 @@ export function familySel(pNo){              //数据表有分类控制的返回
   let psData = {};
   if (typeof app.fData[pNo].afamily != 'undefined') {
     psData.fLength = app.fData[pNo].afamily.length;
-    psData.pageCk = app.mData['pCk'+pNo];
+    psData.pageCk = app.aIndex['pCk'+pNo];
     psData.tabs = app.fData[pNo].afamily;
   };
   return psData;

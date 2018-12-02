@@ -21,10 +21,10 @@ Page({
     that.data.uEV = (app.roleData.user.line!=9);            //用户已通过单位和职位审核
     return new Promise((resolve, reject) => {
       if (typeof options.tgId == 'string') {                   //传入参数含审批流程ID，则为编辑审批中的数据
-        if (app.procedures[options.tgId].length>0) {
-          aaData = app.procedures[options.tgId].dObject;
+        if (app.pData[options.tgId].length>0) {
+          aaData = app.pData[options.tgId].dObject;
           that.data.targetId = options.tgId;
-          resolve({pNo:app.procedures[options.tgId].dProcedure,pId:app.procedures[options.tgId].dObjectId});
+          resolve({pNo:app.pData[options.tgId].dProcedure,pId:app.pData[options.tgId].dObjectId});
         } else { reject() };
       } else {
         let artid = Number(options.artId);

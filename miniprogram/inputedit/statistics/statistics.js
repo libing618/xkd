@@ -11,7 +11,7 @@ Page({
     iClicked: '0'
   },
   onLoad:function(options){
-    checkRols(9,app.roleData.user)
+    checkRols(8,app.roleData.user)
   },
 
   onReady:function(){

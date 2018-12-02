@@ -1,4 +1,4 @@
-const date0 = [
+aIndexconst date0 = [
   new Date(0),                          //最早更新时间
   new Date(0)                          //目前记录时间
 ]
@@ -28,10 +28,10 @@ module.exports={
     uUnit:{},                           //用户单位信息（若有）
     sUnit:{}                           //上级单位信息（若有）
   },
-  mData: {
-    processingAt:[date0,date0],           //缓存中处理中流程更新时间
-    proceduresAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0},
-    articles: [[], [], [], [], []],              //已发布文章分类缓存数组
+  aIndex: {
+    banner: [],
+    articles: [[], [], []],              //已发布文章分类缓存数组
+    qa: [],
     pCkarticles: 1,            //已发布文章分类阅读选中序号
     pCkpromotion: 1,            //已发布团购众筹分类阅读选中序号
     asset: [],              //已发布固定资产缓存数组
@@ -40,7 +40,11 @@ module.exports={
     cargo: [],              //已发布成品分类缓存数组
     goods: [],              //已发布商品分类缓存数组
     share: [],              //已发布规格分类缓存数组
-    promotion: [[],[], []],              //已发布团购众筹分类缓存数组
+    promotion: [[],[], []]              //已发布团购众筹分类缓存数组
+  },
+  pIndex: {
+    processingAt:[date0,date0],           //缓存中处理中流程更新时间
+    proceduresAt:{"articles":date0,"asset":date0,"product":date0,"service":date0,"cargo":date0,"goods":date0,"share":date0,"promotion":date0,"material":date0,"sOrder":date0,"prodesign":date0,"wholesale":date0,"rawStock":date0,"packing":date0,"order":date0},
     prodessing: [[],[]],              //流程分类缓存数组
     procedures: [],              //已发布流程缓存数组
     proceduresCk: 'goods'             //选中的已发布流程

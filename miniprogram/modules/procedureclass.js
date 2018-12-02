@@ -17,8 +17,9 @@ module.exports = {
     "title":{p:'单位简介', t:"h3"},
     "desc":{p: '单位描述', t: "p"},
     "thumbnail":{p: '图片简介', t:"t64" },
-    "address":{ p: '常用地址', t: "Geo",addFields:['aGeoPoint','code']},
-    "sUnit": { p: '服务单位', t: "mSU", addFields: ['uName']},
+    "address":{ p: '常用地址', t: "Geo",addFields:['aGeoPoint','code','poi']},
+    "sUnit": { p: '上级单位(或总部)', t: "mSU", addFields: ['uName']},
+    "radius":{p:'可送达半径,单位km', t:"digit" },
     "licenseNumber":{p:'社会信用代码', t: "h3" },
     "pPhoto":{p:'申请人手持身份证的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
     "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
@@ -32,7 +33,7 @@ module.exports = {
 },
 "articles":{
   "pName": "文章",
-  "afamily": ['公告公示','品牌建设','扶持优惠','产品宣传','常见问题'],
+  "afamily": ['品牌建设','扶持优惠','产品宣传'],
   "pSuccess": ["title","thumbnail","desc","details"],
   "fieldType":{
     "title":{t:"h2", p:"标题" },
@@ -45,6 +46,44 @@ module.exports = {
     "88"
   ],
   "pBewrite": "编写各类文章，经单位领导审批后发布。个人编写的此类文章由所属服务机构审批。",
+  "suRoles": [
+    "21",
+    "20"
+  ]
+},
+"banner":{
+  "pName": "公告公示",
+  "pSuccess": ["title","thumbnail","desc","details"],
+  "fieldType":{
+    "title":{t:"h2", p:"标题" },
+    "thumbnail":{p: '上传用于缩略图的图片',t: "-6" },
+    "desc":{t:"p", p:"摘要" },
+    "details":{p:'详情',t:"eDetail" }
+  },
+  "puRoles": [
+    "20",
+    "88"
+  ],
+  "pBewrite": "编写公告公示，经单位领导审批后发布。个人编写的此类文章由所属服务机构审批。",
+  "suRoles": [
+    "21",
+    "20"
+  ]
+},
+"qa":{
+  "pName": "常见问题",
+  "pSuccess": ["title","thumbnail","desc","details"],
+  "fieldType":{
+    "title":{t:"h2", p:"标题" },
+    "thumbnail":{p: '上传用于缩略图的图片',t: "-6" },
+    "desc":{t:"p", p:"摘要" },
+    "details":{p:'详情',t:"eDetail" }
+  },
+  "puRoles": [
+    "20",
+    "88"
+  ],
+  "pBewrite": "编写常见问题，经单位领导审批后发布。",
   "suRoles": [
     "21",
     "20"
@@ -151,7 +190,7 @@ module.exports = {
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
     "product":{p:'内含物', t:"cId", csc:"recordQuantity" },
-    "retail_price":{p:'零售价', t:"digit" },
+    "price":{p:'零售价', t:"digit", addFields:['old_price'] },
     "cargoStock":{p:'库存', t:"integer"},
     "canSupply":{p:'可供销售', t:"integer"}
   },
@@ -163,7 +202,7 @@ module.exports = {
 },
 "goods":{
   "pName": "商品",
-  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","video","factory","details"],
+  "pSuccess": ["goodstype","title","thumbnail","desc","specstype","cargo","pics","video","details"],
   "fieldType":{
     "goodstype":{ p:'商品类别',t:"gSt" },
     "title":{p:'简介',t:"h3" },
@@ -173,10 +212,22 @@ module.exports = {
     "cargo":{p:'成品规格', t:"cId", csc:"recordQuantity" },
     "pics":{p:'图片集',t:"-1"},
     "video":{p:'视频简介',t:"-4"},
+    "details":{p:'详情',t:"eDetail" }
+  },
+  "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
+  "puRoles": [
+    "12",
+    "11"
+  ],
+  "suRoles": ["12"]
+},
+"expense":{
+  "pName": "费用分配设置",
+  "pSuccess": ["channel","extension","factory"],
+  "fieldType":{
     "channel":{p:'渠道分成比例%',t:"allot"},
     "extension":{p:'推广分成比例%',t:"allot"},
-    "factory":{p:'销售管理总占比', t: "allot"},
-    "details":{p:'详情',t:"eDetail" }
+    "factory":{p:'销售管理总占比', t: "allot"}
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [

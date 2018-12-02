@@ -27,7 +27,7 @@
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <template is="{{ aprvClicked[1] ? 'selecticon1' : 'selecticon2'}}" />
       <view wx:if="{{enEdit && processState==0}}">
-        <navigator url="/inputedit/fprocedure/fprocedure?tgId={{aValue._id}}">
+        <navigator url="/pluginPage/fprocedure/fprocedure?tgId={{aValue._id}}">
           <view class="weui-cell__bd">审批内容（点击此处进行编辑）</view>
         </navigator>
       </view>

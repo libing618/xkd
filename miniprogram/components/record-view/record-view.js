@@ -73,7 +73,7 @@ Component({
 
     fEditProcedure(e){
       var that = this;
-      var url='/inputedit/fprocedure/fprocedure?pNo='+that.data.pno;
+      var url='/pluginPage/fprocedure/fprocedure?pNo='+that.data.pno;
       switch (e.currentTarget.id){
         case 'fModify' :
           url += '&artId='+that.data.vData._id;

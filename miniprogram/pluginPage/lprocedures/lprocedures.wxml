@@ -5,7 +5,7 @@
     <template is="tabPanel" data="{{ tPage: mPage , pageData , pNo }}"/>
   </view>
   <view class="page__ft">
-    <navigator url="/inputedit/fprocedure/fprocedure?pNo={{pNo}}&artId={{artId}}">
+    <navigator url="/pluginPage/fprocedure/fprocedure?pNo={{pNo}}&artId={{artId}}">
       <button class="weui-btn" type="primary" size="default">新建</button>
     </navigator>
   </view>

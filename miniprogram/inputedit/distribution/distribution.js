@@ -10,7 +10,7 @@ Page({
     pageData: {}
   },
   onLoad:function(options){
-    checkRols(9,app.roleData.user)
+    checkRols(8,app.roleData.user)
   },
 
   clickSave:function({currentTarget:{id}}){

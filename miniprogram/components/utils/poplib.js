@@ -19,7 +19,6 @@ module.exports = Behavior({
         fs.access({
           path: fName,
           success: (res)=> {
-            console.log(res)
             if (res.errMsg=='fail'){
               sFile.filepath = require('../../config.js').cloudFileRoot+pathName+sFile.filepath ;
             };

@@ -18,18 +18,18 @@ Page({
 
   onLoad:function(options){
     var that = this;
-    let procedureClass = app.fData[app.procedures[options.approveId].dProcedure];
-    app.procedures[options.approveId].dObject.unitId = app.procedures[options.approveId].unitId;
+    let procedureClass = app.fData[app.pData[options.approveId].dProcedure];
+    app.pData[options.approveId].dObject.unitId = app.pData[options.approveId].unitId;
     that.setData({
       bsType: req,      //流程内容格式
       navBarTitle: procedureClass.pName,     //将页面标题设置成流程名称
       pBewrite: procedureClass.pBewrite,     //流程说明
-      pModel: app.procedures[options.approveId].dProcedure,         //流程写入的数据表名
-      aValue: app.procedures[options.approveId],        //流程缓存
-      processState: app.procedures[options.approveId].processState,
-      enEdit: app.roleData.uUnit._id==app.procedures[options.approveId].unitId,          //本单位的流程允许编辑
+      pModel: app.pData[options.approveId].dProcedure,         //流程写入的数据表名
+      aValue: app.pData[options.approveId],        //流程缓存
+      processState: app.pData[options.approveId].processState,
+      enEdit: app.roleData.uUnit._id==app.pData[options.approveId].unitId,          //本单位的流程允许编辑
       afamilys: procedureClass.afamily ? procedureClass.afamily : false,                              //流程内容分组
-      cmLength: app.procedures[options.approveId].cManagers.length    //流程审批节点长度
+      cmLength: app.pData[options.approveId].cManagers.length    //流程审批节点长度
     });
   },
 
