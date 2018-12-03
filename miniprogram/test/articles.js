@@ -1,9 +1,10 @@
 module.exports = {
-banner: {b0:["58cae6c5b1acfc0056b0359e","58cae9a3b1acfc0056b03615","58caea2bfac9bd005684536b"]},
+  banner: {
+    "JCLz1KBiZihuA3kb01VNbjP/MUU=":["58cae6c5b1acfc0056b0359e","58cae9a3b1acfc0056b03615","58caea2bfac9bd005684536b"]},
 articles: {
-  a0:["58caefbc4eb0020058529166","58cf45b5b1acfc0056b1e370"],
-  a1:["58cf474bb1acfc0056b1e4ce"],
-  a2:["58cdade6b1acfc0056b13d25"]
+  "jbXUexuX+RlmHf+oh2ax/NYKwFs=":["58caefbc4eb0020058529166","58cf45b5b1acfc0056b1e370"],
+  "GSJKfTc119sWNh5C5EQhk1D7sIA=":["58cf474bb1acfc0056b1e4ce"],
+  "cuJhyWRyFLPK1/mEGvI/dYaqP7g=":["58cdade6b1acfc0056b13d25"]
 },
 artdata:{
 "58cae6c5b1acfc0056b0359e": {

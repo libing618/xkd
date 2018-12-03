@@ -19,17 +19,18 @@ Page({
     app.aIndex.banner = require('../../test/articles').banner;
     app.aIndex.articles = require('../../test/articles').articles;
     Object.assign(app.aData, require('../../test/articles').artdata);
+    that.banner = new getData('banner');
+    that.articles = []
+    for (let i = 0; i < 3; i++) { that.articles.push(new getData('articles', i)) };
     that.setData({
       statusBar: app.sysinfo.statusBarHeight,
       wWidth: app.sysinfo.windowWidth / 3,                      //每个nav宽度
-      mSwiper: app.aIndex.banner,
-      mPage: app.aIndex.articles,
+      mSwiper: that.banner.aIndex,
+      mPage: that.articles.map(a=>{return a.aIndex}),
       pageData: app.aData,
       pageCk: app.aIndex.pCkarticles
     });
-    that.banner = new getData('banner');
-    that.articles = []
-    for (let i=0;i<3;i++){ that.articles.push(new getData('articles',i)) };
+
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       iMenu(0, rData.wmenu[0]).then(grids =>{
@@ -60,6 +61,18 @@ Page({
   },
 
   tabClick: tabClick,
+
+  onPullDownRefresh: function () {
+    this.articles[this.data.pageCk].upData().then(aSetData={
+      if (aSetData) {addViewData(aSetData,'mPage['+this.data.pageCk+']',this.articles[this.data.pageCk].aIndex)}
+    });
+  },
+
+  onReachBottom: function () {
+    this.articles[this.data.pageCk].downData().then(aSetData={
+      if (aSetData) {addViewData(aSetData,'mPage['+this.data.pageCk+']',this.articles[this.data.pageCk].aIndex)}
+    });
+  },
 
   onShareAppMessage: shareMessage    // 用户点击右上角分享
 

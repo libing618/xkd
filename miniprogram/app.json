@@ -61,7 +61,6 @@
     "record-view": "components/record-view/record-view",
     "recycle-dragsort": "components/recycle-dragsort/recycle-dragsort",
     "recycle-select": "components/recycle-select/recycle-select",
-    "recycle-view": "components/recycle-view/recycle-view",
     "rich-view-edit": "components/rich-view-edit/rich-view-edit",
     "share-order": "components/share-order/share-order",
     "switch-afamily": "components/switch-afamily/switch-afamily",

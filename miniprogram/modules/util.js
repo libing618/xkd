@@ -53,8 +53,9 @@ export function noEmptyObject(obj){
   return false;
 };
 
-export function addViewData(addItem,indArr) {
-  let spData = {mPage: indArr}
+export function addViewData(addItem,mPage,indArr) {
+  let spData = {}
+  spData[mPage] = indArr;
   addItem.forEach(mId=>{ spData['pageData.'+mId]=app.aData[mId] });
   this.setData(spData)
 };

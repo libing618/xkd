@@ -12,7 +12,7 @@ function _mapResData(rData){           //处理查询到的数组
 function objToStrArr(obj) {
   let arr = [];
   for (let k in obj) {
-    arr.push(k + '=' + obj[k])
+    arr.push(k + '=' + JSON.stringify(obj[k]))
   }
   return arr
 }
@@ -22,24 +22,22 @@ function  _getError(error) {
   app.logData.push([Date.now(), JSON.stringify(error)]);
 };
 export class getData {               //wxcloud查询
-  constructor (dataName,afamily=0,uId=app.roleData.user.unit,requirement={},orderArr=['updatedAt','desc']) {
+  constructor (dataName,afamily=0,uId=app.roleData.user.unit,requirement={},orderArr=[['updatedAt','desc']]) {
     this.pNo = dataName;
-    if(['articles','banner','qa'].includes(dataName)){               //是否全部单位数组
-      this.unitFamily = 'allUnit' + afamily;
-      requirement = {afamily: _.eq(afamily)};
+    if (['articles','banner','qa'].includes(dataName)) {               //是否全部单位数组
+      this.unitFamily = 'allUnit';
     } else {
       this.unitFamily = uId;
-      requirement = {unitId: _.eq(uId)};                //除文章类数据外只能查指定单位的数据
-      if (app.fData[dataName].afamily){       //是否有分类数组
-        requirement.afamily = _.eq(afamily);
-        this.unitFamily  += afamily;
-      }
-    };
+      requirement.unitId = _.eq(uId)
+    };                //除文章类数据外只能查指定单位的数据
+    if (app.fData[dataName].afamily) {       //是否有分类数组
+      requirement.afamily = _.eq(afamily);
+      this.unitFamily  += afamily;
+    }
     let orderStrArr = orderArr.map(aOrder=>{ return aOrder[0]+'^'+aOrder[1] });  //排序条件生成字符串数组
     let requirStrArr = objToStrArr(requirement).concat(orderStrArr);  //查询条件生成字符串数组合并排序条件字符串数组
     let requirString = requirStrArr.sort().join('&');
     this.filterId = crypto.enc.Base64.stringify(crypto.HmacSHA1(requirString, this.unitFamily));  //生成条件签名
-console.log(requirString,'-----',this.filterId)
     if (app.aIndex[this.pNo].hasOwnProperty(this.filterId)) {       //添加以条件签名为Key的JSON初值
       this.aIndex = app.aIndex[this.pNo][this.filterId].filter(indkey=>{ return indkey in app.aData })
     } else {
@@ -51,8 +49,11 @@ console.log(requirString,'-----',this.filterId)
   };
 
   downData(){    //向下查询
-    if (!this.isEnd){
-      return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+      if (this.isEnd){
+        wx.showToast({title:'到底了',icon:'warn',duration:1000});
+        resolve(false);
+      } else {
         this.dQuery.skip(this.aIndex.length).limit(20).get().then(({data}) => {
           if (data.length>0){
             let addItemId = _mapResData(data);
@@ -70,14 +71,15 @@ console.log(requirString,'-----',this.filterId)
                 this.bufferData = [];
               };
             }
+            app.aIndex[this.pNo][this.filterId] = this.aIndex;
             resolve(addItemId);
           } else {
             this.isEnd = true;
-            resolve([]);
+            resolve(false);
           }
         })
-      })
-    }
+      }
+    })
   };
   upData(){    //从头查询
     return new Promise((resolve, reject) => {
@@ -105,9 +107,10 @@ console.log(requirString,'-----',this.filterId)
               this.aIndex = addItemId;
             }
           }
+          app.aIndex[this.pNo][this.filterId] = this.aIndex;
           resolve(addItemId);
         } else {
-          resolve([]);
+          resolve(false);
         }
       })
     })
@@ -124,18 +127,12 @@ console.log(requirString,'-----',this.filterId)
             } else {
               this.aIndex = _mapResData(aProcedure);
               this.isEnd = true;
+              app.aIndex[this.pNo][this.filterId] = this.aIndex;
               resolve(this.aIndex);
             }
           });
         }
       });
-    })
-  };
-  closeData(){
-    app.aIndex[this.pNo][this.filterId] = this.aIndex;
-    wx.setStorage({
-      key: 'aIndex.'+this.pNo,
-      data: app.aIndex[this.pNo]
     })
   }
 }

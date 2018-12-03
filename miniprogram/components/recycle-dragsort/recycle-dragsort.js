@@ -78,10 +78,8 @@ Component({
 
     detached() {
       if (this.gData) {
-        this.gData.closeData().then(() => {
-          this.gData.destroy();
-          this.gData = null
-        })
+        this.gData.destroy();
+        this.gData = null
       };
     }
   },

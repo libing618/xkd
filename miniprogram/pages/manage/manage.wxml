@@ -28,7 +28,6 @@
         <record-view pno="{{pNo}}" sitem="{{pageData[item]}}"></record-view>
       </block>
     </view>
-    <!--<recycle-view dataname="articles" afamily="{{pageCk+1}}"></recycle-view> -->
   </view>
 
 </view>
