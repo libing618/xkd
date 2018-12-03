@@ -1,4 +1,4 @@
-aIndexconst date0 = [
+const date0 = [
   new Date(0),                          //最早更新时间
   new Date(0)                          //目前记录时间
 ]

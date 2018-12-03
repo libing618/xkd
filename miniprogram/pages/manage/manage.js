@@ -28,7 +28,8 @@ Page({
       pageCk: app.aIndex.pCkarticles
     });
     that.banner = new getData('banner');
-    that.articles = new getData('articles',that.data.pageCk);
+    that.articles = []
+    for (let i=0;i<3;i++){ that.articles.push(new getData('articles',i)) };
     loginAndMenu(app.roleData).then( rData => {
       app.roleData = rData;
       iMenu(0, rData.wmenu[0]).then(grids =>{

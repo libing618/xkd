@@ -1,10 +1,10 @@
 module.exports = {
-banner: ["58cae6c5b1acfc0056b0359e","58cae9a3b1acfc0056b03615","58caea2bfac9bd005684536b"],
-articles: [
-  ["58caefbc4eb0020058529166","58cf45b5b1acfc0056b1e370"],
-  ["58cf474bb1acfc0056b1e4ce"],
-  ["58cdade6b1acfc0056b13d25"]
-]
+banner: {b0:["58cae6c5b1acfc0056b0359e","58cae9a3b1acfc0056b03615","58caea2bfac9bd005684536b"]},
+articles: {
+  a0:["58caefbc4eb0020058529166","58cf45b5b1acfc0056b1e370"],
+  a1:["58cf474bb1acfc0056b1e4ce"],
+  a2:["58cdade6b1acfc0056b13d25"]
+},
 artdata:{
 "58cae6c5b1acfc0056b0359e": {
   "afamily": 0,
