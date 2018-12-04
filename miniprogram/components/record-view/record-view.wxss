@@ -1,6 +1,0 @@
-:host {
-  display: inline-block;
-}
-.wx-recycle-item {
-  height: 160rpx;
-}

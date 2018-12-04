@@ -117,7 +117,7 @@ Component({
             height: 225,
             success:(res)=> {
               const upng =require("../../libs/UPNG.js")          //比较重要的代码
-              let png = upng.encode([res.data.buffer],res.width,res.height)
+              let png = upng.encode([res.data.buffer], res.width,res.height)
               that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
               that.downModal();
             }

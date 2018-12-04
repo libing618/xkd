@@ -14,23 +14,18 @@ Component({
       type: String,
       value: 'goods'
     },
-    id: {
-      type: String,
-      value: '0'
-    },
-    sitem: {type: Object},
-    clickid: {
-      type: String,
-      value: '0'
-    }
+    sitem: Object
   },
   options: {
     addGlobalClass: true
   },
 
   data: {
+    statusBar: app.sysinfo.statusBarHeight,
+    windowHeight: app.sysinfo.windowHeight,
     fieldName: [],
     fieldType: {},
+    clickid: '0',
     uEV: app.roleData.user.line!=9,    //用户已通过单位和职位审核
     enUpdate: false,
     vData:{},
@@ -57,7 +52,7 @@ Component({
   },
 
   methods:{
-    clickitem(){
+    clickitem(e){
       if (this.data.clickid == e.currentTarget.id){
         this.setData({
           fieleName: app.fData[this.data.pno].pSuccess,

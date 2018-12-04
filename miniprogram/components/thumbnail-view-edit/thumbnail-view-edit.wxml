@@ -20,6 +20,6 @@
     </view>
   </view>
   <view wx:else class="weui-msg" bindtap="i_thumbnail">
-    <image class="{{filepath ? 'show_msg' : 'place_msg'}}" src="{{filepath}}" mode="aspectFit"></image>
+    <image class="{{value ? 'show_msg' : 'place_msg'}}" src="{{value}}" mode="aspectFit"></image>
   </view>
 </view>
