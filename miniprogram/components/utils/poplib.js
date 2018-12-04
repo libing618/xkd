@@ -1,9 +1,9 @@
-var sysinfo = getApp().sysinfo
+const {sysinfo} = getApp();
 module.exports = Behavior({
   data: {
     statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
-    Height: sysinfo.windowHeight-300,
+    windowHeight: sysinfo.windowHeight - sysinfo.statusBarHeight-20,
+    height: sysinfo.windowHeight-300,
     animationData: {},
     showModalBox: false
   },
@@ -17,7 +17,7 @@ module.exports = Behavior({
           sFile.value  = fileName.f;
         }
         fs.access({
-          path: fName,
+          path: fileName,
           success: (res)=> {
             if (res.errMsg=='fail'){
               sFile.value = require('../../config.js').cloudFileRoot+pathName+sFile.value ;

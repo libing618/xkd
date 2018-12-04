@@ -21,11 +21,8 @@ Component({
   },
 
   data: {
-    statusBar: app.sysinfo.statusBarHeight,
-    windowHeight: app.sysinfo.windowHeight,
     fieldName: [],
     fieldType: {},
-    clickid: '0',
     uEV: app.roleData.user.line!=9,    //用户已通过单位和职位审核
     enUpdate: false,
     vData:{},
@@ -53,17 +50,13 @@ Component({
 
   methods:{
     clickitem(e){
-      if (this.data.clickid == e.currentTarget.id){
-        this.setData({
-          fieleName: app.fData[this.data.pno].pSuccess,
-          fieldType: app.fData[this.data.pno].fieldType,
-          vData: initData(app.fData[this.data.pno].pSuccess, app.fData[this.data.pno].fieldType, this.data.sitem),
-          enUpdate: this.data.sitem.unitId==app.roleData.uUnit._id && typeof app.fData[this.data.pno].suRoles!='undefined'
-        });
-        this.popModal()
-      } else {
-        this.setData({ clickid: e.currentTarget.id});
-      }
+      this.setData({
+        fieldName: app.fData[this.data.pno].pSuccess,
+        fieldType: app.fData[this.data.pno].fieldType,
+        vData: initData(app.fData[this.data.pno].pSuccess, app.fData[this.data.pno].fieldType, this.data.sitem),
+        enUpdate: this.data.sitem.unitId==app.roleData.uUnit._id && typeof app.fData[this.data.pno].suRoles!='undefined'
+      });
+      this.popModal();
     },
 
     fEditProcedure(e){

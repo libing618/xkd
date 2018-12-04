@@ -1,5 +1,6 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
+<view id="{{sitem._id}}">
 <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
   <view class="modal_box" bindtap="downModal"></view>
   <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
@@ -14,7 +15,6 @@
         </block>
       </view>
     </view>
-    <view style="padding-bottom:100rpx;"></view>
     <view wx:if="{{uEV}}" class="page__ft weui-footer_fixed-bottom">
       <button wx:if="{{enUpdate}}" class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fModify" bindtap="fEditProcedure">修改并重新审批</button>
       <button class="weui-btn" style="display:inline-block" type="primary" size="mini" id="fTemplate" bindtap="fEditProcedure">以此为模板新建</button>
@@ -24,8 +24,8 @@
     </view>
   </view>
 </view>
-<view wx:else class="wx-recycle-item">
-  <view class="weui-media-box weui-media-box_appmsg" id="{{sitem._id}}" hover-class="{{sitem._id==clickid ? 'weui-cell_active' : ''}}" bindtap="clickitem">
+<view wx:else class="weui-media-box">
+  <view class="weui-media-box_appmsg" hover-class="weui-cell_active" bindtap="clickitem">
     <view class="weui-media-box__hd_in-appmsg">
       <image class="weui-media-box__thumb" src="{{sitem.thumbnail}}" background-size="cover"></image>
     </view>
@@ -35,4 +35,5 @@
       <view wx:if="{{pno=='goods'}}" class="weui-media-box__desc">已售{{scale}},库存{{csupply}}</view>
     </view>
   </view>
+</view>
 </view>

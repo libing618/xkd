@@ -24,8 +24,6 @@ Component({
   },
 
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
     xImage: 300,
     yImage: 225,
     cScale: 1,

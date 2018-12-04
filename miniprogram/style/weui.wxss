@@ -80,7 +80,7 @@ icon {
 }
 
 .weui-cell_active {
-	background-color: #ececec
+	background-color: #999
 }
 
 .weui-cell_primary {
