@@ -7,15 +7,19 @@ Component({
   properties: {
     p: {
       type: String,
-      value: '缩略图',
+      value: '缩略图'
     },
     csc: {
       type: String,
-      value: 'pic',
+      value: 'pic'
+    },
+    editable: {
+      type: Number,
+      value: 0
     },
     name: {
       type: String,
-      value: 'thumbnail',
+      value: 'thumbnail'
     },
     value: String
   },

@@ -5,6 +5,7 @@ Component({
       type: String,
       value: '地址',
     },
+    name: String,
     value: {
       type: Array,
       value: []

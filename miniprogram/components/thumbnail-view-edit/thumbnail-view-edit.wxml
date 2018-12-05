@@ -1,8 +1,8 @@
 <view id="{{name}}">
   <view hidden="{{editable==0}}" class="weui-cells__tips">{{p}}:</view>
-  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
-    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
       <view class="modal_title">
         <view class='pm-sure_btn' bindtap='fSave'>确定</view>
         <view class='pm-cancel_btn' bindtap='downModal'>取消</view>

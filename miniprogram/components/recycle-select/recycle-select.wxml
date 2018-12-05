@@ -1,11 +1,11 @@
 <view id="{{name}}">
   <view class="weui-label">{{p}}</view>
-  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
-    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
       <view class="page__title">选择--{{p}}</view>
       <view class="close_icon" bindtap="downModal">×</view>
-      <view style="height:{{height}}px;width:100%;transform:translateZ(0);-webkit-transform:translateZ(0);">
+      <view style="width:100%;transform:translateZ(0);-webkit-transform:translateZ(0);">
         <scroll-view style='height:100%;position: relative;' scroll-y="{{true}}" scroll-x="{{false}}" scroll-into-view="{{clickedid}}" scroll-with-animation="{{true}}" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" enable-back-to-top="{{true}}">
           <view class="weui-tab__panel">
             <block wx:for="{{mPage}}" wx:key="{{index}}">

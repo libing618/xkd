@@ -1,9 +1,9 @@
 <import src="../../libs/wedetail.wxml" />
 <import src="../../libs/weimport.wxml" />
 <view id="{{sitem._id}}">
-  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
-    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
       <view class="page__hd">
         <view class="page__title">{{pageData[targetId].uName}}</view>
         <view class="close_icon" bindtap="downModal">×</view>

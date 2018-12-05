@@ -27,8 +27,8 @@ App({
             traceUser: true
           })
         };
-        that.sysinfo.itemtotal = Math.floor(2.5*res.windowHeight/res.screenWidth)   //item高300rpx 屏幕宽750rpx
-        that.sysinfo.rpxTopx = res.windowWidth/750;
+        that.sysinfo.useHight = res.windowHeight-res.statusBarHeight-20;
+        that.sysinfo.rpxTopx = res.windowWidth/750;                   //转换比例屏幕宽750rpx
       }
     });
     ['aIndex', 'aData','roleaData','aCount','pIndex'].forEach(dataName => {

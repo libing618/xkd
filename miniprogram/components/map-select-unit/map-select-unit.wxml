@@ -1,8 +1,8 @@
 <view id="{{name}}">
   <view class="weui-cells__tips">{{p}}</view>
-  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
-    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{windowHeight}}px;">
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
       <view class="page__title" bindtap="fSave">选择{{unitArray[sId].uName}}</view>
       <view class="close_icon" bindtap="downModal">×</view>
       <view class="weui-map-box">

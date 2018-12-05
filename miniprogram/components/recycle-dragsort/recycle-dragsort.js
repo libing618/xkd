@@ -1,6 +1,5 @@
 import {getData} from '../../modules/db-get-data'
 var app = getApp()
-let SHOW_SCREENS = app.sysinfo.itemtotal //最多显示条数
 const { transformRpx } = require('../utils/transformRpx');
 Component({
   options: {
@@ -57,9 +56,6 @@ Component({
   },
   lifetimes: {
     attached() {
-      this.setData({
-        height: transformRpx(Math.max(this.data.showitems, SHOW_SCREENS)* 160, true)
-      });
       this.gData = new getData(this.data.dataname, this.data.afamily, this.data.filterId)
       this.gData.gStorage().then(()=> {
         if (this.gData.aIndex.indArr.length>0){
