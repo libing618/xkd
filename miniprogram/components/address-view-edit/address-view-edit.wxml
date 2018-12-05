@@ -1,10 +1,10 @@
 <view id="{{name}}">
-<view class="weui-cells__tips" bindtap='modalEditAddress'>{{p}}:{{value._id}}</view>
-<view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
+<view class="weui-cells__tips" bindtap='modalEditAddress'>{{value._id}}</view>
+<view wx:if="{{showModalBox}}" class="place_box" style="top:{{useWindowTop}}px;height:{{useWindowHeight}}px;">
   <view class="modal_box" bindtap="downModal"></view>
-  <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
+  <view animation="{{animationData}}" class="modal_attr_box" style="top:{{useWindowTop}}px;height:{{useWindowHeight}}px;">
     <view class="page__hd">
-      <view class="page__title">{{p}}</view>
+      <view class="page__title">位置选择并编辑地址</view>
       <view class="close_icon" bindtap="downModal">×</view>
     </view>
     <view class="page__bd">

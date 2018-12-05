@@ -1,8 +1,7 @@
 <view id="{{name}}">
-  <view class="weui-label">{{p}}</view>
-  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
+  <view wx:if="{{showModalBox}}" class="place_box" style="top:{{useWindowTop}}px;height:{{useWindowHeight}}px;">
     <view class="modal_box" bindtap="downModal"></view>
-    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{statusBar+42}}px;height:{{useHeight}}px;">
+    <view animation="{{animationData}}" class="modal_attr_box" style="top:{{useWindowTop}}px;height:{{useWindowHeight}}px;">
       <view class="page__title">选择--{{p}}</view>
       <view class="close_icon" bindtap="downModal">×</view>
       <view style="width:100%;transform:translateZ(0);-webkit-transform:translateZ(0);">
@@ -19,7 +18,7 @@
       </view>
     </view>
   </view>
-  <view class="weui-cell" bindtap="selectid">
+  <view wx:else class="weui-cell" bindtap="selectid">
     <view wx:if="{{csc=='idname'}}">
       <view class="weui-cell__hd">{{p}}:</view>
       <view class="weui-cell__bd">{{c.sName}}</view>

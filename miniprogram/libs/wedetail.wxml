@@ -24,10 +24,10 @@
   </view>
 </template>
 <template name="drT">
-  <rich-view-edit name="adc{{n}}" value="{{c}}" type="T" editable></rich-view-edit>
+  <rich-view-edit name="adc{{n}}" value="{{c}}" csc="T" editable></rich-view-edit>
 </template>
 <template name="dre">
-  <rich-view-edit name="adc{{n}}" value="{{c}}" type="e" editable></rich-view-edit>
+  <rich-view-edit name="adc{{n}}" value="{{c}}" csc="e" editable></rich-view-edit>
 </template>
 <template name="dsg">
   <recycle-select name="adc{{n}}" value="{{c}}" csc="goods" editable></recycle-select>

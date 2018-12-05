@@ -5,10 +5,6 @@ var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
-    p: {
-      type: String,
-      value: '缩略图'
-    },
     csc: {
       type: String,
       value: 'pic'

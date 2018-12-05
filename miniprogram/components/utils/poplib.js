@@ -1,8 +1,8 @@
 const {sysinfo} = getApp();
 module.exports = Behavior({
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    useHeight: sysinfo.useHeight,
+    useWindowTop: sysinfo.statusBarHeight+42,
+    useWindowHeight: sysinfo.useWindowHeight,
     animationData: {},
     showModalBox: false
   },

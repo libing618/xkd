@@ -20,6 +20,7 @@ Component({
       type: Boolean,
       value: false,
     },
+    name: String,
     value: {
       type: String,
       value: '',

@@ -27,7 +27,7 @@ App({
             traceUser: true
           })
         };
-        that.sysinfo.useHight = res.windowHeight-res.statusBarHeight-20;
+        that.sysinfo.useWindowHeight = res.windowHeight-res.statusBarHeight-20;
         that.sysinfo.rpxTopx = res.windowWidth/750;                   //转换比例屏幕宽750rpx
       }
     });

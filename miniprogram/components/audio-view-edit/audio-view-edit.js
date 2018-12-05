@@ -5,10 +5,6 @@ Component({
   properties: {
     name: String,
     value: String,
-    p: {
-      type: String,
-      value: '音频文件',
-    },
     editable: {
       type: Number,
       value: 0

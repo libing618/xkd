@@ -6,10 +6,6 @@ Component({
   properties: {
     value: Array,
     name: String,
-    p: {
-      type: String,
-      value: '单频文件',
-    },
     editable: {
       type: Number,
       value: 0

@@ -5,10 +5,6 @@ var mapBahavior = require('../utils/mapAnalysis.js');   //位置授权及解析
 Component({
   behaviors: [modalBehavior,mapBahavior,'wx://form-field'],
   properties: {
-    p: {
-      type: String,
-      value: '地址',
-    },
     name: {
       type: String,
       value: 'thumbnail',

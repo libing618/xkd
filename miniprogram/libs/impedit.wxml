@@ -7,35 +7,41 @@ module.exports =
 module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </wxs>
 <template name="i_-1">
-  <pics-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></pics-view-edit>
+  <view class="weui-label">{{p}}</view>
+  <pics-view-edit name="{{gname}}" value="{{c}}" editable="1"></pics-view-edit>
 </template>
 
 <template name="i_-2">
+  <view class="weui-label">{{p}}</view>
   <thumbnail-view-edit name="{{gname}}" csc="pic" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
 </template>
 
 <template name="i_-3">
+  <view class="weui-label">{{p}}</view>
   <audio-view-edit name="{{gname}}" value="{{c}}" editable="1"></audio-view-edit>
 </template>
 
 <template name="i_-4">
+  <view class="weui-label">{{p}}</view>
   <video-view-edit name="{{gname}}" value="{{c}}" editable="1"></video-view-edit>
 </template>
 
 <template name="i_-5">
+  <view class="weui-label">{{p}}</view>
   <file-select name="{{gname}}" value="{{c}}" editable="1"></file-select>
 </template>
 
 <template name="i_-6">
-  <thumbnail-view-edit name="{{gname}}" csc="img" value="{{c}}" p="{{p}}" editable="1"></thumbnail-view-edit>
+  <view class="weui-label">{{p}}</view>
+  <thumbnail-view-edit name="{{gname}}" csc="{{csc}}" value="{{c}}" editable="1"></thumbnail-view-edit>
 </template>
 
-<template name="i_arrList">
+<template name="i_are">
   <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editable="1"></array-view-edit>
 </template>
 
 <template name="i_ast">
-  <asset-type c="{{c}}" p="{{p}}"></asset-type>
+  <asset-type name="{{gname}}" c="{{c}}" p="{{p}}"></asset-type>
 </template>
 
 <template name="i_cId">
@@ -80,7 +86,8 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_Geo">
-  <address-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></address-view-edit>
+  <view class="weui-label">{{p}}</view>
+  <address-view-edit name="{{gname}}" value="{{c}}" editable="1"></address-view-edit>
 </template>
 
 <template name="i_gSt">

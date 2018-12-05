@@ -14,25 +14,17 @@ Component({
   },
 
   properties: {
-    showitems: {           //本块显示内容条数
-      type: Number,
-      value: 4,
+    name: {
+      type: String,
+      value: ''
     },
     value: {
       type: Object,
       value:{ _id: '0', sName: '点此处进行选择' }
     },
-    name: {
+    csc: {
       type: String,
-      value: 'goods',
-    },
-    afamily: {           //数据表的类型
-      type: Number,
-    //  value: 0,
-    },
-    filterId: {
-      type: String,
-      value: 'updatedAtdesc'
+      value: 'goods'
     },
     editable: {
       type: Number,
@@ -41,12 +33,8 @@ Component({
   },
 
   data: {
-    pNo: '',
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
     mPage: [],
     pageData: {},
-    height: sysinfo.windowHeight,
     clickedid: '0'
   },
   lifetimes: {
@@ -87,21 +75,23 @@ Component({
       this.setData({spData})
     },
     selectid() {            //单项选择面板弹出页
-      this.gData = new getData(this.data.name, this.data.afamily, this.data.filterId)
-      this.gData.gStorage().then(()=> {
-        if (this.gData.aIndex.indArr.length>0){
-          let aData = {};
-          this.gData.aIndex.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
-          this.setData({
-            mPage: this.gData.aIndex.indArr,
-            pageData: aData
-          });
-          this.gData.upData().then(topItem=>{
-            this._addViewData(topItem)
-          })
-        }
-      });
-      this.popModal();
+      if (this.data.editable){
+        this.gData = new getData(this.data.name, this.data.afamily, this.data.filterId)
+        this.gData.gStorage().then(()=> {
+          if (this.gData.aIndex.indArr.length>0){
+            let aData = {};
+            this.gData.aIndex.indArr.forEach(mId=>{ aData[mId]=this.gData.aData[mId] })
+            this.setData({
+              mPage: this.gData.aIndex.indArr,
+              pageData: aData
+            });
+            this.gData.upData().then(topItem=>{
+              this._addViewData(topItem)
+            })
+          }
+        });
+        this.popModal();
+      };
     },
 
     successid(e) {                  //选定返回

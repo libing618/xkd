@@ -4,10 +4,7 @@ var modalBehavior = require('../utils/poplib.js');
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
-    p: {
-      type: String,
-      value: '文件',
-    },
+    name: String,
     value: {
       type: String,
       value: '文件路径',

@@ -3,11 +3,8 @@ const placeFile = require('../../config.js').placevideo;      //占位视频文�
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
   properties: {
+    name: String,
     value: String,
-    p: {
-      type: String,
-      value: '视频文件',
-    },
     editable: {
       type: Number,
       value: 0
