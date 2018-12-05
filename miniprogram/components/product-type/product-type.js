@@ -6,6 +6,7 @@ Component({
       type: String,
       value: '地址',
     },
+    name: String,
     value: {
       type: Object,
       value: {_id: 0, uName: '点此处进行选择'}
@@ -33,7 +34,6 @@ Component({
     productsel(e) {                         //数组选择类型
       let vdSet = {inclose: true};      //数组下标
       if (!this.data.inclose) {
-        vdSet.c = { _id: e.currentTarget.dataset.ca, uName:e.currentTarget.dataset.sa };
         vdSet.value = { _id: e.currentTarget.dataset.ca, uName:e.currentTarget.dataset.sa };
       }
       this.setData(vdSet);

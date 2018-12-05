@@ -5,7 +5,7 @@ Component({
   properties: {
     p: {
       type: String,
-      value: 'goods',
+      value: '渠道分成',
     },
     name: {
       type: String,

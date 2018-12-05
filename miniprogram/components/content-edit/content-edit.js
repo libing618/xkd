@@ -6,11 +6,11 @@ Component({
       type: String,
       value: 'goods',
     },
-    p: {
-      type: String,
-      value: '0'
+    editable: {
+      type: Number,
+      value: 0
     },
-    value: {type: Array},
+    value: Array,
     clickid: {
       type: String,
       value: '0'

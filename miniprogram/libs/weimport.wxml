@@ -35,7 +35,7 @@
 </template>
 
 <template name="s_are">
-  <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editable="0"></array-view-edit>
+  <array-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></array-view-edit>
 </template>
 
 <template name="s_ast">
@@ -45,8 +45,9 @@
   </view>
 </template>
 
-<template name="s_cId">
-  <field-view pno="{{gname}}" c="{{c}}" p="{{p}}"></field-view>
+<template name="s_cAe">
+  <view class="weui-label">{{p}}</view>
+  <content-edit name="{{gname}}" value="{{c}}" editable="0"></content-edit>
 </template>
 
 <template name="s_digit">

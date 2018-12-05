@@ -21,14 +21,14 @@
   <view wx:else class="weui-cell" bindtap="selectid">
     <view wx:if="{{csc=='idname'}}">
       <view class="weui-cell__hd">{{p}}:</view>
-      <view class="weui-cell__bd">{{c.sName}}</view>
+      <view class="weui-cell__bd">{{value.sName}}</view>
     </view>
     <view wx:else>
       <view class="weui-cell__hd">
-          <image src="{{c.thumbnail}}" class="weui-thumb"></image>
+          <image src="{{value.thumbnail}}" class="weui-thumb"></image>
       </view>
-      <view class="weui-cell__bd">{{c.uName}}</view>
-      <view class="weui-cell__ft weui-cell__ft_in-access">{{c.title}}</view>
+      <view class="weui-cell__bd">{{value.uName}}</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">{{value.title}}</view>
     </view>
   </view>
 </view>

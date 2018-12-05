@@ -1,4 +1,4 @@
-<import src="wedetail.wxml" />
+value=<import src="wedetail.wxml" />
 <wxs module="mDot">
 module.exports =
   function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
@@ -37,15 +37,16 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_are">
-  <array-view-edit name="{{gname}}" c="{{c}}" p="{{p}}" editable="1"></array-view-edit>
+  <array-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></array-view-edit>
 </template>
 
 <template name="i_ast">
-  <asset-type name="{{gname}}" c="{{c}}" p="{{p}}"></asset-type>
+  <asset-type name="{{gname}}" value="{{c}}" p="{{p}}"></asset-type>
 </template>
 
-<template name="i_cId">
-  <content-edit name="{{gname}}" c="{{c}}" p="{{p}}"></content-edit>
+<template name="i_cAe">
+  <view class="weui-label">{{p}}</view>
+  <content-edit name="{{gname}}" value="{{c}}" editable="1"></content-edit>
 </template>
 
 <template name="i_digit">
@@ -76,7 +77,7 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 <template name="i_fg">
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__hd">
-        <view class="weui-label">{{p}}:</view>
+      <view class="weui-label">{{p}}:</view>
     </view>
     <view class="weui-cell__bd">
       <view>{{c ? c : 0}}</view>
@@ -147,7 +148,7 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_iSc">
-  <inscan-edit name="{{gname}}" c="{{c}}" p="{{p}}"></inscan-edit>
+  <inscan-edit name="{{gname}}" value="{{c}}" p="{{p}}"></inscan-edit>
 </template>
 
 <template name="i_listsel">
@@ -184,11 +185,11 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_pDt">
-  <product-type name="{{gname}}" c="{{c}}" p="{{p}}"></product-type>
+  <product-type name="{{gname}}" value="{{c}}" p="{{p}}"></product-type>
 </template>
 
 <template name="i_sId">
-  <recycle-select name="{{gname}}" c="{{c}}" p="{{p}}"></recycle-select>
+  <recycle-select name="{{gname}}" value="{{c}}" p="{{p}}"></recycle-select>
 </template>
 
 <template name="i_tVE">

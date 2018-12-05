@@ -7,11 +7,8 @@ Component({
       type: String,
       value: 'goods',
     },
-    id: {
-      type: String,
-      value: '0'
-    },
-    c: {
+    name: String,
+    value: {
       type: String,
       value: '0'
     }

@@ -24,7 +24,7 @@ Component({
     },
     csc: {
       type: String,
-      value: 'goods'
+      value: 'idthum'
     },
     editable: {
       type: Number,

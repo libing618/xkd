@@ -2,7 +2,6 @@
 //iNd行业数组选择，存储{code:代码数组，sName:代码对应值的数组}
 //csc对应关系:codename数组选择，存储{code:选择值，sName:选择对应的值}
 //gSt对象选择，存储gname对应数据表选择的ID值，显示slave对应uName:选择记录的名称，title:选择记录的简介，thumbnail:选择记录的缩略图}
-//t:"cId"对象选择并输入数量，存储csc对应数据表选择的json值及数量，显示json对应要素及数量
 //csc对应关系:idname数组选择，存储gname对应数据表选择的ID值，显示选择对应的uName
 //数据型对应关系:t的digit代表2位小数点浮点数，integer则为整数型
 //address包括三个字段地址、地理位置"aGeoPoint"、行政编码"address_code"
@@ -189,7 +188,7 @@ module.exports = {
     "surface":{p:'外观', t:"h4" },
     "size":{p:'尺寸', t:"h4" },
     "weight":{p:'重量', t:"h4" },
-    "product":{p:'内含物', t:"cId", csc:"recordQuantity" },
+    "product":{p:'内含物', t:"cAe" },
     "price":{p:'零售价', t:"digit", addFields:['old_price'] },
     "cargoStock":{p:'库存', t:"integer"},
     "canSupply":{p:'可供销售', t:"integer"}
@@ -209,7 +208,7 @@ module.exports = {
     "thumbnail":{p:'图片简介',t:"-6" },
     "desc":{p:'描述',t:"p" },
     "specstype":{p:'供应类型', t:"listsel", aList:['单品','套餐']},
-    "cargo":{p:'成品规格', t:"cId", csc:"recordQuantity" },
+    "cargo":{p:'成品规格', t:"sku" },
     "pics":{p:'图片集',t:"-1"},
     "video":{p:'视频简介',t:"-4"},
     "details":{p:'详情',t:"eDetail" }

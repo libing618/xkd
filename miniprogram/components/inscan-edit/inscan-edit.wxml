@@ -1,4 +1,3 @@
-<import src="../../libs/wedetail.wxml" />
 <view class="weui-search-bar">
   <view class="weui-search-bar__label">{{p}}</view>
   <input class="weui-search-bar__input" name="{{gname}}" value="{{c}}" id="si-{{n}}"/>

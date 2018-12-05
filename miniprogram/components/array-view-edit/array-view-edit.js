@@ -3,7 +3,7 @@ Component({
   properties: {
     p: {
       type: String,
-      value: '地址',
+      value: '数组管理',
     },
     name: String,
     value: {

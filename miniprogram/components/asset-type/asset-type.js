@@ -6,6 +6,7 @@ Component({
       type: String,
       value: '地址',
     },
+    name: String,
     value: {
       type: Object,
       value: {_id: 0, uName: '点此处进行选择'}
