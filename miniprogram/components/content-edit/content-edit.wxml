@@ -4,12 +4,12 @@
   <view class="weui-cell__ft">单位</view>
 </view>
 <view wx:if="{{editable}}">
-  <view class="weui-cell" wx:for="{{value}}" wx:key="index">
+  <view class="weui-cell" wx:for="{{value}}" wx:key="index" wx:key-index="n">
     <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="m_touchstart" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
       <view class="wslider-left-item" wx:if="{{selectd==n}}" bindtap="fdeldata">删除</view>
-      <input class="weui-cell__hd" name="{{name}}'['{{index}}'].material'" value={{item.material}} />
-      <input class="weui-cell__bd" name="{{name}}'['{{index}}'].dOutput'" value={{item.dOutput}}</view>
-      <input class="weui-cell__ft" name="{{name}}'['{{index}}'].Unit'" value={{item.dUnit}}</view>
+      <input class="weui-cell__hd" name="{{name}}[{{n}}].material" value="{{item.material}}" />
+      <input class="weui-cell__bd" name="{{name}}[{{n}}].dOutput" value="{{item.dOutput}}" />
+      <input class="weui-cell__ft" name="{{name}}[{{n}}].dUnit" value="{{item.dUnit}}" />
       <view class="wslider-left-item" wx:if="{{selectd==n}}" bindtap="fenins">插入</view>
     </view>
   </view>

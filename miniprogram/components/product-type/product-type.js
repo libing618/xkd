@@ -1,4 +1,3 @@
-// inputedit/asset-type/asset-type.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
