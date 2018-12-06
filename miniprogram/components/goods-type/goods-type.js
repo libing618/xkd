@@ -1,11 +1,11 @@
-// components/goods-type/goods-type.js
 Component({
   behaviors: ['wx://form-field'],
   properties: {
     p: {
       type: String,
-      value: '地址',
+      value: '商品分类',
     },
+    name: String,
     value: {
       type: String,
       value: ''
@@ -13,6 +13,10 @@ Component({
     inclose: {
       type: Boolean,
       value: false,
+    },
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {

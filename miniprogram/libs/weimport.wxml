@@ -58,7 +58,11 @@
 </template>
 
 <template name="s_dVE">
-  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"></date-view-edit>
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" enableTime="{{false}}" editable="0"></date-view-edit>
+</template>
+
+<template name="s_dtE">
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" enableTime="{{true}}" editable="0"></date-view-edit>
 </template>
 
 <template name="s_eDetail">
@@ -82,18 +86,7 @@
 </template>
 
 <template name="s_gSt">
-  <view class="weui-cell">{{p}}:</view>
-  <view class="weui-cell" id="{{c}}">
-    <view class="weui-media-box weui-media-box_appmsg" hover="true" hover-class="weui-cell_active">
-      <view class="weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb" src="{{gslist.typevale[c].thumbnail}}" background-size="cover"></image>
-      </view>
-      <view class="weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{gslist.typevale[c].uName}}</view>
-        <view class="weui-media-box__desc">{{gslist.typevale[c].title}}</view>
-      </view>
-    </view>
-  </view>
+  <goods-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></goods-type>
 </template>
 
 <template name="s_h1">

@@ -284,8 +284,8 @@ module.exports = {
     "serFamily":{p:'送货类型', t:"listsel", aList:['快递送货','货运自提','柜台提货','店铺消费'] },
     "recaddress":{p:'收货地址', t:"sId", csc:"recAddress" },
     "_Role":{p:'厂家', t:"sId", addFields:['uName'] },
-    "prepayId":{p:' 订单ID', t:"dVE" },
-    "paidAt":{p:'下单时间', t:"dVE" },
+    "prepayId":{p:' 订单ID', t:"h2" },
+    "paidAt":{p:'下单时间', t:"dtE" },
     "confirmerArr":{p:'订单确认出库', t:"sAr", csc:"cOrderArray" },
     "confirmTotal":{p:'订单确认出库数量', t:"integer" },
     "deliverArr":{p:'货运信息', t:"sAr", csc:"deliverArray" },
@@ -308,7 +308,7 @@ module.exports = {
     "dst_account":{p:"资产转入帐户",t:"sId"},
     "asset_type":{p:"资产类型",t:"sId"},
     "amount":{p:"转让份额",t:"integer"},
-    "sign_in_date":{p:"要求签收时间",t:"dVE"}
+    "sign_in_date":{p:"要求签收时间",t:"dtE"}
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [
@@ -325,8 +325,8 @@ module.exports = {
     "title":{p:'计划简述',t:"h3" },
     "thumbnail":{p:'图片',t:"-6" },
     "dOutput":{p:'计划产量', t:"integer" },
-    "startDate":{p:'开始日期', t:"dVE",endif:false},
-    "endDate":{p:'结束日期', t:"dVE",endif:false}
+    "startDate":{p:'开始时间', t:"dtE"},
+    "endDate":{p:'结束时间', t:"dtE"}
   },
   "pBewrite": "产品条线提出产品设置或修改申请，由产品条线负责人进行审批。",
   "puRoles": [

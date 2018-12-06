@@ -60,7 +60,16 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
   </view>
 </template>
 
+<template name="i_dVE">
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"  enableTime="{{false}}" editable="1"></date-view-edit>
+</template>
+
+<template name="i_dtE">
+  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}"  enableTime="{{true}}" editable="1"></date-view-edit>
+</template>
+
 <template name="i_eDetail">
+  <view class="weui-label">{{p}}</view>
   <view class="weui-article">
     <block wx:for="{{c}}" wx:key="{{index}}" wx:for-index="n">
       <view style="transform: translateX(-{{selectd==n ? translateX : 0}}rpx); transition: transform {{transitionTime/1000}}s;" id="ad-{{n}}" catchtouchstart="i_eDetail" catchtouchmove=" m_touchmove" catchtouchmove=" m_touchebd">
@@ -92,7 +101,7 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_gSt">
-  <goods-type name="{{gname}}" value="{{c}}" p="{{p}}"></goods-type>
+  <goods-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></goods-type>
 </template>
 
 <template name="i_h1">
@@ -137,10 +146,6 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
       <input name="{{gname}}" value="{{c}}" class="weui-input" placeholder="请输入{{p}}" />
     </view>
   </view>
-</template>
-
-<template name="i_dVE">
-  <date-view-edit name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></date-view-edit>
 </template>
 
 <template name="i_iNd">
