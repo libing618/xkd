@@ -30,37 +30,23 @@ Page({
       pageData: app.aData,
       pageCk: app.aIndex.pCkarticles
     });
-    let gscode = require('apdv.js');
-function nextKeys(nKey){
-  let knArr = [],kEatch;
-  for (let n=0;n<100;n++){
-    kEatch = ''+(nKey*100+n)
-    if (kEatch in gscode){knArr.push(kEatch)}
-  }
-  return knArr
-}
-let drone = {},kEatch;
-for (let k0=1;k0<7;k0++){
-  drone[''+k0] = nextKeys(k0);
-  drone['' + k0].forEach(k1 => { drone['' + k1] = nextKeys(k1)})
-}
-console.log(drone)
-    // loginAndMenu(app.roleData).then( rData => {
-    //   app.roleData = rData;
-    //   iMenu(0, rData.wmenu[0]).then(grids =>{
-    //     grids[0].mIcon = rData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
-    //     that.setData({
-    //       unAuthorize: false,
-    //       grids: grids
-    //     });
-    //   });
-    //   if (app.roleData.user.line==9){ wx.hideTabBar() };
-    // }).catch(loginerr=>{
-    //   app.logData.push([Date.now(),JSON.stringify(loginerr)]);
-    //   that.setData({
-    //     unAuthorize: true
-    //   });
-    // });
+
+    loginAndMenu(app.roleData).then( rData => {
+      app.roleData = rData;
+      iMenu(0, rData.wmenu[0]).then(grids =>{
+        grids[0].mIcon = rData.user.avatarUrl;   //把微信头像地址存入第一个菜单icon
+        that.setData({
+          unAuthorize: false,
+          grids: grids
+        });
+      });
+      if (app.roleData.user.line==9){ wx.hideTabBar() };
+    }).catch(loginerr=>{
+      app.logData.push([Date.now(),JSON.stringify(loginerr)]);
+      that.setData({
+        unAuthorize: true
+      });
+    });
   },
 
   userInfoHandler: function (e) {

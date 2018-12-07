@@ -1,3 +1,4 @@
+const gscode = require('../utils/apdv.js');
 Component({
   behaviors: ['wx://form-field'],
   properties: {
@@ -12,6 +13,10 @@ Component({
     value: {
       type: Object,
       value: {_id: '', uName: []}
+    },
+    editable: {
+      type: Number,
+      value: 0
     }
   },
   options: {
@@ -25,15 +30,38 @@ Component({
 
   lifetimes: {
     attached() {
-      if (!this.data.value) {
-        this.setData({
-          value:{_id: '', uName: []}
+      let iSetData = {gskv: {}, drone: {}};
+      iSetData.gsroot = ["101","102","103","104","105","106","107","108","109","110","201","202","203","204","301","302","303","304","305","306","307","401","402","403","404","405","406","501","502","503","601","602","603","604","605","606","607","608","609","610","611","612"];
+      if (this.data.editable){
+        function nextKeys(nKey){
+          let knArr = [],kEatch;
+          for (let n=0;n<100;n++){
+            kEatch = ''+(nKey*100+n)
+            if (kEatch in gscode){
+              knArr.push(kEatch);
+              iSetData.gskv[kEatch] = gscode[kEatch]
+            }
+          }
+          if (knArr.length>0) {iSetData.drone['' + nKey] = knArr}
+          return knArr.length
+        }
+        iSetData.gsroot.forEach(k2 => {
+          if (nextKeys(k2)) {
+            iSetData.drone['' + k2].forEach(k3 => {
+              if (nextKeys(k3)) {
+                iSetData.drone['' + k3].forEach(k4 => { nextKeys(k4); })
+              };
+            })
+          }
         })
+        if (this.data.value) {
+          iSetData.value_id = this.data.value._id.split(',');
+        }
       } else {
-        this.setData({
-          value_id: this.data.value._id.split(',')
-        })
+        iSetData.value_id = this.data.value._id.split(',')
+        iSetData.value_id.forEach(ikv=>{ iSetData.gskv[ikv] = gscode[ikv] });
       }
+      this.setData(iSetData)
     }
   },
   methods: {
@@ -51,7 +79,7 @@ Component({
           value: { _id: cvalue._id, uName: cvalue.uName }
         });
       }
-      
+
     },
     itemsel({ currentTarget:{id,dataset},detail:{value} }) {
       if (this.data.aVl[0] == value[0]) {

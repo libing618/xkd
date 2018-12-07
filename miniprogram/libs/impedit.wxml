@@ -149,7 +149,7 @@ module.exports = ['T', 'p','sg','so', 'Geo', '-1', '-2', '-3', '-4','-5']
 </template>
 
 <template name="i_iNd">
-  <industry-type name="{{gname}}" value="{{c}}" p="{{p}}"></industry-type>
+  <industry-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="1"></industry-type>
 </template>
 
 <template name="i_iSc">

@@ -112,10 +112,7 @@
 </template>
 
 <template name="s_iNd">
-<view class="weui-cell">
-  <view class="weui-cell__hd">{{p}}:</view>
-  <view class="weui-cell__bd weui-flex">{{mDot(c.uName)}}</view>
-</view>
+  <industry-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></industry-type>
 </template>
 
 <template name="s_iSc">
