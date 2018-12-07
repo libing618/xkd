@@ -1,5 +1,3 @@
-<wxs src="../utils/apdc.wxs" module="" />
-<wxs src="../utils/apdv.wxs" module="apdv" />
 <wxs module="mDot">
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
@@ -16,24 +14,24 @@
   <view hidden="{{inclose}}" class="weui-picker">
     <view class="weui-cell">
       <view class="weui-cell__hd">选择类型：</view>
-      <view class="weui-cell__bd">{{apdv[ drone[aVl[2]] ]}}</view>
-      <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{drone[aVl[0]].st[aVl[1]].ct[aVl[2]]}}" data-sa="{{apdv['s'+drone[aVl[0]].st[aVl[1]].ct[aVl[2]]]}}" bindtap="industrysel" size="mini">确定</button></view>
+      <view class="weui-cell__bd">{{apdv[succId]}}</view>
+      <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{drone[ drone[ gsroot[aVl[0]] ][aVl[1]] ][aVl[2]]}}" bindtap="industrysel" size="mini">确定</button></view>
     </view>
     <picker-view class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="itemsel">
-        <picker-view-column>
-            <view wx:for="{{gsroot}}" wx:key="{{index}}" style="line-height: 36rpx">{{item}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{drone[aVl[0]]}}" wx:key="{{index}}" style="line-height: 36rpx">{{item}}</view>
-        </picker-view-column>
-        <picker-view-column>
-            <view wx:for="{{drone[aVl[0]].st[aVl[1]].ct}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv['s'+item]}}</view>
-        </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{gsroot}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{drone[ gsroot[aVl[0]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{drone[ drone[ gsroot[aVl[0]] ][aVl[1]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+      </picker-view-column>
     </picker-view>
   </view>
   <view class="weui-cell pm-row__flex">
-    <view wx:for="{{value.uName}}" wx:key="{{index}}">
-      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{item}}{{mDot(index,value.uName)}}</view>
+    <view wx:for="{{_id}}" wx:key="{{index}}">
+      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{apdv[item]}}{{mDot(index,value)}}</view>
     </view>
   </view>
 </view>

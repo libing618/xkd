@@ -97,10 +97,7 @@ let allMenu=[
 }
 ]
 export function iMenu(indexArr, menuArr) {
-  return new Promise((resolve, reject) => {
-    let mm=menuArr.map(rNumber=> {
-      return { tourl: allMenu[indexArr]['N' + rNumber].tourl, mIcon: allMenu[indexArr]['m' + rNumber], mName: allMenu[indexArr]['N' + rNumber].mName }
-    })
-    resolve(mm)
+  return menuArr.map(rNumber=> {
+    return { tourl: allMenu[indexArr]['N' + rNumber].tourl, mIcon: allMenu[indexArr]['m' + rNumber], mName: allMenu[indexArr]['N' + rNumber].mName }
   })
 }

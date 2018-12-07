@@ -11,7 +11,7 @@ module.exports = {
   "pSuccess": ["uniType","indType","nick","title","desc","thumbnail","address","sUnit","licenseNumber","pPhoto","uPhoto"],
   "fieldType":{
     "uniType":{p:'厂商类型', t:"listsel", aList:['产品制造人','物流服务人','电商服务站','生产厂家及经销商','电子商务企业']},
-    "indType":{p:'主营业务', t:"iNd",addFields:['uName'] },
+    "indType":{p:'主营业务', t:"iNd"},
     "nick":{p:'单位简称',t:"h3" },
     "title":{p:'单位简介', t:"h3"},
     "desc":{p: '单位描述', t: "p"},

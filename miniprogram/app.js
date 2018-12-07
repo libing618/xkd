@@ -27,11 +27,12 @@ App({
             traceUser: true
           })
         };
+        that.sysinfo.menuButton = wx.getMenuButtonBoundingClientRect()
         that.sysinfo.useWindowHeight = res.windowHeight-res.statusBarHeight-20;
         that.sysinfo.rpxTopx = res.windowWidth/750;                   //转换比例屏幕宽750rpx
       }
     });
-    ['aIndex', 'aData','roleaData','aCount','pIndex'].forEach(dataName => {
+    ['aIndex', 'aData','aCount','pIndex'].forEach(dataName => {
       wx.getStorage({
         key: dataName,
         success: function (res) {
