@@ -32,7 +32,7 @@ Component({
       if (!this.data.value) { initData.value = {_id:'0',uName:'点此进入地图进行选择'} };
       if (!this.data.indTypes) {
         initData.reqProIsSuperior = true;
-        initData.indTypes = '620406'
+        initData.indTypes = '3040204'
       }
       this.setData(initData);
     }

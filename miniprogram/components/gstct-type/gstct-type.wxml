@@ -3,29 +3,27 @@
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
 <view class="weui-cells__title" id="{{name}}">
-  <view class="weui-cell weui-cell_input weui-cell_vcode">
-    <view class="weui-cell__hd">
-      <view class="weui-label">{{p}}:</view>
-    </view>
-    <view class="weui-cell__ft">
-      <icon bindtap="selclose" type="{{inclose ? 'info' : 'success_no_circle'}}" size="20"/>
+  <view class="weui-cell">
+    <view class="weui-cell__hd">{{p}}:{{editable ? '(点项目名称可删除)': ''}}</view>
+    <view wx:if="{{editable}}" class="weui-cell__bd" bindtap="selclose">
+      <view class="weui-vcode-btn">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
     </view>
   </view>
   <view hidden="{{inclose}}" class="weui-picker">
     <view class="weui-cell">
       <view class="weui-cell__hd">选择类型：</view>
       <view class="weui-cell__bd">{{apdv[succId]}}</view>
-      <view class="weui-cell__ft"><button id="su-{{n}}" data-ca="{{drone[ drone[ gsroot[aVl[0]] ][aVl[1]] ][aVl[2]]}}" bindtap="industrysel" size="mini">确定</button></view>
+      <view class="weui-cell__ft"><button id="su-{{n}}" bindtap="industrysel" size="mini">确定</button></view>
     </view>
     <picker-view class="weui-picker__view" indicator-class="weui-picker__indicator" mask-class="weui-picker__mask" value="{{aVl}}" bindchange="itemsel">
       <picker-view-column>
-        <view wx:for="{{gsroot}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+        <view wx:for="{{kd1}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
       </picker-view-column>
       <picker-view-column>
-        <view wx:for="{{drone[ gsroot[aVl[0]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+        <view wx:for="{{drone[ kd1[aVl[0]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
       </picker-view-column>
       <picker-view-column>
-        <view wx:for="{{drone[ drone[ gsroot[aVl[0]] ][aVl[1]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
+        <view wx:for="{{drone[ drone[ kd1[aVl[0]] ][aVl[1]] ]}}" wx:key="{{index}}" style="line-height: 36rpx">{{apdv[item]}}</view>
       </picker-view-column>
     </picker-view>
   </view>

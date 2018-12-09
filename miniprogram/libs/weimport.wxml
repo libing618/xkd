@@ -112,7 +112,7 @@
 </template>
 
 <template name="s_iNd">
-  <industry-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></industry-type>
+  <gstct-type name="{{gname}}" value="{{c}}" p="{{p}}" editable="0"></gstct-type>
 </template>
 
 <template name="s_iSc">
