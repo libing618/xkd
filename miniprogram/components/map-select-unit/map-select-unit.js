@@ -12,7 +12,7 @@ Component({
     },
     value: Object,
     name: String,
-    indTypes: String
+    targetTypes: String
   },
   options: {
     addGlobalClass: true
@@ -23,16 +23,16 @@ Component({
     sId: 0,
     markers:[],
     unitArray: [],
-    selIndtypes:[]
+    selTypes:[]
   },
 
   lifetimes: {
     attached() {
       let initData = { p: this.data.p ? this.data.p : '服务单位'};
       if (!this.data.value) { initData.value = {_id:'0',uName:'点此进入地图进行选择'} };
-      if (!this.data.indTypes) {
+      if (!this.data.targetTypes) {
         initData.reqProIsSuperior = true;
-        initData.indTypes = '3040204'
+        initData.targetTypes = '3040204'
       }
       this.setData(initData);
     }
@@ -42,19 +42,18 @@ Component({
     mapSelectUnit: function (e) {      //地图选择单位弹出页
       let that = this;
       let newPage={
-        selIndtypes : that.data.indTypes.split(',')
+        selTypes : that.data.targetTypes.split(',')
       };
       if ( that.data.reqProIsSuperior ) {
         wx.showToast({title:'选择服务单位，请注意：选定后不能更改！',icon: 'none'});
       };
       that.authorizeLocation(false).then(aGeoPoint =>{
-        console.log(aGeoPoint)
         that.buildAdd(aGeoPoint).then(addGroup=>{
           let province_code = Math.floor(addGroup.code/10000);     //省级行政区划代码
           db.collection('_Role').where(
             _.or(
-              newPage.selIndtypes.map(indtype=>{
-                return { indType: db.RegExp({ regexp: indtype }) }
+              newPage.selTypes.map(stype=>{
+                return { indType: db.RegExp({ regexp: stype }) }
               })
             ),
             { 'address_code': _.lt((province_code+1)*10000).and(_.gte(province_code*10000)) }

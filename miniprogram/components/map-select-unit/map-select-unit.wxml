@@ -27,7 +27,7 @@
             <view class="weui-media-box__desc">{{unitArray[sId].title}}</view>
           </view>
         </view>
-        <view>主营业务:{{unitArray[sId].indType.uName}}</view>
+        <view>主营业务:{{unitArray[sId].typeName}}</view>
         <view>距离您现在的位置：{{unitArray[sId].distance}}米</view>
       </view>
     </view>

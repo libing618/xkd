@@ -1,4 +1,4 @@
-const gscode = require('apdv.js');
+const gscode = require('../utils/apdv.js');
 const {roleData} = getApp();
 Component({
   behaviors: ['wx://form-field'],

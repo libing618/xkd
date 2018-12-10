@@ -8,10 +8,6 @@ Component({
     value: {
       type: String,
       value: '文件路径',
-    },
-    editable: {
-      type: Number,
-      value: 0
     }
   },
   options: {
@@ -19,8 +15,6 @@ Component({
   },
 
   data: {
-    statusBar: sysinfo.statusBarHeight,
-    windowHeight: sysinfo.windowHeight,
     idClicked: '0',
     fileType: ''
   },

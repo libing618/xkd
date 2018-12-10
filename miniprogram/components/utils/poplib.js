@@ -1,7 +1,7 @@
 const {sysinfo} = getApp();
 module.exports = Behavior({
   data: {
-    useWindowTop: sysinfo.statusBarHeight+42,
+    useWindowTop: sysinfo.menuButton.bottom+5,
     useWindowHeight: sysinfo.useWindowHeight,
     animationData: {},
     showModalBox: false
@@ -65,7 +65,7 @@ module.exports = Behavior({
         })
       }
       this.animation = animation;
-      animation.height(sysinfo.windowHeight).translateY(sysinfo.windowHeight).step();
+      animation.height(sysinfo.useWindowHeight).translateY(sysinfo.useWindowHeight).step();
       this.setData({
         animationData: animation.export(),
         showModalBox: true
@@ -79,7 +79,7 @@ module.exports = Behavior({
     },
     downModal() {
       var animation = this.animation;
-      animation.translateY(-sysinfo.windowHeight).step();
+      animation.translateY(-sysinfo.useWindowHeight).step();
       this.setData({ animationData: animation.export() });
       setTimeout(function () {
         this.animation.translateY(0).step();

@@ -72,7 +72,7 @@ module.exports = {
 
   i_eDetail: function (e) {                                 //内容可以插入和删除
     this.setData({
-      selectd: parseInt(e.currentTarget.id.substring(3)),      //选择文章内容的数组下标
+      selectd: parseInt(e.id.substring(3)),      //选择文章内容的数组下标
       startX : e.currentTarget.x                 //touchstart记录起点
     })
   },
@@ -119,7 +119,7 @@ module.exports = {
     return funcArr;
   },
 
-  fSubmit: function ({ currentTarget: { id, dataset }, detail:{target,value} }) {
+  fSubmit: function ({ currentTarget: { id, dataset }, detail:{value} }) {
     let that = this;
     let existDetails = ( that.data.fieldName.indexOf('details')>0 && Array.isArray(that.data.vData.details) );
     if (existDetails) {
@@ -127,7 +127,7 @@ module.exports = {
         that.data.vData.details[i] = value['adc' + i];
       };
     };
-    switch (target.id) {
+    switch (id) {
       case 'fdeldata':                                 //删除内容部分选中的字段
         if (that.data.selectd >= 0) {                         //内容部分容许删除
           that.data.vData.details.splice(that.data.selectd, 1);
@@ -242,7 +242,7 @@ module.exports = {
                     that.data.vData.details[Number(substr(sfPath.na,3))] = value[sfPath.na]
                   } else { that.data.vData[sfPath.na] = value[sfPath.na]}
                 };
-                if (target.id=='fStorage' && that.data.targetId == '0') {           //新建文件编辑内容不提交流程审批,在本机保存
+                if (id=='fStorage' && that.data.targetId == '0') {           //新建文件编辑内容不提交流程审批,在本机保存
                   let storageFile = sFilePath.filter(sFile => { return sFile.fs==1 });
                   if (storageFile.length > 0) {                               //将临时文件暂存
                     let saveFiles = storageFile.map(sfPath => {
@@ -257,7 +257,7 @@ module.exports = {
                     });
                     Promise.all(saveFiles).then(() => { resolve(emptyField) }).catch(console.error);      //临时文件已暂存
                   } else { resolve(emptyField)}            //所有文件均已保存
-                } else if(target.id=='fSave'){
+                } else if(id=='fSave'){
                   if (emptyField) {
                     wx.showToast({ title: '请检查未输入项目:'+emptyField , icon:'none',duration: 5000 })
                     resolve(emptyField)            //有空的字段
@@ -279,7 +279,7 @@ module.exports = {
             } else { resolve(emptyField) }            //没有需要上传或保存的文件
           });
           }).then(emptyField => {
-          if (!emptyField && target.id == 'fSave'){
+          if (!emptyField && id == 'fSave'){
             let saveData = that.data.vData;
             for (let fName in that.data.vData) {       //多字段对象类型分解
               if (that.data.fieldType[fName].addFields) {

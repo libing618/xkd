@@ -2,11 +2,11 @@
   module.exports =
     function(i,cArray){ return i==cArray.length-1 ? '' : '、' }
 </wxs>
-<view class="weui-cells__title" id="{{name}}">
+<view id="{{name}}">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:{{editable ? '(点项目名称可删除)': ''}}</view>
-    <view wx:if="{{editable}}" class="weui-cell__bd" bindtap="selclose">
-      <view class="weui-vcode-btn">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
+    <view wx:if="{{editable}}" class="weui-cell__ft" bindtap="selclose">
+      <view class="weui-btn">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
     </view>
   </view>
   <view hidden="{{inclose}}" class="weui-picker">
@@ -29,7 +29,7 @@
   </view>
   <view class="weui-cell pm-row__flex">
     <view wx:for="{{_id}}" wx:key="{{index}}">
-      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{apdv[item]}}{{mDot(index,value)}}</view>
+      <view class="weui-cell_link" data-id="{{index}}" bindtap="selectdel">{{apdv[item]}}{{mDot(index,_id)}}</view>
     </view>
   </view>
 </view>

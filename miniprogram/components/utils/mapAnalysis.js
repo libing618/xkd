@@ -1,4 +1,5 @@
 const db = wx.cloud.database();
+const gscode = require('apdv.js');
 const qqmap_wx = require('qqmap-wx-jssdk.min.js');   //微信地图
 var QQMapWX = new qqmap_wx({ key: '6JIBZ-CWPW4-SLJUB-DPPNI-4TWIZ-Q4FWY' });   //开发密钥（key）
 module.exports = Behavior({
@@ -79,7 +80,7 @@ module.exports = Behavior({
             title:resJSON.nick,
             iconPath: resJSON.afamily < 3 ? '/images/icon-personal.png' : '/images/icon-company.png',   //单位是个人还是企业
           });
-          unitArray[i].indType = {_id:resJSON.indType,uName:resJSON.indType_uName.join()}
+          unitArray[i].typeName = resJSON.indType.split(',').map(itype=>{return gscode[itype]}).join();
           points.push({ latitude: resJSON.address_aGeoPoint.latitude, longitude: resJSON.address_aGeoPoint.longitude})
         })
         QQMapWX.calculateDistance({                    //计算地理位置的距离
