@@ -1,4 +1,7 @@
 <view id="{{name}}">
+  <view wx:if="{{editable}}" class="weui_cell">
+    <view clase="weui-flex"></view>
+  </view>
   <view class="rich-parse-inline rich-h{{rich_h}} rich-s{{rich_s}} rich-a{{rich_a}}"
     style="margin-bottom: {{rich_i}}em;color: #{{rich_c}};background-color: #{{rich_b}}">
     <view wx:if="{{csc=='T'}}">
