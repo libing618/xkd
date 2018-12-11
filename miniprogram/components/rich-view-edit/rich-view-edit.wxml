@@ -1,6 +1,12 @@
 <view id="{{name}}">
   <view wx:if="{{editable}}" class="weui_cell">
-    <view clase="weui-flex"></view>
+    <view clase="weui-flex">
+      <view wx:for="{{cStyle}}" wx:key="{{index}}" wx:for-index="f">
+        <view id="f-{{f}}" bindtap="onStyle">{{styleArr[f][item]}}</view>
+        <view wx:if="{{cArr==f}}" wx:for="{{styleArr[cArr]}}" wx:key="{{index}}" wx:for-item="fstyle">
+          <view id="fc-{{index}}" bindtap="onStyle">{{fstyle}}</view>
+        </view>
+    </view>
   </view>
   <view class="rich-parse-inline rich-h{{rich_h}} rich-s{{rich_s}} rich-a{{rich_a}}"
     style="margin-bottom: {{rich_i}}em;color: #{{rich_c}};background-color: #{{rich_b}}">

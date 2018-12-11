@@ -21,9 +21,13 @@ Component({
   options: {
     addGlobalClass: true
   },
-data:{
-  inclose: false
-}
+  data:{
+    cArr: -1,
+    cStyle:[3,1,1,0],
+    styleArr:[
+      ['超大字体']
+    ]
+  },
   lifetimes: {
     attached(){
       this.richAnalysis()
