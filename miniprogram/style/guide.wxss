@@ -532,27 +532,27 @@ background: no-repeat center/contain url("data:image/jpeg;base64,/9j/4AAQSkZJRgA
   margin: 0;
   padding: 0;
 }
-.rich-h1 {
+.rich-h0 {
   font-size: 36rpx;
   margin-bottom: .9em;
 }
-.rich-h2 {
+.rich-h1 {
   font-size: 32rpx;
   margin-bottom: .34em;
 }
-.rich-h3 {
+.rich-h2 {
   font-size: 30rpx;
   margin-bottom: .34em;
 }
-.rich-h4 {
+.rich-h3 {
   font-size: 28rpx;
   margin-bottom: .24em;
 }
-.rich-h5 {
+.rich-h4 {
   font-size: 26rpx;
   margin-bottom: .14em;
 }
-.rich-h6 {
+.rich-h5 {
   font-size: 24rpx;
   margin-bottom: .04em;
 }
@@ -582,14 +582,15 @@ background: no-repeat center/contain url("data:image/jpeg;base64,/9j/4AAQSkZJRgA
   text-decoration: underline;
 }
 .rich-s6 {
-  font-weight: bold;
   font-style: italic;
   text-decoration: underline;
 }
 .rich-s7 {
+  font-weight: bold;
   font-style: italic;
   text-decoration: underline;
 }
+
 .rich-a0 {
   text-align: left;
 }

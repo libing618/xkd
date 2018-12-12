@@ -8,8 +8,8 @@
         </view>
     </view>
   </view>
-  <view class="rich-parse-inline rich-h{{rich_h}} rich-s{{rich_s}} rich-a{{rich_a}}"
-    style="margin-bottom: {{rich_i}}em;color: #{{rich_c}};background-color: #{{rich_b}}">
+  <view class="rich-parse-inline rich-h{{ cStyle[0] }} rich-s{{ cStyle[1] }} rich-a{{ cStyle[2] }}"
+    style="margin-bottom: {{cStyle[3]}}em;color: #{{rich_c}};background-color: #{{rich_b}}">
     <view wx:if="{{csc=='T'}}">
       <input disable="{{editable==0}}" name="{{name}}.e" value="{{value.e}}" placeholder="请输入{{p}}" />
     </view>
