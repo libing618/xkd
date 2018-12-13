@@ -25,7 +25,7 @@ Page({
   },
 
   onLoad:function(options){
-    if ( checkRols(app.roleData.user.line==9 ? -1 ,app.roleData.user) ){
+    if ( checkRols(app.roleData.user.line==9 ? -1 : app.roleData.user) ){
       let pSetData = {pClassName: []};
       for (let procedure in app.fData) {
         pSetData.pClassName.push({id:procedure,pName:app.fData[procedure].pName});
@@ -65,7 +65,7 @@ Page({
           }
           this.setData(ps1);
         } else {
-          if {ps2}{
+          if (ps2){
             this.setData(ps2);
           }
         }
@@ -104,7 +104,7 @@ Page({
           let lena = result.records.length ;
           if (lena>0){
             let aprove = {}, aPlace = -1;
-            uSetData.pAt = that.data.pAt,
+            uSetData.pAt = that.data.pAt;
             if (isDown) {                     //下拉刷新
               if (pck==2){
                 app.pIndex.processingAt[app.pIndex.proceduresCk][1] = result.records[lena-1].updatedAt;                          //更新本地最新时间

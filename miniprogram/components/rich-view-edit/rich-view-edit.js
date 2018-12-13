@@ -48,24 +48,32 @@ Component({
         setRich.rich_b = this.data.value.r.substr(10);               //背景色
       } else {
         setRich.value = {
-          t: 're',
           r: '3110D9D9D9ECECEC',
           e: ''
-        }
+        };
+        if (this.data.name.substr(0,3)=='adc'){ setRich.value.t='r'+this.data.csc }
+        if (setRich.cStyle[2]==1) { setRich.cStyle[3]=0 }
       };
       this.setData(setRich);
     },
     onStyle({currentTarget:{id,dataset},detail:{value}}) {
-      let setRich = {};
-      setRich[id] = value;
-      this.data[id] = value;
-      setRich.value.r = this.data.rich_h+this.data.rich_s+this.data.rich_a+this.data.rich_i+this.data.rich_c+this.data.rich_b;
+      let setRich = {}, clickedid = id.split('-');
+      switch (clickedid[0]) {
+        case 'fm':
+          setRich.cArr = this.data.cArr==Number(clickedid[1]) ? -1 : Number(clickedid[1]);
+          break;
+        case 'fs':
+          setRich.cStyle = this.data.cStyle;
+          if (this.data.cArr!==-1) {  setRich.cStyle[this.data.cArr] = Number(clickedid[1]) };
+          break;
+        default:
+      }
+      setRich['value.r'] = ''+this.data.cArr[0]+this.data.cArr[1]+this.data.cArr[2]+this.data.cArr[3]+this.data.rich_c+this.data.rich_b;
       this.setData(setRich)
     },
     onInput({currentTarget:{id,dataset},detail:{value}}) {
       this.setData({
-        richText: value,
-        value: this.data.richStyle+value
+        "value.e": value
       })
     },
 
