@@ -78,8 +78,8 @@ export function loginAndMenu(roleData) {
           }
         }
       });
-    });
-  }).catch((loginErr) => { reject('系统登录失败:' + JSON.stringify(loginErr) ) });
+    }).catch((loginErr) => { reject('系统登录失败:' + JSON.stringify(loginErr)) });
+  });
 };
 
 export function checkRols(ouLine,user,ouPosition){  //要求的条线，用户数据，要求的岗位

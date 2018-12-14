@@ -10,43 +10,41 @@ function getdate(idate) {
   return year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)
 };
 function setRole(puRoles,suRoles){      //流程审批权限列表
-  let cManagers = [app.roleData.user.unit+app.roleData.user.line+app.roleData.user.position];
+  let cManagers = [ [app.roleData.user.unit + app.roleData.user.line + app.roleData.user.position, app.roleData.user.uName] ];
   if (app.roleData.uUnit.afamily > 2 && puRoles) {          //单位类型为企业且有本单位审批设置
     let pRolesNum = 0, pRoleUser;
     for (let i = 0; i < puRoles.length; i++) {
-      pRoleUser = false;
+      pRoleUser = [];
       app.roleData.uUnit.unitUsers.forEach((pUser) => {
         if ((pUser.line+''+pUser.position) == puRoles[i]) {
-          pRoleUser = true;
+          pRoleUser.push(pUser.uName);
         }
       })
-      if (pRoleUser) {
+      if (pRoleUser.length>0) {
         pRolesNum = pRolesNum + 1;
-        cManagers.push(app.roleData.user.unit+puRoles[i]);
+        cManagers.push([app.roleData.user.unit+puRoles[i],pRoleUser.join('、')]);
       }
     };
     if (pRolesNum==0 && app.roleData.user.line!=8) {
-      cManagers.push(app.roleData.user.unit+'88');
+      cManagers.push([app.roleData.user.unit+'88','本单位管理员']);
     }
   }
-  if (suRoles) {                 //上级单位类型有审批设置
+  if (suRoles & app.roleData.sUnit.afamily > 2) {                 //上级单位类型为企业,有审批设置
     let sRolesNum = 0, sRoleUser;
-    if (app.roleData.sUnit.afamily>2) {     //单位类型为企业
-      for (let i = 0; i < suRoles.length; i++) {
-        sRoleUser = false;
-        app.roleData.sUnit.unitUsers.forEach((sUser) => {
-          if (sUser.line+''+sUser.position == suRoles[i]) {
-            sRoleUser = true;
-          }
-        });
-        if (sRoleUser) {
-          sRolesNum = sRolesNum + 1;
-          cManagers.push(app.roleData.sUnit._id+suRoles[i]);
+    for (let i = 0; i < suRoles.length; i++) {
+      sRoleUser = [];
+      app.roleData.sUnit.unitUsers.forEach((sUser) => {
+        if (sUser.line+''+sUser.position == suRoles[i]) {
+          sRoleUser.push(sUser.uName);
         }
+      });
+      if (sRoleUser.length > 0) {
+        sRolesNum = sRolesNum + 1;
+        cManagers.push([app.roleData.sUnit._id + suRoles[i], sRoleUser.join('、')]);
       }
     }
     if (sRolesNum == 0) {
-      cManagers.push(app.roleData.sUnit._id+'88');
+      cManagers.push([app.roleData.sUnit._id + '88', '上级单位管理员']);
     }
   };
   return cManagers

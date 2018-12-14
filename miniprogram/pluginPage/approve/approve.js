@@ -21,7 +21,8 @@ Page({
     let procedureClass = app.fData[app.pData[options.approveId].dProcedure];
     app.pData[options.approveId].dObject.unitId = app.pData[options.approveId].unitId;
     that.setData({
-      bsType: req,      //流程内容格式
+      pSuccess: procedureClass.pSuccess,
+      fieldType: procedureClass.fieldType,      //流程内容格式
       navBarTitle: procedureClass.pName,     //将页面标题设置成流程名称
       pBewrite: procedureClass.pBewrite,     //流程说明
       pModel: app.pData[options.approveId].dProcedure,         //流程写入的数据表名

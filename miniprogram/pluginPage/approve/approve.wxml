@@ -1,11 +1,5 @@
 <import src="../../libs/weimport.wxml" />
 <import src="../../libs/wedetail.wxml"/>
-<wxs module="flowStepName">
-  var fsName = function(i,cArray){
-    return i==cArray.length-1 ? '' : '、'
-  }
-  module.exports.fsName=fsName;
-</wxs>
 <import src="../../libs/wepage.wxml" />
 <view class="page">
   <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
@@ -36,8 +30,8 @@
     </view>
     <view wx:if="{{aprvClicked[1]}}" class="page__bd_spacing">
       <view wx:if="{{afamilys}}">类别：{{afamilys[aValue.dObject.afamily]}}</view>
-      <block class="weui-cell" wx:for="{{bsType}}" wx:key="{{index}}">
-        <template is="s_{{item.t}}" data="{{ ...item, c: aValue.dObject[item.gname] }}" />
+      <block class="weui-cell" wx:for="{{pSuccess}}" wx:key="{{index}}">
+        <template is="s_{{fieldType[item].t}}" data="{{ ...fieldType[item], c: aValue.dObject[item] }}" />
       </block>
     </view>
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="ac-2" bindtap="aprvClick">
@@ -70,7 +64,7 @@
         <view class="weui-cell__hd">下一流程审批人:</view>
         <view class="weui-cell__bd">
           <view wx:if="{{aValue.cInstance==cmLength}}">流程结束</view>
-          <view wx:else><view wx:for="{{aValue.cManagers[aValue.cInstance]}}" wx:key="{{index}}"> {{aValue.cUserName[item]}}{{flowStepName.fsName(index,aValue.cManagers[aValue.cInstance])}}</view></view>
+          <view wx:else>{{aValue.cManagers[aValue.cInstance][1]}}</view>
         </view>
       </view>
       <view class="page__ft">

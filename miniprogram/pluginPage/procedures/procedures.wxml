@@ -9,7 +9,7 @@
       <block wx:for="{{pClassName}}" wx:key="{{index}}" wx:for-item="ac" wx:for-index="j" class="weui-cells">
         <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="{{ac.id}}" bindtap="anClick">
           <template is="{{ anClicked==ac.id ? 'selecticon1' : 'selecticon2'}}" />
-          <view class="weui-cell__bd">{{ac.pName}}审批流程</view>
+          <view class="weui-cell__bd">审批流程————{{processName[ac]}}</view>
         </view>
         <view hidden="{{anClicked!=ac.id}}">
           <block class="weui-cell" wx:for="{{procedures[ac.id]}}" wx:key="{{index}}" wx:for-item="pd">
@@ -24,6 +24,7 @@
     <view wx:else>
       <block class="weui-cell" wx:for="{{indexPage[ht.pageCk]}}" wx:key="{{index}}" wx:for-item="pc">
         <navigator url="/pluginPage/approve/approve?approveId={{pc}}">
+          <view class="weui-cell__hd">审批流程————{{processName[pageData[pc].dProcedure]}}</view>
           <view class="weui-cell__bd">发起人:{{pageData[pc].unitName}} {{pageData[pc].sponsorName}}</view>
           <view class="weui-cell__ft">{{pageData[pc].dIdear[0].un}}于{{pageData[pc].dIdear[0].dt}} {{pageData[pc].dIdear[0].di}}</view>
         </navigator>

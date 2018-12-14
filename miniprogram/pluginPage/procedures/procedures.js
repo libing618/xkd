@@ -25,10 +25,11 @@ Page({
   },
 
   onLoad:function(options){
-    if ( checkRols(app.roleData.user.line==9 ? -1 : app.roleData.user) ){
-      let pSetData = {pClassName: []};
+    if (checkRols(app.roleData.user.line == 9 ? -1 : app.roleData.user.line,app.roleData.user) ){
+      let pSetData = { pClassName: [], processName:{}};
       for (let procedure in app.fData) {
-        pSetData.pClassName.push({id:procedure,pName:app.fData[procedure].pName});
+        pSetData.pClassName.push(procedure);
+        pSetData.processName[procedure] = app.fData[procedure].pName;
         if (!app.pIndex.procedures[procedure]) {
           app.pIndex.procedures[procedure]=[];
           app.pIndex.proceduresAt[procedure]=[new Date(0),new Date(0)];
@@ -46,7 +47,7 @@ Page({
         })
       }).then( storData=>{
         pSetData.pageData = storData;
-        updatepending(true,0).then(usData=>{
+        this.updatepending(true,0).then(usData=>{
           if (usData){
             Object.assign(pSetData,usData)
           };
@@ -57,8 +58,8 @@ Page({
   },
 
   onReady: function(){
-    updatepending(true,1).then(ps1=>{
-      updatepending(true,2).then(ps2=>{
+    this.updatepending(true,1).then(ps1=>{
+      this.updatepending(true,2).then(ps2=>{
         if (ps1){
           if (ps2){
             Object.assign(ps1,ps2);
@@ -83,7 +84,7 @@ Page({
     })
   },
 
-  updatepending: function(isDown, pck = that.data.ht.pageCk){   //更新数据(true上拉刷新，false下拉刷新)
+  updatepending: function(isDown, pck = this.data.ht.pageCk){   //更新数据(true上拉刷新，false下拉刷新)
     var that=this;
     return new Promise((resolve,reject) =>{
       if (isDown || (!isDown && that.data.pTotal[pck]>0) ){
@@ -131,7 +132,7 @@ Page({
                 };
               } else {
                 if (isDown) {                               //审批流程的ID数组
-                  aPlace = app.pIndex.processing[pck].indexOf(aprove._id)
+                  aPlace = app.pIndex.processing[pck].indexOf(aprove._id);
                   if (aPlace >= 0) { app.pIndex.procedures[pck].splice(aPlace, 1) }           //删除本地的重复记录列表
                   app.pIndex.processing[pck].unshift(aprove._id);                   //按流程类别加到管理数组中
                 } else {
