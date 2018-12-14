@@ -14,7 +14,7 @@
         <view hidden="{{anClicked!=ac.id}}">
           <block class="weui-cell" wx:for="{{procedures[ac.id]}}" wx:key="{{index}}" wx:for-item="pd">
             <navigator url="/pluginPage/approve/approve?approveId={{pd}}">
-              <view class="weui-cell__bd">发起人:{{pageData[pd].unitName}} {{pageData[pd].sponsorName}}</view>
+              <view class="weui-cell__bd">发起人:{{pageData[pd].unitName}} {{pageData[pd].cManagers[0][1]}}</view>
               <view class="weui-cell__ft">{{pageData[pd].dIdear[0].un}}于{{pageData[pd].dIdear[0].dt}} {{pageData[pd].dIdear[0].di}}</view>
             </navigator>
           </block>
@@ -25,7 +25,7 @@
       <block class="weui-cell" wx:for="{{indexPage[ht.pageCk]}}" wx:key="{{index}}" wx:for-item="pc">
         <navigator url="/pluginPage/approve/approve?approveId={{pc}}">
           <view class="weui-cell__hd">审批流程————{{processName[pageData[pc].dProcedure]}}</view>
-          <view class="weui-cell__bd">发起人:{{pageData[pc].unitName}} {{pageData[pc].sponsorName}}</view>
+          <view class="weui-cell__bd">发起人:{{pageData[pc].unitName}} {{pageData[pc].cManagers[0][1]}}</view>
           <view class="weui-cell__ft">{{pageData[pc].dIdear[0].un}}于{{pageData[pc].dIdear[0].dt}} {{pageData[pc].dIdear[0].di}}</view>
         </navigator>
       </block>

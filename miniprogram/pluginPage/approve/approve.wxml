@@ -2,26 +2,24 @@
 <import src="../../libs/wedetail.wxml"/>
 <import src="../../libs/wepage.wxml" />
 <view class="page">
-  <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
+  <template is="p_navBar__back" data="{{statusBar,navBarTitle:pName}}"/>
   <view class="page__hd">
     <view class="weui-cells__title">{{pBewrite}}</view>
   </view>
-  <view class="page__bd">
+  <view class="page__bd" id="{{dProcedure}}">
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="ac-0" bindtap="aprvClick">
       <template is="{{ aprvClicked[0] ? 'selecticon1' : 'selecticon2'}}" />
       <view class="weui-cell__bd">基本信息</view>
       <icon class="weui-cell__ft weui-cell__ft_in-access" type="download"/>
     </view>
     <view wx:if="{{aprvClicked[0]}}" class="weui-cells">
-      <view class="weui-cell" wx:for="{{biType}}" wx:key="{{index}}">
-        <view class="weui-cell__hd">{{item.p}}:</view>
-        <view class="weui-cell__bd">{{aValue[item.gname]}}</view>
-      </view>
+      <view class="weui-cell">申请单位:{{unitName}}</view>
+      <view class="weui-cell">发起人:{{cManagers[0][1]}}</view>
     </view>
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <template is="{{ aprvClicked[1] ? 'selecticon1' : 'selecticon2'}}" />
       <view wx:if="{{enEdit && processState==0}}">
-        <navigator url="/pluginPage/fprocedure/fprocedure?tgId={{aValue._id}}">
+        <navigator url="/pluginPage/fprocedure/fprocedure?tgId={{_id}}">
           <view class="weui-cell__bd">审批内容（点击此处进行编辑）</view>
         </navigator>
       </view>
@@ -29,9 +27,9 @@
       <icon class="weui-cell__ft weui-cell__ft_in-access" id="ac-1" bindtap="aprvClick" type="download"/>
     </view>
     <view wx:if="{{aprvClicked[1]}}" class="page__bd_spacing">
-      <view wx:if="{{afamilys}}">类别：{{afamilys[aValue.dObject.afamily]}}</view>
+      <view wx:if="{{afamilys}}">类别：{{afamilys[dObject.afamily]}}</view>
       <block class="weui-cell" wx:for="{{pSuccess}}" wx:key="{{index}}">
-        <template is="s_{{fieldType[item].t}}" data="{{ ...fieldType[item], c: aValue.dObject[item] }}" />
+        <template is="s_{{fieldType[item].t}}" data="{{ ...fieldType[item], c: dObject[item] }}" />
       </block>
     </view>
     <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" id="ac-2" bindtap="aprvClick">
@@ -40,7 +38,7 @@
       <icon class="weui-cell__ft weui-cell__ft_in-access" type="download"/>
     </view>
     <view wx:if="{{aprvClicked[2]}}" class="weui-cells">
-      <block wx:for="{{aValue.dIdear}}" wx:key="{{dt}}">
+      <block wx:for="{{dIdear}}" wx:key="{{dt}}">
         <view class="weui-cell">
           <view class="weui-cell__hd">{{item.un}}:</view>
           <view class="weui-cell__bd">{{item.dt}}:</view>
@@ -63,8 +61,8 @@
       <view class="weui-cell">
         <view class="weui-cell__hd">下一流程审批人:</view>
         <view class="weui-cell__bd">
-          <view wx:if="{{aValue.cInstance==cmLength}}">流程结束</view>
-          <view wx:else>{{aValue.cManagers[aValue.cInstance][1]}}</view>
+          <view wx:if="{{cInstance==cmLength}}">流程结束</view>
+          <view wx:else>{{cManagers[cInstance][1]}}</view>
         </view>
       </view>
       <view class="page__ft">
