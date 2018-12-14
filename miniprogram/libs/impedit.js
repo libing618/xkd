@@ -221,7 +221,6 @@ module.exports = {
                 };
               }
             });
-            console.log(emptyField, fileProm.length)
             if (fileProm.length>0){
               Promise.all(fileProm).then(()=>{
                 function mergeFileField(sfPath,savedFilePath){
