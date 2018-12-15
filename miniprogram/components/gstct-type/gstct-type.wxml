@@ -5,9 +5,7 @@
 <view id="{{name}}">
   <view class="weui-cell">
     <view class="weui-cell__hd">{{p}}:{{editable ? '(点项目名称可删除)': ''}}</view>
-    <view wx:if="{{editable}}" class="weui-cell__ft" bindtap="selclose">
-      <view class="weui-btn">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
-    </view>
+    <view wx:if="{{editable}}" class="weui-btn" bindtap="selclose">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
   </view>
   <view hidden="{{inclose}}" class="weui-picker">
     <view class="weui-cell">

@@ -1,6 +1,8 @@
 //缩略图编辑
 const placeFile = require('../../config.js').placeimg     //占位图像文件
 const sysinfo = getApp().sysinfo;
+const xm = {"base64":300,"documents":600,"pic":900,"img":1200};
+const ym = {"base64":225,"documents":450,"pic":675,"img":900};
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
@@ -54,29 +56,32 @@ Component({
           wx.getImageInfo({
             src: restem.tempFilePaths[0],
             success: function (res){
-              if (res.width<300 || res.height<225){
+              if (res.width<xm[that.data.csc] || res.height<ym[that.data.csc]){
                 wx.showToast({ title: '照片尺寸太小！' })
               } else {
-                let xMaxScall = sysinfo.windowWidth*71/(75*res.width);
-                let yMaxScall = (sysinfo.windowHeight-260)/res.height;
-                let imageScall = xMaxScall>yMaxScall ? yMaxScall : xMaxScall;
-                let cutScallMax = xMaxScall>yMaxScall ? res.height/225 : res.width/300;
+                let xMaxScale = sysinfo.windowWidth*71/(75*res.width);
+                let yMaxScale = (sysinfo.windowHeight-60*sysinfo.rpxTopx-230)/res.height;
+                let imageScale = xMaxScale>yMaxScale ? yMaxScale : xMaxScale;
+                let cutScaleMax = xMaxScale > yMaxScale ? res.height / ym[that.data.csc] : res.width / xm[that.data.csc];
+                let xOff = cutScaleMax > 10 ? xm[that.data.csc] * 10 / cutScaleMax : xm[that.data.csc] * imageScale;
+                let yOff = cutScaleMax > 10 ? ym[that.data.csc] * 10 / cutScaleMax : ym[that.data.csc] * imageScale
                 that.setData({
                   statusBar: sysinfo.statusBarHeight,
                   windowHeight: sysinfo.windowHeight,
                   filepath:restem.tempFilePaths[0],
-                  xImage: res.width*imageScall,
-                  yImage: res.height*imageScall,
-                  imageScall: imageScall,
+                  xImage: res.width*imageScale,
+                  yImage: res.height*imageScale,
+                  scaleMin: cutScaleMax > 10 ? 1/cutScaleMax : imageScale,
+                  scaleMax: cutScaleMax>10 ? 10 : cutScaleMax,
                   cScale: 1,
-                  xOff: 300*imageScall,
-                  yOff: 225*imageScall,
+                  xOff: xOff,
+                  yOff: yOff,
                   x:0,
                   y:0
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
-                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, 300, 225, 0, 0, 300, 225);
+                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, xOff, yOff, 0, 0, xm[that.data.csc], ym[that.data.csc]);
                 that.ctx.draw();
               };
             }
@@ -87,16 +92,14 @@ Component({
     },
     onScale({ currentTarget: { id, dataset }, detail }){
       this.setData({
-        cScale: Number(detail.scale.toFixed(3)),
-        xOff: this.data.xOff * detail.scale,
-        yOff: this.data.yOff * detail.scale
+        cScale: Number(detail.scale.toFixed(3))
       });
-      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y, detail.scale * 300, detail.scale * 225, 0, 0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y, detail.scale * this.data.xOff, detail.scale * this.data.yOff, 0, 0, xm[this.data.csc], ym[this.data.csc]);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.filepath, detail.x / this.data.imageScall, detail.y / this.data.imageScall, cScale * 300, cScale * 225, 0, 0, 300, 225);
+      this.ctx.drawImage(this.data.filepath, detail.x / this.data.scaleMin, detail.y / this.data.scaleMin, cScale * this.data.xOff, cScale * this.data.yOff, 0, 0, xm[this.data.csc], ym[this.data.csc]);
       this.ctx.draw();
       this.setData({
         x: detail.x,
@@ -124,17 +127,36 @@ Component({
         case 'img':
           wx.canvasToTempFilePath({
             canvasId: 'cei',
+            destWidth: 1200,
+            destHeight: 900,
             success: function(resTem){
               that.setData({ value: resTem.tempFilePath });
               that.downModal();
             }
           },that);
           break;
-        default:                   //pic
+        case 'pic':
           wx.canvasToTempFilePath({
             canvasId: 'cei',
+            destWidth: 900,
+            destHeight: 675,
             success: function(resTem){
               that.setData({ value: {f:resTem.tempFilePath, e:this.data.explain } });
+              that.downModal();
+            }
+          },that);
+          break;
+        default:                   //documents
+          wx.canvasGetImageData({
+            canvasId: 'cei',
+            x: 0,
+            y: 0,
+            width: 600,
+            height: 450,
+            success:(res)=> {
+              const upng =require("../../libs/UPNG.js")
+              let png = upng.encode([res.data.buffer], res.width,res.height)
+              that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
               that.downModal();
             }
           },that);
