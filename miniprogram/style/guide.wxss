@@ -105,7 +105,11 @@
 	flex-direction: row;
 	justify-content: space-around;
 }
-
+.weui-cell__hd {
+  display: inline-block;
+  margin-right: 10rpx;
+  vertical-align: middle;
+}
 .weui-table {
   border: 0px solid darkgray;
 }

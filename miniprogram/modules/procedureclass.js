@@ -20,8 +20,8 @@ module.exports = {
     "sUnit": { p: '上级单位(或总部)', t: "mSU", addFields: ['uName']},
     "radius":{p:'可送达半径,单位km', t:"digit" },
     "licenseNumber":{p:'社会信用代码', t: "h3" },
-    "pPhoto":{p:'申请人手持身份证的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
-    "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"t64", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
+    "pPhoto":{p:'申请人手持身份证的照片',t:"tDM", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/667b99d135e2d8fa876d.jpg' },
+    "uPhoto":{p:'单位营业执照或个人身份证背面的照片',t:"tDM", e:'http://ady3cqpl0902fnph-10007535.file.myqcloud.com/80b1db6d2b4f0a1cc7cf.jpg' }
   },
   "puRoles": [],
   "pBewrite": "单位负责人提出岗位和单位设置或修改申请，提交单位或个人身份证明文件的照片，由电子商务服务公司进行审批。",

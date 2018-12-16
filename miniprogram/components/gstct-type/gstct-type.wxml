@@ -4,8 +4,11 @@
 </wxs>
 <view id="{{name}}">
   <view class="weui-cell">
-    <view class="weui-cell__hd">{{p}}:{{editable ? '(点项目名称可删除)': ''}}</view>
-    <view wx:if="{{editable}}" class="weui-btn" bindtap="selclose">{{inclose ? '选择添加项目' : '确认添加项目' }}</view>
+    <view class="weui-cell__hd">{{p}}:</view>
+    <view class="weui-cell__bd">{{editable ? '(点项目名称可删除)': ''}}</view>
+    <view wx:if="{{editable}}" class="weui-cell__ft">
+      <button class="weui-btn" bindtap="selclose" size="mini">{{inclose ? '选择添加项目' : '确认添加项目' }}</button>
+    </view>
   </view>
   <view hidden="{{inclose}}" class="weui-picker">
     <view class="weui-cell">

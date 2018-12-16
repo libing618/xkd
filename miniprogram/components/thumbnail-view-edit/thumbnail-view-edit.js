@@ -26,13 +26,10 @@ Component({
   },
 
   data: {
-    xImage: 300,
-    yImage: 225,
-    cScale: 1,
-    xOff: 300,
-    yOff: 225,
     x: 0,
     y: 0,
+    canvasX: 300,
+    canvasY: 225,
     filepath:''
   },
 
@@ -60,28 +57,27 @@ Component({
                 wx.showToast({ title: '照片尺寸太小！' })
               } else {
                 let xMaxScale = sysinfo.windowWidth*71/(75*res.width);
-                let yMaxScale = (sysinfo.windowHeight-60*sysinfo.rpxTopx-230)/res.height;
+                let yMaxScale = (sysinfo.windowHeight-80*sysinfo.rpxTopx-230)/res.height;
                 let imageScale = xMaxScale>yMaxScale ? yMaxScale : xMaxScale;
-                let cutScaleMax = xMaxScale > yMaxScale ? res.height / ym[that.data.csc] : res.width / xm[that.data.csc];
-                let xOff = cutScaleMax > 10 ? xm[that.data.csc] * 10 / cutScaleMax : xm[that.data.csc] * imageScale;
-                let yOff = cutScaleMax > 10 ? ym[that.data.csc] * 10 / cutScaleMax : ym[that.data.csc] * imageScale
+                let cutScaleMax = xMaxScale > yMaxScale ? res.width / xm[that.data.csc] : res.height / ym[that.data.csc];
+                let xOff = xm[that.data.csc] * cutScaleMax;
+                let yOff = ym[that.data.csc] * cutScaleMax;
                 that.setData({
                   statusBar: sysinfo.statusBarHeight,
                   windowHeight: sysinfo.windowHeight,
                   filepath:restem.tempFilePaths[0],
                   xImage: res.width*imageScale,
                   yImage: res.height*imageScale,
-                  scaleMin: cutScaleMax > 10 ? 1/cutScaleMax : imageScale,
-                  scaleMax: cutScaleMax>10 ? 10 : cutScaleMax,
-                  cScale: 1,
-                  xOff: xOff,
-                  yOff: yOff,
+                  imageScale: imageScale,
+                  cScale: 10,
+                  xOff: xOff/10,
+                  yOff: yOff/10,
                   x:0,
                   y:0
                 });
                 that.popModal();
                 that.ctx = wx.createCanvasContext('cei',that);
-                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, xOff, yOff, 0, 0, xm[that.data.csc], ym[that.data.csc]);
+                that.ctx.drawImage(restem.tempFilePaths[0], 0, 0, xOff, yOff, 0, 0, 300, 225);
                 that.ctx.draw();
               };
             }
@@ -94,12 +90,12 @@ Component({
       this.setData({
         cScale: Number(detail.scale.toFixed(3))
       });
-      this.ctx.drawImage(this.data.filepath, this.data.x, this.data.y, detail.scale * this.data.xOff, detail.scale * this.data.yOff, 0, 0, xm[this.data.csc], ym[this.data.csc]);
+      this.ctx.drawImage(this.data.filepath, this.data.x / this.data.imageScale, this.data.y / this.data.imageScale, detail.scale * this.data.xOff, detail.scale * this.data.yOff, 0, 0, 300, 225);
       this.ctx.draw();
     },
     onChange({ currentTarget: { id, dataset }, detail }){
       let cScale = Number(this.data.cScale);
-      this.ctx.drawImage(this.data.filepath, detail.x / this.data.scaleMin, detail.y / this.data.scaleMin, cScale * this.data.xOff, cScale * this.data.yOff, 0, 0, xm[this.data.csc], ym[this.data.csc]);
+      this.ctx.drawImage(this.data.filepath, detail.x / this.data.imageScale, detail.y / this.data.imageScale, cScale * this.data.xOff, cScale * this.data.yOff, 0, 0, 300, 225);
       this.ctx.draw();
       this.setData({
         x: detail.x,
@@ -108,6 +104,10 @@ Component({
     },
     fSave({ currentTarget: { id, dataset }, detail }){                  //确认返回数据
       let that = this;
+      that.setData({
+        canvasX: xm[that.data.csc],
+        canvasY: ym[that.data.csc]
+      })
       switch (that.data.csc) {
         case 'base64':
           wx.canvasGetImageData({
@@ -147,19 +147,24 @@ Component({
           },that);
           break;
         default:                   //documents
-          wx.canvasGetImageData({
-            canvasId: 'cei',
-            x: 0,
-            y: 0,
-            width: 600,
-            height: 450,
-            success:(res)=> {
-              const upng =require("../../libs/UPNG.js")
-              let png = upng.encode([res.data.buffer], res.width,res.height)
-              that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
-              that.downModal();
-            }
-          },that);
+          that.ctx.drawImage(that.data.filepath, that.data.x / that.data.imageScale, that.data.y / that.data.imageScale, that.data.cScale * that.data.xOff, that.data.cScale * that.data.yOff, 0, 0, 600, 450);
+          that.ctx.draw(
+            false,
+            ()=>{wx.canvasGetImageData({
+              canvasId: 'cei',
+              x: 0,
+              y: 0,
+              width: 600,
+              height: 450,
+              success:(res)=> {
+                console.log(res.width,res.height)
+                const upng =require("../../libs/UPNG.js")
+                let png = upng.encode([res.data.buffer], res.width,res.height)
+                that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+                that.downModal();
+              }
+            },that);}
+          );
           break;
       }
     }

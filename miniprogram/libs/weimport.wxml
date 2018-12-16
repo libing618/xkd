@@ -164,7 +164,13 @@
 </template>
 
 <template name="s_t64">
+  <view class="weui-label">{{p}}</view>
   <thumbnail-view-edit name="{{gname}}" csc="base64" value="{{c}}" editable="0"></thumbnail-view-edit>
+</template>
+
+<template name="s_tDM">
+  <view class="weui-label">{{p}}</view>
+  <thumbnail-view-edit name="{{gname}}" csc="documents" value="{{c}}" editable="0"></thumbnail-view-edit>
 </template>
 
 <template name="s_tVE">
