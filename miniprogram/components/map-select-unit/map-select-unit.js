@@ -2,7 +2,7 @@ var modalBehavior = require('../utils/poplib.js');
 const db = wx.cloud.database();
 const _ = db.command;
 var mapBahavior = require('../utils/mapAnalysis.js');   //位置授权及解析
-
+let app = getApp();
 Component({
   behaviors: [modalBehavior,mapBahavior,'wx://form-field'],
   properties: {
@@ -31,8 +31,13 @@ Component({
       let initData = { p: this.data.p ? this.data.p : '服务单位'};
       if (!this.data.value) { initData.value = {_id:'0',uName:'点此进入地图进行选择'} };
       if (!this.data.targetTypes) {
-        initData.reqProIsSuperior = true;
-        initData.targetTypes = '3040204'
+        if (JSON.stringify(app.roleData.sUnit)=='{}'){
+          initData.reqProIsSuperior = true;
+          initData.targetTypes = '3040204'
+          console.log(initData)
+        } else {
+          initData.value = { _id: app.roleData.sUnit._id, uName: app.roleData.sUnit.uName }
+        }
       }
       this.setData(initData);
     }
@@ -83,8 +88,8 @@ Component({
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
-        let app = getApp();
         app.roleData.sUnit._id = this.data.unitArray[this.data.sId]._id;
+        app.roleData.sUnit.uName = this.data.unitArray[this.data.sId].uName;
         this.setData({ value: { _id: this.data.unitArray[this.data.sId]._id, uName: this.data.unitArray[this.data.sId].uName} });
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})

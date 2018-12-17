@@ -107,65 +107,68 @@ Component({
       that.setData({
         canvasX: xm[that.data.csc],
         canvasY: ym[that.data.csc]
-      });
-      switch (that.data.csc) {
-        case 'base64':
-          wx.canvasGetImageData({
-            canvasId: 'cei',
-            x: 0,
-            y: 0,
-            width: 300,
-            height: 225,
-            success:(res)=> {
-              const upng =require("../../libs/UPNG.js")          //比较重要的代码
-              let png = upng.encode([res.data.buffer], res.width,res.height)
-              that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
-              that.downModal();
-            }
-          },that);
-          break;
-        case 'img':
-          wx.canvasToTempFilePath({
-            canvasId: 'cei',
-            destWidth: 1200,
-            destHeight: 900,
-            success: function(resTem){
-              that.setData({ value: resTem.tempFilePath });
-              that.downModal();
-            }
-          },that);
-          break;
-        case 'pic':
-          wx.canvasToTempFilePath({
-            canvasId: 'cei',
-            destWidth: 900,
-            destHeight: 675,
-            success: function(resTem){
-              that.setData({ value: {f:resTem.tempFilePath, e:this.data.explain } });
-              that.downModal();
-            }
-          },that);
-          break;
-        default:                   //documents
-          that.ctx.drawImage(that.data.filepath, that.data.x / that.data.imageScale, that.data.y / that.data.imageScale, that.data.cScale * that.data.xOff, that.data.cScale * that.data.yOff, 0, 0, 600, 450);
-          that.ctx.draw(
-            false,
-            ()=>{wx.canvasGetImageData({
+      },()=>{
+        switch (that.data.csc) {
+          case 'base64':
+            wx.canvasGetImageData({
               canvasId: 'cei',
               x: 0,
               y: 0,
-              width: 600,
-              height: 450,
-              success:(res)=> {
-                const upng =require("../../libs/UPNG.js")
-                let png = upng.encode([res.data.buffer], res.width,res.height)
-                that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });
+              width: 300,
+              height: 225,
+              success: (res) => {
+                const upng = require("../../libs/UPNG.js")          //比较重要的代码
+                let png = upng.encode([res.data.buffer], res.width, res.height)
+                that.setData({ value: 'data:image/png;base64,' + wx.arrayBufferToBase64(png) });
                 that.downModal();
               }
-            },that);}
-          );
-          break;
-      }
+            }, that);
+            break;
+          case 'img':
+            wx.canvasToTempFilePath({
+              canvasId: 'cei',
+              destWidth: 1200,
+              destHeight: 900,
+              success: function (resTem) {
+                that.setData({ value: resTem.tempFilePath });
+                that.downModal();
+              }
+            }, that);
+            break;
+          case 'pic':
+            wx.canvasToTempFilePath({
+              canvasId: 'cei',
+              destWidth: 900,
+              destHeight: 675,
+              success: function (resTem) {
+                that.setData({ value: { f: resTem.tempFilePath, e: this.data.explain } });
+                that.downModal();
+              }
+            }, that);
+            break;
+          default:                   //documents
+            that.ctx.drawImage(that.data.filepath, that.data.x / that.data.imageScale, that.data.y / that.data.imageScale, that.data.cScale * that.data.xOff, that.data.cScale * that.data.yOff, 0, 0, 600, 450);
+            that.ctx.draw(
+              false,
+              () => {
+                wx.canvasGetImageData({
+                  canvasId: 'cei',
+                  x: 0,
+                  y: 0,
+                  width: 600,
+                  height: 450,
+                  success: (res) => {
+                    const upng = require("../../libs/UPNG.js")
+                    let png = upng.encode([res.data.buffer], res.width, res.height)
+                    that.setData({ value: 'data:image/png;base64,' + wx.arrayBufferToBase64(png) });
+                    that.downModal();
+                  }
+                }, that);
+              }
+            );
+            break;
+        }
+      });
     }
   }
 })

@@ -276,8 +276,7 @@ module.exports = {
             } else { resolve(emptyField) }            //没有需要上传或保存的文件
           });
           }).then(emptyField => {
-            console.log(emptyField, id)
-            if (!emptyField && id != 'fStorage'){
+            if (!emptyField && id == 'fSave'){
             let saveData = that.data.vData;
             for (let fName in that.data.vData) {       //多字段对象类型分解
               if (that.data.fieldType[fName].addFields) {

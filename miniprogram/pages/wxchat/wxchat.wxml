@@ -13,7 +13,7 @@
     </block>
   </view>
   <view class="page__ft">
-    <form bindsubmit="sendMsg">
+    <form bindsubmit="sendMsg" id="sendMsg">
       <view class="page__ft">
         <view class="weui-cell weui-cell_input weui-cell_vcode">
           <view class="weui-cell__hd" bindtap="fMultimedia">
@@ -26,7 +26,7 @@
             <input name="adc0" value="{{mtext}}" placeholder="请输入文字" />
           </view>
           <view class="weui-cell__ft">
-            <button class="weui-btn" formType="submit" id="sendMsg">＞</button>
+            <button class="weui-btn" formType="submit">＞</button>
           </view>
         </view>
       </view>

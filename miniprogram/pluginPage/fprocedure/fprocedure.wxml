@@ -3,7 +3,7 @@
 <view class="page">
   <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
   <view class="page__sub" id="model-{{pNo}}">
-    <form bindsubmit="fSubmit">
+    <form bindsubmit="fSubmit" id="fSave">
     <view hidden="{{enIns}}">
       <template is="m_insright"></template>
     </view>
@@ -13,7 +13,7 @@
         </block>
       </view>
       <view class="page__ft weui-footer_fixed-bottom" id="{{dObjectId}}">
-        <button class="weui-btn pm-mini_btn" style="display:{{uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit" id="fSave">提交</button>
+        <button class="weui-btn pm-mini_btn" style="display:{{uEV ? 'inline-block' : 'none'}}" type="primary" size="mini" formType="submit">提交</button>
         <button class="weui-btn pm-mini_btn" style="display:{{targetId=='0' ? 'inline-block' : 'none'}}" type="default" size="mini" formType="submit" id="fStorage">保存</button>
         <button class="weui-btn pm-mini_btn" style="display:inline-block" type="warn" size="mini" id="fBack" bindtap="fSubmit">退出</button>
       </view>
