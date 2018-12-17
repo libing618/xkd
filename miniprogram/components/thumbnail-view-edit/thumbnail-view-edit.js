@@ -107,7 +107,7 @@ Component({
       that.setData({
         canvasX: xm[that.data.csc],
         canvasY: ym[that.data.csc]
-      })
+      });
       switch (that.data.csc) {
         case 'base64':
           wx.canvasGetImageData({
@@ -157,7 +157,6 @@ Component({
               width: 600,
               height: 450,
               success:(res)=> {
-                console.log(res.width,res.height)
                 const upng =require("../../libs/UPNG.js")
                 let png = upng.encode([res.data.buffer], res.width,res.height)
                 that.setData({ value: 'data:image/png;base64,'+wx.arrayBufferToBase64(png) });

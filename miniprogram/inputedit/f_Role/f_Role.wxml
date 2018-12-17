@@ -3,14 +3,14 @@
 <view class="page" id="approval-{{pNo}}">
   <template is="p_navBar__back" data="{{statusBar,navBarTitle}}"/>
   <view hidden="{{showModal}}" class="page__sub" id="model-{{pNo}}">
-    <form bindsubmit="fSubmit">
+    <form bindsubmit="fSubmit" id="fSave">
       <view class="page__bd_spacing" id="{{targetId}}">
         <view wx:for="{{fieldName}}" wx:key="index" class="weui-cells weui-cells_after-title">
           <template is="i_{{fieldType[item].t}}" data="{{...fieldType[item],c:vData[item],gname:item}}"></template>
         </view>
       </view>
       <view hidden="{{unEdit}}" class="page__ft" id="{{dObjectId}}">
-        <button class="weui-btn pm-mini_btn" id="fSave" type="primary" size="mini" formType="submit">提交</button>
+        <button class="weui-btn pm-mini_btn" type="primary" size="mini" formType="submit">提交</button>
         <button class="weui-btn pm-mini_btn" type="warn" size="mini" id="fBack" bindtap="fSubmit">退出</button>
       </view>
     </form>
