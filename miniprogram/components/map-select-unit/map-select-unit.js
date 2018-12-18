@@ -33,8 +33,7 @@ Component({
       if (!this.data.targetTypes) {
         if (JSON.stringify(app.roleData.sUnit)=='{}'){
           initData.reqProIsSuperior = true;
-          initData.targetTypes = '3040204'
-          console.log(initData)
+          initData.targetTypes = '3040204';
         } else {
           initData.value = { _id: app.roleData.sUnit._id, uName: app.roleData.sUnit.uName }
         }
@@ -88,8 +87,7 @@ Component({
 
     fSave({ currentTarget:{id,dataset},detail:{value} }){                  //确认返回数据
       if (this.data.reqProIsSuperior) {
-        app.roleData.sUnit._id = this.data.unitArray[this.data.sId]._id;
-        app.roleData.sUnit.uName = this.data.unitArray[this.data.sId].uName;
+        app.roleData.sUnit = this.data.unitArray[this.data.sId];
         this.setData({ value: { _id: this.data.unitArray[this.data.sId]._id, uName: this.data.unitArray[this.data.sId].uName} });
       } else {
         this.setData({value:this.data.unitArray[this.data.sId]})

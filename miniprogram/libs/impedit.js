@@ -276,7 +276,7 @@ module.exports = {
             } else { resolve(emptyField) }            //没有需要上传或保存的文件
           });
           }).then(emptyField => {
-            if (!emptyField && id == 'fSave'){
+          if (!emptyField && id == 'fSave'){
             let saveData = that.data.vData;
             for (let fName in that.data.vData) {       //多字段对象类型分解
               if (that.data.fieldType[fName].addFields) {
@@ -300,7 +300,7 @@ module.exports = {
               }
             }
             if (that.data.targetId == '0') {                    //新建流程的提交
-              if (app.roleData.uUnit && app.roleData.sUnit){
+              if (app.roleData.user.unit!='0' && JSON.stringify(app.roleData.sUnit)!='{}'){
                 let cManagers = setRole(app.fData[that.data.pNo].puRoles, app.fData[that.data.pNo].suRoles);
                 if (cManagers.length == 1) {                  //流程无后续审批人
                   saveData.unitId = app.roleData.uUnit._id;
