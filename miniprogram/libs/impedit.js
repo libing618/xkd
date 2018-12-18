@@ -211,7 +211,9 @@ module.exports = {
             };
             let emptyField = '';                   //检查是否有字段输入为空
             that.data.fieldName.forEach(fName=>{
-              if (fName in value){ that.data.vData[fName]=value[fName]; }
+              if (fName in value){
+                that.data.vData[fName]=value[fName]; 
+              }
               if (typeof that.data.vData[fName]=='undefined'){
                 emptyField += '《' + that.data.fieldType[fName].p + '》';
               } else {
@@ -275,15 +277,16 @@ module.exports = {
               })
             } else { resolve(emptyField) }            //没有需要上传或保存的文件
           });
-          }).then(emptyField => {
+        }).then(emptyField => {
           if (!emptyField && id == 'fSave'){
-            let saveData = that.data.vData;
-            for (let fName in that.data.vData) {       //多字段对象类型分解
+            let saveData = {};
+            that.data.fieldName.forEach(fName=> {       //多字段对象类型分解
+              saveData[fName] = that.data.vData[fName];
               if (that.data.fieldType[fName].addFields) {
                 saveData[fName] = that.data.vData[fName]._id;
                 switch (that.data.fieldType[fName].t) {
                   case 'Geo':
-                    saveData[fName+'_aGeoPoint'] = that.data.vData[fName].aGeoPoint;
+                    saveData[fName + '_aGeoPoint'] = that.data.vData[fName].aGeoPoint;
                     saveData[fName+'_code'] = Number(that.data.vData[fName].code);
                     break;
                   default:
@@ -298,7 +301,7 @@ module.exports = {
               if (['integer', 'digit', 'listsel'].includes(that.data.fieldType[fName].t)) {       //数字类型定义
                 saveData[fName] = Number(that.data.vData[fName]);
               }
-            }
+            });
             if (that.data.targetId == '0') {                    //新建流程的提交
               if (app.roleData.user.unit!='0' && JSON.stringify(app.roleData.sUnit)!='{}'){
                 let cManagers = setRole(app.fData[that.data.pNo].puRoles, app.fData[that.data.pNo].suRoles);
