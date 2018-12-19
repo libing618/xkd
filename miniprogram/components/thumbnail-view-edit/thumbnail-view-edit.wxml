@@ -25,7 +25,7 @@
       <image class="show_msg" src="{{value.f ? value.f : placeFile}}" mode="aspectFit"></image>
     </view>
     <view wx:else>
-      <image class="{{value ? 'show_msg' : 'place_msg'}}" src="{{value ? value : placeFile}}" mode="aspectFit"></image>
+      <image class="show_msg" src="{{value ? value : placeFile}}" mode="aspectFit"></image>
     </view>
   </view>
 </view>
