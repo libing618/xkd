@@ -15,10 +15,17 @@
       <view class="weui-footer__center">
         <canvas class="weui-canvas" style="width:{{canvasX}}px;height:{{canvasY}}px;" canvas-id="cei" disable-scroll="{{false}}"></canvas>
       </view>
-      <input hidden="{{csc!='img'}}" name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+      <view wx:if="{{csc=='img'}}">
+        <input name="explain" style="text-indent:2em;" value="{{value.e}}" placeholder="点击此处编辑"/>
+      </view>
     </view>
   </view>
   <view wx:else class="weui-msg" bindtap="i_thumbnail">
-    <image class="{{value ? 'show_msg' : 'place_msg'}}" src="{{value}}" mode="aspectFit"></image>
+    <view wx:if="{{csc=='img'}}">
+      <image class="show_msg" src="{{value.f ? value.f : placeFile}}" mode="aspectFit"></image>
+    </view>
+    <view wx:else>
+      <image class="{{value ? 'show_msg' : 'place_msg'}}" src="{{value ? value : placeFile}}" mode="aspectFit"></image>
+    </view>
   </view>
 </view>

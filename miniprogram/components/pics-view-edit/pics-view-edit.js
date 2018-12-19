@@ -1,5 +1,3 @@
-const placeFiles = require('../../config.js').placepics;
-const cloudPath = require('../../config.js').cloudFileRoot+'/pics/'
 var modalBehavior = require('../utils/poplib.js')
 Component({
   behaviors: [modalBehavior,'wx://form-field'],
@@ -21,27 +19,7 @@ Component({
   },
   lifetimes:{
     attached(){
-      if (typeof this.data.value == 'undefined') {
-        this.setData({ explain: placeFile.map(()=>{return '图片集说明'}) })
-      } else {
-        if (typeof fileName[0] == 'string'){
-          let explains = [],extIndex;
-          let filePaths = this.data.value.map(fileName=>{
-            extIndex = fileName.lastIndexOf('.');
-            explains.push(fileName.substring(0,extIndex));
-            return cloudPath+fileName
-          });
-          this.setData({
-            filepaths: filePaths,
-            explain: explains
-          })
-        } else {
-          this.setData({
-            filepaths: this.data.value.f,
-            explain: this.data.value.e
-          })
-        }
-      }
+      this.fileNameAnaly(this.data.value,this.data.csc);
       if (this.data.editable==2){ this.choosepics() }
     }
   },

@@ -15,6 +15,7 @@ Component({
       type: Number,
       value: 0
     },
+    e: String,
     name: {
       type: String,
       value: 'thumbnail'
@@ -35,11 +36,7 @@ Component({
 
   lifetimes:{
     attached(){
-      if (this.data.value){
-        if (this.data.csc == 'base64'){
-          this.setData({ filepath: this.data.value })
-        } else {this.fileNameAnaly(this.data.value,this.data.csc)}
-      }// else {this.setData({filepath:placeFile})}
+      this.fileNameAnaly(this.data.value,this.data.csc)
     }
   },
   methods: {
