@@ -26,7 +26,7 @@ module.exports = Behavior({
           ]
         };
         function checkFile(fName){     //检查是否本地文件
-          return new Promise((resolve,reject)={
+          return new Promise((resolve,reject)=>{
             let fs = wx.getFileSystemManager();
             fs.access({
               path: fName,

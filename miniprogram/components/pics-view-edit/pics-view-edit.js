@@ -14,8 +14,7 @@ Component({
   },
   data: {
     explain: [],
-    replacefile: false,
-    filepaths: placeFiles
+    replacefile: false
   },
   lifetimes:{
     attached(){
