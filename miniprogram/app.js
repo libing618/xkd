@@ -32,7 +32,7 @@ App({
         that.sysinfo.rpxTopx = res.windowWidth/750;                   //转换比例屏幕宽750rpx
       }
     });
-    ['aIndex', 'aData','aCount','pIndex'].forEach(dataName => {
+    ['aIndex', 'aData','aCount'].forEach(dataName => {
       wx.getStorage({
         key: dataName,
         success: function (res) {
